@@ -29,6 +29,12 @@ const gameCategories = [
         icon: "icons/IconSinger.webp",
         isActive: true,
       },
+      {
+        name: "Year",
+        path: "/games/year-learn",
+        icon: "icons/IconLearnDecade.webp",
+        isActive: true,
+      },
     ],
   },
   {
@@ -60,8 +66,8 @@ const gameCategories = [
         isActive: true,
       },
       {
-        name: "Decade",
-        path: "/games/decade-learn",
+        name: "Year",
+        path: "/games/year-learn",
         icon: "icons/IconLearnDecade.webp",
         isActive: false,
       },
@@ -75,6 +81,18 @@ const gameCategories = [
         name: "Singer",
         path: "/games/singer-learn",
         icon: "icons/IconLearnSinger.webp",
+        isActive: true,
+      },
+    ],
+  },
+  {
+    title: "Listen Mode",
+    description: "Just listen - no scoring",
+    games: [
+      {
+        name: "Listen",
+        path: "/games/listen",
+        icon: "icons/IconLearnOrch.webp",
         isActive: true,
       },
     ],

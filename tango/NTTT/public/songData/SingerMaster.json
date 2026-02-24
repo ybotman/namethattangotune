@@ -202,7 +202,8 @@
     "songCount": 33,
     "orchestras": [
       "Alfredo De Angelis"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Javier Di Ciriaco",
@@ -348,7 +349,8 @@
     "songCount": 19,
     "orchestras": [
       "Alfredo De Angelis"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Lalo Martel",
@@ -518,7 +520,8 @@
     "songCount": 8,
     "orchestras": [
       "Juan D'Arienzo"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Rodolfo Lesica",
@@ -603,7 +606,8 @@
     "songCount": 5,
     "orchestras": [
       "Francisco Lomuto"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Mario Corrales",
@@ -661,14 +665,16 @@
     "songCount": 4,
     "orchestras": [
       "Hector Varela"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Jorge Falcon y Fernando Soler",
     "songCount": 4,
     "orchestras": [
       "Hector Varela"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Jorge Falcon",
@@ -689,7 +695,8 @@
     "songCount": 4,
     "orchestras": [
       "Anibal Troilo"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Tito Reyes",
@@ -717,7 +724,8 @@
     "songCount": 4,
     "orchestras": [
       "Juan D'Arienzo"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Santiago Devincenzi",
@@ -731,7 +739,8 @@
     "songCount": 3,
     "orchestras": [
       "Rafael Canaro"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Aldo Campoamor",
@@ -781,21 +790,24 @@
     "songCount": 3,
     "orchestras": [
       "Anibal Troilo"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Edmundo Rivero y Aldo Calderon",
     "songCount": 3,
     "orchestras": [
       "Anibal Troilo"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Floreal Ruiz y Edmundo Rivero",
     "songCount": 3,
     "orchestras": [
       "Anibal Troilo"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Nelly Vazquez",
@@ -809,21 +821,24 @@
     "songCount": 3,
     "orchestras": [
       "Ricardo Tanturi"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Jorge Omar y Cell Brian",
     "songCount": 3,
     "orchestras": [
       "Francisco Lomuto"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Fernando Diaz y Jorge Omar",
     "songCount": 3,
     "orchestras": [
       "Francisco Lomuto"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Nelly Omar",
@@ -880,7 +895,8 @@
     "songCount": 2,
     "orchestras": [
       "Hector Varela"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Fernando Soler",
@@ -901,84 +917,96 @@
     "songCount": 2,
     "orchestras": [
       "Edgardo Donato"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Romeo Gavio y Lita Morales",
     "songCount": 2,
     "orchestras": [
       "Edgardo Donato"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Romeo Gavio, Lita Morales y Horacio Lagos",
     "songCount": 2,
     "orchestras": [
       "Edgardo Donato"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Horacio Lagos y Romeo Gavio",
     "songCount": 2,
     "orchestras": [
       "Edgardo Donato"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Horacio Lagos y Randona",
     "songCount": 2,
     "orchestras": [
       "Edgardo Donato"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Horacio Lagos y Lita Morales",
     "songCount": 2,
     "orchestras": [
       "Edgardo Donato"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Jorge Casal y Raul Beron",
     "songCount": 2,
     "orchestras": [
       "Anibal Troilo"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Angel Cardenas - Roberto Goyeneche",
     "songCount": 2,
     "orchestras": [
       "Anibal Troilo"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Floreal Ruiz y Alberto Marino",
     "songCount": 2,
     "orchestras": [
       "Anibal Troilo"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Juan Carlos Godoy y Roberto Mancini",
     "songCount": 2,
     "orchestras": [
       "Alfredo De Angelis"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Juan Carlos Godoy y Lalo Martel",
     "songCount": 2,
     "orchestras": [
       "Alfredo De Angelis"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Fernando Diaz y Alberto Hilarion Acuna",
     "songCount": 2,
     "orchestras": [
       "Francisco Lomuto"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Hector Farrel",
@@ -1008,14 +1036,16 @@
     "songCount": 2,
     "orchestras": [
       "Francisco Canaro"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Ernesto Fama y Angel Ramos",
     "songCount": 2,
     "orchestras": [
       "Francisco Canaro"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Domingo Conte",
@@ -1029,21 +1059,24 @@
     "songCount": 2,
     "orchestras": [
       "Francisco Canaro"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Carlos Bermudez y Jorge Linares",
     "songCount": 2,
     "orchestras": [
       "Pedro Laurenz"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Roberto Florio y Jorge Duran",
     "songCount": 2,
     "orchestras": [
       "Carlos Di Sarli"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Mariano Balcarce",
@@ -1057,7 +1090,8 @@
     "songCount": 2,
     "orchestras": [
       "Orquesta Tipica Victor"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Lita Morales",
@@ -1085,7 +1119,8 @@
     "songCount": 2,
     "orchestras": [
       "Alfredo Gobbi"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Oscar Galan",
@@ -1134,7 +1169,8 @@
     "songCount": 1,
     "orchestras": [
       "Rafael Canaro"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Jorge Cardoso",
@@ -1148,14 +1184,16 @@
     "songCount": 1,
     "orchestras": [
       "Rafael Canaro"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Armando Laborde y Rodolfo Lesica",
     "songCount": 1,
     "orchestras": [
       "Hector Varela"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Fontan Reyes",
@@ -1176,28 +1214,32 @@
     "songCount": 1,
     "orchestras": [
       "Edgardo Donato"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Lita Morales y Horacio Lagos",
     "songCount": 1,
     "orchestras": [
       "Edgardo Donato"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Hugo del Carril y Randona",
     "songCount": 1,
     "orchestras": [
       "Edgardo Donato"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Daniel Adamo y Jorge Denis",
     "songCount": 1,
     "orchestras": [
       "Edgardo Donato"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Agustin Magaldi",
@@ -1211,7 +1253,8 @@
     "songCount": 1,
     "orchestras": [
       "Edgardo Donato"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Carlos Vivan",
@@ -1232,7 +1275,8 @@
     "songCount": 1,
     "orchestras": [
       "Edgardo Donato"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Mercedes Carne",
@@ -1246,7 +1290,8 @@
     "songCount": 1,
     "orchestras": [
       "Edgardo Donato"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Orquesta Jorge Dragone",
@@ -1309,7 +1354,8 @@
     "songCount": 1,
     "orchestras": [
       "Anibal Troilo"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Aldo Calderon",
@@ -1330,7 +1376,8 @@
     "songCount": 1,
     "orchestras": [
       "Anibal Troilo"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Ruben Juarez",
@@ -1351,14 +1398,16 @@
     "songCount": 1,
     "orchestras": [
       "Anibal Troilo"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Carlos Dante - Julio Martel",
     "songCount": 1,
     "orchestras": [
       "Alfredo De Angelis"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Carlos Aguirre",
@@ -1379,7 +1428,8 @@
     "songCount": 1,
     "orchestras": [
       "Alfredo De Angelis"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Charlo?",
@@ -1407,42 +1457,48 @@
     "songCount": 1,
     "orchestras": [
       "Francisco Lomuto"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Alberto Acuna y Fernando Diaz",
     "songCount": 1,
     "orchestras": [
       "Francisco Lomuto"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Carlos Heredia y Hugo Duval",
     "songCount": 1,
     "orchestras": [
       "Rodolfo Biagi"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Alberto Amor y Lago",
     "songCount": 1,
     "orchestras": [
       "Rodolfo Biagi"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Ernesto Fama y Lidia Desmond",
     "songCount": 1,
     "orchestras": [
       "Francisco Canaro"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Alberto Arenas y Enrique Lucero",
     "songCount": 1,
     "orchestras": [
       "Francisco Canaro"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Charlo  or Gardel",
@@ -1456,7 +1512,8 @@
     "songCount": 1,
     "orchestras": [
       "Francisco Canaro"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Augustin Irusta",
@@ -1470,14 +1527,16 @@
     "songCount": 1,
     "orchestras": [
       "Francisco Canaro"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Luis Diaz y coro",
     "songCount": 1,
     "orchestras": [
       "Francisco Canaro"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "el Coro del Teatro Nacional",
@@ -1491,14 +1550,16 @@
     "songCount": 1,
     "orchestras": [
       "Francisco Canaro"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Ernesto Fama y coro",
     "songCount": 1,
     "orchestras": [
       "Francisco Canaro"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Alberto Fuentes",
@@ -1512,7 +1573,8 @@
     "songCount": 1,
     "orchestras": [
       "Miguel Calo"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Rodolfo Gale",
@@ -1533,14 +1595,16 @@
     "songCount": 1,
     "orchestras": [
       "Osvaldo Pugliese"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Roberto Chanel y Alberto Moran",
     "songCount": 1,
     "orchestras": [
       "Osvaldo Pugliese"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Agustin Volpe",
@@ -1575,14 +1639,16 @@
     "songCount": 1,
     "orchestras": [
       "Alfredo Gobbi"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Jorge Maciel y Angel Diaz",
     "songCount": 1,
     "orchestras": [
       "Alfredo Gobbi"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Hector Maciel",
@@ -1603,7 +1669,8 @@
     "songCount": 1,
     "orchestras": [
       "Miguel Calo"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Dorita Davis",
@@ -1624,7 +1691,8 @@
     "songCount": 1,
     "orchestras": [
       "Orquesta Tipica Victor"
-    ]
+    ],
+    "isDuetPlus": true
   },
   {
     "singer": "Jorge Garre",
@@ -1652,6 +1720,7 @@
     "songCount": 1,
     "orchestras": [
       "Roberto Firpo"
-    ]
+    ],
+    "isDuetPlus": true
   }
 ]

@@ -16,6 +16,7 @@ export default function useSingerLearn() {
   const { config, updateConfig } = useGameContext();
 
   // -- local states
+  const [allSingers, setAllSingers] = useState([]); // Raw singer data with isDuetPlus
   const [singerOptions, setSingerOptions] = useState([]);
   const [artistOptions, setArtistOptions] = useState([]);
   const [selectedSingers, setSelectedSingers] = useState(
@@ -89,15 +90,8 @@ export default function useSingerLearn() {
         const singerData = await fetch(`/songData/SingerMaster.json`).then(
           (res) => res.json(),
         );
-        // Sort by song count descending, then format as options
-        const sortedSingers = singerData
-          .filter((s) => s.songCount >= 5) // Only singers with 5+ songs
-          .sort((a, b) => b.songCount - a.songCount)
-          .map((s) => ({
-            label: `${s.singer} (${s.songCount})`,
-            value: s.singer,
-          }));
-        setSingerOptions(sortedSingers);
+        // Store raw data with isDuetPlus for filtering (no count filter - show all)
+        setAllSingers(singerData);
       } catch (err) {
         console.error("Error fetching SingerMaster.json:", err);
       }
@@ -132,6 +126,45 @@ export default function useSingerLearn() {
     fetchSingers();
     fetchArtists();
   }, [config.styles, updateConfig]);
+
+  // ---------------------------------------------
+  // Filter singerOptions based on duetFilter
+  // ---------------------------------------------
+  useEffect(() => {
+    if (allSingers.length === 0) return;
+
+    const duetFilter = config.duetFilter || "solo";
+    let filtered = allSingers;
+
+    if (duetFilter === "solo") {
+      // Only non-duet singers
+      filtered = allSingers.filter((s) => !s.isDuetPlus);
+    } else if (duetFilter === "duetsOnly") {
+      // Only duet singers
+      filtered = allSingers.filter((s) => s.isDuetPlus === true);
+    }
+
+    // Sort by song count descending, format as options
+    const options = filtered
+      .sort((a, b) => b.songCount - a.songCount)
+      .map((s) => ({
+        label: `${s.singer} (${s.songCount})`,
+        value: s.singer,
+        isDuetPlus: s.isDuetPlus,
+      }));
+
+    setSingerOptions(options);
+
+    // Clear selected singers that no longer match the filter
+    if (selectedSingers.length > 0) {
+      const validValues = new Set(options.map((o) => o.value));
+      const stillValid = selectedSingers.filter((s) => validValues.has(s.value));
+      if (stillValid.length !== selectedSingers.length) {
+        setSelectedSingers(stillValid);
+        updateConfig("singers", stillValid);
+      }
+    }
+  }, [allSingers, config.duetFilter]);
 
   // ---------------------------------------------
   // Revalidate config on every change

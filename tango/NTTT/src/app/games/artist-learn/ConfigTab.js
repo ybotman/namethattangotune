@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Box } from "@mui/material";
+import { Box, ToggleButton, ToggleButtonGroup, Typography, Switch, FormControlLabel } from "@mui/material";
 import styles from "../styles.module.css";
 
 import SongsSlider from "@/components/ui/SongsSlider";
@@ -9,7 +9,7 @@ import SecondsSlider from "@/components/ui/SecondsSlider";
 import LevelsSelector from "@/components/ui/LevelsSelector";
 import StylesSelector from "@/components/ui/StylesSelector";
 import ArtistsSelector from "@/components/ui/ArtistsSelector";
-import PeriodsSelector from "@/components/ui/PeriodsSelector";
+import YearRangeSelector from "@/components/ui/YearRangeSelector";
 import useArtistLearn from "@/hooks/useArtistLearn";
 import { useGameContext } from "@/contexts/GameContext";
 
@@ -27,10 +27,24 @@ export default function ConfigTab() {
   } = useArtistLearn();
 
   // B) Access & update final config from GameContext
-  const { config } = useGameContext();
+  const { config, updateConfig } = useGameContext();
 
   // Local state to track whether the config is valid
   const [isConfigValid, setIsConfigValid] = useState(true);
+
+  // All styles toggle
+  const allStylesSelected = primaryStyles.length > 0 &&
+    primaryStyles.every((s) => config.styles?.[s.style] === true);
+
+  const handleAllStylesToggle = (checked) => {
+    if (checked) {
+      const allStyles = {};
+      primaryStyles.forEach((s) => { allStyles[s.style] = true; });
+      handleStylesChange(allStyles);
+    } else {
+      handleStylesChange({ Tango: true });
+    }
+  };
 
   useEffect(() => {
     // If validationMessage is non-empty => invalid
@@ -65,37 +79,91 @@ export default function ConfigTab() {
 
       {/* Main Grid */}
       <Box sx={{ display: "flex", gap: 4, mb: 3 }}>
-        {/* First Column: Levels & Periods */}
+        {/* First Column: Levels, Artists, Singer Toggle */}
         <Box sx={{ flex: 1 }}>
+          {/* 1. Levels */}
           <LevelsSelector
             label="Levels:"
             availableLevels={[1, 2, 3, 4, 5]}
             selectedLevels={config.levels || []}
             onChange={handleLevelsChange}
           />
-          <PeriodsSelector
-            label="Periods:"
-            selectedPeriods={config.periods || []}
-            onChange={(val) => {
-              // We can call a simple update here as well:
-              // e.g. updateConfig("periods", val) if we wanted
-            }}
-          />
+
+          {/* 2. Artists */}
+          <Box sx={{ mt: 2 }}>
+            <ArtistsSelector
+              label="Select Artists (Optional)"
+              availableArtists={artistOptions}
+              selectedArtists={config.artists || []}
+              onChange={handleArtistsChange}
+            />
+          </Box>
+
+          {/* 3. Singer Toggle */}
+          <Box sx={{ mt: 2 }}>
+            <Typography variant="body2" sx={{ mb: 0.5, color: "var(--foreground)" }}>
+              Vocals:
+            </Typography>
+            <ToggleButtonGroup
+              value={config.vocalFilter || "instrumental"}
+              exclusive
+              onChange={(e, val) => val && updateConfig("vocalFilter", val)}
+              size="small"
+              sx={{
+                "& .MuiToggleButton-root": {
+                  color: "var(--foreground)",
+                  borderColor: "var(--accent)",
+                  "&.Mui-selected": {
+                    backgroundColor: "var(--accent)",
+                    color: "white",
+                  },
+                },
+              }}
+            >
+              <ToggleButton value="instrumental">Instrumental</ToggleButton>
+              <ToggleButton value="solo">Solo</ToggleButton>
+              <ToggleButton value="duetsOnly">Duets+</ToggleButton>
+              <ToggleButton value="all">All</ToggleButton>
+            </ToggleButtonGroup>
+          </Box>
         </Box>
-        {/* Second Column: Styles & Artists */}
+
+        {/* Second Column: Styles, Year Range */}
         <Box sx={{ flex: 1 }}>
+          {/* 4. Styles with All toggle */}
+          <FormControlLabel
+            control={
+              <Switch
+                checked={allStylesSelected}
+                onChange={(e) => handleAllStylesToggle(e.target.checked)}
+                sx={{
+                  "& .MuiSwitch-switchBase.Mui-checked": {
+                    color: "var(--accent)",
+                  },
+                  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+                    backgroundColor: "var(--accent)",
+                  },
+                }}
+              />
+            }
+            label="All Styles"
+            sx={{ color: "var(--foreground)", mb: 1 }}
+          />
           <StylesSelector
             label="Styles:"
             availableStyles={primaryStyles}
             selectedStyles={config.styles || {}}
             onChange={handleStylesChange}
           />
-          <ArtistsSelector
-            label="Select Artists (Optional)"
-            availableArtists={artistOptions}
-            selectedArtists={config.artists || []}
-            onChange={handleArtistsChange}
-          />
+
+          {/* 5. Year Range (greyed out) */}
+          <Box sx={{ mt: 2, opacity: 0.5, pointerEvents: "none" }}>
+            <YearRangeSelector
+              label="Year Range (coming soon):"
+              value={config.yearRange}
+              onChange={(val) => updateConfig("yearRange", val)}
+            />
+          </Box>
         </Box>
       </Box>
 

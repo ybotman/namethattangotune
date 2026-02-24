@@ -1,76 +1,85 @@
-//-----------------------------------------------------------------------------
-// src/app/games/singer-learn/page.js
-//-----------------------------------------------------------------------------
-
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { Box, Typography } from "@mui/material";
 import ConfigTab from "./ConfigTab";
-import PlayTab from "./PlayTab";
+import ListenTab from "./ListenTab";
 import { useGameContext } from "@/contexts/GameContext";
-import { fetchFilteredSongs } from "@/utils/dataFetching";
+import { fetchFilteredSongs, fetchAllArtists, shuffleArray } from "@/utils/dataFetching";
 import styles from "../styles.module.css";
 
-export default function SingerLearnPage() {
+export default function ListenPage() {
   const [songs, setSongs] = useState([]);
-  const [showPlayTab, setShowPlayTab] = useState(false);
+  const [showListenTab, setShowListenTab] = useState(false);
+  const [artistOptions, setArtistOptions] = useState([]);
+  const [singerOptions, setSingerOptions] = useState([]);
 
-  const {
-    config,
-    bestScore,
-    totalScore,
-    completedGames,
-    resetAll,
-    validConfig,
-  } = useGameContext();
+  const { config } = useGameContext();
+
+  // Load artist and singer options on mount
+  useEffect(() => {
+    (async () => {
+      try {
+        const artists = await fetchAllArtists();
+        const activeArtists = artists
+          .filter((a) => a.active === "true")
+          .map((a) => ({ label: a.artist, value: a.artist }));
+        setArtistOptions(activeArtists);
+
+        // Load singers (no active filter - all singers available)
+        const singerData = await fetch("/songData/SingerMaster.json").then((r) => r.json());
+        const singerOpts = singerData
+          .map((s) => ({ label: s.singer, value: s.singer }))
+          .sort((a, b) => a.label.localeCompare(b.label));
+        setSingerOptions(singerOpts);
+      } catch (err) {
+        console.error("Error loading options:", err);
+      }
+    })();
+  }, []);
 
   const handlePlayClick = useCallback(async () => {
-    console.log("Singer Learn config:", config);
-
-    const numSongs = config.numSongs ?? 10;
+    const numSongs = config.numSongs ?? 30;
     const activeStyles = Object.keys(config.styles || {}).filter(
       (key) => config.styles[key],
     );
-    const artistLevels = config.levels || [];
     const chosenArtists = (config.artists || []).map((a) => a.value);
-    // Extract singer values from objects
     const chosenSingers = (config.singers || []).map((s) =>
       typeof s === "string" ? s : s.value
     );
+    const instrumentalOnly = config.instrumentalOnly ?? false;
 
-    // Fetch songs with requireSinger: true for singer mode
     const { songs: fetchedSongs } = await fetchFilteredSongs(
       chosenArtists,
-      artistLevels,
-      [], // composers (not used)
+      [], // artistLevels - not used in listen mode
+      [], // composers
       activeStyles,
-      "", // candombe - empty = no filter
-      "", // alternative - empty = no filter
-      "", // cancion - empty = no filter
+      "", // candombe
+      "", // alternative
+      "", // cancion
       numSongs,
       {
-        requireSinger: true,
+        includeSinger: !instrumentalOnly,
+        requireSinger: chosenSingers.length > 0,
         singers: chosenSingers,
-        yearRange: config.yearRange,
-        duetFilter: config.duetFilter || "solo",
+        yearRange: config.yearRange ?? [1929, 1939],
       },
     );
 
     if (!fetchedSongs || fetchedSongs.length === 0) {
-      alert(
-        "No songs with singers found for this configuration. Try different settings.",
-      );
+      alert("No songs found for this configuration. Try different settings.");
       return;
     }
 
-    setSongs(fetchedSongs);
-    setShowPlayTab(true);
+    // Shuffle for random order
+    const shuffled = shuffleArray(fetchedSongs);
+    setSongs(shuffled);
+    setShowListenTab(true);
   }, [config]);
 
-  const handleClosePlayTab = () => {
-    setShowPlayTab(false);
+  const handleClose = () => {
+    setShowListenTab(false);
   };
 
   return (
@@ -82,7 +91,7 @@ export default function SingerLearnPage() {
         minHeight: "100vh",
       }}
     >
-      {showPlayTab && (
+      {showListenTab && (
         <Box
           sx={{
             position: "fixed",
@@ -93,18 +102,13 @@ export default function SingerLearnPage() {
             backgroundColor: "var(--background)",
             zIndex: 9999,
             overflow: "auto",
-            p: 2,
           }}
         >
-          <PlayTab
-            songs={songs}
-            config={config}
-            onCancel={handleClosePlayTab}
-          />
+          <ListenTab songs={songs} onCancel={handleClose} />
         </Box>
       )}
 
-      {/* Top Bar */}
+      {/* Header */}
       <Box
         sx={{
           display: "flex",
@@ -114,7 +118,6 @@ export default function SingerLearnPage() {
           mb: 2,
         }}
       >
-        {/* Game Title */}
         <Typography
           variant="h5"
           sx={{
@@ -123,9 +126,9 @@ export default function SingerLearnPage() {
             mr: "auto",
           }}
         >
-          Mastering
+          Listen
           <br />
-          Singers
+          Mode
         </Typography>
 
         {/* Play Button */}
@@ -139,8 +142,8 @@ export default function SingerLearnPage() {
         >
           <Box sx={{ textAlign: "center" }}>
             <Image
-              src={`/icons/IconLearnSinger.webp`}
-              alt="Play Button"
+              src="/icons/IconLearnOrch.webp"
+              alt="Listen"
               onClick={handlePlayClick}
               width={80}
               height={80}
@@ -148,12 +151,10 @@ export default function SingerLearnPage() {
                 cursor: "pointer",
                 borderRadius: "50%",
                 objectFit: "cover",
-                boxShadow: "0 0 15px rgba(255, 165, 0, 0.5)",
+                boxShadow: "0 0 15px rgba(100, 200, 100, 0.5)",
                 transition: "transform 0.2s",
               }}
-              onMouseOver={(e) =>
-                (e.currentTarget.style.transform = "scale(1.05)")
-              }
+              onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
               onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
             />
             <Typography
@@ -163,14 +164,14 @@ export default function SingerLearnPage() {
                 color: "var(--accent)",
               }}
             >
-              Play
+              Listen
             </Typography>
           </Box>
         </Box>
       </Box>
 
-      {/* Configuration Tab */}
-      <ConfigTab />
+      {/* Configuration */}
+      <ConfigTab artistOptions={artistOptions} singerOptions={singerOptions} />
     </Box>
   );
 }

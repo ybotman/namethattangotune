@@ -27,6 +27,7 @@ export default function SingersSelector({
         multiple
         options={availableSingers}
         value={selectedSingers}
+        getOptionLabel={(option) => option.label || option.value || ""}
         isOptionEqualToValue={(option, value) => option.value === value.value}
         onChange={handleChange}
         disabled={disabled}

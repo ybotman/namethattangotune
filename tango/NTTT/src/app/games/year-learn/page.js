@@ -1,75 +1,61 @@
-//-----------------------------------------------------------------------------
-// src/app/games/singer-learn/page.js
-//-----------------------------------------------------------------------------
-
 "use client";
 
 import React, { useState, useCallback } from "react";
 import Image from "next/image";
 import { Box, Typography } from "@mui/material";
 import ConfigTab from "./ConfigTab";
-import PlayTab from "./PlayTab";
+import QuizTab from "./QuizTab";
 import { useGameContext } from "@/contexts/GameContext";
-import { fetchFilteredSongs } from "@/utils/dataFetching";
+import { fetchFilteredSongs, shuffleArray } from "@/utils/dataFetching";
 import styles from "../styles.module.css";
 
-export default function SingerLearnPage() {
+export default function YearLearnPage() {
   const [songs, setSongs] = useState([]);
   const [showPlayTab, setShowPlayTab] = useState(false);
 
-  const {
-    config,
-    bestScore,
-    totalScore,
-    completedGames,
-    resetAll,
-    validConfig,
-  } = useGameContext();
+  const { config } = useGameContext();
 
   const handlePlayClick = useCallback(async () => {
-    console.log("Singer Learn config:", config);
-
     const numSongs = config.numSongs ?? 10;
     const activeStyles = Object.keys(config.styles || {}).filter(
       (key) => config.styles[key],
     );
-    const artistLevels = config.levels || [];
-    const chosenArtists = (config.artists || []).map((a) => a.value);
-    // Extract singer values from objects
-    const chosenSingers = (config.singers || []).map((s) =>
-      typeof s === "string" ? s : s.value
-    );
 
-    // Fetch songs with requireSinger: true for singer mode
     const { songs: fetchedSongs } = await fetchFilteredSongs(
-      chosenArtists,
-      artistLevels,
-      [], // composers (not used)
-      activeStyles,
-      "", // candombe - empty = no filter
-      "", // alternative - empty = no filter
-      "", // cancion - empty = no filter
+      [], // artists
+      [], // levels
+      [], // composers
+      activeStyles.length > 0 ? activeStyles : [], // styles
+      "", // candombe
+      "", // alternative
+      "", // cancion
       numSongs,
       {
-        requireSinger: true,
-        singers: chosenSingers,
-        yearRange: config.yearRange,
-        duetFilter: config.duetFilter || "solo",
+        includeSinger: true,
       },
     );
 
     if (!fetchedSongs || fetchedSongs.length === 0) {
-      alert(
-        "No songs with singers found for this configuration. Try different settings.",
-      );
+      alert("No songs found. Try different settings.");
       return;
     }
 
-    setSongs(fetchedSongs);
+    // Filter out songs without year data
+    const songsWithYear = fetchedSongs.filter((s) => {
+      const year = parseInt(s.Year, 10);
+      return !isNaN(year) && year >= 1916 && year <= 2023;
+    });
+
+    if (songsWithYear.length === 0) {
+      alert("No songs with year data found. Try different settings.");
+      return;
+    }
+
+    setSongs(shuffleArray(songsWithYear));
     setShowPlayTab(true);
   }, [config]);
 
-  const handleClosePlayTab = () => {
+  const handleClose = () => {
     setShowPlayTab(false);
   };
 
@@ -93,18 +79,13 @@ export default function SingerLearnPage() {
             backgroundColor: "var(--background)",
             zIndex: 9999,
             overflow: "auto",
-            p: 2,
           }}
         >
-          <PlayTab
-            songs={songs}
-            config={config}
-            onCancel={handleClosePlayTab}
-          />
+          <QuizTab songs={songs} config={config} onCancel={handleClose} />
         </Box>
       )}
 
-      {/* Top Bar */}
+      {/* Header */}
       <Box
         sx={{
           display: "flex",
@@ -114,7 +95,6 @@ export default function SingerLearnPage() {
           mb: 2,
         }}
       >
-        {/* Game Title */}
         <Typography
           variant="h5"
           sx={{
@@ -123,9 +103,9 @@ export default function SingerLearnPage() {
             mr: "auto",
           }}
         >
-          Mastering
+          Guess
           <br />
-          Singers
+          the Year
         </Typography>
 
         {/* Play Button */}
@@ -139,8 +119,8 @@ export default function SingerLearnPage() {
         >
           <Box sx={{ textAlign: "center" }}>
             <Image
-              src={`/icons/IconLearnSinger.webp`}
-              alt="Play Button"
+              src="/icons/IconLearnDecade.webp"
+              alt="Play"
               onClick={handlePlayClick}
               width={80}
               height={80}
@@ -148,12 +128,10 @@ export default function SingerLearnPage() {
                 cursor: "pointer",
                 borderRadius: "50%",
                 objectFit: "cover",
-                boxShadow: "0 0 15px rgba(255, 165, 0, 0.5)",
+                boxShadow: "0 0 15px rgba(200, 150, 50, 0.5)",
                 transition: "transform 0.2s",
               }}
-              onMouseOver={(e) =>
-                (e.currentTarget.style.transform = "scale(1.05)")
-              }
+              onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
               onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
             />
             <Typography
@@ -169,7 +147,7 @@ export default function SingerLearnPage() {
         </Box>
       </Box>
 
-      {/* Configuration Tab */}
+      {/* Configuration */}
       <ConfigTab />
     </Box>
   );
