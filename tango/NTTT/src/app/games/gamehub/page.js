@@ -97,11 +97,49 @@ const gameCategories = [
       },
     ],
   },
+  {
+    title: "Tools",
+    description: "Development & validation",
+    games: [
+      {
+        name: "Recognition Validator",
+        path: "/games/recognition-validator",
+        icon: null, // No image - button only
+        isActive: true,
+        isButton: true,
+      },
+    ],
+  },
 ];
 
 function GameCard({ game, isMobile }) {
   const disabled = !game.isActive;
   const iconSize = isMobile ? 60 : 80;
+
+  // Button-only style (no image)
+  if (game.isButton) {
+    return (
+      <Link href={disabled ? "#" : game.path} style={{ textDecoration: "none" }}>
+        <Button
+          variant="outlined"
+          disabled={disabled}
+          sx={{
+            borderColor: "var(--accent)",
+            color: "var(--accent)",
+            textTransform: "none",
+            px: 3,
+            py: 1.5,
+            "&:hover": {
+              backgroundColor: "var(--accent)",
+              color: "var(--background)",
+            },
+          }}
+        >
+          {game.name}
+        </Button>
+      </Link>
+    );
+  }
 
   return (
     <Link href={disabled ? "#" : game.path} style={{ textDecoration: "none" }}>

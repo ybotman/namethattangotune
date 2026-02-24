@@ -40,6 +40,7 @@ export async function fetchAllArtists() {
  * @param {string[]} options.singers - Filter by specific singer names
  * @param {number[]} options.yearRange - [startYear, endYear] to filter by recording year
  * @param {string} options.duetFilter - 'all' (default) | 'solo' | 'duetsOnly' - filter by duet status
+ * @param {number[]} options.recognitionTiers - Filter by recognition tier (1-5: Iconic, Essential, Familiar, Challenging, Deep Cuts)
  */
 export async function fetchFilteredSongs(
   artistMasters = [],
@@ -52,7 +53,7 @@ export async function fetchFilteredSongs(
   qty = "",
   options = {},
 ) {
-  const { includeSinger = false, requireSinger = false, singers = [], yearRange = null, duetFilter = 'solo' } = options;
+  const { includeSinger = false, requireSinger = false, singers = [], yearRange = null, duetFilter = 'solo', recognitionTiers = [] } = options;
 
   try {
     // Use weighted songs (3-5 stars, prioritized by play count)
@@ -110,12 +111,21 @@ export async function fetchFilteredSongs(
       );
     }
 
-    // ArtistLevel filter
+    // ArtistLevel filter (legacy - orchestra-based levels)
     const validArtistLevels = artistLevels.filter((l) => typeof l === "number");
     if (validArtistLevels.length > 0) {
       filtered = filtered.filter(
         (song) => song.level && validArtistLevels.includes(song.level),
       );
+    }
+
+    // Recognition Tier filter (new - song-based tiers from djSongsWeighted.json)
+    const validRecognitionTiers = recognitionTiers.filter((t) => typeof t === "number");
+    if (validRecognitionTiers.length > 0) {
+      filtered = filtered.filter(
+        (song) => song.recognitionTier && validRecognitionTiers.includes(song.recognitionTier),
+      );
+      console.log("DEBUG: After recognitionTier filter:", filtered.length);
     }
 
     // Composer filter
@@ -241,6 +251,7 @@ export async function fetchFilteredSongs(
     console.log("from Filter Criteria", {
       artistMasters: validArtistMasters,
       artistLevels: validArtistLevels,
+      recognitionTiers: validRecognitionTiers,
       composers: validComposers,
       styles: validStyles,
       candombe: candombe || "not applied",

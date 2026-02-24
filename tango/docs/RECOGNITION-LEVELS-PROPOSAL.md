@@ -1,6 +1,6 @@
-# Recognition Levels: A Rethink of Song Difficulty
+# Recognition Tiers: A Rethink of Song Difficulty
 
-**Status:** PROPOSAL
+**Status:** IN PROGRESS
 **Branch:** `feature/recognition-levels`
 **Author:** Compás
 **Date:** 2026-02-24
@@ -56,17 +56,17 @@ orchBonus = {
 }[orchestraLevel] || 0;
 ```
 
-### Recognition Tiers
+### Recognition Tiers (FINAL - Percentile-Based)
 
-Based on the computed score, assign songs to tiers:
+Songs are ranked by recognition score, then assigned to tiers by percentile:
 
-| Tier | Name | Criteria | Est. Count | Use Case |
-|------|------|----------|------------|----------|
-| 1 | **Essential** | Score > 0.80 | ~100 | Must-know classics |
-| 2 | **Core** | Score 0.60-0.80 | ~400 | Regular milonga staples |
-| 3 | **Familiar** | Score 0.40-0.60 | ~1,000 | Heard occasionally |
-| 4 | **Learning** | Score 0.20-0.40 | ~2,000 | Less common |
-| 5 | **Discovery** | Score < 0.20 | ~2,000 | Rare/deep cuts |
+| Tier | Name | % of Songs | Count | Vibe |
+|------|------|------------|-------|------|
+| 1 | **Iconic** | Top 10% | 468 | Everyone knows it |
+| 2 | **Essential** | Next 20% | 935 | Milonga staples |
+| 3 | **Familiar** | Next 30% | 1,402 | You've heard it |
+| 4 | **Challenging** | Next 25% | 1,169 | Tests your ears |
+| 5 | **Deep Cuts** | Bottom 15% | 701 | DJ-level knowledge |
 
 ---
 
