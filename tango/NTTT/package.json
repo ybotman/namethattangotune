@@ -1,0 +1,33 @@
+{
+  "name": "nttt-app",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "format": "prettier --write .",
+    "flint": "clear && npm run format 2>&1 | grep -v 'unchanged' && npm run lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.2.1",
+    "@mui/material": "^6.2.1",
+    "firebase": "^11.1.0",
+    "next": "15.1.11",
+    "prettier": "^3.4.2",
+    "prop-types": "^15.8.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sass": "^1.83.0",
+    "wavesurfer.js": "^7.8.11"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "eslint": "^9",
+    "eslint-config-next": "15.1.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2"
+  }
+}

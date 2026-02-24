@@ -1,0 +1,1657 @@
+[
+  {
+    "singer": "Ernesto Fama",
+    "songCount": 130,
+    "orchestras": [
+      "Carlos Di Sarli Sextet",
+      "Francisco Canaro",
+      "Orquesta Tipica Victor"
+    ]
+  },
+  {
+    "singer": "Roberto Maida",
+    "songCount": 97,
+    "orchestras": [
+      "Francisco Canaro"
+    ]
+  },
+  {
+    "singer": "Jorge Omar",
+    "songCount": 96,
+    "orchestras": [
+      "Francisco Lomuto"
+    ]
+  },
+  {
+    "singer": "Angel Vargas",
+    "songCount": 92,
+    "orchestras": [
+      "Angel D'Agostino",
+      "Orquesta Tipica Victor"
+    ]
+  },
+  {
+    "singer": "Roberto Rufino",
+    "songCount": 84,
+    "orchestras": [
+      "Anibal Troilo",
+      "Carlos Di Sarli"
+    ]
+  },
+  {
+    "singer": "Armando Moreno",
+    "songCount": 78,
+    "orchestras": [
+      "Enrique Rodriguez"
+    ]
+  },
+  {
+    "singer": "Jorge Ortiz",
+    "songCount": 75,
+    "orchestras": [
+      "Miguel Calo",
+      "Rodolfo Biagi"
+    ]
+  },
+  {
+    "singer": "Enrique Campos",
+    "songCount": 68,
+    "orchestras": [
+      "Ricardo Tanturi"
+    ]
+  },
+  {
+    "singer": "Alberto Podesta",
+    "songCount": 66,
+    "orchestras": [
+      "Carlos Di Sarli",
+      "Miguel Calo",
+      "Pedro Laurenz"
+    ]
+  },
+  {
+    "singer": "Francisco Fiorentino",
+    "songCount": 63,
+    "orchestras": [
+      "Anibal Troilo",
+      "Orquesta Astor Piazzola"
+    ]
+  },
+  {
+    "singer": "Carlos Dante",
+    "songCount": 61,
+    "orchestras": [
+      "Alfredo De Angelis",
+      "Francisco Canaro",
+      "Rafael Canaro"
+    ]
+  },
+  {
+    "singer": "Armando Laborde",
+    "songCount": 60,
+    "orchestras": [
+      "Hector Varela",
+      "Juan D'Arienzo"
+    ]
+  },
+  {
+    "singer": "Alberto Echague",
+    "songCount": 57,
+    "orchestras": [
+      "Juan D'Arienzo"
+    ]
+  },
+  {
+    "singer": "Raul Beron",
+    "songCount": 52,
+    "orchestras": [
+      "Anibal Troilo",
+      "Lucio Demare",
+      "Miguel Calo"
+    ]
+  },
+  {
+    "singer": "Raul Iriarte",
+    "songCount": 49,
+    "orchestras": [
+      "Miguel Calo"
+    ]
+  },
+  {
+    "singer": "Alberto Castillo",
+    "songCount": 49,
+    "orchestras": [
+      "Ricardo Tanturi"
+    ]
+  },
+  {
+    "singer": "Carlos A. Varela",
+    "songCount": 48,
+    "orchestras": [
+      "Enrique Forte Roberto Firpo",
+      "Roberto Firpo"
+    ]
+  },
+  {
+    "singer": "Fernando Diaz",
+    "songCount": 47,
+    "orchestras": [
+      "Carlos Di Sarli Sextet",
+      "Francisco Lomuto"
+    ]
+  },
+  {
+    "singer": "Oscar Larroca",
+    "songCount": 46,
+    "orchestras": [
+      "Alfredo De Angelis"
+    ]
+  },
+  {
+    "singer": "Jorge Duran",
+    "songCount": 45,
+    "orchestras": [
+      "Carlos Di Sarli"
+    ]
+  },
+  {
+    "singer": "Alberto Marino",
+    "songCount": 42,
+    "orchestras": [
+      "Anibal Troilo"
+    ]
+  },
+  {
+    "singer": "Alberto Reynal",
+    "songCount": 42,
+    "orchestras": [
+      "Juan D'Arienzo"
+    ]
+  },
+  {
+    "singer": "Horacio Quintana",
+    "songCount": 41,
+    "orchestras": [
+      "Lucio Demare"
+    ]
+  },
+  {
+    "singer": "Floreal Ruiz",
+    "songCount": 34,
+    "orchestras": [
+      "Alfredo De Angelis",
+      "Anibal Troilo"
+    ]
+  },
+  {
+    "singer": "Carlos Roldan",
+    "songCount": 34,
+    "orchestras": [
+      "Francisco Canaro"
+    ]
+  },
+  {
+    "singer": "Ricardo Ruiz",
+    "songCount": 33,
+    "orchestras": [
+      "Osvaldo Fresedo"
+    ]
+  },
+  {
+    "singer": "Carlos Dante y Oscar Larroca",
+    "songCount": 33,
+    "orchestras": [
+      "Alfredo De Angelis"
+    ]
+  },
+  {
+    "singer": "Javier Di Ciriaco",
+    "songCount": 33,
+    "orchestras": [
+      "Sexteto Milonguero"
+    ]
+  },
+  {
+    "singer": "Roberto Chanel",
+    "songCount": 33,
+    "orchestras": [
+      "Osvaldo Pugliese"
+    ]
+  },
+  {
+    "singer": "Charlo",
+    "songCount": 32,
+    "orchestras": [
+      "Francisco Canaro",
+      "Francisco Lomuto"
+    ]
+  },
+  {
+    "singer": "Oscar Serpa",
+    "songCount": 32,
+    "orchestras": [
+      "Carlos Di Sarli"
+    ]
+  },
+  {
+    "singer": "Julio Martel",
+    "songCount": 27,
+    "orchestras": [
+      "Alfredo De Angelis"
+    ]
+  },
+  {
+    "singer": "Horacio Lagos",
+    "songCount": 26,
+    "orchestras": [
+      "Edgardo Donato"
+    ]
+  },
+  {
+    "singer": "Hugo Duval",
+    "songCount": 26,
+    "orchestras": [
+      "Rodolfo Biagi"
+    ]
+  },
+  {
+    "singer": "Francisco Amor",
+    "songCount": 26,
+    "orchestras": [
+      "Francisco Canaro"
+    ]
+  },
+  {
+    "singer": "Luis Diaz",
+    "songCount": 24,
+    "orchestras": [
+      "Edgardo Donato",
+      "Julio De Caro",
+      "Orquesta Julio De Caro"
+    ]
+  },
+  {
+    "singer": "Roberto Videla",
+    "songCount": 24,
+    "orchestras": [
+      "Ricardo Tanturi"
+    ]
+  },
+  {
+    "singer": "Luis Scalon",
+    "songCount": 22,
+    "orchestras": [
+      "Rafael Canaro"
+    ]
+  },
+  {
+    "singer": "Andres Falgas",
+    "songCount": 22,
+    "orchestras": [
+      "Rodolfo Biagi"
+    ]
+  },
+  {
+    "singer": "Teofilo Ibanez",
+    "songCount": 22,
+    "orchestras": [
+      "Orquesta Tipica Victor",
+      "Roberto Firpo",
+      "Rodolfo Biagi"
+    ]
+  },
+  {
+    "singer": "Eduardo Adrian",
+    "songCount": 22,
+    "orchestras": [
+      "Francisco Canaro"
+    ]
+  },
+  {
+    "singer": "Edmundo Rivero",
+    "songCount": 21,
+    "orchestras": [
+      "Anibal Troilo"
+    ]
+  },
+  {
+    "singer": "Roberto Florio",
+    "songCount": 21,
+    "orchestras": [
+      "Alfredo De Angelis",
+      "Carlos Di Sarli"
+    ]
+  },
+  {
+    "singer": "Roberto Ray",
+    "songCount": 20,
+    "orchestras": [
+      "Osvaldo Fresedo"
+    ]
+  },
+  {
+    "singer": "Hector Maure",
+    "songCount": 20,
+    "orchestras": [
+      "Juan D'Arienzo"
+    ]
+  },
+  {
+    "singer": "Roberto Flores",
+    "songCount": 19,
+    "orchestras": [
+      "Enrique Rodriguez"
+    ]
+  },
+  {
+    "singer": "Carlos Dante y Julio Martel",
+    "songCount": 19,
+    "orchestras": [
+      "Alfredo De Angelis"
+    ]
+  },
+  {
+    "singer": "Lalo Martel",
+    "songCount": 19,
+    "orchestras": [
+      "Alfredo De Angelis"
+    ]
+  },
+  {
+    "singer": "Juan Carlos Godoy",
+    "songCount": 17,
+    "orchestras": [
+      "Alfredo De Angelis"
+    ]
+  },
+  {
+    "singer": "Juan Carlos Casas",
+    "songCount": 17,
+    "orchestras": [
+      "Pedro Laurenz"
+    ]
+  },
+  {
+    "singer": "Juan Carlos Miranda",
+    "songCount": 16,
+    "orchestras": [
+      "Lucio Demare"
+    ]
+  },
+  {
+    "singer": "Alberto Moran",
+    "songCount": 16,
+    "orchestras": [
+      "Osvaldo Pugliese"
+    ]
+  },
+  {
+    "singer": "Mario Pomar",
+    "songCount": 15,
+    "orchestras": [
+      "Carlos Di Sarli"
+    ]
+  },
+  {
+    "singer": "Jorge Maciel",
+    "songCount": 14,
+    "orchestras": [
+      "Alfredo Gobbi"
+    ]
+  },
+  {
+    "singer": "Felix Gutierrez",
+    "songCount": 14,
+    "orchestras": [
+      "Edgardo Donato",
+      "Francisco Canaro"
+    ]
+  },
+  {
+    "singer": "Agustin Irusta",
+    "songCount": 13,
+    "orchestras": [
+      "Francisco Canaro"
+    ]
+  },
+  {
+    "singer": "Juan Carlos Lamas",
+    "songCount": 13,
+    "orchestras": [
+      "Juan D'Arienzo"
+    ]
+  },
+  {
+    "singer": "Canto",
+    "songCount": 12,
+    "orchestras": [
+      "Mario Melfi",
+      "Quinteto Pirincho"
+    ]
+  },
+  {
+    "singer": "Carlos Galan",
+    "songCount": 12,
+    "orchestras": [
+      "Francisco Canaro"
+    ]
+  },
+  {
+    "singer": "Pedro Datila",
+    "songCount": 12,
+    "orchestras": [
+      "Osmar Maderna"
+    ]
+  },
+  {
+    "singer": "Ernesto Herrera",
+    "songCount": 11,
+    "orchestras": [
+      "Hector Varela"
+    ]
+  },
+  {
+    "singer": "Angel Cardenas",
+    "songCount": 10,
+    "orchestras": [
+      "Anibal Troilo"
+    ]
+  },
+  {
+    "singer": "Carlos Lafuente",
+    "songCount": 9,
+    "orchestras": [
+      "Orquesta Tipica Victor"
+    ]
+  },
+  {
+    "singer": "Ortega Del Cerro",
+    "songCount": 9,
+    "orchestras": [
+      "Orquesta Tipica Victor"
+    ]
+  },
+  {
+    "singer": "Hector Pacheco",
+    "songCount": 9,
+    "orchestras": [
+      "Osvaldo Fresedo"
+    ]
+  },
+  {
+    "singer": "Orlando Verri",
+    "songCount": 9,
+    "orchestras": [
+      "Osmar Maderna"
+    ]
+  },
+  {
+    "singer": "Roberto Goyeneche",
+    "songCount": 8,
+    "orchestras": [
+      "Anibal Troilo"
+    ]
+  },
+  {
+    "singer": "Osvaldo Ribo",
+    "songCount": 8,
+    "orchestras": [
+      "Ricardo Tanturi"
+    ]
+  },
+  {
+    "singer": "Alberto Amor",
+    "songCount": 8,
+    "orchestras": [
+      "Rodolfo Biagi"
+    ]
+  },
+  {
+    "singer": "Alberto Carol",
+    "songCount": 8,
+    "orchestras": [
+      "Orquesta Tipica Victor"
+    ]
+  },
+  {
+    "singer": "Alberto Echague - Armando Laborde",
+    "songCount": 8,
+    "orchestras": [
+      "Juan D'Arienzo"
+    ]
+  },
+  {
+    "singer": "Rodolfo Lesica",
+    "songCount": 7,
+    "orchestras": [
+      "Hector Varela"
+    ]
+  },
+  {
+    "singer": "Argentino Ledesma",
+    "songCount": 7,
+    "orchestras": [
+      "Hector Varela"
+    ]
+  },
+  {
+    "singer": "Alberto Gomez",
+    "songCount": 7,
+    "orchestras": [
+      "Edgardo Donato",
+      "Orquesta Tipica Victor"
+    ]
+  },
+  {
+    "singer": "Orquesta Angel Condercuri",
+    "songCount": 7,
+    "orchestras": [
+      "Alberto Castillo"
+    ]
+  },
+  {
+    "singer": "Grela [Cuarteto]",
+    "songCount": 7,
+    "orchestras": [
+      "Federico"
+    ]
+  },
+  {
+    "singer": "Roger Toussaint",
+    "songCount": 6,
+    "orchestras": [
+      "Rafael Canaro"
+    ]
+  },
+  {
+    "singer": "Raul Sander",
+    "songCount": 6,
+    "orchestras": [
+      "Rafael Canaro"
+    ]
+  },
+  {
+    "singer": "Carlos Bermudez",
+    "songCount": 6,
+    "orchestras": [
+      "Pedro Laurenz"
+    ]
+  },
+  {
+    "singer": "Alberto Tagle",
+    "songCount": 5,
+    "orchestras": [
+      "Rafael Canaro"
+    ]
+  },
+  {
+    "singer": "Antonio Maida",
+    "songCount": 5,
+    "orchestras": [
+      "Edgardo Donato"
+    ]
+  },
+  {
+    "singer": "Orquesta Emilio Balcarce",
+    "songCount": 5,
+    "orchestras": [
+      "Alberto Castillo"
+    ]
+  },
+  {
+    "singer": "Jorge Omar y Fernando Diaz",
+    "songCount": 5,
+    "orchestras": [
+      "Francisco Lomuto"
+    ]
+  },
+  {
+    "singer": "Mario Corrales",
+    "songCount": 5,
+    "orchestras": [
+      "Orquesta Tipica Victor"
+    ]
+  },
+  {
+    "singer": "Walter Cabral",
+    "songCount": 5,
+    "orchestras": [
+      "Juan D'Arienzo"
+    ]
+  },
+  {
+    "singer": "Carlos Casares",
+    "songCount": 5,
+    "orchestras": [
+      "Juan D'Arienzo"
+    ]
+  },
+  {
+    "singer": "Armando Guerrico",
+    "songCount": 5,
+    "orchestras": [
+      "Fulvio Salamanca",
+      "Mario Luna Fulvio Salamanca"
+    ]
+  },
+  {
+    "singer": "Mario Pomar (Corrales)",
+    "songCount": 5,
+    "orchestras": [
+      "Osmar Maderna",
+      "Pedro Datila Osmar Maderna"
+    ]
+  },
+  {
+    "singer": "Luis Mariano",
+    "songCount": 4,
+    "orchestras": [
+      "Rafael Canaro"
+    ]
+  },
+  {
+    "singer": "Mario Beltran",
+    "songCount": 4,
+    "orchestras": [
+      "Rafael Canaro"
+    ]
+  },
+  {
+    "singer": "Argentino Ledesma y Rodolfo Lesica",
+    "songCount": 4,
+    "orchestras": [
+      "Hector Varela"
+    ]
+  },
+  {
+    "singer": "Jorge Falcon y Fernando Soler",
+    "songCount": 4,
+    "orchestras": [
+      "Hector Varela"
+    ]
+  },
+  {
+    "singer": "Jorge Falcon",
+    "songCount": 4,
+    "orchestras": [
+      "Hector Varela"
+    ]
+  },
+  {
+    "singer": "Orquesta Enrique Alessio",
+    "songCount": 4,
+    "orchestras": [
+      "Alberto Castillo"
+    ]
+  },
+  {
+    "singer": "Francisco Fiorentino y Alberto Marino",
+    "songCount": 4,
+    "orchestras": [
+      "Anibal Troilo"
+    ]
+  },
+  {
+    "singer": "Tito Reyes",
+    "songCount": 4,
+    "orchestras": [
+      "Anibal Troilo"
+    ]
+  },
+  {
+    "singer": "Martin Podesta",
+    "songCount": 4,
+    "orchestras": [
+      "Pedro Laurenz"
+    ]
+  },
+  {
+    "singer": "Horacio Casares",
+    "songCount": 4,
+    "orchestras": [
+      "Carlos Di Sarli"
+    ]
+  },
+  {
+    "singer": "Alberto Echague y Armando Laborde",
+    "songCount": 4,
+    "orchestras": [
+      "Juan D'Arienzo"
+    ]
+  },
+  {
+    "singer": "Santiago Devincenzi",
+    "songCount": 4,
+    "orchestras": [
+      "Carlos Di Sarli Sextet"
+    ]
+  },
+  {
+    "singer": "Carlos Dante y coro",
+    "songCount": 3,
+    "orchestras": [
+      "Rafael Canaro"
+    ]
+  },
+  {
+    "singer": "Aldo Campoamor",
+    "songCount": 3,
+    "orchestras": [
+      "Rafael Canaro"
+    ]
+  },
+  {
+    "singer": "Raul Lavie",
+    "songCount": 3,
+    "orchestras": [
+      "Hector Varela"
+    ]
+  },
+  {
+    "singer": "Pablo Lozano",
+    "songCount": 3,
+    "orchestras": [
+      "Anibal Troilo",
+      "Edgardo Donato"
+    ]
+  },
+  {
+    "singer": "Romeo Gavio",
+    "songCount": 3,
+    "orchestras": [
+      "Edgardo Donato"
+    ]
+  },
+  {
+    "singer": "Orquesta Osvaldo Requena",
+    "songCount": 3,
+    "orchestras": [
+      "Alberto Castillo"
+    ]
+  },
+  {
+    "singer": "Canta",
+    "songCount": 3,
+    "orchestras": [
+      "Mario Melfi"
+    ]
+  },
+  {
+    "singer": "Alberto Marino y Floreal Ruiz",
+    "songCount": 3,
+    "orchestras": [
+      "Anibal Troilo"
+    ]
+  },
+  {
+    "singer": "Edmundo Rivero y Aldo Calderon",
+    "songCount": 3,
+    "orchestras": [
+      "Anibal Troilo"
+    ]
+  },
+  {
+    "singer": "Floreal Ruiz y Edmundo Rivero",
+    "songCount": 3,
+    "orchestras": [
+      "Anibal Troilo"
+    ]
+  },
+  {
+    "singer": "Nelly Vazquez",
+    "songCount": 3,
+    "orchestras": [
+      "Anibal Troilo"
+    ]
+  },
+  {
+    "singer": "Enrique Campos y Roberto Videla",
+    "songCount": 3,
+    "orchestras": [
+      "Ricardo Tanturi"
+    ]
+  },
+  {
+    "singer": "Jorge Omar y Cell Brian",
+    "songCount": 3,
+    "orchestras": [
+      "Francisco Lomuto"
+    ]
+  },
+  {
+    "singer": "Fernando Diaz y Jorge Omar",
+    "songCount": 3,
+    "orchestras": [
+      "Francisco Lomuto"
+    ]
+  },
+  {
+    "singer": "Nelly Omar",
+    "songCount": 3,
+    "orchestras": [
+      "Francisco Canaro"
+    ]
+  },
+  {
+    "singer": "Antonio Rodriguez Lesende",
+    "songCount": 3,
+    "orchestras": [
+      "Carlos Di Sarli"
+    ]
+  },
+  {
+    "singer": "Roberto Diaz",
+    "songCount": 3,
+    "orchestras": [
+      "Orquesta Tipica Victor"
+    ]
+  },
+  {
+    "singer": "Juan Carlos Caceres",
+    "songCount": 3,
+    "orchestras": [
+      "Caceres"
+    ]
+  },
+  {
+    "singer": "Adolfo Rivas",
+    "songCount": 3,
+    "orchestras": [
+      "Osmar Maderna",
+      "Raul Aldao Osmar Maderna"
+    ]
+  },
+  {
+    "singer": "Alberto Diale",
+    "songCount": 3,
+    "orchestras": [
+      "Roberto Firpo"
+    ]
+  },
+  {
+    "singer": "Ricardo Duarte",
+    "songCount": 2,
+    "orchestras": [
+      "Rafael Canaro"
+    ]
+  },
+  {
+    "singer": "Ernesto Herrera y Armando Laborde",
+    "songCount": 2,
+    "orchestras": [
+      "Hector Varela"
+    ]
+  },
+  {
+    "singer": "Fernando Soler",
+    "songCount": 2,
+    "orchestras": [
+      "Hector Varela"
+    ]
+  },
+  {
+    "singer": "Juan Alessio",
+    "songCount": 2,
+    "orchestras": [
+      "Edgardo Donato"
+    ]
+  },
+  {
+    "singer": "Antonio Maida y Randona",
+    "songCount": 2,
+    "orchestras": [
+      "Edgardo Donato"
+    ]
+  },
+  {
+    "singer": "Romeo Gavio y Lita Morales",
+    "songCount": 2,
+    "orchestras": [
+      "Edgardo Donato"
+    ]
+  },
+  {
+    "singer": "Romeo Gavio, Lita Morales y Horacio Lagos",
+    "songCount": 2,
+    "orchestras": [
+      "Edgardo Donato"
+    ]
+  },
+  {
+    "singer": "Horacio Lagos y Romeo Gavio",
+    "songCount": 2,
+    "orchestras": [
+      "Edgardo Donato"
+    ]
+  },
+  {
+    "singer": "Horacio Lagos y Randona",
+    "songCount": 2,
+    "orchestras": [
+      "Edgardo Donato"
+    ]
+  },
+  {
+    "singer": "Horacio Lagos y Lita Morales",
+    "songCount": 2,
+    "orchestras": [
+      "Edgardo Donato"
+    ]
+  },
+  {
+    "singer": "Jorge Casal y Raul Beron",
+    "songCount": 2,
+    "orchestras": [
+      "Anibal Troilo"
+    ]
+  },
+  {
+    "singer": "Angel Cardenas - Roberto Goyeneche",
+    "songCount": 2,
+    "orchestras": [
+      "Anibal Troilo"
+    ]
+  },
+  {
+    "singer": "Floreal Ruiz y Alberto Marino",
+    "songCount": 2,
+    "orchestras": [
+      "Anibal Troilo"
+    ]
+  },
+  {
+    "singer": "Juan Carlos Godoy y Roberto Mancini",
+    "songCount": 2,
+    "orchestras": [
+      "Alfredo De Angelis"
+    ]
+  },
+  {
+    "singer": "Juan Carlos Godoy y Lalo Martel",
+    "songCount": 2,
+    "orchestras": [
+      "Alfredo De Angelis"
+    ]
+  },
+  {
+    "singer": "Fernando Diaz y Alberto Hilarion Acuna",
+    "songCount": 2,
+    "orchestras": [
+      "Francisco Lomuto"
+    ]
+  },
+  {
+    "singer": "Hector Farrel",
+    "songCount": 2,
+    "orchestras": [
+      "Julio De Caro",
+      "Pedro Laurenz"
+    ]
+  },
+  {
+    "singer": "Carlos Saavedra",
+    "songCount": 2,
+    "orchestras": [
+      "Rodolfo Biagi"
+    ]
+  },
+  {
+    "singer": "Carlos Acuna",
+    "songCount": 2,
+    "orchestras": [
+      "Carlos Di Sarli",
+      "Rodolfo Biagi"
+    ]
+  },
+  {
+    "singer": "Carlos Roldan y Eduardo Adrian",
+    "songCount": 2,
+    "orchestras": [
+      "Francisco Canaro"
+    ]
+  },
+  {
+    "singer": "Ernesto Fama y Angel Ramos",
+    "songCount": 2,
+    "orchestras": [
+      "Francisco Canaro"
+    ]
+  },
+  {
+    "singer": "Domingo Conte",
+    "songCount": 2,
+    "orchestras": [
+      "Francisco Canaro"
+    ]
+  },
+  {
+    "singer": "Roberto Maida y Angel Ramos",
+    "songCount": 2,
+    "orchestras": [
+      "Francisco Canaro"
+    ]
+  },
+  {
+    "singer": "Carlos Bermudez y Jorge Linares",
+    "songCount": 2,
+    "orchestras": [
+      "Pedro Laurenz"
+    ]
+  },
+  {
+    "singer": "Roberto Florio y Jorge Duran",
+    "songCount": 2,
+    "orchestras": [
+      "Carlos Di Sarli"
+    ]
+  },
+  {
+    "singer": "Mariano Balcarce",
+    "songCount": 2,
+    "orchestras": [
+      "Orquesta Tipica Victor"
+    ]
+  },
+  {
+    "singer": "Jaime Moreno y Lito Bayardo",
+    "songCount": 2,
+    "orchestras": [
+      "Orquesta Tipica Victor"
+    ]
+  },
+  {
+    "singer": "Lita Morales",
+    "songCount": 2,
+    "orchestras": [
+      "Orquesta Tipica Victor"
+    ]
+  },
+  {
+    "singer": "Vicente Crisera",
+    "songCount": 2,
+    "orchestras": [
+      "Orquesta Tipica Victor"
+    ]
+  },
+  {
+    "singer": "Roberto Lemos",
+    "songCount": 2,
+    "orchestras": [
+      "Juan D'Arienzo"
+    ]
+  },
+  {
+    "singer": "Jorge Maciel y Hector Coral",
+    "songCount": 2,
+    "orchestras": [
+      "Alfredo Gobbi"
+    ]
+  },
+  {
+    "singer": "Oscar Galan",
+    "songCount": 2,
+    "orchestras": [
+      "Enrique Rodriguez"
+    ]
+  },
+  {
+    "singer": "Hector De Rosas",
+    "songCount": 2,
+    "orchestras": [
+      "Osmar Maderna"
+    ]
+  },
+  {
+    "singer": "Luis Tolosa",
+    "songCount": 2,
+    "orchestras": [
+      "Osmar Maderna"
+    ]
+  },
+  {
+    "singer": "Carlos Gardel",
+    "songCount": 2,
+    "orchestras": [
+      "Jose Razzano Roberto Firpo"
+    ]
+  },
+  {
+    "singer": "Principe Azul",
+    "songCount": 2,
+    "orchestras": [
+      "Roberto Firpo"
+    ]
+  },
+  {
+    "singer": "Rafael Canaro",
+    "songCount": 1,
+    "orchestras": [
+      "Rafael Canaro"
+    ]
+  },
+  {
+    "singer": "Jorge Cardoso y coro",
+    "songCount": 1,
+    "orchestras": [
+      "Rafael Canaro"
+    ]
+  },
+  {
+    "singer": "Jorge Cardoso",
+    "songCount": 1,
+    "orchestras": [
+      "Rafael Canaro"
+    ]
+  },
+  {
+    "singer": "Rafael Canaro y coro",
+    "songCount": 1,
+    "orchestras": [
+      "Rafael Canaro"
+    ]
+  },
+  {
+    "singer": "Armando Laborde y Rodolfo Lesica",
+    "songCount": 1,
+    "orchestras": [
+      "Hector Varela"
+    ]
+  },
+  {
+    "singer": "Fontan Reyes",
+    "songCount": 1,
+    "orchestras": [
+      "Hector Varela"
+    ]
+  },
+  {
+    "singer": "Tita Merello",
+    "songCount": 1,
+    "orchestras": [
+      "Hector Varela"
+    ]
+  },
+  {
+    "singer": "Lita Morales, Horacio Lagos y Romeo Gavio",
+    "songCount": 1,
+    "orchestras": [
+      "Edgardo Donato"
+    ]
+  },
+  {
+    "singer": "Lita Morales y Horacio Lagos",
+    "songCount": 1,
+    "orchestras": [
+      "Edgardo Donato"
+    ]
+  },
+  {
+    "singer": "Hugo del Carril y Randona",
+    "songCount": 1,
+    "orchestras": [
+      "Edgardo Donato"
+    ]
+  },
+  {
+    "singer": "Daniel Adamo y Jorge Denis",
+    "songCount": 1,
+    "orchestras": [
+      "Edgardo Donato"
+    ]
+  },
+  {
+    "singer": "Agustin Magaldi",
+    "songCount": 1,
+    "orchestras": [
+      "Edgardo Donato"
+    ]
+  },
+  {
+    "singer": "Antonio Maida y Rondana",
+    "songCount": 1,
+    "orchestras": [
+      "Edgardo Donato"
+    ]
+  },
+  {
+    "singer": "Carlos Vivan",
+    "songCount": 1,
+    "orchestras": [
+      "Edgardo Donato"
+    ]
+  },
+  {
+    "singer": "Hugo del Carril",
+    "songCount": 1,
+    "orchestras": [
+      "Edgardo Donato"
+    ]
+  },
+  {
+    "singer": "Romeo Gavio y Horacio Lagos",
+    "songCount": 1,
+    "orchestras": [
+      "Edgardo Donato"
+    ]
+  },
+  {
+    "singer": "Mercedes Carne",
+    "songCount": 1,
+    "orchestras": [
+      "Edgardo Donato"
+    ]
+  },
+  {
+    "singer": "Horacio Lagos, Lita Morales y Romeo Gavio",
+    "songCount": 1,
+    "orchestras": [
+      "Edgardo Donato"
+    ]
+  },
+  {
+    "singer": "Orquesta Jorge Dragone",
+    "songCount": 1,
+    "orchestras": [
+      "Alberto Castillo"
+    ]
+  },
+  {
+    "singer": "Orquesta Unknown",
+    "songCount": 1,
+    "orchestras": [
+      "Alberto Castillo"
+    ]
+  },
+  {
+    "singer": "Roberto Alvar",
+    "songCount": 1,
+    "orchestras": [
+      "Angel D'Agostino"
+    ]
+  },
+  {
+    "singer": "Tino Garcia",
+    "songCount": 1,
+    "orchestras": [
+      "Angel D'Agostino"
+    ]
+  },
+  {
+    "singer": "Marcel Veran",
+    "songCount": 1,
+    "orchestras": [
+      "Mario Melfi"
+    ]
+  },
+  {
+    "singer": "Oscar Valeta",
+    "songCount": 1,
+    "orchestras": [
+      "Orquesta Feliciano Brunelli"
+    ]
+  },
+  {
+    "singer": "Duo Rosales-Casedei",
+    "songCount": 1,
+    "orchestras": [
+      "Trio Rafael Rossi"
+    ]
+  },
+  {
+    "singer": "Amadeo Mandarino",
+    "songCount": 1,
+    "orchestras": [
+      "Orquesta Manuel Buzon"
+    ]
+  },
+  {
+    "singer": "Francisco Fiorentino y Amadeo Mandarino",
+    "songCount": 1,
+    "orchestras": [
+      "Anibal Troilo"
+    ]
+  },
+  {
+    "singer": "Aldo Calderon",
+    "songCount": 1,
+    "orchestras": [
+      "Anibal Troilo"
+    ]
+  },
+  {
+    "singer": "Jorge Casal",
+    "songCount": 1,
+    "orchestras": [
+      "Anibal Troilo"
+    ]
+  },
+  {
+    "singer": "Alberto Marino y coro",
+    "songCount": 1,
+    "orchestras": [
+      "Anibal Troilo"
+    ]
+  },
+  {
+    "singer": "Ruben Juarez",
+    "songCount": 1,
+    "orchestras": [
+      "Cuarteto Anibal Troilo"
+    ]
+  },
+  {
+    "singer": "Roberto Rufino arr. de Julian Plaza",
+    "songCount": 1,
+    "orchestras": [
+      "Anibal Troilo"
+    ]
+  },
+  {
+    "singer": "Alberto Marino y quinteto de voces",
+    "songCount": 1,
+    "orchestras": [
+      "Anibal Troilo"
+    ]
+  },
+  {
+    "singer": "Carlos Dante - Julio Martel",
+    "songCount": 1,
+    "orchestras": [
+      "Alfredo De Angelis"
+    ]
+  },
+  {
+    "singer": "Carlos Aguirre",
+    "songCount": 1,
+    "orchestras": [
+      "Alfredo De Angelis"
+    ]
+  },
+  {
+    "singer": "Roberto Mancini",
+    "songCount": 1,
+    "orchestras": [
+      "Alfredo De Angelis"
+    ]
+  },
+  {
+    "singer": "Julio Martel, glosa: Nestor Rodi",
+    "songCount": 1,
+    "orchestras": [
+      "Alfredo De Angelis"
+    ]
+  },
+  {
+    "singer": "Charlo?",
+    "songCount": 1,
+    "orchestras": [
+      "Francisco Lomuto"
+    ]
+  },
+  {
+    "singer": "Alberto Rivera",
+    "songCount": 1,
+    "orchestras": [
+      "Francisco Lomuto"
+    ]
+  },
+  {
+    "singer": "Carlos Galarce",
+    "songCount": 1,
+    "orchestras": [
+      "Francisco Lomuto"
+    ]
+  },
+  {
+    "singer": "Jorge Omar y Luis Zinkes",
+    "songCount": 1,
+    "orchestras": [
+      "Francisco Lomuto"
+    ]
+  },
+  {
+    "singer": "Alberto Acuna y Fernando Diaz",
+    "songCount": 1,
+    "orchestras": [
+      "Francisco Lomuto"
+    ]
+  },
+  {
+    "singer": "Carlos Heredia y Hugo Duval",
+    "songCount": 1,
+    "orchestras": [
+      "Rodolfo Biagi"
+    ]
+  },
+  {
+    "singer": "Alberto Amor y Lago",
+    "songCount": 1,
+    "orchestras": [
+      "Rodolfo Biagi"
+    ]
+  },
+  {
+    "singer": "Ernesto Fama y Lidia Desmond",
+    "songCount": 1,
+    "orchestras": [
+      "Francisco Canaro"
+    ]
+  },
+  {
+    "singer": "Alberto Arenas y Enrique Lucero",
+    "songCount": 1,
+    "orchestras": [
+      "Francisco Canaro"
+    ]
+  },
+  {
+    "singer": "Charlo  or Gardel",
+    "songCount": 1,
+    "orchestras": [
+      "Francisco Canaro"
+    ]
+  },
+  {
+    "singer": "Ernesto Fama  y Mirna Mores",
+    "songCount": 1,
+    "orchestras": [
+      "Francisco Canaro"
+    ]
+  },
+  {
+    "singer": "Augustin Irusta",
+    "songCount": 1,
+    "orchestras": [
+      "Francisco Canaro"
+    ]
+  },
+  {
+    "singer": "Ernesto Fama y Mirna Mores",
+    "songCount": 1,
+    "orchestras": [
+      "Francisco Canaro"
+    ]
+  },
+  {
+    "singer": "Luis Diaz y coro",
+    "songCount": 1,
+    "orchestras": [
+      "Francisco Canaro"
+    ]
+  },
+  {
+    "singer": "el Coro del Teatro Nacional",
+    "songCount": 1,
+    "orchestras": [
+      "Francisco Canaro"
+    ]
+  },
+  {
+    "singer": "Roberto Maida y coro",
+    "songCount": 1,
+    "orchestras": [
+      "Francisco Canaro"
+    ]
+  },
+  {
+    "singer": "Ernesto Fama y coro",
+    "songCount": 1,
+    "orchestras": [
+      "Francisco Canaro"
+    ]
+  },
+  {
+    "singer": "Alberto Fuentes",
+    "songCount": 1,
+    "orchestras": [
+      "Pedro Laurenz"
+    ]
+  },
+  {
+    "singer": "Raul Iriarte y Roberto Arrieta",
+    "songCount": 1,
+    "orchestras": [
+      "Miguel Calo"
+    ]
+  },
+  {
+    "singer": "Rodolfo Gale",
+    "songCount": 1,
+    "orchestras": [
+      "Carlos Di Sarli"
+    ]
+  },
+  {
+    "singer": "Gino Forsini",
+    "songCount": 1,
+    "orchestras": [
+      "Orquesta Tipica Victor"
+    ]
+  },
+  {
+    "singer": "Alberto Moran y Roberto Chanel",
+    "songCount": 1,
+    "orchestras": [
+      "Osvaldo Pugliese"
+    ]
+  },
+  {
+    "singer": "Roberto Chanel y Alberto Moran",
+    "songCount": 1,
+    "orchestras": [
+      "Osvaldo Pugliese"
+    ]
+  },
+  {
+    "singer": "Agustin Volpe",
+    "songCount": 1,
+    "orchestras": [
+      "Carlos Di Sarli"
+    ]
+  },
+  {
+    "singer": "Rodriguez Lesende",
+    "songCount": 1,
+    "orchestras": [
+      "Carlos Di Sarli"
+    ]
+  },
+  {
+    "singer": "Enrique Carbel",
+    "songCount": 1,
+    "orchestras": [
+      "Juan D'Arienzo"
+    ]
+  },
+  {
+    "singer": "Raphael Canaro",
+    "songCount": 1,
+    "orchestras": [
+      "Rafael Canaro"
+    ]
+  },
+  {
+    "singer": "Hector Coral y Jorge Maciel",
+    "songCount": 1,
+    "orchestras": [
+      "Alfredo Gobbi"
+    ]
+  },
+  {
+    "singer": "Jorge Maciel y Angel Diaz",
+    "songCount": 1,
+    "orchestras": [
+      "Alfredo Gobbi"
+    ]
+  },
+  {
+    "singer": "Hector Maciel",
+    "songCount": 1,
+    "orchestras": [
+      "Alfredo Gobbi"
+    ]
+  },
+  {
+    "singer": "Enalmar De Maria",
+    "songCount": 1,
+    "orchestras": [
+      "Orquesta Emilio Pellejero"
+    ]
+  },
+  {
+    "singer": "Raul Iriarte y Los Trovadores del Peru",
+    "songCount": 1,
+    "orchestras": [
+      "Miguel Calo"
+    ]
+  },
+  {
+    "singer": "Dorita Davis",
+    "songCount": 1,
+    "orchestras": [
+      "Orquesta Tipica Victor"
+    ]
+  },
+  {
+    "singer": "Oscar Ugarte",
+    "songCount": 1,
+    "orchestras": [
+      "Orquesta Tipica Victor"
+    ]
+  },
+  {
+    "singer": "Carlos Lafuente y Luis Diaz",
+    "songCount": 1,
+    "orchestras": [
+      "Orquesta Tipica Victor"
+    ]
+  },
+  {
+    "singer": "Jorge Garre",
+    "songCount": 1,
+    "orchestras": [
+      "Armando Guerrico Fulvio Salamanca"
+    ]
+  },
+  {
+    "singer": "Carlos Varela",
+    "songCount": 1,
+    "orchestras": [
+      "Roberto Firpo"
+    ]
+  },
+  {
+    "singer": "-choir-",
+    "songCount": 1,
+    "orchestras": [
+      "Roberto Firpo"
+    ]
+  },
+  {
+    "singer": "Dorita Davis, Principe Azul, -choir-",
+    "songCount": 1,
+    "orchestras": [
+      "Roberto Firpo"
+    ]
+  }
+]

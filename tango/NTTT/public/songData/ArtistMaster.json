@@ -1,0 +1,142 @@
+[
+  {
+    "artist": "Juan D'Arienzo",
+    "active": "true",
+    "level": "1",
+    "songCount": 609,
+    "grouped": []
+  },
+  {
+    "artist": "Francisco Canaro",
+    "active": "true",
+    "level": "1",
+    "songCount": 561,
+    "grouped": []
+  },
+  {
+    "artist": "Carlos Di Sarli",
+    "active": "true",
+    "level": "1",
+    "songCount": 473,
+    "grouped": []
+  },
+  {
+    "artist": "Anibal Troilo",
+    "active": "true",
+    "level": "1",
+    "songCount": 347,
+    "grouped": []
+  },
+  {
+    "artist": "Roberto Firpo",
+    "active": "true",
+    "level": "1",
+    "songCount": 270,
+    "grouped": []
+  },
+  {
+    "artist": "Alfredo de Angelis",
+    "active": "true",
+    "level": "1",
+    "songCount": 261,
+    "grouped": []
+  },
+  {
+    "artist": "Francisco Lomuto",
+    "active": "true",
+    "level": "1",
+    "songCount": 253,
+    "grouped": []
+  },
+  {
+    "artist": "Ricardo Tanturi",
+    "active": "true",
+    "level": "2",
+    "songCount": 168,
+    "grouped": []
+  },
+  {
+    "artist": "Osvaldo Pugliese",
+    "active": "true",
+    "level": "2",
+    "songCount": 131,
+    "grouped": []
+  },
+  {
+    "artist": "Edgardo Donato",
+    "active": "true",
+    "level": "2",
+    "songCount": 126,
+    "grouped": []
+  },
+  {
+    "artist": "Miguel Calo",
+    "active": "true",
+    "level": "2",
+    "songCount": 119,
+    "grouped": []
+  },
+  {
+    "artist": "Domingo Federico",
+    "active": "true",
+    "level": "2",
+    "songCount": 110,
+    "grouped": []
+  },
+  {
+    "artist": "Angel D'Agostino",
+    "active": "true",
+    "level": "2",
+    "songCount": 107,
+    "grouped": []
+  },
+  {
+    "artist": "Enrique Rodriguez",
+    "active": "true",
+    "level": "2",
+    "songCount": 105,
+    "grouped": []
+  },
+  {
+    "artist": "Lucio Demare",
+    "active": "true",
+    "level": "3",
+    "songCount": 67,
+    "grouped": []
+  },
+  {
+    "artist": "Alfredo Gobbi",
+    "active": "true",
+    "level": "4",
+    "songCount": 39,
+    "grouped": []
+  },
+  {
+    "artist": "Julio De Caro",
+    "active": "true",
+    "level": "4",
+    "songCount": 39,
+    "grouped": []
+  },
+  {
+    "artist": "Ricardo Malerba",
+    "active": "true",
+    "level": "4",
+    "songCount": 21,
+    "grouped": []
+  },
+  {
+    "artist": "El Cachivache",
+    "active": "true",
+    "level": "4",
+    "songCount": 9,
+    "grouped": []
+  },
+  {
+    "artist": "Leopoldo Federico",
+    "active": "true",
+    "level": "4",
+    "songCount": 8,
+    "grouped": []
+  }
+]
