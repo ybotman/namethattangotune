@@ -1,0 +1,59 @@
+2026-02-21 01:43:18,672 [INFO] Loaded 23,799 tango songs
+2026-02-21 01:43:18,679 [INFO] Processing sample of 50 songs
+2026-02-21 01:43:18,679 [INFO] Scanning for MP3 files in /Volumes/EXTVideo1/djImports/boris/Music...
+2026-02-21 01:43:18,771 [INFO] Found 6,894 MP3 files
+2026-02-21 01:43:18,772 [INFO] Building file index...
+2026-02-21 01:43:19,038 [INFO] Target folder: /Volumes/EXTVideo1/djImports/NTTTUpload_v20
+2026-02-21 01:43:19,046 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,066 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,085 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,100 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,120 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,134 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,143 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,162 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,178 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,189 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,214 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,243 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,271 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,367 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,383 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,396 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,409 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,420 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,430 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,442 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,455 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,468 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,481 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,494 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,505 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,517 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,527 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,539 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,551 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,563 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,574 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,587 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,605 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,615 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,635 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,653 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,676 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,700 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,721 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,747 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,776 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,799 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,820 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,836 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,853 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,871 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,891 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,914 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,942 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,967 [WARNING] Mutagen not installed, skipping ID3 updates
+2026-02-21 01:43:19,970 [INFO] Saved to ./djSongs_boris.json
+2026-02-21 01:43:19,970 [INFO] Saved to ./djMatchedSongs_boris.json
+2026-02-21 01:43:19,970 [INFO] Saved to ./djUnMatchedSongs_boris.json

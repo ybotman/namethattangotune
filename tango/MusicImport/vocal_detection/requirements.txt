@@ -1,0 +1,15 @@
+# Vocal Detection POC Requirements
+
+# Core vocal detection (CNN-based segmentation)
+inaSpeechSegmenter>=0.7.7
+
+# HTTP requests for downloading audio
+requests>=2.28.0
+
+# Optional: For more accurate source separation (heavier, slower)
+# Uncomment if inaSpeechSegmenter accuracy is insufficient
+# demucs>=4.0.0
+
+# Audio processing utilities
+# librosa>=0.10.0
+# soundfile>=0.12.0

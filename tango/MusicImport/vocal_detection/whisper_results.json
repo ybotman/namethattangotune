@@ -1,0 +1,829 @@
+[
+  {
+    "songID": "4cdce63b-aff1-5352-9c68-6d4ef9e91758",
+    "hasSinger": true,
+    "vocalSegments": [
+      {
+        "start": 25.2,
+        "end": 28.9,
+        "duration": 3.7,
+        "text": "El d\u00eda en palos y prensa del campo tanto,"
+      },
+      {
+        "start": 28.9,
+        "end": 32.3,
+        "duration": 3.4,
+        "text": "modula mil temidos en derretor,"
+      },
+      {
+        "start": 32.5,
+        "end": 34.9,
+        "duration": 2.4,
+        "text": "en tantos unas sombras,"
+      },
+      {
+        "start": 35.1,
+        "end": 36.4,
+        "duration": 1.2,
+        "text": "sobren a tumba,"
+      },
+      {
+        "start": 37.9,
+        "end": 40.0,
+        "duration": 2.2,
+        "text": "eleva a l'intimito,"
+      },
+      {
+        "start": 41.4,
+        "end": 42.3,
+        "duration": 0.9,
+        "text": "una oraci\u00f3n."
+      },
+      {
+        "start": 86.0,
+        "end": 88.8,
+        "duration": 2.8,
+        "text": "El d\u00eda en palos y prensa del campo tanto,"
+      },
+      {
+        "start": 116.0,
+        "end": 118.8,
+        "duration": 2.8,
+        "text": "modula mil temidos en derretor,"
+      },
+      {
+        "start": 118.8,
+        "end": 124.4,
+        "duration": 5.5,
+        "text": "en mi penar hab\u00eda en tus ojos los espaciones"
+      },
+      {
+        "start": 124.4,
+        "end": 126.8,
+        "duration": 2.4,
+        "text": "y hab\u00eda en tus enrisas,"
+      },
+      {
+        "start": 126.9,
+        "end": 130.7,
+        "duration": 3.8,
+        "text": "al si asiamar no supe comprenderte,"
+      },
+      {
+        "start": 131.2,
+        "end": 134.4,
+        "duration": 3.2,
+        "text": "tu t\u00eda legante, la pena de tu angustia,"
+      },
+      {
+        "start": 134.9,
+        "end": 138.2,
+        "duration": 3.3,
+        "text": "de todo su m\u00edo y fue justo al perderte,"
+      },
+      {
+        "start": 138.8,
+        "end": 143.3,
+        "duration": 4.5,
+        "text": "cuando dejaste con tierras de esperallas mi coraz\u00f3"
+      },
+      {
+        "start": 145.6,
+        "end": 152.0,
+        "duration": 6.4,
+        "text": "Se\u00f1or de los sienos y m\u00e1s del d\u00eda amor,"
+      },
+      {
+        "start": 153.0,
+        "end": 157.2,
+        "duration": 4.2,
+        "text": "tan solo aceptino, tan solo perro,"
+      },
+      {
+        "start": 157.4,
+        "end": 159.1,
+        "duration": 1.7,
+        "text": "al hablar y mi dolor."
+      },
+      {
+        "start": 161.1,
+        "end": 164.8,
+        "duration": 3.7,
+        "text": "Se\u00f1or de los sienos,"
+      },
+      {
+        "start": 165.1,
+        "end": 166.8,
+        "duration": 1.6,
+        "text": "un treven mis rocitos,"
+      },
+      {
+        "start": 168.4,
+        "end": 171.0,
+        "duration": 2.6,
+        "text": "y todo perdido,"
+      },
+      {
+        "start": 171.2,
+        "end": 172.8,
+        "duration": 1.6,
+        "text": "y tanto el r\u00edo,"
+      },
+      {
+        "start": 173.2,
+        "end": 174.5,
+        "duration": 1.4,
+        "text": "no quiero vivir."
+      }
+    ],
+    "totalVocalTime": 65.4,
+    "totalDuration": 174.5,
+    "vocalPercentage": 37.5,
+    "segmentCount": 22,
+    "title": "Ruego",
+    "artist": "Edgardo Donato Y Antonio Maida"
+  },
+  {
+    "songID": "e39eab85-49d1-5ba6-8c52-1cc18bdb862d",
+    "hasSinger": true,
+    "vocalSegments": [
+      {
+        "start": 65.1,
+        "end": 70.1,
+        "duration": 5.0,
+        "text": "El farol de una cantina la neblina del riachuelo,"
+      },
+      {
+        "start": 70.1,
+        "end": 73.7,
+        "duration": 3.7,
+        "text": "que ha atendido bajo el cielo como un palido tel\u00f3n"
+      },
+      {
+        "start": 74.1,
+        "end": 77.7,
+        "duration": 3.7,
+        "text": "Tien la mesa de presos y pesas sin con suelo,"
+      },
+      {
+        "start": 78.1,
+        "end": 81.7,
+        "duration": 3.6,
+        "text": "Donde yo van y est\u00e1 llorando con la voz de la cord"
+      },
+      {
+        "start": 82.1,
+        "end": 86.1,
+        "duration": 4.0,
+        "text": "Su lejana cantilena se despeina, se asespina,"
+      },
+      {
+        "start": 86.6,
+        "end": 89.9,
+        "duration": 3.3,
+        "text": "Con la dura desventura que las timas invatan,"
+      },
+      {
+        "start": 89.9,
+        "end": 94.1,
+        "duration": 4.2,
+        "text": "El repite que ma\u00f1ana volver\u00e1 a su racacina,"
+      },
+      {
+        "start": 94.6,
+        "end": 99.0,
+        "duration": 4.4,
+        "text": "Maniposa mentirosa remontada sobre el mar,"
+      },
+      {
+        "start": 99.7,
+        "end": 107.7,
+        "duration": 8.0,
+        "text": "Lo manir volver\u00e1 ma\u00f1ana lejar,"
+      },
+      {
+        "start": 108.9,
+        "end": 110.8,
+        "duration": 1.8,
+        "text": "Pensadis ya que pas\u00f3,"
+      },
+      {
+        "start": 112.0,
+        "end": 114.9,
+        "duration": 2.9,
+        "text": "El porerongio van y se repite,"
+      },
+      {
+        "start": 115.4,
+        "end": 119.0,
+        "duration": 3.6,
+        "text": "Que domani, que domani volver\u00e1 la ni\u00f1a buena,"
+      },
+      {
+        "start": 119.0,
+        "end": 122.6,
+        "duration": 3.6,
+        "text": "Y el la copa que envenena,"
+      },
+      {
+        "start": 123.2,
+        "end": 127.6,
+        "duration": 4.4,
+        "text": "Joena siempre van a ma\u00f1ana,"
+      },
+      {
+        "start": 129.2,
+        "end": 131.9,
+        "duration": 2.7,
+        "text": "La mentira del alco."
+      },
+      {
+        "start": 145.3,
+        "end": 147.9,
+        "duration": 2.6,
+        "text": "El porerongio van y se repite,"
+      },
+      {
+        "start": 148.3,
+        "end": 152.0,
+        "duration": 3.6,
+        "text": "Que domani, que domani volver\u00e1 la ni\u00f1a buena,"
+      },
+      {
+        "start": 152.1,
+        "end": 155.8,
+        "duration": 3.7,
+        "text": "Y el la copa que envenena,"
+      },
+      {
+        "start": 155.8,
+        "end": 159.9,
+        "duration": 4.1,
+        "text": "Joena siempre van a ma\u00f1ana,"
+      },
+      {
+        "start": 164.8,
+        "end": 170.5,
+        "duration": 5.6,
+        "text": "La mentira del alco."
+      }
+    ],
+    "totalVocalTime": 78.8,
+    "totalDuration": 170.5,
+    "vocalPercentage": 46.2,
+    "segmentCount": 20,
+    "title": "Domani  xx",
+    "artist": "Carlos Di Sarli-Mario Pomar"
+  },
+  {
+    "songID": "d8e1d5a5-c02a-5f32-bebb-7f31e82a53d2",
+    "hasSinger": true,
+    "vocalSegments": [
+      {
+        "start": 70.4,
+        "end": 75.1,
+        "duration": 4.7,
+        "text": "\u00a1Pato tero rey del bailongo!"
+      },
+      {
+        "start": 75.7,
+        "end": 79.7,
+        "duration": 4.0,
+        "text": "\u00a1Pato tero sentimental!"
+      },
+      {
+        "start": 80.1,
+        "end": 84.0,
+        "duration": 3.9,
+        "text": "Es contenta con tu risa"
+      },
+      {
+        "start": 84.0,
+        "end": 88.0,
+        "duration": 4.0,
+        "text": "Mucha rara es hora"
+      },
+      {
+        "start": 88.0,
+        "end": 90.0,
+        "duration": 2.0,
+        "text": "Ya lo sab\u00eda"
+      },
+      {
+        "start": 90.0,
+        "end": 92.8,
+        "duration": 2.8,
+        "text": "Yo soy el mar pasando"
+      },
+      {
+        "start": 92.8,
+        "end": 97.3,
+        "duration": 4.5,
+        "text": "Y en mi pejor no entr\u00f3 en querer"
+      },
+      {
+        "start": 97.3,
+        "end": 101.8,
+        "duration": 4.5,
+        "text": "Y en mi vida a tuve moja un chacilla"
+      },
+      {
+        "start": 101.8,
+        "end": 105.6,
+        "duration": 3.8,
+        "text": "Pero nunca una mujer"
+      },
+      {
+        "start": 105.6,
+        "end": 111.1,
+        "duration": 5.6,
+        "text": "Cuando tengo tu palma remate"
+      },
+      {
+        "start": 111.1,
+        "end": 115.0,
+        "duration": 3.8,
+        "text": "Le mi pejor comienza sur ti"
+      },
+      {
+        "start": 115.3,
+        "end": 121.6,
+        "duration": 6.4,
+        "text": "El recuerdo de ella que me quiso de verdad"
+      },
+      {
+        "start": 121.6,
+        "end": 124.3,
+        "duration": 2.6,
+        "text": "Y juingara tu abandoner"
+      },
+      {
+        "start": 124.9,
+        "end": 128.4,
+        "duration": 3.5,
+        "text": "De su amor me parezca impidar"
+      },
+      {
+        "start": 128.4,
+        "end": 133.0,
+        "duration": 4.6,
+        "text": "Que pudiera sentirlo despu\u00e9s"
+      },
+      {
+        "start": 133.0,
+        "end": 137.0,
+        "duration": 4.0,
+        "text": "Sin pensar que los a\u00f1os al correr"
+      },
+      {
+        "start": 137.0,
+        "end": 142.3,
+        "duration": 5.3,
+        "text": "Y van crones amargar a este rey del cabar\u00e9"
+      },
+      {
+        "start": 160.0,
+        "end": 161.0,
+        "duration": 1.1,
+        "text": "Y no hay que ser un marco"
+      },
+      {
+        "start": 161.0,
+        "end": 162.5,
+        "duration": 1.5,
+        "text": "Ya lo sab\u00eda"
+      },
+      {
+        "start": 162.5,
+        "end": 164.2,
+        "duration": 1.7,
+        "text": "Y van a pasar"
+      },
+      {
+        "start": 165.3,
+        "end": 169.0,
+        "duration": 3.8,
+        "text": "Y en mi pejor no entr\u00f3 en querer"
+      },
+      {
+        "start": 169.0,
+        "end": 172.9,
+        "duration": 3.9,
+        "text": "Y en mi vida a tuve moja un chacilla"
+      },
+      {
+        "start": 172.9,
+        "end": 176.9,
+        "duration": 4.0,
+        "text": "Pero nunca una mujer"
+      }
+    ],
+    "totalVocalTime": 86.1,
+    "totalDuration": 176.9,
+    "vocalPercentage": 48.6,
+    "segmentCount": 23,
+    "title": "Patotero Sentimental    xxxx",
+    "artist": "Carlos Di Sarli-Mario Pomar"
+  },
+  {
+    "songID": "4971284d-082c-5805-b4db-2d5425bf839b",
+    "hasSinger": true,
+    "vocalSegments": [
+      {
+        "start": 73.5,
+        "end": 77.1,
+        "duration": 3.6,
+        "text": "Tampoco, que se va al viento,"
+      },
+      {
+        "start": 77.8,
+        "end": 80.6,
+        "duration": 2.9,
+        "text": "A ansi\u00f3n que trae el mar,"
+      },
+      {
+        "start": 81.5,
+        "end": 84.6,
+        "duration": 3.1,
+        "text": "Y al sombre de un recuerdo,"
+      },
+      {
+        "start": 85.6,
+        "end": 88.3,
+        "duration": 2.6,
+        "text": "El alma empieza mal,"
+      },
+      {
+        "start": 89.1,
+        "end": 90.0,
+        "duration": 0.8,
+        "text": "Entro a un chico,"
+      },
+      {
+        "start": 90.0,
+        "end": 92.0,
+        "duration": 2.0,
+        "text": "No lo compine,"
+      },
+      {
+        "start": 92.7,
+        "end": 95.5,
+        "duration": 2.8,
+        "text": "No vegan a ilusion,"
+      },
+      {
+        "start": 97.1,
+        "end": 100.1,
+        "duration": 3.0,
+        "text": "Pergiendo en la ruda,"
+      },
+      {
+        "start": 100.8,
+        "end": 103.2,
+        "duration": 2.4,
+        "text": "Se enquilla n\u00edtimo,"
+      },
+      {
+        "start": 103.9,
+        "end": 105.5,
+        "duration": 1.6,
+        "text": "Se me se las nave,"
+      },
+      {
+        "start": 105.9,
+        "end": 107.2,
+        "duration": 1.3,
+        "text": "Fiquitina la flose,"
+      },
+      {
+        "start": 107.8,
+        "end": 110.2,
+        "duration": 2.4,
+        "text": "Parece lo sobo del mundo,"
+      },
+      {
+        "start": 110.2,
+        "end": 113.0,
+        "duration": 2.8,
+        "text": "Vizando y hage en la campina,"
+      },
+      {
+        "start": 113.4,
+        "end": 114.9,
+        "duration": 1.4,
+        "text": "Y vez al reat\u00fceno,"
+      },
+      {
+        "start": 115.3,
+        "end": 117.7,
+        "duration": 2.4,
+        "text": "Lo canto feur\u00f3 pa' de girar,"
+      },
+      {
+        "start": 117.7,
+        "end": 122.7,
+        "duration": 5.0,
+        "text": "Se escucha la dulce canci\u00f3n de sorrenzo,"
+      },
+      {
+        "start": 122.9,
+        "end": 125.7,
+        "duration": 2.8,
+        "text": "El lanyo asento de un loco marino,"
+      },
+      {
+        "start": 126.9,
+        "end": 128.5,
+        "duration": 1.6,
+        "text": "Y pasa si el vanto,"
+      },
+      {
+        "start": 128.8,
+        "end": 130.2,
+        "duration": 1.4,
+        "text": "Como una armon\u00eda,"
+      },
+      {
+        "start": 130.7,
+        "end": 132.3,
+        "duration": 1.6,
+        "text": "El viento en la plena,"
+      },
+      {
+        "start": 132.6,
+        "end": 134.0,
+        "duration": 1.4,
+        "text": "O a un viejo barreco."
+      }
+    ],
+    "totalVocalTime": 49.0,
+    "totalDuration": 134.0,
+    "vocalPercentage": 36.6,
+    "segmentCount": 21,
+    "title": "Riachuelo",
+    "artist": "Edgardo Donato - Antonio Maida"
+  },
+  {
+    "songID": "0ce658ce-465c-5951-af35-3d0335e5a4e1",
+    "hasSinger": true,
+    "vocalSegments": [
+      {
+        "start": 90.2,
+        "end": 105.6,
+        "duration": 15.4,
+        "text": "No orla a casa el ser rapido, un ambiente de belot"
+      },
+      {
+        "start": 105.6,
+        "end": 119.7,
+        "duration": 14.1,
+        "text": "Por que alguna se lo sabe que si le faz el caz\u00f3nio"
+      }
+    ],
+    "totalVocalTime": 29.5,
+    "totalDuration": 119.7,
+    "vocalPercentage": 24.7,
+    "segmentCount": 2,
+    "title": "Esto Es El Colmo",
+    "artist": "Edgardo Donato - Antonio Maida"
+  },
+  {
+    "songID": "88888983-b532-5562-9be3-b66da724c831",
+    "hasSinger": true,
+    "vocalSegments": [
+      {
+        "start": 60.0,
+        "end": 65.5,
+        "duration": 5.5,
+        "text": "y saltar sobre el mancer gritando una canci\u00f3n"
+      },
+      {
+        "start": 66.6,
+        "end": 72.7,
+        "duration": 6.1,
+        "text": "y obst\u00e1neclo \u00e9l, en cuembre a \u00e9l, ya se encontr\u00f3 e"
+      },
+      {
+        "start": 72.7,
+        "end": 77.9,
+        "duration": 5.2,
+        "text": "su puerta de risal cabar\u00e9 tu desnud\u00e9, me escaya el"
+      },
+      {
+        "start": 79.0,
+        "end": 86.4,
+        "duration": 7.4,
+        "text": "pisotiendo al zapatear entre los vidrios piros\u00edos"
+      },
+      {
+        "start": 86.4,
+        "end": 93.3,
+        "duration": 7.0,
+        "text": "reto no ser el ser, o el lo que ser"
+      },
+      {
+        "start": 95.1,
+        "end": 101.4,
+        "duration": 6.2,
+        "text": "caricatura de la novia que adorem"
+      },
+      {
+        "start": 102.1,
+        "end": 108.8,
+        "duration": 6.7,
+        "text": "cuando me viste me ech\u00e9 a temrar"
+      },
+      {
+        "start": 108.8,
+        "end": 110.4,
+        "duration": 1.6,
+        "text": "q"
+      }
+    ],
+    "totalVocalTime": 45.6,
+    "totalDuration": 110.4,
+    "vocalPercentage": 41.3,
+    "segmentCount": 8,
+    "title": "Quien Mas... Quien Menos",
+    "artist": "Edgardo Donato - Antonio Maida"
+  },
+  {
+    "songID": "8f67b25a-011f-554a-b70d-7cefa2213cc1",
+    "hasSinger": false,
+    "vocalSegments": [
+      {
+        "start": 97.5,
+        "end": 103.0,
+        "duration": 5.6,
+        "text": "Con esta corra las viejos, con una vegaranda baros"
+      },
+      {
+        "start": 104.1,
+        "end": 108.7,
+        "duration": 4.6,
+        "text": "rincon del cielo f\u00edjone, el refugio de mi ni\u00f1o."
+      },
+      {
+        "start": 110.2,
+        "end": 115.0,
+        "duration": 4.9,
+        "text": "La Mil\u00f3n caunbar est\u00e1 perigo, la canta de las tapa"
+      },
+      {
+        "start": 115.0,
+        "end": 121.0,
+        "duration": 6.0,
+        "text": "y la lable mutataba, la llana bendaisare."
+      },
+      {
+        "start": 172.0,
+        "end": 174.8,
+        "duration": 2.8,
+        "text": "La Mil\u00f3n caunbar est\u00e1 perigo, la llana bendaisare."
+      }
+    ],
+    "totalVocalTime": 23.8,
+    "totalDuration": 174.8,
+    "vocalPercentage": 13.6,
+    "segmentCount": 5,
+    "title": "Corrales viejos",
+    "artist": "Edgardo Donato - Antonio Maida"
+  },
+  {
+    "songID": "bfc77548-cd50-58a6-8a6e-87a82c876aff",
+    "hasSinger": true,
+    "vocalSegments": [
+      {
+        "start": 6.9,
+        "end": 8.5,
+        "duration": 1.6,
+        "text": "\ud83d\udcce Pen \ubcf4\ufffdle esta introducion de Quimpon Portunized"
+      },
+      {
+        "start": 11.5,
+        "end": 12.9,
+        "duration": 1.4,
+        "text": "\ud83d\udcce"
+      },
+      {
+        "start": 22.8,
+        "end": 24.2,
+        "duration": 1.4,
+        "text": "\ud83d\udcce"
+      },
+      {
+        "start": 24.2,
+        "end": 24.3,
+        "duration": 0.1,
+        "text": "\ud83d\udcce"
+      },
+      {
+        "start": 24.3,
+        "end": 24.3,
+        "duration": 0.1,
+        "text": "\ud83d\udcce"
+      },
+      {
+        "start": 24.3,
+        "end": 26.3,
+        "duration": 2.0,
+        "text": "\ud83d\udcce"
+      }
+    ],
+    "totalVocalTime": 6.6,
+    "totalDuration": 26.3,
+    "vocalPercentage": 25.2,
+    "segmentCount": 6,
+    "title": "El Resero",
+    "artist": "Di Sarli, Carlos"
+  },
+  {
+    "songID": "470abe4e-827f-512e-bd7f-451501ed6971",
+    "hasSinger": true,
+    "vocalSegments": [
+      {
+        "start": 74.3,
+        "end": 80.5,
+        "duration": 6.2,
+        "text": "Mi amor New York"
+      },
+      {
+        "start": 80.5,
+        "end": 85.0,
+        "duration": 4.5,
+        "text": "Amor, amor"
+      },
+      {
+        "start": 86.0,
+        "end": 86.8,
+        "duration": 0.7,
+        "text": "DeonteAI"
+      },
+      {
+        "start": 116.8,
+        "end": 122.5,
+        "duration": 5.8,
+        "text": "A esta herena, el selva me apreci\u00f3 la flor"
+      },
+      {
+        "start": 122.5,
+        "end": 130.6,
+        "duration": 8.1,
+        "text": "El piendo sus rumores, ve que la vida es la buena "
+      },
+      {
+        "start": 130.6,
+        "end": 139.8,
+        "duration": 9.1,
+        "text": "La nube me presto su encaje, la tarde su poema en "
+      },
+      {
+        "start": 139.8,
+        "end": 145.5,
+        "duration": 5.7,
+        "text": "Y el mal es su mejor przingosa que \ub0b4 coraz\u00f3n"
+      },
+      {
+        "start": 146.4,
+        "end": 148.8,
+        "duration": 2.4,
+        "text": "fricebarme a ti"
+      },
+      {
+        "start": 164.9,
+        "end": 177.3,
+        "duration": 12.4,
+        "text": "La dupe me presto su encase, la tarea de su poema "
+      },
+      {
+        "start": 179.3,
+        "end": 180.7,
+        "duration": 1.4,
+        "text": "nempanage***"
+      },
+      {
+        "start": 180.7,
+        "end": 183.3,
+        "duration": 2.6,
+        "text": "navio"
+      }
+    ],
+    "totalVocalTime": 58.9,
+    "totalDuration": 183.3,
+    "vocalPercentage": 32.1,
+    "segmentCount": 11,
+    "title": "De Vuelta",
+    "artist": "Carlos Di Sarli - Oscar Serpa"
+  },
+  {
+    "songID": "5bd7e1f0-467c-5d07-b03d-76a12f840a9e",
+    "hasSinger": false,
+    "vocalSegments": [],
+    "totalVocalTime": 0.0,
+    "totalDuration": 180.0,
+    "vocalPercentage": 0.0,
+    "segmentCount": 0,
+    "title": "Quejas de bandoneon",
+    "artist": "Carlos Di Sarli - Instrumental"
+  }
+]
