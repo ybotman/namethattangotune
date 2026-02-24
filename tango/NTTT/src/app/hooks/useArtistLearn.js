@@ -50,14 +50,11 @@ export default function useArtistLearn() {
         return "At least one style must be selected.";
       }
 
-      const hasLevels = (c.levels || []).length > 0;
+      const hasRecognitionTiers = (c.recognitionTiers || []).length > 0;
       const hasArtists = (c.artists || []).length > 0;
 
-      if (!hasLevels && !hasArtists) {
-        return "You must select at least one Artist or one Level.";
-      }
-      if (hasLevels && hasArtists) {
-        return "Cannot select both Artists and Levels. Clear one of them.";
+      if (!hasRecognitionTiers && !hasArtists) {
+        return "You must select at least one Recognition Tier or Artist.";
       }
 
       return "";
@@ -137,14 +134,14 @@ export default function useArtistLearn() {
     updateConfig("timeLimit", value);
   };
 
+  // Legacy levels handler (deprecated - use recognition tiers)
   const handleLevelsChange = (newLevels) => {
-    if (selectedArtists.length > 0 && newLevels.length > 0) {
-      setValidationMessage(
-        "Levels not available when artists are selected. Clear artists first.",
-      );
-      return;
-    }
     updateConfig("levels", newLevels);
+  };
+
+  // New recognition tiers handler
+  const handleRecognitionTiersChange = (newTiers) => {
+    updateConfig("recognitionTiers", newTiers);
   };
 
   const handleStylesChange = (updatedStylesObj) => {
@@ -189,6 +186,7 @@ export default function useArtistLearn() {
     handleNumSongsChange,
     handleTimeLimitChange,
     handleLevelsChange,
+    handleRecognitionTiersChange,
     handleStylesChange,
     handleArtistsChange,
   };

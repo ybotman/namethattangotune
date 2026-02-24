@@ -6,7 +6,7 @@ import styles from "../styles.module.css";
 
 import SongsSlider from "@/components/ui/SongsSlider";
 import SecondsSlider from "@/components/ui/SecondsSlider";
-import LevelsSelector from "@/components/ui/LevelsSelector";
+import RecognitionSelector from "@/components/ui/RecognitionSelector";
 import StylesSelector from "@/components/ui/StylesSelector";
 import ArtistsSelector from "@/components/ui/ArtistsSelector";
 import YearRangeSelector from "@/components/ui/YearRangeSelector";
@@ -21,7 +21,7 @@ export default function ConfigTab() {
     validationMessage,
     handleNumSongsChange,
     handleTimeLimitChange,
-    handleLevelsChange,
+    handleRecognitionTiersChange,
     handleStylesChange,
     handleArtistsChange,
   } = useArtistLearn();
@@ -79,14 +79,13 @@ export default function ConfigTab() {
 
       {/* Main Grid */}
       <Box sx={{ display: "flex", gap: 4, mb: 3 }}>
-        {/* First Column: Levels, Artists, Singer Toggle */}
+        {/* First Column: Recognition Tier, Artists, Singer Toggle */}
         <Box sx={{ flex: 1 }}>
-          {/* 1. Levels */}
-          <LevelsSelector
-            label="Levels:"
-            availableLevels={[1, 2, 3, 4, 5]}
-            selectedLevels={config.levels || []}
-            onChange={handleLevelsChange}
+          {/* 1. Recognition Tier */}
+          <RecognitionSelector
+            label="Recognition Tier:"
+            selectedTiers={config.recognitionTiers || [1, 2, 3]}
+            onChange={handleRecognitionTiersChange}
           />
 
           {/* 2. Artists */}

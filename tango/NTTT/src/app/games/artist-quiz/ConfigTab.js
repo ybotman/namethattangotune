@@ -6,7 +6,7 @@ import styles from "../styles.module.css";
 
 import SongsSlider from "@/components/ui/SongsSlider";
 import SecondsSlider from "@/components/ui/SecondsSlider";
-import LevelsSelector from "@/components/ui/LevelsSelector";
+import RecognitionSelector from "@/components/ui/RecognitionSelector";
 import StylesSelector from "@/components/ui/StylesSelector";
 import ArtistsSelector from "@/components/ui/ArtistsSelector";
 import PeriodsSelector from "@/components/ui/PeriodsSelector";
@@ -82,13 +82,12 @@ export default function ConfigTab() {
 
       {/* Main Grid */}
       <Box sx={{ display: "flex", gap: 4, mb: 3 }}>
-        {/* First Column: Levels & Periods */}
+        {/* First Column: Recognition Tier & Periods */}
         <Box sx={{ flex: 1 }}>
-          <LevelsSelector
-            label="Levels:"
-            availableLevels={[1, 2, 3, 4, 5]}
-            selectedLevels={config.levels || []}
-            onChange={handleLevelsChange}
+          <RecognitionSelector
+            label="Recognition Tier:"
+            selectedTiers={config.recognitionTiers || [1, 2, 3]}
+            onChange={(tiers) => handleLevelsChange(tiers)}
           />
           <PeriodsSelector
             label="Periods:"

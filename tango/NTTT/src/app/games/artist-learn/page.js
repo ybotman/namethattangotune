@@ -35,6 +35,7 @@ export default function ArtistLearnPage() {
       (key) => config.styles[key],
     );
     const artistLevels = config.levels || [];
+    const recognitionTiers = config.recognitionTiers || [1, 2, 3];
     const chosenArtists = (config.artists || []).map((a) => a.value);
 
     // Build vocal filter options based on vocalFilter toggle
@@ -64,7 +65,7 @@ export default function ArtistLearnPage() {
       "", // alternative - empty = no filter
       "", // cancion - empty = no filter
       numSongs,
-      { ...vocalOptions, yearRange: config.yearRange },
+      { ...vocalOptions, yearRange: config.yearRange, recognitionTiers },
     );
 
     if (!fetchedSongs || fetchedSongs.length === 0) {

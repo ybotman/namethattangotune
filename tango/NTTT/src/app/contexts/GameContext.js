@@ -20,7 +20,8 @@ export function GameProvider({ children }) {
   const [config, setConfig] = useState({
     numSongs: null,
     timeLimit: null,
-    levels: [],
+    levels: [],  // Legacy - orchestra-based levels
+    recognitionTiers: [1, 2, 3],  // Default: Iconic, Essential, Familiar
     styles: {},
     artists: [],
     periods: [],
@@ -92,6 +93,7 @@ export function GameProvider({ children }) {
       numSongs: null,
       timeLimit: null,
       levels: [],
+      recognitionTiers: [1, 2, 3],
       styles: {},
       artists: [],
     });

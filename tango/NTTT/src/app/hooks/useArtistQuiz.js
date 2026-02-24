@@ -148,14 +148,9 @@ export default function useArtistQuiz() {
   const handleNumSongsChange = (val) => updateConfig("numSongs", val);
   const handleTimeLimitChange = (val) => updateConfig("timeLimit", val);
 
-  const handleLevelsChange = (newLevels) => {
-    if ((config.artists || []).length > 0 && newLevels.length > 0) {
-      setValidationMessage(
-        "Levels not available when artists are selected. Clear artists first.",
-      );
-      return;
-    }
-    updateConfig("levels", newLevels);
+  // Now handles recognition tiers instead of levels
+  const handleLevelsChange = (newTiers) => {
+    updateConfig("recognitionTiers", newTiers);
   };
 
   const handleStylesChange = (updated) => {
@@ -163,10 +158,6 @@ export default function useArtistQuiz() {
   };
 
   const handleArtistsChange = (arr) => {
-    if (arr.length > 0 && (config.levels || []).length > 0) {
-      updateConfig("levels", []);
-      setValidationMessage("Clearing levels because artists are selected.");
-    }
     updateConfig("artists", arr);
   };
 

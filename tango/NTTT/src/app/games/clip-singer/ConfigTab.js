@@ -5,7 +5,7 @@ import { Box, Typography, Slider } from "@mui/material";
 import styles from "../styles.module.css";
 
 import SongsSlider from "@/components/ui/SongsSlider";
-import LevelsSelector from "@/components/ui/LevelsSelector";
+import RecognitionSelector from "@/components/ui/RecognitionSelector";
 import ArtistsSelector from "@/components/ui/ArtistsSelector";
 import SingersSelector from "@/components/ui/SingersSelector";
 import useSingerQuiz from "@/hooks/useSingerQuiz";
@@ -72,10 +72,9 @@ export default function ConfigTab() {
       {/* Orchestra and Singer filters */}
       <Box sx={{ display: "flex", gap: 4, mb: 3 }}>
         <Box sx={{ flex: 1 }}>
-          <LevelsSelector
-            label="Orchestra Levels:"
-            availableLevels={[1, 2, 3, 4, 5]}
-            selectedLevels={config.levels || []}
+          <RecognitionSelector
+            label="Recognition Tier:"
+            selectedTiers={config.recognitionTiers || [1, 2, 3]}
             onChange={handleLevelsChange}
           />
         </Box>

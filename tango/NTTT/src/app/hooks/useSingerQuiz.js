@@ -107,14 +107,14 @@ export default function useSingerQuiz() {
       }
     };
 
-    // Set default levels if not set
-    if (!config.levels || config.levels.length === 0) {
-      updateConfig("levels", [1]);
+    // Set default recognition tiers if not set
+    if (!config.recognitionTiers || config.recognitionTiers.length === 0) {
+      updateConfig("recognitionTiers", [1, 2, 3]);
     }
 
     fetchArtists();
     fetchSingers();
-  }, [config.levels, updateConfig]);
+  }, [config.recognitionTiers, updateConfig]);
 
   // Re-validate on config change
   useEffect(() => {
@@ -126,21 +126,12 @@ export default function useSingerQuiz() {
   const handleNumSongsChange = (val) => updateConfig("numSongs", val);
   const handleTimeLimitChange = (val) => updateConfig("timeLimit", val);
 
-  const handleLevelsChange = (newLevels) => {
-    if ((config.artists || []).length > 0 && newLevels.length > 0) {
-      setValidationMessage(
-        "Levels not available when orchestras are selected. Clear orchestras first.",
-      );
-      return;
-    }
-    updateConfig("levels", newLevels);
+  // Now handles recognition tiers instead of levels
+  const handleLevelsChange = (newTiers) => {
+    updateConfig("recognitionTiers", newTiers);
   };
 
   const handleArtistsChange = (arr) => {
-    if (arr.length > 0 && (config.levels || []).length > 0) {
-      updateConfig("levels", []);
-      setValidationMessage("Clearing levels because orchestras are selected.");
-    }
     updateConfig("artists", arr);
   };
 

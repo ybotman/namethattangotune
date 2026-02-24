@@ -28,6 +28,7 @@ export default function ArtistQuizPage() {
       (key) => config.styles[key],
     );
     const artistLevels = config.levels || [];
+    const recognitionTiers = config.recognitionTiers || [1, 2, 3];
     const chosenArtists = (config.artists || []).map((a) => a.value);
 
     const includeSinger = config.includeSinger ?? false;
@@ -41,7 +42,7 @@ export default function ArtistQuizPage() {
       "", // alternative - empty = no filter
       "", // cancion - empty = no filter
       numSongs,
-      { includeSinger },
+      { includeSinger, recognitionTiers },
     );
 
     if (!fetchedSongs || fetchedSongs.length === 0) {

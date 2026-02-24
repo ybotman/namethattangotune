@@ -185,27 +185,20 @@ export default function useSingerLearn() {
     updateConfig("timeLimit", value);
   };
 
-  const handleLevelsChange = (newLevels) => {
-    // If singers are selected and we're adding levels, clear singers
-    if (selectedSingers.length > 0 && newLevels.length > 0) {
-      setSelectedSingers([]);
-      updateConfig("singers", []);
-    }
-    updateConfig("levels", newLevels);
+  // Now handles recognition tiers instead of levels
+  const handleLevelsChange = (newTiers) => {
+    updateConfig("recognitionTiers", newTiers);
   };
+
+  // Alias for recognition tiers
+  const handleRecognitionTiersChange = handleLevelsChange;
 
   const handleStylesChange = (updatedStylesObj) => {
     updateConfig("styles", updatedStylesObj);
   };
 
   const handleSingersChange = (newSelected) => {
-    // newSelected is now an array of {label, value} objects
-    // If levels are selected and we're adding singers, clear levels
-    if (newSelected.length > 0 && (config.levels || []).length > 0) {
-      updateConfig("levels", []);
-    }
     setSelectedSingers(newSelected);
-    // Store the full objects in config for the selector
     updateConfig("singers", newSelected);
   };
 
@@ -238,6 +231,7 @@ export default function useSingerLearn() {
     handleNumSongsChange,
     handleTimeLimitChange,
     handleLevelsChange,
+    handleRecognitionTiersChange,
     handleStylesChange,
     handleSingersChange,
     handleArtistsChange,

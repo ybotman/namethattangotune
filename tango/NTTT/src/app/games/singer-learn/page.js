@@ -34,6 +34,7 @@ export default function SingerLearnPage() {
       (key) => config.styles[key],
     );
     const artistLevels = config.levels || [];
+    const recognitionTiers = config.recognitionTiers || [1, 2, 3];
     const chosenArtists = (config.artists || []).map((a) => a.value);
     // Extract singer values from objects
     const chosenSingers = (config.singers || []).map((s) =>
@@ -55,6 +56,7 @@ export default function SingerLearnPage() {
         singers: chosenSingers,
         yearRange: config.yearRange,
         duetFilter: config.duetFilter || "solo",
+        recognitionTiers,
       },
     );
 

@@ -24,6 +24,7 @@ export default function ClipSingerPage() {
 
     const numSongs = config.numSongs ?? 10;
     const artistLevels = config.levels || [];
+    const recognitionTiers = config.recognitionTiers || [1, 2, 3];
     const chosenArtists = (config.artists || []).map((a) => a.value);
     const chosenSingers = config.singers || [];
 
@@ -36,7 +37,7 @@ export default function ClipSingerPage() {
       "",
       "",
       numSongs,
-      { requireSinger: true, singers: chosenSingers },
+      { requireSinger: true, singers: chosenSingers, recognitionTiers },
     );
 
     if (!fetchedSongs || fetchedSongs.length === 0) {
