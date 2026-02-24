@@ -16,7 +16,8 @@ import {
   Tabs,
   Tab,
 } from "@mui/material";
-import { db, doc, setDoc } from "@/utils/firebase";
+import { db } from "@/utils/firebase";
+import { doc, setDoc } from "firebase/firestore";
 
 // Default global config
 // global: {expertiseLevel: 3}
