@@ -170,28 +170,48 @@ export default function PlayTab({ songs, config, onCancel }) {
       // For singer mode: start at a vocal segment if available
       let startVal = 0;
       const vocalSegments = currentSong.vocalSegments || [];
+      const MAX_PAUSE_GAP = 4; // Ignore pauses < 4 seconds
+
 
       if (vocalSegments.length > 0) {
-        // Find segments long enough for play duration
-        const validSegments = vocalSegments.filter(
-          (seg) => seg.duration >= PLAY_DURATION
+        // Merge adjacent segments with gaps < MAX_PAUSE_GAP into "singing regions"
+        const sortedSegs = [...vocalSegments].sort((a, b) => a.start - b.start);
+        const mergedRegions = [];
+        let currentRegion = { start: sortedSegs[0].start, end: sortedSegs[0].end };
+
+        for (let i = 1; i < sortedSegs.length; i++) {
+          const gap = sortedSegs[i].start - currentRegion.end;
+          if (gap <= MAX_PAUSE_GAP) {
+            // Merge: extend current region
+            currentRegion.end = Math.max(currentRegion.end, sortedSegs[i].end);
+          } else {
+            // Gap too big: save current region, start new one
+            mergedRegions.push({ ...currentRegion, duration: currentRegion.end - currentRegion.start });
+            currentRegion = { start: sortedSegs[i].start, end: sortedSegs[i].end };
+          }
+        }
+        // Don't forget last region
+        mergedRegions.push({ ...currentRegion, duration: currentRegion.end - currentRegion.start });
+
+
+        // Find regions long enough for play duration
+        const validRegions = mergedRegions.filter(
+          (reg) => reg.duration >= PLAY_DURATION
         );
 
-        if (validSegments.length > 0) {
-          // Pick a random valid segment
-          const segment = validSegments[Math.floor(Math.random() * validSegments.length)];
-          // Random start within the segment (ensuring clip fits)
-          const maxStart = segment.end - PLAY_DURATION;
-          startVal = segment.start + Math.random() * (maxStart - segment.start);
+        if (validRegions.length > 0) {
+          // Pick a random valid region
+          const region = validRegions[Math.floor(Math.random() * validRegions.length)];
+          // Random start within the region (ensuring clip fits)
+          const maxStart = region.end - PLAY_DURATION;
+          startVal = region.start + Math.random() * (maxStart - region.start);
           startVal = Math.max(0, startVal);
-          console.log("Playing vocal segment:", segment, "from:", startVal);
         } else {
-          // No segment long enough - use longest segment, start at beginning
-          const longestSeg = vocalSegments.reduce((a, b) =>
+          // No region long enough - use longest region, start at beginning
+          const longestRegion = mergedRegions.reduce((a, b) =>
             a.duration > b.duration ? a : b
           );
-          startVal = Math.max(0, longestSeg.start);
-          console.log("Playing longest vocal segment:", longestSeg);
+          startVal = Math.max(0, longestRegion.start);
         }
       } else {
         // Fallback: random start in first 75%

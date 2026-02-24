@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Box } from "@mui/material";
+import { Box, ToggleButton, ToggleButtonGroup, Typography, Switch, FormControlLabel } from "@mui/material";
 import styles from "../styles.module.css";
 
 import SongsSlider from "@/components/ui/SongsSlider";
 import SecondsSlider from "@/components/ui/SecondsSlider";
-import LevelsSelector from "@/components/ui/LevelsSelector";
 import StylesSelector from "@/components/ui/StylesSelector";
 import SingersSelector from "@/components/ui/SingersSelector";
+import YearRangeSelector from "@/components/ui/YearRangeSelector";
 import useSingerLearn from "@/hooks/useSingerLearn";
 import { useGameContext } from "@/contexts/GameContext";
 
@@ -20,16 +20,31 @@ export default function ConfigTab() {
     validationMessage,
     handleNumSongsChange,
     handleTimeLimitChange,
-    handleLevelsChange,
     handleStylesChange,
     handleSingersChange,
   } = useSingerLearn();
 
   // Access final config from GameContext
-  const { config } = useGameContext();
+  const { config, updateConfig } = useGameContext();
 
   // Local state to track whether the config is valid
   const [isConfigValid, setIsConfigValid] = useState(true);
+
+  // All styles toggle
+  const allStylesSelected = primaryStyles.length > 0 &&
+    primaryStyles.every((s) => config.styles?.[s.style] === true);
+
+  const handleAllStylesToggle = (checked) => {
+    if (checked) {
+      // Select all styles
+      const allStyles = {};
+      primaryStyles.forEach((s) => { allStyles[s.style] = true; });
+      handleStylesChange(allStyles);
+    } else {
+      // Deselect all, default to Tango
+      handleStylesChange({ Tango: true });
+    }
+  };
 
   useEffect(() => {
     // If validationMessage is non-empty => invalid
@@ -64,33 +79,84 @@ export default function ConfigTab() {
 
       {/* Main Grid */}
       <Box sx={{ display: "flex", gap: 4, mb: 3 }}>
-        {/* First Column: Levels */}
+        {/* First Column: Singer Type, Singers, Year Range */}
         <Box sx={{ flex: 1 }}>
-          <LevelsSelector
-            label="Levels:"
-            availableLevels={[1, 2, 3, 4, 5]}
-            selectedLevels={config.levels || []}
-            onChange={handleLevelsChange}
-          />
-          <StylesSelector
-            label="Styles:"
-            availableStyles={primaryStyles}
-            selectedStyles={config.styles || {}}
-            onChange={handleStylesChange}
-          />
-        </Box>
-        {/* Second Column: Singers */}
-        <Box sx={{ flex: 1 }}>
+          {/* Singer Type Toggle */}
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="body2" sx={{ mb: 0.5, color: "var(--foreground)" }}>
+              Singer Type:
+            </Typography>
+            <ToggleButtonGroup
+              value={config.duetFilter || "solo"}
+              exclusive
+              onChange={(e, val) => val && updateConfig("duetFilter", val)}
+              size="small"
+              sx={{
+                "& .MuiToggleButton-root": {
+                  color: "var(--foreground)",
+                  borderColor: "var(--accent)",
+                  "&.Mui-selected": {
+                    backgroundColor: "var(--accent)",
+                    color: "white",
+                  },
+                },
+              }}
+            >
+              <ToggleButton value="solo">Solo</ToggleButton>
+              <ToggleButton value="duetsOnly">Duets+</ToggleButton>
+              <ToggleButton value="all">Both</ToggleButton>
+            </ToggleButtonGroup>
+          </Box>
+
+          {/* Singers Selector */}
           <SingersSelector
             label="Select Singers:"
             availableSingers={singerOptions}
             selectedSingers={
-              // Ensure we pass objects to the Autocomplete
               (config.singers || []).map((s) =>
                 typeof s === "string" ? { label: s, value: s } : s
               )
             }
             onChange={handleSingersChange}
+          />
+
+          {/* Year Range */}
+          <Box sx={{ mt: 2 }}>
+            <YearRangeSelector
+              label="Year Range:"
+              value={config.yearRange}
+              onChange={(val) => updateConfig("yearRange", val)}
+            />
+          </Box>
+        </Box>
+
+        {/* Second Column: Styles */}
+        <Box sx={{ flex: 1 }}>
+          {/* All Styles Toggle */}
+          <FormControlLabel
+            control={
+              <Switch
+                checked={allStylesSelected}
+                onChange={(e) => handleAllStylesToggle(e.target.checked)}
+                sx={{
+                  "& .MuiSwitch-switchBase.Mui-checked": {
+                    color: "var(--accent)",
+                  },
+                  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+                    backgroundColor: "var(--accent)",
+                  },
+                }}
+              />
+            }
+            label="All Styles"
+            sx={{ color: "var(--foreground)", mb: 1 }}
+          />
+
+          <StylesSelector
+            label="Styles:"
+            availableStyles={primaryStyles}
+            selectedStyles={config.styles || {}}
+            onChange={handleStylesChange}
           />
         </Box>
       </Box>

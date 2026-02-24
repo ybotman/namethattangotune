@@ -46,21 +46,28 @@ export default function useWaveSurfer({ onSongEnd }) {
 
   // 2) Cleanup
   const cleanupWaveSurfer = useCallback(() => {
-    console.log("WaveSurfer cleanup attempt");
     if (fadeIntervalRef.current) {
       clearInterval(fadeIntervalRef.current);
       fadeIntervalRef.current = null;
     }
     if (waveSurferRef.current) {
+      const ws = waveSurferRef.current;
+      waveSurferRef.current = null; // Clear ref first to prevent re-entry
+
       try {
+        // Remove all event listeners to prevent callbacks during/after destroy
+        ws.unAll();
         // Stop playback before destroying
-        waveSurferRef.current.pause();
-        waveSurferRef.current.stop();
-        waveSurferRef.current.destroy();
+        ws.pause();
+        ws.stop();
+        // Destroy may throw AbortError if fetch is in-flight - that's OK
+        ws.destroy();
       } catch (err) {
-        console.warn("WaveSurfer cleanup error (ignored):", err);
+        // Ignore AbortError and other cleanup errors
+        if (err?.name !== "AbortError") {
+          console.warn("WaveSurfer cleanup error (ignored):", err);
+        }
       }
-      waveSurferRef.current = null;
     }
     // Clear error callback
     onErrorRef.current = null;
