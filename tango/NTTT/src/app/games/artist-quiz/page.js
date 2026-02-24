@@ -42,7 +42,7 @@ export default function ArtistQuizPage() {
       "", // alternative - empty = no filter
       "", // cancion - empty = no filter
       numSongs,
-      { includeSinger, recognitionTiers },
+      { includeSinger, recognitionTiers, requireOrchestra: true },
     );
 
     if (!fetchedSongs || fetchedSongs.length === 0) {

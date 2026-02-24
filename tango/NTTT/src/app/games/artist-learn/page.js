@@ -65,7 +65,7 @@ export default function ArtistLearnPage() {
       "", // alternative - empty = no filter
       "", // cancion - empty = no filter
       numSongs,
-      { ...vocalOptions, yearRange: config.yearRange, recognitionTiers },
+      { ...vocalOptions, yearRange: config.yearRange, recognitionTiers, requireOrchestra: true },
     );
 
     if (!fetchedSongs || fetchedSongs.length === 0) {

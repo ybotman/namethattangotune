@@ -15,7 +15,13 @@ import {
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
+import ShuffleIcon from "@mui/icons-material/Shuffle";
 import InfoIcon from "@mui/icons-material/Info";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import CloseIcon from "@mui/icons-material/Close";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
 import styles from "../styles.module.css";
 
 const TIER_CONFIG = {
@@ -25,6 +31,20 @@ const TIER_CONFIG = {
   4: { name: "Challenging", vibe: "Tests your ears", color: "#4A90D9" },   // Blue
   5: { name: "Deep Cuts", vibe: "DJ-level knowledge", color: "#808080" },  // Gray
 };
+
+// Play range definitions (moved outside component to avoid re-creation)
+const PLAY_RANGES = [
+  { label: "0", min: 0, max: 0 },
+  { label: "1-3", min: 1, max: 3 },
+  { label: "4-6", min: 4, max: 6 },
+  { label: "7-9", min: 7, max: 9 },
+  { label: "10-12", min: 10, max: 12 },
+  { label: "13-15", min: 13, max: 15 },
+  { label: "16-18", min: 16, max: 18 },
+  { label: "19-21", min: 19, max: 21 },
+  { label: "22-24", min: 22, max: 24 },
+  { label: "25+", min: 25, max: 100 },
+];
 
 export default function RecognitionValidatorPage() {
   const [allSongs, setAllSongs] = useState([]);
@@ -41,22 +61,17 @@ export default function RecognitionValidatorPage() {
   const [sortBy, setSortBy] = useState("recognitionScore");
   const [loadError, setLoadError] = useState(null);
 
-  // Play range definitions (groups of ~3)
-  const PLAY_RANGES = [
-    { label: "0", min: 0, max: 0 },
-    { label: "1-3", min: 1, max: 3 },
-    { label: "4-6", min: 4, max: 6 },
-    { label: "7-9", min: 7, max: 9 },
-    { label: "10-12", min: 10, max: 12 },
-    { label: "13-15", min: 13, max: 15 },
-    { label: "16-18", min: 16, max: 18 },
-    { label: "19-21", min: 19, max: 21 },
-    { label: "22-24", min: 22, max: 24 },
-    { label: "25+", min: 25, max: 100 },
-  ];
+  // Song info/similar dialogs
+  const [infoDialogSong, setInfoDialogSong] = useState(null);
+  const [similarSongs, setSimilarSongs] = useState([]);
 
   // Use simple HTML5 Audio instead of WaveSurfer to avoid CORS fetch issues
   const audioRef = useRef(null);
+  const stopTimerRef = useRef(null);
+
+  // Clip playback settings
+  const CLIP_DURATION = 20; // seconds
+  const MAX_START_TIME = 90; // seconds (random start between 0-90s)
 
   // Load songs on mount
   useEffect(() => {
@@ -117,7 +132,7 @@ export default function RecognitionValidatorPage() {
 
     setFilteredSongs(filtered);
     setCurrentIndex(0);
-  }, [allSongs, filterMode, selectedRatings, selectedPlayRanges, selectedTiers, sortBy, PLAY_RANGES]);
+  }, [allSongs, filterMode, selectedRatings, selectedPlayRanges, selectedTiers, sortBy]);
 
   // Initialize audio element
   useEffect(() => {
@@ -129,6 +144,7 @@ export default function RecognitionValidatorPage() {
       setIsPlaying(false);
     });
     return () => {
+      if (stopTimerRef.current) clearTimeout(stopTimerRef.current);
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current.src = "";
@@ -141,12 +157,36 @@ export default function RecognitionValidatorPage() {
   const playSong = useCallback((song) => {
     if (!audioRef.current) return;
     setLoadError(null);
+
+    // Clear any existing stop timer
+    if (stopTimerRef.current) clearTimeout(stopTimerRef.current);
+
     audioRef.current.pause();
     // Use the audio proxy API to avoid CORS issues
     const audioUrl = `/api/audio/${song.SongID}`;
     audioRef.current.src = audioUrl;
+
+    // Random start position between 0 and MAX_START_TIME
+    const randomStart = Math.floor(Math.random() * MAX_START_TIME);
+
+    // Wait for audio to load, then seek and play
+    audioRef.current.onloadedmetadata = () => {
+      // Make sure we don't seek past the end
+      const maxSeek = Math.max(0, audioRef.current.duration - CLIP_DURATION - 5);
+      audioRef.current.currentTime = Math.min(randomStart, maxSeek);
+    };
+
     audioRef.current.play()
-      .then(() => setIsPlaying(true))
+      .then(() => {
+        setIsPlaying(true);
+        // Auto-stop after CLIP_DURATION seconds
+        stopTimerRef.current = setTimeout(() => {
+          if (audioRef.current) {
+            audioRef.current.pause();
+            setIsPlaying(false);
+          }
+        }, CLIP_DURATION * 1000);
+      })
       .catch((err) => {
         console.error("Play error:", err);
         setLoadError("Failed to play audio");
@@ -174,23 +214,84 @@ export default function RecognitionValidatorPage() {
     }
   };
 
-  const playNext = () => {
+  const playNext = useCallback(() => {
+    if (stopTimerRef.current) clearTimeout(stopTimerRef.current);
     if (currentIndex + 1 < filteredSongs.length) {
       const nextIdx = currentIndex + 1;
       setCurrentIndex(nextIdx);
       playSong(filteredSongs[nextIdx]);
     }
-  };
+  }, [currentIndex, filteredSongs, playSong]);
 
   const playAtIndex = (idx) => {
     setCurrentIndex(idx);
     playSong(filteredSongs[idx]);
   };
 
+  // Single-select tier toggle
   const toggleTier = (tier) => {
-    setSelectedTiers((prev) =>
-      prev.includes(tier) ? prev.filter((t) => t !== tier) : [...prev, tier]
-    );
+    setSelectedTiers([tier]);
+  };
+
+  // Shuffle the current filtered songs
+  const shuffleSongs = () => {
+    setFilteredSongs((prev) => {
+      const shuffled = [...prev];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    });
+    setCurrentIndex(0);
+  };
+
+  // Find similar songs (same title + same artist, different versions)
+  const findSimilarSongs = (song) => {
+    if (!song) return;
+
+    // Normalize for matching
+    const normalizeStr = (s) => (s || "").toLowerCase().trim()
+      .replace(/[^\w\s]/g, "")  // Remove punctuation
+      .replace(/\s+/g, " ");     // Normalize whitespace
+
+    const targetTitle = normalizeStr(song.Title);
+    const targetArtist = normalizeStr(song.ArtistMaster);
+
+    // Find songs with similar title AND same artist
+    const similar = allSongs.filter((s) => {
+      if (s.SongID === song.SongID) return false; // Exclude self
+
+      const sTitle = normalizeStr(s.Title);
+      const sArtist = normalizeStr(s.ArtistMaster);
+
+      // Same artist and similar title (starts with same prefix or contains)
+      const sameArtist = sArtist === targetArtist;
+      const similarTitle = sTitle.includes(targetTitle.slice(0, 10)) ||
+                          targetTitle.includes(sTitle.slice(0, 10)) ||
+                          sTitle === targetTitle;
+
+      return sameArtist && similarTitle;
+    });
+
+    // Sort by plays descending
+    similar.sort((a, b) => (b.TimesPlayed || 0) - (a.TimesPlayed || 0));
+
+    setSimilarSongs(similar);
+    setInfoDialogSong(song);
+  };
+
+  // Show song info dialog
+  const showSongInfo = (song, e) => {
+    e.stopPropagation();
+    setInfoDialogSong(song);
+    setSimilarSongs([]);
+  };
+
+  // Find similar and show
+  const handleFindSimilar = (song, e) => {
+    e.stopPropagation();
+    findSimilarSongs(song);
   };
 
   // Stats - count songs per tier, rating, and play range
@@ -217,7 +318,7 @@ export default function RecognitionValidatorPage() {
     });
 
     return { tierCounts, ratingCounts, playRangeCounts };
-  }, [allSongs, PLAY_RANGES]);
+  }, [allSongs]);
 
   // Toggle helpers
   const toggleRating = (rating) => {
@@ -353,32 +454,48 @@ export default function RecognitionValidatorPage() {
           </>
         )}
 
-        {/* Sort */}
-        <FormControl size="small" sx={{ minWidth: 180 }}>
-          <InputLabel>Sort By</InputLabel>
-          <Select
-            value={sortBy}
-            label="Sort By"
-            onChange={(e) => setSortBy(e.target.value)}
+        {/* Sort and Shuffle */}
+        <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+          <FormControl size="small" sx={{ minWidth: 180 }}>
+            <InputLabel>Sort By</InputLabel>
+            <Select
+              value={sortBy}
+              label="Sort By"
+              onChange={(e) => setSortBy(e.target.value)}
+            >
+              <MenuItem value="recognitionScore">Recognition Score (High→Low)</MenuItem>
+              <MenuItem value="plays">Times Played (High→Low)</MenuItem>
+              <MenuItem value="rating">Rating (High→Low)</MenuItem>
+              <MenuItem value="title">Title (A-Z)</MenuItem>
+              <MenuItem value="orchestra">Orchestra (A-Z)</MenuItem>
+            </Select>
+          </FormControl>
+          <Button
+            variant="outlined"
+            startIcon={<ShuffleIcon />}
+            onClick={shuffleSongs}
+            size="small"
+            sx={{ borderColor: "var(--accent)", color: "var(--accent)" }}
           >
-            <MenuItem value="recognitionScore">Recognition Score (High to Low)</MenuItem>
-            <MenuItem value="plays">Times Played (High to Low)</MenuItem>
-            <MenuItem value="rating">Rating (High to Low)</MenuItem>
-            <MenuItem value="title">Title (A-Z)</MenuItem>
-            <MenuItem value="orchestra">Orchestra (A-Z)</MenuItem>
-          </Select>
-        </FormControl>
+            Shuffle
+          </Button>
+        </Box>
       </Box>
 
-      {/* Results count */}
-      <Typography variant="body2" sx={{ mb: 2 }}>
-        {filteredSongs.length} songs match filters
-        {loadError && (
-          <Typography component="span" sx={{ color: "error.main", ml: 2 }}>
-            {loadError}
-          </Typography>
-        )}
-      </Typography>
+      {/* Results count and playback info */}
+      <Box sx={{ mb: 2, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <Typography variant="body2">
+          {filteredSongs.length} songs • Playing {CLIP_DURATION}s clips from random position (0-{MAX_START_TIME}s)
+          {loadError && (
+            <Typography component="span" sx={{ color: "error.main", ml: 2 }}>
+              {loadError}
+            </Typography>
+          )}
+        </Typography>
+        <Typography variant="caption" color="text.secondary">
+          {currentIndex + 1} / {filteredSongs.length}
+        </Typography>
+      </Box>
 
       {/* Current Song Player */}
       {currentSong && (
@@ -391,21 +508,34 @@ export default function RecognitionValidatorPage() {
             borderLeft: `4px solid ${TIER_CONFIG[currentSong.recognitionTier || 5].color}`,
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             <IconButton
               onClick={togglePlay}
               sx={{
                 background: "var(--accent)",
                 color: "var(--background)",
                 "&:hover": { opacity: 0.8 },
+                width: 48,
+                height: 48,
               }}
             >
               {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
             </IconButton>
 
-            <IconButton onClick={playNext} disabled={currentIndex + 1 >= filteredSongs.length}>
-              <SkipNextIcon />
-            </IconButton>
+            <Button
+              onClick={playNext}
+              disabled={currentIndex + 1 >= filteredSongs.length}
+              variant="contained"
+              startIcon={<SkipNextIcon />}
+              sx={{
+                background: "var(--accent)",
+                color: "var(--background)",
+                "&:hover": { opacity: 0.8 },
+                "&:disabled": { opacity: 0.3 },
+              }}
+            >
+              Next
+            </Button>
 
             <Box sx={{ flex: 1 }}>
               <Typography variant="h6" sx={{ fontWeight: "bold" }}>
@@ -507,12 +637,162 @@ export default function RecognitionValidatorPage() {
             >
               {song.Title} - {song.ArtistMaster}
             </Typography>
-            <Typography variant="caption" sx={{ opacity: 0.7, flexShrink: 0 }}>
+            <Typography variant="caption" sx={{ opacity: 0.7, flexShrink: 0, mr: 1 }}>
               {(song.recognitionScore || 0).toFixed(2)} | {song.TimesPlayed || 0}x
             </Typography>
+            {/* Info and Find Similar buttons */}
+            <IconButton
+              size="small"
+              onClick={(e) => showSongInfo(song, e)}
+              title="Song Info"
+              sx={{ p: 0.5, color: idx === currentIndex ? "var(--background)" : "inherit" }}
+            >
+              <InfoIcon fontSize="small" />
+            </IconButton>
+            <IconButton
+              size="small"
+              onClick={(e) => handleFindSimilar(song, e)}
+              title="Find Similar"
+              sx={{ p: 0.5, color: idx === currentIndex ? "var(--background)" : "inherit" }}
+            >
+              <ContentCopyIcon fontSize="small" />
+            </IconButton>
           </Box>
         ))}
       </Box>
+
+      {/* Song Info / Similar Songs Dialog */}
+      <Dialog
+        open={!!infoDialogSong}
+        onClose={() => { setInfoDialogSong(null); setSimilarSongs([]); }}
+        maxWidth="md"
+        fullWidth
+        PaperProps={{
+          sx: { background: "var(--background)", color: "var(--foreground)" }
+        }}
+      >
+        <DialogTitle sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <Box>
+            {infoDialogSong?.Title}
+            <Typography variant="body2" color="text.secondary">
+              {infoDialogSong?.ArtistMaster}
+            </Typography>
+          </Box>
+          <IconButton onClick={() => { setInfoDialogSong(null); setSimilarSongs([]); }}>
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          {/* All Song Facts */}
+          {infoDialogSong && (
+            <Box sx={{ mb: 3 }}>
+              <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: "bold" }}>
+                Song Facts
+              </Typography>
+              <Box sx={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: 2 }}>
+                <Box>
+                  <Typography variant="caption" color="text.secondary">Recognition Score</Typography>
+                  <Typography variant="body2" fontWeight="bold">
+                    {(infoDialogSong.recognitionScore || 0).toFixed(4)}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="caption" color="text.secondary">Recognition Tier</Typography>
+                  <Typography variant="body2" fontWeight="bold" sx={{ color: TIER_CONFIG[infoDialogSong.recognitionTier]?.color }}>
+                    {infoDialogSong.recognitionTier}. {TIER_CONFIG[infoDialogSong.recognitionTier]?.name}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="caption" color="text.secondary">Rating (Stars)</Typography>
+                  <Typography variant="body2">{"★".repeat(infoDialogSong.Rating || 0)}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="caption" color="text.secondary">Times Played</Typography>
+                  <Typography variant="body2">{infoDialogSong.TimesPlayed || 0}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="caption" color="text.secondary">Orchestra Level</Typography>
+                  <Typography variant="body2">{infoDialogSong.orchestraLevel || "-"}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="caption" color="text.secondary">Year</Typography>
+                  <Typography variant="body2">{infoDialogSong.Year || "-"}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="caption" color="text.secondary">Style</Typography>
+                  <Typography variant="body2">{infoDialogSong.Style || "-"}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="caption" color="text.secondary">Singer</Typography>
+                  <Typography variant="body2">{infoDialogSong.Singer || "Instrumental"}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="caption" color="text.secondary">Composer</Typography>
+                  <Typography variant="body2">{infoDialogSong.Composer || "-"}</Typography>
+                </Box>
+                <Box>
+                  <Typography variant="caption" color="text.secondary">Song ID</Typography>
+                  <Typography variant="body2" sx={{ fontFamily: "monospace", fontSize: "0.75rem" }}>
+                    {infoDialogSong.SongID}
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+          )}
+
+          {/* Similar Songs Section */}
+          {similarSongs.length > 0 && (
+            <Box>
+              <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: "bold" }}>
+                Similar Songs ({similarSongs.length} found)
+              </Typography>
+              <Box sx={{ maxHeight: 300, overflowY: "auto" }}>
+                {similarSongs.map((song) => (
+                  <Box
+                    key={song.SongID}
+                    sx={{
+                      py: 1,
+                      px: 2,
+                      mb: 0.5,
+                      background: "var(--input-bg)",
+                      borderRadius: 1,
+                      borderLeft: `3px solid ${TIER_CONFIG[song.recognitionTier || 5].color}`,
+                    }}
+                  >
+                    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <Box>
+                        <Typography variant="body2" fontWeight="bold">{song.Title}</Typography>
+                        <Typography variant="caption" color="text.secondary">
+                          {song.Singer || "Instrumental"} • {song.Year || "?"}
+                        </Typography>
+                      </Box>
+                      <Box sx={{ textAlign: "right" }}>
+                        <Typography variant="body2">
+                          {"★".repeat(song.Rating || 0)} | {song.TimesPlayed || 0}x
+                        </Typography>
+                        <Typography variant="caption" color="text.secondary">
+                          Tier {song.recognitionTier}: {TIER_CONFIG[song.recognitionTier]?.name}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                ))}
+              </Box>
+            </Box>
+          )}
+
+          {similarSongs.length === 0 && infoDialogSong && (
+            <Button
+              variant="outlined"
+              onClick={() => findSimilarSongs(infoDialogSong)}
+              startIcon={<ContentCopyIcon />}
+              sx={{ mt: 2 }}
+            >
+              Find Similar Songs
+            </Button>
+          )}
+        </DialogContent>
+      </Dialog>
     </Box>
   );
 }

@@ -26,6 +26,14 @@ export async function fetchAllArtists() {
 
 /**
  * Fetch songs and artists data, enrich with artist levels, and filter them.
+ *
+ * IMPORTANT: Data Quality Notes
+ * - ~1,305 songs (28%) are missing ArtistMaster (orchestra) field
+ * - These came from Boris import and include golden-age songs with singers
+ * - Games must explicitly request requireOrchestra:true if they need orchestra data
+ * - Singer games should use requireSinger:true instead
+ * - Recognition tiers apply to ALL songs regardless of metadata completeness
+ *
  * @param {string[]} artistMasters - Filter by artist names
  * @param {number[]} artistLevels - Filter by artist levels
  * @param {string[]} composers - Filter by composers
@@ -37,6 +45,7 @@ export async function fetchAllArtists() {
  * @param {Object} options - Additional options
  * @param {boolean} options.includeSinger - Include songs with singer (default false = instrumental only)
  * @param {boolean} options.requireSinger - Require songs to have singer (for singer quiz)
+ * @param {boolean} options.requireOrchestra - Require songs to have ArtistMaster (for orchestra quiz)
  * @param {string[]} options.singers - Filter by specific singer names
  * @param {number[]} options.yearRange - [startYear, endYear] to filter by recording year
  * @param {string} options.duetFilter - 'all' (default) | 'solo' | 'duetsOnly' - filter by duet status
@@ -53,7 +62,7 @@ export async function fetchFilteredSongs(
   qty = "",
   options = {},
 ) {
-  const { includeSinger = false, requireSinger = false, singers = [], yearRange = null, duetFilter = 'solo', recognitionTiers = [] } = options;
+  const { includeSinger = false, requireSinger = false, requireOrchestra = false, singers = [], yearRange = null, duetFilter = 'solo', recognitionTiers = [] } = options;
 
   try {
     // Use weighted songs (3-5 stars, prioritized by play count)
@@ -97,6 +106,15 @@ export async function fetchFilteredSongs(
     // Filtering logic
     let filtered = enrichedSongs;
     console.log("DEBUG: Starting with", filtered.length, "songs");
+
+    // RequireOrchestra filter - only for orchestra-based games (artist-quiz, artist-learn, clip-orchestra)
+    // ~1,305 songs are missing ArtistMaster but may have Singer data for singer games
+    if (requireOrchestra) {
+      filtered = filtered.filter(
+        (song) => song.ArtistMaster && song.ArtistMaster.trim() !== ""
+      );
+      console.log("DEBUG: After requireOrchestra filter:", filtered.length);
+    }
 
     // ArtistMaster filter
     const validArtistMasters = artistMasters.filter(
