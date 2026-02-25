@@ -8,6 +8,8 @@ import SongsSlider from "@/components/ui/SongsSlider";
 import RecognitionSelector from "@/components/ui/RecognitionSelector";
 import ArtistsSelector from "@/components/ui/ArtistsSelector";
 import SingersSelector from "@/components/ui/SingersSelector";
+import PeriodsSelector from "@/components/ui/PeriodsSelector";
+import SongCountDisplay from "@/components/ui/SongCountDisplay";
 import useSingerQuiz from "@/hooks/useSingerQuiz";
 import { useGameContext } from "@/contexts/GameContext";
 
@@ -25,10 +27,14 @@ export default function ConfigTab() {
   const { config, updateConfig } = useGameContext();
 
   const [isConfigValid, setIsConfigValid] = useState(true);
+  const [availableCount, setAvailableCount] = useState(null);
+
+  const numSongs = config.numSongs ?? 10;
+  const hasEnoughSongs = availableCount === null || availableCount >= numSongs;
 
   useEffect(() => {
-    setIsConfigValid(!validationMessage);
-  }, [validationMessage]);
+    setIsConfigValid(!validationMessage && hasEnoughSongs);
+  }, [validationMessage, hasEnoughSongs]);
 
   const handleClipLengthChange = (val) => {
     updateConfig("clipLength", val);
@@ -74,8 +80,13 @@ export default function ConfigTab() {
         <Box sx={{ flex: 1 }}>
           <RecognitionSelector
             label="Recognition Tier:"
-            selectedTiers={config.recognitionTiers || [1, 2, 3]}
+            selectedTiers={config.recognitionTiers || [1]}
             onChange={handleLevelsChange}
+          />
+          <PeriodsSelector
+            label="Periods:"
+            selectedPeriods={config.periods || []}
+            onChange={(val) => updateConfig("periods", val)}
           />
         </Box>
         <Box sx={{ flex: 1 }}>
@@ -111,8 +122,18 @@ export default function ConfigTab() {
         </Typography>
       </Box>
 
+      {/* Song Count Display */}
+      <SongCountDisplay
+        config={config}
+        numSongs={numSongs}
+        gameType="singer"
+        onCountChange={setAvailableCount}
+      />
+
       {!isConfigValid && (
-        <Box sx={{ color: "red", mt: 2 }}>{validationMessage}</Box>
+        <Box sx={{ color: "red", mt: 2 }}>
+          {validationMessage || `Not enough songs available (need ${numSongs}, have ${availableCount})`}
+        </Box>
       )}
     </Box>
   );

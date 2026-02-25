@@ -1,66 +1,61 @@
+//--------
+//src/app/games/song-quiz/page.js
+// Song Title Quiz - Guess the song title
+//--------
+
 "use client";
 
 import React, { useState, useCallback } from "react";
-import Image from "next/image";
 import { Box, Typography } from "@mui/material";
+import Image from "next/image";
 import ConfigTab from "./ConfigTab";
-import QuizTab from "./QuizTab";
+import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
-import { fetchFilteredSongs, shuffleArray } from "@/utils/dataFetching";
+import { fetchFilteredSongs } from "@/utils/dataFetching";
 import styles from "../styles.module.css";
 
-export default function YearLearnPage() {
+export default function SongQuizPage() {
   const [songs, setSongs] = useState([]);
   const [showPlayTab, setShowPlayTab] = useState(false);
 
   const { config } = useGameContext();
 
   const handlePlayClick = useCallback(async () => {
+    console.log("Song Quiz config:", config);
+
     const numSongs = config.numSongs ?? 10;
     const activeStyles = Object.keys(config.styles || {}).filter(
-      (key) => config.styles[key],
+      (key) => config.styles[key]
     );
-
     const recognitionTiers = config.recognitionTiers || [1];
     const periods = config.periods || [];
+    const chosenArtists = (config.artists || []).map((a) => a.value);
+    const includeSinger = config.includeSinger ?? true; // Default true for song quiz
 
     const { songs: fetchedSongs } = await fetchFilteredSongs(
-      [], // artists
-      [], // levels
+      chosenArtists,
+      [], // artistLevels - legacy
       [], // composers
-      activeStyles.length > 0 ? activeStyles : [], // styles
+      activeStyles,
       "", // candombe
       "", // alternative
       "", // cancion
       numSongs,
-      {
-        includeSinger: true,
-        recognitionTiers,
-        periods,
-      },
+      { includeSinger, recognitionTiers, periods }
     );
 
     if (!fetchedSongs || fetchedSongs.length === 0) {
-      alert("No songs found. Try different settings.");
+      alert(
+        "No songs returned for this configuration. Try different settings."
+      );
       return;
     }
 
-    // Filter out songs without year data
-    const songsWithYear = fetchedSongs.filter((s) => {
-      const year = parseInt(s.Year, 10);
-      return !isNaN(year) && year >= 1916 && year <= 2023;
-    });
-
-    if (songsWithYear.length === 0) {
-      alert("No songs with year data found. Try different settings.");
-      return;
-    }
-
-    setSongs(shuffleArray(songsWithYear));
+    setSongs(fetchedSongs);
     setShowPlayTab(true);
   }, [config]);
 
-  const handleClose = () => {
+  const handleClosePlayTab = () => {
     setShowPlayTab(false);
   };
 
@@ -84,13 +79,18 @@ export default function YearLearnPage() {
             backgroundColor: "var(--background)",
             zIndex: 9999,
             overflow: "auto",
+            p: 2,
           }}
         >
-          <QuizTab songs={songs} config={config} onCancel={handleClose} />
+          <PlayTab
+            songs={songs}
+            config={config}
+            onCancel={handleClosePlayTab}
+          />
         </Box>
       )}
 
-      {/* Header */}
+      {/* Header Section */}
       <Box
         sx={{
           display: "flex",
@@ -100,6 +100,7 @@ export default function YearLearnPage() {
           mb: 2,
         }}
       >
+        {/* Game Title */}
         <Typography
           variant="h5"
           sx={{
@@ -108,9 +109,9 @@ export default function YearLearnPage() {
             mr: "auto",
           }}
         >
-          Guess
+          Song Title
           <br />
-          the Year
+          &gt; QUIZ &lt;
         </Typography>
 
         {/* Play Button */}
@@ -124,8 +125,8 @@ export default function YearLearnPage() {
         >
           <Box sx={{ textAlign: "center" }}>
             <Image
-              src="/icons/IconLearnDecade.webp"
-              alt="Play"
+              src={`/icons/IconLearnSongs.webp`}
+              alt="Play Button"
               onClick={handlePlayClick}
               width={80}
               height={80}
@@ -133,10 +134,12 @@ export default function YearLearnPage() {
                 cursor: "pointer",
                 borderRadius: "50%",
                 objectFit: "cover",
-                boxShadow: "0 0 15px rgba(200, 150, 50, 0.5)",
+                boxShadow: "0 0 15px rgba(0, 123, 255, 0.5)",
                 transition: "transform 0.2s",
               }}
-              onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+              onMouseOver={(e) =>
+                (e.currentTarget.style.transform = "scale(1.05)")
+              }
               onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
             />
             <Typography
@@ -152,7 +155,7 @@ export default function YearLearnPage() {
         </Box>
       </Box>
 
-      {/* Configuration */}
+      {/* Configuration Tab */}
       <ConfigTab />
     </Box>
   );

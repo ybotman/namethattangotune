@@ -10,6 +10,8 @@ import RecognitionSelector from "@/components/ui/RecognitionSelector";
 import StylesSelector from "@/components/ui/StylesSelector";
 import ArtistsSelector from "@/components/ui/ArtistsSelector";
 import YearRangeSelector from "@/components/ui/YearRangeSelector";
+import PeriodsSelector from "@/components/ui/PeriodsSelector";
+import SongCountDisplay from "@/components/ui/SongCountDisplay";
 import useArtistLearn from "@/hooks/useArtistLearn";
 import { useGameContext } from "@/contexts/GameContext";
 
@@ -31,6 +33,10 @@ export default function ConfigTab() {
 
   // Local state to track whether the config is valid
   const [isConfigValid, setIsConfigValid] = useState(true);
+  const [availableCount, setAvailableCount] = useState(null);
+
+  const numSongs = config.numSongs ?? 10;
+  const hasEnoughSongs = availableCount === null || availableCount >= numSongs;
 
   // All styles toggle
   const allStylesSelected = primaryStyles.length > 0 &&
@@ -47,9 +53,9 @@ export default function ConfigTab() {
   };
 
   useEffect(() => {
-    // If validationMessage is non-empty => invalid
-    setIsConfigValid(!validationMessage);
-  }, [validationMessage]);
+    // If validationMessage is non-empty OR not enough songs => invalid
+    setIsConfigValid(!validationMessage && hasEnoughSongs);
+  }, [validationMessage, hasEnoughSongs]);
 
   return (
     <Box className={styles.configurationContainer}>
@@ -84,8 +90,15 @@ export default function ConfigTab() {
           {/* 1. Recognition Tier */}
           <RecognitionSelector
             label="Recognition Tier:"
-            selectedTiers={config.recognitionTiers || [1, 2, 3]}
+            selectedTiers={config.recognitionTiers || [1]}
             onChange={handleRecognitionTiersChange}
+          />
+
+          {/* 1b. Periods */}
+          <PeriodsSelector
+            label="Periods:"
+            selectedPeriods={config.periods || []}
+            onChange={(val) => updateConfig("periods", val)}
           />
 
           {/* 2. Artists */}
@@ -166,9 +179,19 @@ export default function ConfigTab() {
         </Box>
       </Box>
 
+      {/* Song Count Display */}
+      <SongCountDisplay
+        config={config}
+        numSongs={numSongs}
+        gameType="orchestra"
+        onCountChange={setAvailableCount}
+      />
+
       {/* Validation Message */}
       {!isConfigValid && (
-        <Box sx={{ color: "red", mt: 2 }}>{validationMessage}</Box>
+        <Box sx={{ color: "red", mt: 2 }}>
+          {validationMessage || `Not enough songs available (need ${numSongs}, have ${availableCount})`}
+        </Box>
       )}
     </Box>
   );

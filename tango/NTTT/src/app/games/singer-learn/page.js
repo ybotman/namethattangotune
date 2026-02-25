@@ -33,8 +33,8 @@ export default function SingerLearnPage() {
     const activeStyles = Object.keys(config.styles || {}).filter(
       (key) => config.styles[key],
     );
-    const artistLevels = config.levels || [];
-    const recognitionTiers = config.recognitionTiers || [1, 2, 3];
+    const recognitionTiers = config.recognitionTiers || [1];
+    const periods = config.periods || [];
     const chosenArtists = (config.artists || []).map((a) => a.value);
     // Extract singer values from objects
     const chosenSingers = (config.singers || []).map((s) =>
@@ -44,7 +44,7 @@ export default function SingerLearnPage() {
     // Fetch songs with requireSinger: true for singer mode
     const { songs: fetchedSongs } = await fetchFilteredSongs(
       chosenArtists,
-      artistLevels,
+      [], // artistLevels - legacy, no longer used
       [], // composers (not used)
       activeStyles,
       "", // candombe - empty = no filter
@@ -57,6 +57,7 @@ export default function SingerLearnPage() {
         yearRange: config.yearRange,
         duetFilter: config.duetFilter || "solo",
         recognitionTiers,
+        periods,
       },
     );
 

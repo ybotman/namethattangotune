@@ -23,22 +23,22 @@ export default function SingerQuizPage() {
     console.log("Singer Quiz config:", config);
 
     const numSongs = config.numSongs ?? 10;
-    const artistLevels = config.levels || [];
-    const recognitionTiers = config.recognitionTiers || [1, 2, 3];
+    const recognitionTiers = config.recognitionTiers || [1];
+    const periods = config.periods || [];
     const chosenArtists = (config.artists || []).map((a) => a.value);
     const chosenSingers = config.singers || [];
 
     // Fetch songs with singers (requireSinger = true)
     const { songs: fetchedSongs } = await fetchFilteredSongs(
       chosenArtists,
-      artistLevels,
+      [], // artistLevels - legacy, no longer used
       [], // composers
       [], // styles - not used for singer quiz
       "", // candombe
       "", // alternative
       "", // cancion
       numSongs,
-      { requireSinger: true, singers: chosenSingers, recognitionTiers },
+      { requireSinger: true, singers: chosenSingers, recognitionTiers, periods },
     );
 
     if (!fetchedSongs || fetchedSongs.length === 0) {

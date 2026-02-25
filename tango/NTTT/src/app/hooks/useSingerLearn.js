@@ -49,10 +49,10 @@ export default function useSingerLearn() {
 
       const singersList = c.singers || [];
       const hasSingers = singersList.length > 0;
-      const hasLevels = (c.levels || []).length > 0;
+      const hasTiers = (c.recognitionTiers || []).length > 0;
 
-      if (!hasSingers && !hasLevels) {
-        return "You must select at least one Singer or one Level.";
+      if (!hasSingers && !hasTiers) {
+        return "You must select at least one Singer or one Recognition Tier.";
       }
 
       return "";
@@ -112,7 +112,7 @@ export default function useSingerLearn() {
             return a.artist.localeCompare(b.artist);
           })
           .map((artist) => ({
-            label: `${artist.artist} (Level ${artist.level})`,
+            label: artist.artist,
             value: artist.artist,
           }));
         setArtistOptions(activeArtists);

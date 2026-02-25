@@ -101,7 +101,7 @@ export default function useArtistLearn() {
             return a.artist.localeCompare(b.artist);
           })
           .map((artist) => ({
-            label: `${artist.artist} (Level ${artist.level})`,
+            label: artist.artist,
             value: artist.artist,
           }));
         setArtistOptions(activeArtists);
@@ -149,9 +149,9 @@ export default function useArtistLearn() {
   };
 
   const handleArtistsChange = (newSelected) => {
-    if (newSelected.length > 0 && (config.levels || []).length > 0) {
-      updateConfig("levels", []);
-      setValidationMessage("Clearing levels because artists are selected.");
+    if (newSelected.length > 0 && (config.recognitionTiers || []).length > 0) {
+      updateConfig("recognitionTiers", []);
+      setValidationMessage("Clearing tiers because artists are selected.");
     }
     setSelectedArtists(newSelected);
     updateConfig("artists", newSelected);

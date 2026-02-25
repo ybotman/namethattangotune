@@ -3,7 +3,7 @@
 
 'use client';
 
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
   onAuthStateChanged,
@@ -16,6 +16,7 @@ import {
   sendEmailVerification,
 } from 'firebase/auth';
 import { auth, googleProvider, appleProvider } from '@/utils/firebase';
+import { trackLogin } from '@/utils/tracking';
 
 export const AuthContext = createContext();
 
@@ -23,6 +24,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const hasTrackedLoginRef = useRef(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
@@ -37,8 +39,15 @@ export const AuthProvider = ({ children }) => {
           emailVerified: firebaseUser.emailVerified,
           token,
         });
+
+        // Track login to calendar-be-af (once per session)
+        if (!hasTrackedLoginRef.current) {
+          hasTrackedLoginRef.current = true;
+          trackLogin(token, window.location.pathname);
+        }
       } else {
         setUser(null);
+        hasTrackedLoginRef.current = false; // Reset on logout
       }
       setLoading(false);
     });

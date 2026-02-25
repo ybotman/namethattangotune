@@ -34,8 +34,8 @@ export default function ArtistLearnPage() {
     const activeStyles = Object.keys(config.styles || {}).filter(
       (key) => config.styles[key],
     );
-    const artistLevels = config.levels || [];
-    const recognitionTiers = config.recognitionTiers || [1, 2, 3];
+    const recognitionTiers = config.recognitionTiers || [1];
+    const periods = config.periods || [];
     const chosenArtists = (config.artists || []).map((a) => a.value);
 
     // Build vocal filter options based on vocalFilter toggle
@@ -58,14 +58,14 @@ export default function ArtistLearnPage() {
 
     const { songs: fetchedSongs } = await fetchFilteredSongs(
       chosenArtists,
-      artistLevels,
+      [], // artistLevels - legacy, no longer used
       [], // composers
       activeStyles,
       "", // candombe - empty = no filter
       "", // alternative - empty = no filter
       "", // cancion - empty = no filter
       numSongs,
-      { ...vocalOptions, yearRange: config.yearRange, recognitionTiers, requireOrchestra: true },
+      { ...vocalOptions, yearRange: config.yearRange, recognitionTiers, periods, requireOrchestra: true },
     );
 
     if (!fetchedSongs || fetchedSongs.length === 0) {

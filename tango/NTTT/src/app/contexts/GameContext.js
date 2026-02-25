@@ -14,21 +14,19 @@ export function useGameContext() {
 }
 
 export function GameProvider({ children }) {
-  //console.log("GameProvider children:", children);
 
   // 1) Game config (with null defaults where relevant)
   const [config, setConfig] = useState({
     numSongs: null,
     timeLimit: null,
     levels: [],  // Legacy - orchestra-based levels
-    recognitionTiers: [1, 2, 3],  // Default: Iconic, Essential, Familiar
-    styles: {},
+    recognitionTiers: [1],  // Default: Iconic only
+    styles: { Tango: true, Vals: true, Milonga: true },  // Default: all styles
     artists: [],
     periods: [],
     validConfig: false,
   });
 
-  console.log("GameProvider config:", config);
 
   // 2) Score/Usage tracking
   const [currentScore, setCurrentScore] = useState(0);
@@ -66,13 +64,11 @@ export function GameProvider({ children }) {
   // 3) Config setter
   function updateConfig(key, value) {
     setConfig((prev) => ({ ...prev, [key]: value }));
-    console.log(" - Updated Config:", key, value);
   }
 
   // 3a) **NEW**: Provide a setter for filteredArtists
   function updateFilteredArtists(arr) {
     setFilteredArtists(arr || []);
-    console.log(" - Updated filteredArtists:", arr);
   }
 
   // 4) Game completion logic (increment scores, track best, etc.)
@@ -93,8 +89,8 @@ export function GameProvider({ children }) {
       numSongs: null,
       timeLimit: null,
       levels: [],
-      recognitionTiers: [1, 2, 3],
-      styles: {},
+      recognitionTiers: [1],  // Iconic only
+      styles: { Tango: true, Vals: true, Milonga: true },
       artists: [],
     });
     setCurrentScore(0);
@@ -121,7 +117,6 @@ export function GameProvider({ children }) {
     filteredArtists,
     updateFilteredArtists,
   };
-  console.log("GameProvider value:", value);
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
 }
 

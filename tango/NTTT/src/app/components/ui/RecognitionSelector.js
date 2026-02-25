@@ -103,7 +103,7 @@ RecognitionSelector.propTypes = {
 
 RecognitionSelector.defaultProps = {
   label: "Recognition Tier:",
-  selectedTiers: [1, 2, 3], // Default to Iconic, Essential, Familiar
+  selectedTiers: [1], // Default to Iconic only
   disabled: false,
   showVibe: false,
   compact: false,

@@ -4,13 +4,16 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useGameContext } from "@/contexts/GameContext";
 
 /**
- * Hook for Singer Quiz - provides quiz-specific logic & validations
+ * Provide quiz-specific logic & validations for Song Title Quiz:
+ *  - load styles/artists
+ *  - validate config
+ *  - compute scoring parameters
  */
-export default function useSingerQuiz() {
+export default function useSongQuiz() {
   const { config, updateConfig } = useGameContext();
 
   const [artistOptions, setArtistOptions] = useState([]);
-  const [singerOptions, setSingerOptions] = useState([]);
+  const [primaryStyles, setPrimaryStyles] = useState([]);
   const [validationMessage, setValidationMessage] = useState("");
   const hasFetchedDataRef = useRef(false);
 
@@ -28,18 +31,24 @@ export default function useSingerQuiz() {
         return "Time Limit must be between 3 and 30 seconds.";
       }
 
+      const stylesSelected = Object.keys(theConfig.styles || {}).filter(
+        (k) => theConfig.styles[k]
+      );
+      if (stylesSelected.length === 0) {
+        return "At least one style must be selected.";
+      }
+
       const hasTiers = (theConfig.recognitionTiers || []).length > 0;
-      const hasArtists = (theConfig.artists || []).length > 0;
-      if (!hasTiers && !hasArtists) {
-        return "Select at least one Recognition Tier or Orchestra to filter songs.";
+      if (!hasTiers) {
+        return "You must select at least one Recognition Tier.";
       }
 
       return "";
     },
-    [config],
+    [config]
   );
 
-  // Scoring calculation
+  // Scoring: same polynomial as artist quiz
   const calculateMaxScore = useCallback((timeLimit) => {
     const clamped = Math.max(3, Math.min(timeLimit, 30));
     const a = 705.39;
@@ -53,16 +62,30 @@ export default function useSingerQuiz() {
   const WRONG_PENALTY = 0.1;
   const INTERVAL_MS = 100;
 
-  // Fetch artists and singers
+  // One-time fetch for Styles & Artists
   useEffect(() => {
     if (hasFetchedDataRef.current) return;
     hasFetchedDataRef.current = true;
 
-    // Fetch artists (orchestras)
+    const fetchStyles = async () => {
+      try {
+        const styleData = await fetch(`/songData/StyleMaster.json`).then((r) =>
+          r.json()
+        );
+        setPrimaryStyles(styleData.primaryStyles || []);
+
+        if (!config.styles || Object.keys(config.styles).length === 0) {
+          updateConfig("styles", { Tango: true });
+        }
+      } catch (err) {
+        console.error("Error fetching StyleMaster:", err);
+      }
+    };
+
     const fetchArtists = async () => {
       try {
         const artistData = await fetch(`/songData/ArtistMaster.json`).then(
-          (r) => r.json(),
+          (r) => r.json()
         );
         const activeArtists = artistData
           .filter((a) => a.active === "true")
@@ -82,39 +105,9 @@ export default function useSingerQuiz() {
       }
     };
 
-    // Fetch unique singers from songs
-    const fetchSingers = async () => {
-      try {
-        const songsData = await fetch(`/songData/djSongs.json`).then((r) =>
-          r.json(),
-        );
-        const uniqueSingers = [
-          ...new Set(
-            songsData.songs
-              .map((s) => s.Singer)
-              .filter((s) => s && s.trim() !== ""),
-          ),
-        ].sort();
-
-        setSingerOptions(
-          uniqueSingers.map((singer) => ({
-            label: singer,
-            value: singer,
-          })),
-        );
-      } catch (err) {
-        console.error("Error fetching singers:", err);
-      }
-    };
-
-    // Set default recognition tiers if not set
-    if (!config.recognitionTiers || config.recognitionTiers.length === 0) {
-      updateConfig("recognitionTiers", [1, 2, 3]);
-    }
-
+    fetchStyles();
     fetchArtists();
-    fetchSingers();
-  }, [config.recognitionTiers, updateConfig]);
+  }, [config.styles, updateConfig]);
 
   // Re-validate on config change
   useEffect(() => {
@@ -122,35 +115,23 @@ export default function useSingerQuiz() {
     setValidationMessage(error);
   }, [config, validateInputs]);
 
-  // Config handlers
+  // Handlers
   const handleNumSongsChange = (val) => updateConfig("numSongs", val);
   const handleTimeLimitChange = (val) => updateConfig("timeLimit", val);
-
-  // Now handles recognition tiers instead of levels
-  const handleLevelsChange = (newTiers) => {
-    updateConfig("recognitionTiers", newTiers);
-  };
-
-  const handleArtistsChange = (arr) => {
-    updateConfig("artists", arr);
-  };
-
-  const handleSingersChange = (arr) => {
-    updateConfig("singers", arr);
-  };
+  const handleStylesChange = (updated) => updateConfig("styles", updated);
+  const handleArtistsChange = (arr) => updateConfig("artists", arr);
 
   return {
     config,
     validationMessage,
+    primaryStyles,
     artistOptions,
-    singerOptions,
     calculateMaxScore,
     WRONG_PENALTY,
     INTERVAL_MS,
     handleNumSongsChange,
     handleTimeLimitChange,
-    handleLevelsChange,
+    handleStylesChange,
     handleArtistsChange,
-    handleSingersChange,
   };
 }

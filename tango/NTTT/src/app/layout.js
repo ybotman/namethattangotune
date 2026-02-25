@@ -3,12 +3,13 @@
 //------------------------------------------------------------
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import "./globals.css";
 import PropTypes from "prop-types";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ScoreProvider, useScoreContext } from "@/contexts/ScoreContext";
 import { ThemeProvider } from "@/hooks/useTheme";
+import { trackVisitor } from "@/utils/tracking";
 
 import { CssBaseline, Box } from "@mui/material";
 import { Inter } from "next/font/google";
@@ -22,6 +23,15 @@ const inter = Inter({ subsets: ["latin"] });
 function LayoutContent({ children }) {
   // Access scores from ScoreContext
   const { bestScore, totalScore, completedGames, resetAll } = useScoreContext();
+  const hasTrackedVisitorRef = useRef(false);
+
+  // Track visitor on first load (once per session)
+  useEffect(() => {
+    if (!hasTrackedVisitorRef.current) {
+      hasTrackedVisitorRef.current = true;
+      trackVisitor(window.location.pathname);
+    }
+  }, []);
 
   // Provide fallback in case they're undefined or null
   const safeBest = bestScore ?? 0;

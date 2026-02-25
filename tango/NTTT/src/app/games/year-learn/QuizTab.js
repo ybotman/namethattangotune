@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Box, Typography, Button, LinearProgress } from "@mui/material";
-import YearDial, { START_YEAR, END_YEAR } from "./YearDial";
+import YearDial, { DEFAULT_START_YEAR, DEFAULT_END_YEAR } from "./YearDial";
 import useWaveSurfer from "@/hooks/useWaveSurfer";
 
 export default function QuizTab({ songs, config, onCancel }) {
@@ -12,65 +12,74 @@ export default function QuizTab({ songs, config, onCancel }) {
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(config.timeLimit ?? 15);
   const [gameOver, setGameOver] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const timerRef = useRef(null);
   const hasSubmittedRef = useRef(false);
   const currentSong = songs[currentIndex];
 
-  const { containerRef, isReady, play, pause } = useWaveSurfer(
-    currentSong?.AudioUrl,
-    {
-      height: 60,
-      waveColor: "#666",
-      progressColor: "var(--accent)",
-      barWidth: 2,
-      barGap: 1,
-    }
-  );
+  // Use the correct WaveSurfer API
+  const { initWaveSurfer, cleanupWaveSurfer, playSnippet, waveSurferRef } = useWaveSurfer({
+    onSongEnd: () => setIsPlaying(false),
+  });
 
-  // Start playback and timer when ready
+  // Initialize WaveSurfer on mount
   useEffect(() => {
-    if (isReady && !showResult && !gameOver) {
-      hasSubmittedRef.current = false;
-      play();
-      setTimeLeft(config.timeLimit ?? 15);
+    initWaveSurfer();
+    return () => cleanupWaveSurfer();
+  }, [initWaveSurfer, cleanupWaveSurfer]);
 
-      // Clear any existing timer
-      if (timerRef.current) clearInterval(timerRef.current);
+  // Play current song when index changes
+  useEffect(() => {
+    if (!currentSong?.AudioUrl || showResult || gameOver) return;
 
-      timerRef.current = setInterval(() => {
-        setTimeLeft((prev) => {
-          if (prev <= 1) {
-            clearInterval(timerRef.current);
-            // Auto-submit when time runs out
-            if (!hasSubmittedRef.current) {
-              hasSubmittedRef.current = true;
-              doSubmit();
-            }
-            return 0;
+    hasSubmittedRef.current = false;
+    setTimeLeft(config.timeLimit ?? 15);
+
+    playSnippet(currentSong.AudioUrl, {
+      snippetMaxStart: 60,
+      fadeDurationSec: 0.5,
+      onPlaySuccess: () => setIsPlaying(true),
+      onPlayError: (err) => console.error("Play error:", err),
+    });
+
+    // Start timer
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(timerRef.current);
+          if (!hasSubmittedRef.current) {
+            hasSubmittedRef.current = true;
+            doSubmitRef.current();
           }
-          return prev - 1;
-        });
-      }, 1000);
-    }
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
 
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [isReady, currentIndex, showResult, gameOver]);
+  }, [currentIndex, gameOver]);
 
   // Submit handler - uses ref to get current selectedYear
   const selectedYearRef = useRef(selectedYear);
   selectedYearRef.current = selectedYear;
 
-  const doSubmit = () => {
+  const doSubmit = useCallback(() => {
     if (showResult) return;
 
     clearInterval(timerRef.current);
-    pause();
+    // Stop playback
+    if (waveSurferRef.current) {
+      try { waveSurferRef.current.pause(); } catch (e) {}
+    }
+    setIsPlaying(false);
     setShowResult(true);
 
-    // Check if correct (within 3 years = full point, within 5 = half point)
+    // Check if correct (within 3 years = full point)
     const correctYear = parseInt(currentSong?.Year, 10);
     const guessedYear = selectedYearRef.current;
 
@@ -80,7 +89,11 @@ export default function QuizTab({ songs, config, onCancel }) {
         setScore((prev) => prev + 1);
       }
     }
-  };
+  }, [showResult, currentSong]);
+
+  // Keep a ref to doSubmit for timer callback
+  const doSubmitRef = useRef(doSubmit);
+  doSubmitRef.current = doSubmit;
 
   const handleSubmit = () => {
     if (!hasSubmittedRef.current) {
@@ -204,25 +217,25 @@ export default function QuizTab({ songs, config, onCancel }) {
         />
       </Box>
 
-      {/* Waveform */}
-      <Box
-        sx={{
-          mb: 3,
-          p: 2,
-          backgroundColor: "#222",
-          borderRadius: 2,
-        }}
-      >
-        <Box ref={containerRef} sx={{ width: "100%" }} />
-        {showResult && currentSong && (
-          <Typography
-            variant="body2"
-            sx={{ mt: 1, color: "var(--foreground)", textAlign: "center" }}
-          >
-            {currentSong.Title} - {currentSong.ArtistMaster}
+      {/* Song Info (shown after answer) */}
+      {showResult && currentSong && (
+        <Box
+          sx={{
+            mb: 3,
+            p: 2,
+            backgroundColor: "#222",
+            borderRadius: 2,
+            textAlign: "center",
+          }}
+        >
+          <Typography variant="body1" sx={{ color: "var(--foreground)" }}>
+            {currentSong.Title}
           </Typography>
-        )}
-      </Box>
+          <Typography variant="body2" sx={{ color: "var(--accent)" }}>
+            {currentSong.ArtistMaster} ({currentSong.Year})
+          </Typography>
+        </Box>
+      )}
 
       {/* Year Dial */}
       <Box sx={{ mb: 3 }}>
@@ -238,6 +251,8 @@ export default function QuizTab({ songs, config, onCancel }) {
           correctYear={parseInt(currentSong?.Year, 10)}
           showResult={showResult}
           disabled={showResult}
+          startYear={config.yearDialRange?.start ?? DEFAULT_START_YEAR}
+          endYear={config.yearDialRange?.end ?? DEFAULT_END_YEAR}
         />
       </Box>
 

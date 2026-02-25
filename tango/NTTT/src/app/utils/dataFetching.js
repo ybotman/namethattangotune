@@ -50,6 +50,7 @@ export async function fetchAllArtists() {
  * @param {number[]} options.yearRange - [startYear, endYear] to filter by recording year
  * @param {string} options.duetFilter - 'all' (default) | 'solo' | 'duetsOnly' - filter by duet status
  * @param {number[]} options.recognitionTiers - Filter by recognition tier (1-5: Iconic, Essential, Familiar, Challenging, Deep Cuts)
+ * @param {string[]} options.periods - Filter by period names (e.g., "Golden Age", "New Guard") - converts to year ranges
  */
 export async function fetchFilteredSongs(
   artistMasters = [],
@@ -62,17 +63,17 @@ export async function fetchFilteredSongs(
   qty = "",
   options = {},
 ) {
-  const { includeSinger = false, requireSinger = false, requireOrchestra = false, singers = [], yearRange = null, duetFilter = 'solo', recognitionTiers = [] } = options;
+  const { includeSinger = false, requireSinger = false, requireOrchestra = false, singers = [], yearRange = null, duetFilter = 'solo', recognitionTiers = [], periods = [] } = options;
 
   try {
     // Use weighted songs (3-5 stars, prioritized by play count)
-    const [djSongsData, artistData, singerData, vocalData] = await Promise.all([
+    const [djSongsData, artistData, singerData, vocalData, periodsData] = await Promise.all([
       fetch(`/songData/djSongsWeighted.json`).then((r) => r.json()),
       fetch(`/songData/ArtistMaster.json`).then((r) => r.json()),
       fetch(`/songData/SingerMaster.json`).then((r) => r.json()),
       fetch(`/api/vocal-data`).then((r) => r.json()).catch(() => ({})),
+      fetch(`/songData/TangoPeriods.json`).then((r) => r.json()).catch(() => []),
     ]);
-    console.log("DEBUG: Loaded vocal data entries:", Object.keys(vocalData).length);
 
     // Build singer duet lookup map: { singerNameLower: isDuetPlus }
     const singerDuetMap = {};
@@ -105,7 +106,6 @@ export async function fetchFilteredSongs(
 
     // Filtering logic
     let filtered = enrichedSongs;
-    console.log("DEBUG: Starting with", filtered.length, "songs");
 
     // RequireOrchestra filter - only for orchestra-based games (artist-quiz, artist-learn, clip-orchestra)
     // ~1,305 songs are missing ArtistMaster but may have Singer data for singer games
@@ -113,7 +113,6 @@ export async function fetchFilteredSongs(
       filtered = filtered.filter(
         (song) => song.ArtistMaster && song.ArtistMaster.trim() !== ""
       );
-      console.log("DEBUG: After requireOrchestra filter:", filtered.length);
     }
 
     // ArtistMaster filter
@@ -143,7 +142,6 @@ export async function fetchFilteredSongs(
       filtered = filtered.filter(
         (song) => song.recognitionTier && validRecognitionTiers.includes(song.recognitionTier),
       );
-      console.log("DEBUG: After recognitionTier filter:", filtered.length);
     }
 
     // Composer filter
@@ -164,7 +162,24 @@ export async function fetchFilteredSongs(
         const year = parseInt(song.Year, 10);
         return !isNaN(year) && year >= startYear && year <= endYear;
       });
-      console.log("DEBUG: After year filter:", filtered.length);
+    }
+
+    // Period filter - converts period names to year ranges
+    if (periods && periods.length > 0) {
+      // Build list of year ranges from selected periods
+      const periodRanges = periods
+        .map((periodName) => periodsData.find((p) => p.period === periodName))
+        .filter((p) => p != null)
+        .map((p) => ({ start: p.start_year, end: p.end_year }));
+
+      if (periodRanges.length > 0) {
+        filtered = filtered.filter((song) => {
+          const year = parseInt(song.Year, 10);
+          if (isNaN(year)) return false;
+          // Song matches if its year falls within ANY selected period
+          return periodRanges.some((range) => year >= range.start && year <= range.end);
+        });
+      }
     }
 
     // Style filter
@@ -175,7 +190,6 @@ export async function fetchFilteredSongs(
         (song) =>
           song.Style && stylesLower.includes(song.Style.trim().toLowerCase()),
       );
-      console.log("DEBUG: After style filter:", filtered.length);
     }
     if (candombe) {
       filtered = filtered.filter((song) => song.Candombe === candombe);
@@ -188,25 +202,15 @@ export async function fetchFilteredSongs(
     }
 
     // Singer/Vocal filtering using vocal analysis data
-    console.log("DEBUG: Before singer filter, filtered.length=", filtered.length);
-    console.log("DEBUG: filtered is array?", Array.isArray(filtered));
-    console.log("DEBUG: requireSinger=", requireSinger, "includeSinger=", includeSinger);
     if (requireSinger) {
       // Debug: check first song lookup
-      console.log("DEBUG: filtered[0] raw=", filtered[0]);
       const testSong = filtered[0];
-      console.log("DEBUG: testSong object:", testSong);
-      console.log("DEBUG: testSong keys:", Object.keys(testSong || {}));
-      console.log("DEBUG: Test SongID:", testSong?.SongID);
-      console.log("DEBUG: vocalData has key?", testSong?.SongID in vocalData);
-      console.log("DEBUG: vocalData[id]=", vocalData[testSong?.SongID]);
 
       // Singer quiz: only songs with detected vocals
       filtered = filtered.filter((song) => {
         const vocal = vocalData[song.SongID];
         return vocal && vocal.hasSinger === true;
       });
-      console.log("DEBUG: After requireSinger filter:", filtered.length);
     } else if (!includeSinger) {
       // Orchestra quiz default: exclude songs with singers (instrumental only)
       filtered = filtered.filter((song) => {
@@ -214,7 +218,6 @@ export async function fetchFilteredSongs(
         // Include if no vocal data (not yet analyzed) or no singer detected
         return !vocal || vocal.hasSinger !== true;
       });
-      console.log("DEBUG: After excludeSinger filter:", filtered.length);
     }
 
     // Filter by specific singer names (handle both string and {label, value} objects)
@@ -223,12 +226,10 @@ export async function fetchFilteredSongs(
         const name = typeof s === "string" ? s : s?.value;
         return name?.toLowerCase() || "";
       });
-      console.log("DEBUG: Filtering for singers:", singersLower);
       filtered = filtered.filter((song) => {
         const songSinger = song.Singer?.trim().toLowerCase();
         return songSinger && singersLower.includes(songSinger);
       });
-      console.log("DEBUG: After singers filter:", filtered.length);
     }
 
     // Duet filter: 'all' (no filter), 'solo' (exclude duets), 'duetsOnly' (only duets)
@@ -237,13 +238,11 @@ export async function fetchFilteredSongs(
         const singerLower = song.Singer?.trim().toLowerCase();
         return !singerLower || !singerDuetMap[singerLower];
       });
-      console.log("DEBUG: After duetFilter=solo:", filtered.length);
     } else if (duetFilter === 'duetsOnly') {
       filtered = filtered.filter((song) => {
         const singerLower = song.Singer?.trim().toLowerCase();
         return singerLower && singerDuetMap[singerLower];
       });
-      console.log("DEBUG: After duetFilter=duetsOnly:", filtered.length);
     }
 
     // Enrich songs with vocal data for playback and rewrite AudioUrl to use proxy
@@ -261,32 +260,155 @@ export async function fetchFilteredSongs(
       };
     });
 
+    // Track total available before random selection
+    const availableCount = filtered.length;
+
     const finalSongs = getRandomSongs(filtered, qty);
     const finalQty = finalSongs.length;
-    console.log("Filtered songs:", finalSongs);
-    console.log("Filtered songs count:", finalQty);
 
-    console.log("from Filter Criteria", {
-      artistMasters: validArtistMasters,
-      artistLevels: validArtistLevels,
-      recognitionTiers: validRecognitionTiers,
-      composers: validComposers,
-      styles: validStyles,
-      candombe: candombe || "not applied",
-      alternative: alternative || "not applied",
-      cancion: cancion || "not applied",
-      requestedQty: qty,
-      finalQty,
-      // Debug singer filtering
-      singersFilter: singers,
-      requireSinger: requireSinger,
-      includeSinger: includeSinger,
-    });
-
-    return { songs: finalSongs, qty: finalQty };
+    return { songs: finalSongs, qty: finalQty, availableCount };
   } catch (error) {
     console.error("Error in fetchFilteredSongs:", error);
-    return { songs: [], qty: 0 };
+    return { songs: [], qty: 0, availableCount: 0 };
+  }
+}
+
+/**
+ * Lightweight function to count available songs based on filters.
+ * Use this for live UI updates without fetching full song data.
+ * Same filtering logic as fetchFilteredSongs but returns only the count.
+ */
+export async function getFilteredSongCount(options = {}) {
+  const {
+    artists = [],
+    styles = [],
+    recognitionTiers = [],
+    periods = [],
+    includeSinger = false,
+    requireSinger = false,
+    requireOrchestra = false,
+    singers = [],
+    yearRange = null,
+    duetFilter = 'solo',
+  } = options;
+
+  try {
+    const [djSongsData, artistData, singerData, periodsData] = await Promise.all([
+      fetch(`/songData/djSongsWeighted.json`).then((r) => r.json()),
+      fetch(`/songData/ArtistMaster.json`).then((r) => r.json()),
+      fetch(`/songData/SingerMaster.json`).then((r) => r.json()),
+      fetch(`/songData/TangoPeriods.json`).then((r) => r.json()).catch(() => []),
+    ]);
+
+    // Build lookup maps
+    const singerDuetMap = {};
+    singerData.forEach((s) => {
+      if (s.singer) singerDuetMap[s.singer.toLowerCase()] = s.isDuetPlus === true;
+    });
+
+    const artistLevelMap = {};
+    artistData.forEach((artist) => {
+      if (artist.active === "true") {
+        artistLevelMap[artist.artist.toLowerCase()] = parseInt(artist.level, 10);
+      }
+    });
+
+    // Enrich songs with level
+    let filtered = djSongsData.songs.map((song) => {
+      const artistName = song.ArtistMaster?.trim().toLowerCase();
+      const songLevel = artistName && artistLevelMap[artistName] ? artistLevelMap[artistName] : null;
+      return { ...song, level: songLevel };
+    });
+
+    // Apply filters (same logic as fetchFilteredSongs)
+    if (requireOrchestra) {
+      filtered = filtered.filter((song) => song.ArtistMaster && song.ArtistMaster.trim() !== "");
+    }
+
+    // Artist filter
+    const validArtists = artists.filter((a) => a && a.trim() !== "");
+    if (validArtists.length > 0) {
+      const artistsLower = validArtists.map((a) => a.toLowerCase());
+      filtered = filtered.filter((song) =>
+        song.ArtistMaster && artistsLower.includes(song.ArtistMaster.trim().toLowerCase())
+      );
+    }
+
+    // Recognition Tier filter
+    const validTiers = recognitionTiers.filter((t) => typeof t === "number");
+    if (validTiers.length > 0) {
+      filtered = filtered.filter((song) =>
+        song.recognitionTier && validTiers.includes(song.recognitionTier)
+      );
+    }
+
+    // Year range filter
+    if (yearRange && Array.isArray(yearRange) && yearRange.length === 2) {
+      const [startYear, endYear] = yearRange;
+      filtered = filtered.filter((song) => {
+        const year = parseInt(song.Year, 10);
+        return !isNaN(year) && year >= startYear && year <= endYear;
+      });
+    }
+
+    // Period filter
+    if (periods && periods.length > 0) {
+      const periodRanges = periods
+        .map((periodName) => periodsData.find((p) => p.period === periodName))
+        .filter((p) => p != null)
+        .map((p) => ({ start: p.start_year, end: p.end_year }));
+
+      if (periodRanges.length > 0) {
+        filtered = filtered.filter((song) => {
+          const year = parseInt(song.Year, 10);
+          if (isNaN(year)) return false;
+          return periodRanges.some((range) => year >= range.start && year <= range.end);
+        });
+      }
+    }
+
+    // Style filter
+    const validStyles = styles.filter((s) => s && s.trim() !== "");
+    if (validStyles.length > 0) {
+      const stylesLower = validStyles.map((s) => s.toLowerCase());
+      filtered = filtered.filter((song) =>
+        song.Style && stylesLower.includes(song.Style.trim().toLowerCase())
+      );
+    }
+
+    // Singer/instrumental filter
+    if (requireSinger) {
+      filtered = filtered.filter((song) => song.Singer && song.Singer.trim() !== "");
+    } else if (!includeSinger) {
+      filtered = filtered.filter((song) => !song.Singer || song.Singer.trim() === "");
+    }
+
+    // Specific singers filter
+    if (singers.length > 0) {
+      const singersLower = singers.map((s) => (typeof s === 'string' ? s : s.value).toLowerCase());
+      filtered = filtered.filter((song) => {
+        const songSinger = song.Singer?.trim().toLowerCase();
+        return songSinger && singersLower.includes(songSinger);
+      });
+    }
+
+    // Duet filter
+    if (duetFilter === 'solo') {
+      filtered = filtered.filter((song) => {
+        const singerLower = song.Singer?.trim().toLowerCase();
+        return !singerLower || !singerDuetMap[singerLower];
+      });
+    } else if (duetFilter === 'duetsOnly') {
+      filtered = filtered.filter((song) => {
+        const singerLower = song.Singer?.trim().toLowerCase();
+        return singerLower && singerDuetMap[singerLower];
+      });
+    }
+
+    return filtered.length;
+  } catch (error) {
+    console.error("Error in getFilteredSongCount:", error);
+    return 0;
   }
 }
 
@@ -393,12 +515,25 @@ export async function getDistractors(
     }
   });
 
-  // 3) Gather the final set of levels (from config.levels + config.artists)
+  // 3) Gather the final set of levels (from config.recognitionTiers + config.artists)
+  // Map recognitionTiers to orchestra levels: tier 1-2 = level 1-2, tier 3 = level 1-3, tier 4 = level 1-4
   const finalLevels = new Set();
-  // Add explicit levels from config
+
+  // Map recognition tiers to orchestra levels for distractors
+  const recognitionTiers = config.recognitionTiers || [];
+  if (recognitionTiers.length > 0) {
+    const maxTier = Math.max(...recognitionTiers);
+    // Include orchestra levels up to the max tier selected
+    for (let lvl = 1; lvl <= Math.min(maxTier + 1, 5); lvl++) {
+      finalLevels.add(lvl);
+    }
+  }
+
+  // Also support legacy config.levels if present
   (config.levels || []).forEach((lvl) => {
     finalLevels.add(Number(lvl));
   });
+
   // Add levels from any selected artist (handle both string and {label, value} objects)
   (config.artists || []).forEach((artist) => {
     const artistName = typeof artist === "string" ? artist : artist?.value;
@@ -456,6 +591,147 @@ export async function getDistractors(
  * @param {number}         numDistractors - How many distractors to return (default=3)
  * @returns {string[]}     array of distractor artist names
  */
+/**
+ * Fetch songs grouped by title for the Same Song Comparison game.
+ * Returns an array of { title, count, songs } sorted by count descending.
+ * Only includes titles with 2+ recordings.
+ *
+ * @param {Object} options - Filter options
+ * @param {number[]} options.recognitionTiers - Filter by recognition tiers
+ * @param {string[]} options.periods - Filter by period names
+ * @param {number} options.minRecordings - Minimum recordings required (default 2)
+ * @returns {Promise<Array>} - Array of { title, count, songs }
+ */
+export async function fetchSongsGroupedByTitle(options = {}) {
+  const { recognitionTiers = [], periods = [], minRecordings = 2 } = options;
+
+  try {
+    const [djSongsData, periodsData, vocalData] = await Promise.all([
+      fetch(`/songData/djSongsWeighted.json`).then((r) => r.json()),
+      fetch(`/songData/TangoPeriods.json`).then((r) => r.json()).catch(() => []),
+      fetch(`/api/vocal-data`).then((r) => r.json()).catch(() => ({})),
+    ]);
+
+    let filtered = djSongsData.songs;
+
+    // Recognition Tier filter
+    const validTiers = recognitionTiers.filter((t) => typeof t === "number");
+    if (validTiers.length > 0) {
+      filtered = filtered.filter((song) =>
+        song.recognitionTier && validTiers.includes(song.recognitionTier)
+      );
+    }
+
+    // Period filter
+    if (periods && periods.length > 0) {
+      const periodRanges = periods
+        .map((periodName) => periodsData.find((p) => p.period === periodName))
+        .filter((p) => p != null)
+        .map((p) => ({ start: p.start_year, end: p.end_year }));
+
+      if (periodRanges.length > 0) {
+        filtered = filtered.filter((song) => {
+          const year = parseInt(song.Year, 10);
+          if (isNaN(year)) return false;
+          return periodRanges.some((range) => year >= range.start && year <= range.end);
+        });
+      }
+    }
+
+    // Enrich with vocal data and proxy URL
+    filtered = filtered.map((song) => {
+      const vocal = vocalData[song.SongID];
+      const proxyAudioUrl = song.SongID ? `/api/audio/${song.SongID}` : song.AudioUrl;
+      return {
+        ...song,
+        AudioUrl: proxyAudioUrl,
+        hasSinger: vocal?.hasSinger,
+        vocalSegments: vocal?.vocalSegments || [],
+      };
+    });
+
+    // Group by title (case-insensitive)
+    const titleMap = {};
+    filtered.forEach((song) => {
+      const title = song.Title?.trim();
+      if (!title) return;
+      const titleLower = title.toLowerCase();
+      if (!titleMap[titleLower]) {
+        titleMap[titleLower] = { title, songs: [] };
+      }
+      titleMap[titleLower].songs.push(song);
+    });
+
+    // Convert to array, filter by minRecordings, sort by count
+    const grouped = Object.values(titleMap)
+      .filter((g) => g.songs.length >= minRecordings)
+      .map((g) => ({
+        title: g.title,
+        count: g.songs.length,
+        songs: g.songs.sort((a, b) => {
+          // Sort by year, then by orchestra
+          const yearA = parseInt(a.Year, 10) || 0;
+          const yearB = parseInt(b.Year, 10) || 0;
+          if (yearA !== yearB) return yearA - yearB;
+          return (a.ArtistMaster || "").localeCompare(b.ArtistMaster || "");
+        }),
+      }))
+      .sort((a, b) => b.count - a.count);
+
+    return grouped;
+  } catch (error) {
+    console.error("Error in fetchSongsGroupedByTitle:", error);
+    return [];
+  }
+}
+
+/**
+ * Get title distractors for the Song Title Quiz.
+ * Returns song titles that are NOT the correct title.
+ *
+ * @param {string} correctTitle - The correct song title
+ * @param {Object} config - Config with recognitionTiers
+ * @param {number} numDistractors - Number of distractors to return
+ * @returns {Promise<string[]>} - Array of distractor titles
+ */
+export async function getTitleDistractors(correctTitle, config, numDistractors = 3) {
+  try {
+    const djSongsData = await fetch(`/songData/djSongsWeighted.json`).then((r) => r.json());
+
+    let songs = djSongsData.songs;
+
+    // Filter by recognition tiers if specified
+    const recognitionTiers = config.recognitionTiers || [];
+    if (recognitionTiers.length > 0) {
+      songs = songs.filter((song) =>
+        song.recognitionTier && recognitionTiers.includes(song.recognitionTier)
+      );
+    }
+
+    // Get unique titles (case-insensitive), excluding correct answer
+    const correctLower = correctTitle?.trim().toLowerCase();
+    const titleSet = new Set();
+    const titles = [];
+
+    songs.forEach((song) => {
+      const title = song.Title?.trim();
+      if (!title) return;
+      const titleLower = title.toLowerCase();
+      if (titleLower === correctLower) return;
+      if (titleSet.has(titleLower)) return;
+      titleSet.add(titleLower);
+      titles.push(title);
+    });
+
+    // Shuffle and return
+    shuffleArray(titles);
+    return titles.slice(0, numDistractors);
+  } catch (error) {
+    console.error("Error in getTitleDistractors:", error);
+    return [];
+  }
+}
+
 export function getDistractorsByConfig(
   correctArtist,
   allArtists,
@@ -508,7 +784,17 @@ export function getDistractorsByConfig(
     console.log("selectedArtistLevels => added:", lvl, selectedArtistLevels);
   });
 
-  // 3) Merge with config.levels
+  // 3) Merge with config.recognitionTiers (mapped to orchestra levels)
+  const recognitionTiers = config.recognitionTiers || [];
+  if (recognitionTiers.length > 0) {
+    const maxTier = Math.max(...recognitionTiers);
+    // Include orchestra levels up to the max tier selected
+    for (let lvl = 1; lvl <= Math.min(maxTier + 1, 5); lvl++) {
+      selectedArtistLevels.add(lvl);
+    }
+  }
+
+  // Also support legacy config.levels if present
   (config.levels || []).forEach((lvl) => {
     selectedArtistLevels.add(Number(lvl));
   });
