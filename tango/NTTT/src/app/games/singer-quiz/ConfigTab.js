@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Box, Typography } from "@mui/material";
 import styles from "../styles.module.css";
 
-import SongsSlider from "@/components/ui/SongsSlider";
-import SecondsSlider from "@/components/ui/SecondsSlider";
-import RecognitionSelector from "@/components/ui/RecognitionSelector";
+import GameSetupDials from "@/components/ui/GameSetupDials";
+import FilterSection from "@/components/ui/FilterSection";
+import RecognitionSelector, { TIER_CONFIG } from "@/components/ui/RecognitionSelector";
 import ArtistsSelector from "@/components/ui/ArtistsSelector";
 import SingersSelector from "@/components/ui/SingersSelector";
 import PeriodsSelector from "@/components/ui/PeriodsSelector";
@@ -38,72 +38,75 @@ export default function ConfigTab() {
     setIsConfigValid(!validationMessage && hasEnoughSongs);
   }, [validationMessage, hasEnoughSongs]);
 
+  // Summary helpers
+  const tierSummary = useMemo(() => {
+    const tiers = config.recognitionTiers || [1];
+    return tiers.map(t => TIER_CONFIG[t]?.name || t);
+  }, [config.recognitionTiers]);
+
+  const periodSummary = useMemo(() => {
+    return config.periods || [];
+  }, [config.periods]);
+
+  const artistSummary = useMemo(() => {
+    const artists = config.artists || [];
+    if (artists.length === 0) return "All";
+    return artists.map(a => a.label || a.value);
+  }, [config.artists]);
+
+  const singerSummary = useMemo(() => {
+    const singers = config.singers || [];
+    if (singers.length === 0) return "All";
+    return singers.map(s => typeof s === 'string' ? s : (s.label || s.value));
+  }, [config.singers]);
+
   return (
     <Box className={styles.configurationContainer}>
-      {/* Sliders */}
-      <Box sx={{ display: "flex", gap: 4, mb: 3 }}>
-        <Box sx={{ flex: 1 }}>
-          <SongsSlider
-            label="# Songs"
-            min={3}
-            max={25}
-            step={1}
-            value={config.numSongs ?? 10}
-            onChange={handleNumSongsChange}
-          />
-        </Box>
-        <Box sx={{ flex: 1 }}>
-          <SecondsSlider
-            label="Seconds to guess"
-            min={3}
-            max={29}
-            step={1}
-            value={config.timeLimit ?? 15}
-            onChange={handleTimeLimitChange}
-          />
-        </Box>
-      </Box>
+      {/* Dial Controls */}
+      <GameSetupDials
+        numSongs={config.numSongs ?? 10}
+        onNumSongsChange={handleNumSongsChange}
+        timeLimit={config.timeLimit ?? 15}
+        onTimeLimitChange={handleTimeLimitChange}
+        secondsLabel="Time"
+      />
 
-      {/* Main Grid - Orchestra and Singer filters */}
-      <Box sx={{ display: "flex", gap: 4, mb: 3 }}>
-        {/* First Column: Recognition Tier & Periods */}
-        <Box sx={{ flex: 1 }}>
-          <RecognitionSelector
-            label="Recognition Tier:"
-            selectedTiers={config.recognitionTiers || [1]}
-            onChange={(tiers) => handleLevelsChange(tiers)}
-          />
-          <PeriodsSelector
-            label="Periods:"
-            selectedPeriods={config.periods || []}
-            onChange={(val) => updateConfig("periods", val)}
-          />
-        </Box>
-        {/* Second Column: Artists (Orchestra filter) */}
-        <Box sx={{ flex: 1 }}>
-          <ArtistsSelector
-            label="Filter by Orchestra (Optional)"
-            availableArtists={artistOptions}
-            selectedArtists={config.artists || []}
-            onChange={handleArtistsChange}
-          />
-        </Box>
-      </Box>
+      {/* Filters */}
+      <FilterSection title="Difficulty" summary={tierSummary} defaultExpanded>
+        <RecognitionSelector
+          selectedTiers={config.recognitionTiers || [1]}
+          onChange={handleLevelsChange}
+          compact
+        />
+      </FilterSection>
 
-      {/* Singer filter */}
-      <Box sx={{ mb: 3 }}>
+      <FilterSection title="Period" summary={periodSummary.length > 0 ? periodSummary : "All"}>
+        <PeriodsSelector
+          selectedPeriods={config.periods || []}
+          onChange={(val) => updateConfig("periods", val)}
+        />
+      </FilterSection>
+
+      <FilterSection title="Orchestra" summary={artistSummary}>
+        <ArtistsSelector
+          availableArtists={artistOptions}
+          selectedArtists={config.artists || []}
+          onChange={handleArtistsChange}
+        />
+      </FilterSection>
+
+      <FilterSection title="Singer" summary={singerSummary}>
         <SingersSelector
-          label="Filter by Singer (Optional)"
           availableSingers={singerOptions}
           selectedSingers={config.singers || []}
           onChange={handleSingersChange}
         />
         {singerOptions.length === 0 && (
-          <Typography variant="body2" sx={{ color: "var(--accent)", mt: 1 }}>
-            Singer data is being analyzed. All detected singers will be included.
+          <Typography variant="caption" sx={{ color: "var(--accent)", mt: 1, display: "block" }}>
+            Singer data loading...
           </Typography>
         )}
-      </Box>
+      </FilterSection>
 
       {/* Song Count Display */}
       <SongCountDisplay
@@ -115,8 +118,8 @@ export default function ConfigTab() {
 
       {/* Validation Message */}
       {!isConfigValid && (
-        <Box sx={{ color: "red", mt: 2 }}>
-          {validationMessage || `Not enough songs available (need ${numSongs}, have ${availableCount})`}
+        <Box sx={{ color: "red", mt: 2, textAlign: "center", fontSize: "0.85rem" }}>
+          {validationMessage || `Not enough songs (need ${numSongs}, have ${availableCount})`}
         </Box>
       )}
     </Box>

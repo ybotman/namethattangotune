@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import { Box, FormControlLabel, Switch, Typography } from "@mui/material";
 import styles from "../styles.module.css";
 
-import SongsSlider from "@/components/ui/SongsSlider";
+import DialControl from "@/components/ui/DialControl";
+import FilterSection from "@/components/ui/FilterSection";
 import StylesSelector from "@/components/ui/StylesSelector";
 import ArtistsSelector from "@/components/ui/ArtistsSelector";
 import SingersSelector from "@/components/ui/SingersSelector";
@@ -22,71 +23,88 @@ export default function ConfigTab({ artistOptions, singerOptions }) {
 
   const instrumentalOnly = config.instrumentalOnly ?? false;
 
+  // Summary helpers
+  const styleSummary = useMemo(() => {
+    const styles = Object.keys(config.styles || {}).filter(k => config.styles[k]);
+    return styles.length > 0 ? styles : ["All"];
+  }, [config.styles]);
+
+  const artistSummary = useMemo(() => {
+    const artists = config.artists || [];
+    if (artists.length === 0) return "All";
+    return artists.map(a => a.label || a.value);
+  }, [config.artists]);
+
+  const singerSummary = useMemo(() => {
+    if (instrumentalOnly) return "Instrumental only";
+    const singers = (config.singers || []).map((s) =>
+      typeof s === "string" ? s : (s.label || s.value)
+    );
+    return singers.length > 0 ? singers : "All";
+  }, [config.singers, instrumentalOnly]);
+
+  const yearRange = config.yearRange ?? [1929, 1939];
+  const yearSummary = `${yearRange[0]} - ${yearRange[1]}`;
+
   return (
     <Box className={styles.configurationContainer}>
-      {/* Number of songs */}
-      <Box sx={{ mb: 3 }}>
-        <SongsSlider
-          label="# Songs"
+      {/* Single Dial - Number of Songs */}
+      <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
+        <DialControl
+          label="Songs"
+          value={config.numSongs ?? 30}
           min={5}
           max={50}
           step={5}
-          value={config.numSongs ?? 30}
           onChange={(val) => updateConfig("numSongs", val)}
+          size={90}
+          color="#4CAF50"
         />
       </Box>
 
-      {/* Year Range - default 1929-1939 */}
-      <Box sx={{ mb: 3 }}>
+      {/* Filters */}
+      <FilterSection title="Year Range" summary={yearSummary} defaultExpanded>
         <YearRangeSelector
-          label="Year Range:"
           value={config.yearRange ?? [1929, 1939]}
           onChange={(val) => updateConfig("yearRange", val)}
         />
-      </Box>
+      </FilterSection>
 
-      {/* Styles */}
-      <Box sx={{ mb: 3 }}>
+      <FilterSection title="Style" summary={styleSummary}>
         <StylesSelector
-          label="Styles:"
           availableStyles={PRIMARY_STYLES}
           selectedStyles={config.styles || {}}
           onChange={(val) => updateConfig("styles", val)}
         />
-      </Box>
+      </FilterSection>
 
-      {/* Orchestras */}
-      <Box sx={{ mb: 3 }}>
+      <FilterSection title="Orchestra" summary={artistSummary}>
         <ArtistsSelector
-          label="Select Orchestras:"
           availableArtists={artistOptions}
           selectedArtists={config.artists || []}
           onChange={(val) => updateConfig("artists", val)}
         />
-      </Box>
+      </FilterSection>
 
-      {/* Instrumental Only Toggle */}
-      <Box sx={{ mb: 2 }}>
+      <FilterSection title="Vocals" summary={singerSummary}>
         <FormControlLabel
           control={
             <Switch
               checked={instrumentalOnly}
               onChange={(e) => updateConfig("instrumentalOnly", e.target.checked)}
+              size="small"
             />
           }
           label={
-            <Typography>
-              Instrumental Only (no singers)
+            <Typography variant="body2" sx={{ color: "var(--foreground)" }}>
+              Instrumental only
             </Typography>
           }
+          sx={{ mb: 1 }}
         />
-      </Box>
 
-      {/* Singers - hidden when instrumental only */}
-      {!instrumentalOnly && (
-        <Box sx={{ mb: 3 }}>
+        {!instrumentalOnly && (
           <SingersSelector
-            label="Select Singers:"
             availableSingers={singerOptions}
             selectedSingers={
               (config.singers || []).map((s) =>
@@ -95,8 +113,8 @@ export default function ConfigTab({ artistOptions, singerOptions }) {
             }
             onChange={(val) => updateConfig("singers", val)}
           />
-        </Box>
-      )}
+        )}
+      </FilterSection>
     </Box>
   );
 }

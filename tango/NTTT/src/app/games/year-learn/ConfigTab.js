@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Box, Typography, Switch, FormControlLabel } from "@mui/material";
 import styles from "../styles.module.css";
 
-import SongsSlider from "@/components/ui/SongsSlider";
-import SecondsSlider from "@/components/ui/SecondsSlider";
+import GameSetupDials from "@/components/ui/GameSetupDials";
+import FilterSection from "@/components/ui/FilterSection";
 import StylesSelector from "@/components/ui/StylesSelector";
-import RecognitionSelector from "@/components/ui/RecognitionSelector";
+import RecognitionSelector, { TIER_CONFIG } from "@/components/ui/RecognitionSelector";
 import ContiguousPeriodSelector from "@/components/ui/ContiguousPeriodSelector";
 import SongCountDisplay from "@/components/ui/SongCountDisplay";
 import { useGameContext } from "@/contexts/GameContext";
@@ -18,7 +18,6 @@ const PRIMARY_STYLES = [
   { style: "Milonga" },
 ];
 
-// Default periods for year quiz
 const DEFAULT_PERIODS = ["New Guard", "Golden Age"];
 
 export default function ConfigTab() {
@@ -29,7 +28,6 @@ export default function ConfigTab() {
   const numSongs = config.numSongs ?? 10;
   const hasEnoughSongs = availableCount === null || availableCount >= numSongs;
 
-  // Set default periods on mount if not set
   useEffect(() => {
     if (!config.periods || config.periods.length === 0) {
       updateConfig("periods", DEFAULT_PERIODS);
@@ -40,7 +38,6 @@ export default function ConfigTab() {
     setIsConfigValid(hasEnoughSongs);
   }, [hasEnoughSongs]);
 
-  // Handle year range change from period selector
   const handleYearRangeChange = (range) => {
     updateConfig("yearDialRange", range);
   };
@@ -53,9 +50,7 @@ export default function ConfigTab() {
   const handleAllStylesToggle = (checked) => {
     if (checked) {
       const allStyles = {};
-      PRIMARY_STYLES.forEach((s) => {
-        allStyles[s.style] = true;
-      });
+      PRIMARY_STYLES.forEach((s) => { allStyles[s.style] = true; });
       updateConfig("styles", allStyles);
     } else {
       updateConfig("styles", { Tango: true });
@@ -66,82 +61,76 @@ export default function ConfigTab() {
     updateConfig("styles", newStyles);
   };
 
+  // Summary helpers
+  const tierSummary = useMemo(() => {
+    const tiers = config.recognitionTiers || [1];
+    return tiers.map(t => TIER_CONFIG[t]?.name || t);
+  }, [config.recognitionTiers]);
+
+  const styleSummary = useMemo(() => {
+    const styles = Object.keys(config.styles || {}).filter(k => config.styles[k]);
+    return styles.length > 0 ? styles : ["Tango"];
+  }, [config.styles]);
+
+  const periodSummary = useMemo(() => {
+    return config.periods || DEFAULT_PERIODS;
+  }, [config.periods]);
+
   return (
     <Box className={styles.configurationContainer}>
-      {/* Sliders */}
-      <Box sx={{ display: "flex", gap: 4, mb: 3 }}>
-        <Box sx={{ flex: 1 }}>
-          <SongsSlider
-            label="# Songs"
-            min={3}
-            max={25}
-            step={1}
-            value={config.numSongs ?? 10}
-            onChange={(val) => updateConfig("numSongs", val)}
-          />
-        </Box>
-        <Box sx={{ flex: 1 }}>
-          <SecondsSlider
-            label="Seconds"
-            min={5}
-            max={30}
-            step={1}
-            value={config.timeLimit ?? 15}
-            onChange={(val) => updateConfig("timeLimit", val)}
-          />
-        </Box>
+      {/* Dial Controls */}
+      <GameSetupDials
+        numSongs={config.numSongs ?? 10}
+        onNumSongsChange={(val) => updateConfig("numSongs", val)}
+        timeLimit={config.timeLimit ?? 15}
+        onTimeLimitChange={(val) => updateConfig("timeLimit", val)}
+        secondsLabel="Time"
+      />
+
+      {/* Info */}
+      <Box sx={{ textAlign: "center", mb: 2, px: 2 }}>
+        <Typography variant="caption" sx={{ color: "var(--foreground)", opacity: 0.7 }}>
+          Guess the year - within 3 years = 1 point
+        </Typography>
       </Box>
 
-      {/* Main Config */}
-      <Box sx={{ display: "flex", gap: 4, mb: 3 }}>
-        {/* Recognition Tier + Instructions */}
-        <Box sx={{ flex: 1 }}>
-          <RecognitionSelector
-            label="Recognition Tier:"
-            selectedTiers={config.recognitionTiers || [1]}
-            onChange={(tiers) => updateConfig("recognitionTiers", tiers)}
-          />
-          <ContiguousPeriodSelector
-            label="Periods (contiguous only):"
-            selectedPeriods={config.periods || DEFAULT_PERIODS}
-            onChange={(val) => updateConfig("periods", val)}
-            onYearRangeChange={handleYearRangeChange}
-          />
-          <Typography variant="body2" sx={{ color: "var(--foreground)", opacity: 0.7, mt: 2 }}>
-            Listen to each song and click on the year dial to guess when it was recorded.
-            <br /><br />
-            Scoring: Within 3 years = 1 point
-          </Typography>
-        </Box>
+      {/* Filters */}
+      <FilterSection title="Difficulty" summary={tierSummary} defaultExpanded>
+        <RecognitionSelector
+          selectedTiers={config.recognitionTiers || [1]}
+          onChange={(tiers) => updateConfig("recognitionTiers", tiers)}
+          compact
+        />
+      </FilterSection>
 
-        {/* Styles */}
-        <Box sx={{ flex: 1 }}>
+      <FilterSection title="Period" summary={periodSummary}>
+        <ContiguousPeriodSelector
+          selectedPeriods={config.periods || DEFAULT_PERIODS}
+          onChange={(val) => updateConfig("periods", val)}
+          onYearRangeChange={handleYearRangeChange}
+        />
+      </FilterSection>
+
+      <FilterSection title="Style" summary={styleSummary}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
           <FormControlLabel
             control={
               <Switch
                 checked={allStylesSelected}
                 onChange={(e) => handleAllStylesToggle(e.target.checked)}
-                sx={{
-                  "& .MuiSwitch-switchBase.Mui-checked": {
-                    color: "var(--accent)",
-                  },
-                  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-                    backgroundColor: "var(--accent)",
-                  },
-                }}
+                size="small"
               />
             }
-            label="All Styles"
-            sx={{ color: "var(--foreground)", mb: 1 }}
-          />
-          <StylesSelector
-            label="Styles:"
-            availableStyles={PRIMARY_STYLES}
-            selectedStyles={config.styles || { Tango: true }}
-            onChange={handleStylesChange}
+            label={<Typography variant="caption">All styles</Typography>}
+            sx={{ mr: 0 }}
           />
         </Box>
-      </Box>
+        <StylesSelector
+          availableStyles={PRIMARY_STYLES}
+          selectedStyles={config.styles || { Tango: true }}
+          onChange={handleStylesChange}
+        />
+      </FilterSection>
 
       {/* Song Count Display */}
       <SongCountDisplay
@@ -151,10 +140,10 @@ export default function ConfigTab() {
         onCountChange={setAvailableCount}
       />
 
-      {/* Validation Message */}
+      {/* Validation */}
       {!isConfigValid && (
-        <Box sx={{ color: "red", mt: 2 }}>
-          Not enough songs available (need {numSongs}, have {availableCount})
+        <Box sx={{ color: "red", mt: 2, textAlign: "center", fontSize: "0.85rem" }}>
+          Not enough songs (need {numSongs}, have {availableCount})
         </Box>
       )}
     </Box>

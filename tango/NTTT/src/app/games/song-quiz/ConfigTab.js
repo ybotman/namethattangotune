@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Box, Typography } from "@mui/material";
 import styles from "../styles.module.css";
 
-import SongsSlider from "@/components/ui/SongsSlider";
-import SecondsSlider from "@/components/ui/SecondsSlider";
-import RecognitionSelector from "@/components/ui/RecognitionSelector";
+import GameSetupDials from "@/components/ui/GameSetupDials";
+import FilterSection from "@/components/ui/FilterSection";
+import RecognitionSelector, { TIER_CONFIG } from "@/components/ui/RecognitionSelector";
 import StylesSelector from "@/components/ui/StylesSelector";
 import ArtistsSelector from "@/components/ui/ArtistsSelector";
 import PeriodsSelector from "@/components/ui/PeriodsSelector";
@@ -37,63 +37,75 @@ export default function ConfigTab() {
     setIsConfigValid(!validationMessage && hasEnoughSongs);
   }, [validationMessage, hasEnoughSongs]);
 
+  // Summary helpers
+  const tierSummary = useMemo(() => {
+    const tiers = config.recognitionTiers || [1];
+    return tiers.map(t => TIER_CONFIG[t]?.name || t);
+  }, [config.recognitionTiers]);
+
+  const styleSummary = useMemo(() => {
+    return Object.keys(config.styles || {}).filter(k => config.styles[k]);
+  }, [config.styles]);
+
+  const periodSummary = useMemo(() => {
+    return config.periods || [];
+  }, [config.periods]);
+
+  const artistSummary = useMemo(() => {
+    const artists = config.artists || [];
+    if (artists.length === 0) return "All";
+    return artists.map(a => a.label || a.value);
+  }, [config.artists]);
+
   return (
     <Box className={styles.configurationContainer}>
-      {/* Sliders */}
-      <Box sx={{ display: "flex", gap: 4, mb: 3 }}>
-        <Box sx={{ flex: 1 }}>
-          <SongsSlider
-            label="# Songs"
-            min={3}
-            max={25}
-            step={1}
-            value={config.numSongs ?? 10}
-            onChange={handleNumSongsChange}
-          />
-        </Box>
-        <Box sx={{ flex: 1 }}>
-          <SecondsSlider
-            label="Seconds (affects score)"
-            min={3}
-            max={29}
-            step={1}
-            value={config.timeLimit ?? 15}
-            onChange={handleTimeLimitChange}
-          />
-        </Box>
+      {/* Dial Controls */}
+      <GameSetupDials
+        numSongs={config.numSongs ?? 10}
+        onNumSongsChange={handleNumSongsChange}
+        timeLimit={config.timeLimit ?? 15}
+        onTimeLimitChange={handleTimeLimitChange}
+        secondsLabel="Time"
+      />
+
+      {/* Info */}
+      <Box sx={{ textAlign: "center", mb: 2, px: 2 }}>
+        <Typography variant="caption" sx={{ color: "var(--foreground)", opacity: 0.7 }}>
+          Listen and guess the song title from 4 choices
+        </Typography>
       </Box>
 
-      {/* Main Grid */}
-      <Box sx={{ display: "flex", gap: 4, mb: 3 }}>
-        {/* First Column: Recognition Tier & Periods */}
-        <Box sx={{ flex: 1 }}>
-          <RecognitionSelector
-            label="Recognition Tier:"
-            selectedTiers={config.recognitionTiers || [1]}
-            onChange={(tiers) => updateConfig("recognitionTiers", tiers)}
-          />
-          <PeriodsSelector
-            label="Periods:"
-            selectedPeriods={config.periods || []}
-            onChange={(val) => updateConfig("periods", val)}
-          />
-        </Box>
-        {/* Second Column: Styles & Artists */}
-        <Box sx={{ flex: 1 }}>
-          <StylesSelector
-            label="Styles:"
-            availableStyles={primaryStyles}
-            selectedStyles={config.styles || {}}
-            onChange={handleStylesChange}
-          />
-          <ArtistsSelector
-            label="Filter by Artists (Optional)"
-            availableArtists={artistOptions}
-            selectedArtists={config.artists || []}
-            onChange={handleArtistsChange}
-          />
-        </Box>
-      </Box>
+      {/* Filters */}
+      <FilterSection title="Difficulty" summary={tierSummary} defaultExpanded>
+        <RecognitionSelector
+          selectedTiers={config.recognitionTiers || [1]}
+          onChange={(tiers) => updateConfig("recognitionTiers", tiers)}
+          compact
+        />
+      </FilterSection>
+
+      <FilterSection title="Style" summary={styleSummary.length > 0 ? styleSummary : ["Tango"]}>
+        <StylesSelector
+          availableStyles={primaryStyles}
+          selectedStyles={config.styles || {}}
+          onChange={handleStylesChange}
+        />
+      </FilterSection>
+
+      <FilterSection title="Period" summary={periodSummary.length > 0 ? periodSummary : "All"}>
+        <PeriodsSelector
+          selectedPeriods={config.periods || []}
+          onChange={(val) => updateConfig("periods", val)}
+        />
+      </FilterSection>
+
+      <FilterSection title="Artist" summary={artistSummary}>
+        <ArtistsSelector
+          availableArtists={artistOptions}
+          selectedArtists={config.artists || []}
+          onChange={handleArtistsChange}
+        />
+      </FilterSection>
 
       {/* Song Count Display */}
       <SongCountDisplay
@@ -103,19 +115,10 @@ export default function ConfigTab() {
         onCountChange={setAvailableCount}
       />
 
-      {/* Instructions */}
-      <Box sx={{ mt: 2, p: 2, backgroundColor: "var(--input-bg)", borderRadius: 2 }}>
-        <Typography variant="body2" sx={{ color: "var(--foreground)" }}>
-          <strong>How to play:</strong> Listen to a clip and guess the song title
-          from 4 choices. Higher recognition tiers = more obscure songs = harder!
-        </Typography>
-      </Box>
-
       {/* Validation Message */}
       {!isConfigValid && (
-        <Box sx={{ color: "red", mt: 2 }}>
-          {validationMessage ||
-            `Not enough songs available (need ${numSongs}, have ${availableCount})`}
+        <Box sx={{ color: "red", mt: 2, textAlign: "center", fontSize: "0.85rem" }}>
+          {validationMessage || `Not enough songs (need ${numSongs}, have ${availableCount})`}
         </Box>
       )}
     </Box>

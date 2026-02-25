@@ -1,22 +1,20 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Box, ToggleButton, ToggleButtonGroup, Typography, Switch, FormControlLabel } from "@mui/material";
 import styles from "../styles.module.css";
 
-import SongsSlider from "@/components/ui/SongsSlider";
-import SecondsSlider from "@/components/ui/SecondsSlider";
-import RecognitionSelector from "@/components/ui/RecognitionSelector";
+import GameSetupDials from "@/components/ui/GameSetupDials";
+import FilterSection from "@/components/ui/FilterSection";
+import RecognitionSelector, { TIER_CONFIG } from "@/components/ui/RecognitionSelector";
 import StylesSelector from "@/components/ui/StylesSelector";
 import ArtistsSelector from "@/components/ui/ArtistsSelector";
-import YearRangeSelector from "@/components/ui/YearRangeSelector";
 import PeriodsSelector from "@/components/ui/PeriodsSelector";
 import SongCountDisplay from "@/components/ui/SongCountDisplay";
 import useArtistLearn from "@/hooks/useArtistLearn";
 import { useGameContext } from "@/contexts/GameContext";
 
 export default function ConfigTab() {
-  // A) fetch data from useArtistLearn (now also from GameContext)
   const {
     primaryStyles,
     artistOptions,
@@ -28,10 +26,8 @@ export default function ConfigTab() {
     handleArtistsChange,
   } = useArtistLearn();
 
-  // B) Access & update final config from GameContext
   const { config, updateConfig } = useGameContext();
 
-  // Local state to track whether the config is valid
   const [isConfigValid, setIsConfigValid] = useState(true);
   const [availableCount, setAvailableCount] = useState(null);
 
@@ -53,131 +49,120 @@ export default function ConfigTab() {
   };
 
   useEffect(() => {
-    // If validationMessage is non-empty OR not enough songs => invalid
     setIsConfigValid(!validationMessage && hasEnoughSongs);
   }, [validationMessage, hasEnoughSongs]);
 
+  // Summary helpers
+  const tierSummary = useMemo(() => {
+    const tiers = config.recognitionTiers || [1];
+    return tiers.map(t => TIER_CONFIG[t]?.name || t);
+  }, [config.recognitionTiers]);
+
+  const styleSummary = useMemo(() => {
+    const styles = Object.keys(config.styles || {}).filter(k => config.styles[k]);
+    return styles.length > 0 ? styles : ["Tango"];
+  }, [config.styles]);
+
+  const periodSummary = useMemo(() => {
+    return config.periods || [];
+  }, [config.periods]);
+
+  const artistSummary = useMemo(() => {
+    const artists = config.artists || [];
+    if (artists.length === 0) return "All";
+    return artists.map(a => a.label || a.value);
+  }, [config.artists]);
+
+  const vocalLabel = {
+    instrumental: "Instrumental",
+    solo: "Solo singer",
+    duetsOnly: "Duets",
+    all: "All vocals"
+  }[config.vocalFilter || "instrumental"];
+
   return (
     <Box className={styles.configurationContainer}>
-      {/* Sliders */}
-      <Box sx={{ display: "flex", gap: 4, mb: 3 }}>
-        <Box sx={{ flex: 1 }}>
-          <SongsSlider
-            label="# Songs"
-            min={3}
-            max={25}
-            step={1}
-            value={config.numSongs ?? 10}
-            onChange={handleNumSongsChange}
-          />
-        </Box>
-        <Box sx={{ flex: 1 }}>
-          <SecondsSlider
-            label="Seconds"
-            min={3}
-            max={29}
-            step={1}
-            value={config.timeLimit ?? 15}
-            onChange={handleTimeLimitChange}
-          />
-        </Box>
+      {/* Dial Controls */}
+      <GameSetupDials
+        numSongs={config.numSongs ?? 10}
+        onNumSongsChange={handleNumSongsChange}
+        timeLimit={config.timeLimit ?? 15}
+        onTimeLimitChange={handleTimeLimitChange}
+        secondsLabel="Time"
+      />
+
+      {/* Vocals Toggle - compact horizontal buttons */}
+      <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
+        <ToggleButtonGroup
+          value={config.vocalFilter || "instrumental"}
+          exclusive
+          onChange={(e, val) => val && updateConfig("vocalFilter", val)}
+          size="small"
+          sx={{
+            "& .MuiToggleButton-root": {
+              color: "var(--foreground)",
+              borderColor: "var(--accent)",
+              fontSize: "0.75rem",
+              py: 0.5,
+              px: 1.5,
+              "&.Mui-selected": {
+                backgroundColor: "var(--accent)",
+                color: "white",
+              },
+            },
+          }}
+        >
+          <ToggleButton value="instrumental">Inst</ToggleButton>
+          <ToggleButton value="solo">Solo</ToggleButton>
+          <ToggleButton value="duetsOnly">Duets</ToggleButton>
+          <ToggleButton value="all">All</ToggleButton>
+        </ToggleButtonGroup>
       </Box>
 
-      {/* Main Grid */}
-      <Box sx={{ display: "flex", gap: 4, mb: 3 }}>
-        {/* First Column: Recognition Tier, Artists, Singer Toggle */}
-        <Box sx={{ flex: 1 }}>
-          {/* 1. Recognition Tier */}
-          <RecognitionSelector
-            label="Recognition Tier:"
-            selectedTiers={config.recognitionTiers || [1]}
-            onChange={handleRecognitionTiersChange}
-          />
+      {/* Filters */}
+      <FilterSection title="Difficulty" summary={tierSummary} defaultExpanded>
+        <RecognitionSelector
+          selectedTiers={config.recognitionTiers || [1]}
+          onChange={handleRecognitionTiersChange}
+          compact
+        />
+      </FilterSection>
 
-          {/* 1b. Periods */}
-          <PeriodsSelector
-            label="Periods:"
-            selectedPeriods={config.periods || []}
-            onChange={(val) => updateConfig("periods", val)}
-          />
-
-          {/* 2. Artists */}
-          <Box sx={{ mt: 2 }}>
-            <ArtistsSelector
-              label="Select Artists (Optional)"
-              availableArtists={artistOptions}
-              selectedArtists={config.artists || []}
-              onChange={handleArtistsChange}
-            />
-          </Box>
-
-          {/* 3. Singer Toggle */}
-          <Box sx={{ mt: 2 }}>
-            <Typography variant="body2" sx={{ mb: 0.5, color: "var(--foreground)" }}>
-              Vocals:
-            </Typography>
-            <ToggleButtonGroup
-              value={config.vocalFilter || "instrumental"}
-              exclusive
-              onChange={(e, val) => val && updateConfig("vocalFilter", val)}
-              size="small"
-              sx={{
-                "& .MuiToggleButton-root": {
-                  color: "var(--foreground)",
-                  borderColor: "var(--accent)",
-                  "&.Mui-selected": {
-                    backgroundColor: "var(--accent)",
-                    color: "white",
-                  },
-                },
-              }}
-            >
-              <ToggleButton value="instrumental">Instrumental</ToggleButton>
-              <ToggleButton value="solo">Solo</ToggleButton>
-              <ToggleButton value="duetsOnly">Duets+</ToggleButton>
-              <ToggleButton value="all">All</ToggleButton>
-            </ToggleButtonGroup>
-          </Box>
-        </Box>
-
-        {/* Second Column: Styles, Year Range */}
-        <Box sx={{ flex: 1 }}>
-          {/* 4. Styles with All toggle */}
+      <FilterSection title="Style" summary={styleSummary}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
           <FormControlLabel
             control={
               <Switch
                 checked={allStylesSelected}
                 onChange={(e) => handleAllStylesToggle(e.target.checked)}
-                sx={{
-                  "& .MuiSwitch-switchBase.Mui-checked": {
-                    color: "var(--accent)",
-                  },
-                  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-                    backgroundColor: "var(--accent)",
-                  },
-                }}
+                size="small"
               />
             }
-            label="All Styles"
-            sx={{ color: "var(--foreground)", mb: 1 }}
+            label={<Typography variant="caption">All styles</Typography>}
+            sx={{ mr: 0 }}
           />
-          <StylesSelector
-            label="Styles:"
-            availableStyles={primaryStyles}
-            selectedStyles={config.styles || {}}
-            onChange={handleStylesChange}
-          />
-
-          {/* 5. Year Range (greyed out) */}
-          <Box sx={{ mt: 2, opacity: 0.5, pointerEvents: "none" }}>
-            <YearRangeSelector
-              label="Year Range (coming soon):"
-              value={config.yearRange}
-              onChange={(val) => updateConfig("yearRange", val)}
-            />
-          </Box>
         </Box>
-      </Box>
+        <StylesSelector
+          availableStyles={primaryStyles}
+          selectedStyles={config.styles || {}}
+          onChange={handleStylesChange}
+        />
+      </FilterSection>
+
+      <FilterSection title="Period" summary={periodSummary.length > 0 ? periodSummary : "All"}>
+        <PeriodsSelector
+          selectedPeriods={config.periods || []}
+          onChange={(val) => updateConfig("periods", val)}
+        />
+      </FilterSection>
+
+      <FilterSection title="Orchestra" summary={artistSummary}>
+        <ArtistsSelector
+          availableArtists={artistOptions}
+          selectedArtists={config.artists || []}
+          onChange={handleArtistsChange}
+        />
+      </FilterSection>
 
       {/* Song Count Display */}
       <SongCountDisplay
@@ -189,8 +174,8 @@ export default function ConfigTab() {
 
       {/* Validation Message */}
       {!isConfigValid && (
-        <Box sx={{ color: "red", mt: 2 }}>
-          {validationMessage || `Not enough songs available (need ${numSongs}, have ${availableCount})`}
+        <Box sx={{ color: "red", mt: 2, textAlign: "center", fontSize: "0.85rem" }}>
+          {validationMessage || `Not enough songs (need ${numSongs}, have ${availableCount})`}
         </Box>
       )}
     </Box>
