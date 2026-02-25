@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Box, Typography, Button, IconButton } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
@@ -13,36 +13,44 @@ export default function LearnTab({ songs, onCancel }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
-  const [autoPlay, setAutoPlay] = useState(true);
 
   const currentSong = songs[currentIndex];
 
-  const { containerRef, isReady, play, pause, isPlaying: wavePlaying } = useWaveSurfer(
-    currentSong?.AudioUrl,
-    {
-      height: 80,
-      waveColor: "#666",
-      progressColor: "var(--accent)",
-      barWidth: 2,
-      barGap: 1,
-    }
-  );
+  const { initWaveSurfer, cleanupWaveSurfer, playSnippet, waveSurferRef } = useWaveSurfer({
+    onSongEnd: () => setIsPlaying(false),
+  });
 
-  // Auto-play when ready
+  // Initialize WaveSurfer on mount
   useEffect(() => {
-    if (isReady && autoPlay) {
-      play();
-      setIsPlaying(true);
-    }
-  }, [isReady, currentIndex, autoPlay]);
+    initWaveSurfer();
+    return () => cleanupWaveSurfer();
+  }, [initWaveSurfer, cleanupWaveSurfer]);
+
+  // Play current song when index changes
+  const playCurrent = useCallback(() => {
+    if (!currentSong?.AudioUrl) return;
+
+    playSnippet(currentSong.AudioUrl, {
+      snippetMaxStart: 30,
+      fadeDurationSec: 0.5,
+      onPlaySuccess: () => setIsPlaying(true),
+      onPlayError: (err) => console.error("Play error:", err),
+    });
+  }, [currentSong, playSnippet]);
+
+  // Auto-play on song change
+  useEffect(() => {
+    playCurrent();
+  }, [currentIndex]);
 
   const handlePlayPause = () => {
-    if (wavePlaying) {
-      pause();
+    if (!waveSurferRef.current) return;
+
+    if (isPlaying) {
+      try { waveSurferRef.current.pause(); } catch (e) {}
       setIsPlaying(false);
     } else {
-      play();
-      setIsPlaying(true);
+      playCurrent();
     }
   };
 
@@ -121,18 +129,6 @@ export default function LearnTab({ songs, onCancel }) {
         </Typography>
       </Box>
 
-      {/* Waveform */}
-      <Box
-        sx={{
-          mb: 2,
-          p: 2,
-          backgroundColor: "#1a1a1a",
-          borderRadius: 2,
-        }}
-      >
-        <Box ref={containerRef} sx={{ width: "100%" }} />
-      </Box>
-
       {/* Controls */}
       <Box
         sx={{
@@ -160,7 +156,7 @@ export default function LearnTab({ songs, onCancel }) {
             height: 60,
           }}
         >
-          {wavePlaying ? (
+          {isPlaying ? (
             <PauseIcon fontSize="large" />
           ) : (
             <PlayArrowIcon fontSize="large" />

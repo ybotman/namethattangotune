@@ -15,6 +15,7 @@ import {
   ListItemText,
   IconButton,
 } from "@mui/material";
+import { motion, AnimatePresence } from "motion/react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import useWaveSurfer from "@/hooks/useWaveSurfer";
@@ -25,6 +26,9 @@ import { shuffleArray } from "@/utils/dataFetching";
 import { getDistractors } from "@/utils/dataFetching";
 import RoundProgress from "@/components/ui/RoundProgress";
 import GameHubRoute from "@/components/ui/GameHubRoute";
+import Celebration from "@/components/ui/Celebration";
+import AnimatedScore from "@/components/ui/AnimatedScore";
+import AnimatedButton from "@/components/ui/AnimatedButton";
 
 export default function PlayTab({ songs, config, onCancel }) {
   // 2) Quiz config
@@ -34,7 +38,9 @@ export default function PlayTab({ songs, config, onCancel }) {
 
   // Local state
   const [roundOver, setRoundOver] = useState(false);
+  const [lastCorrect, setLastCorrect] = useState(false);
   const lastSongRef = useRef(null);
+  const celebrationRef = useRef(null);
   const numSongs = config.numSongs ?? 10;
 
   // waveSurfer
@@ -99,16 +105,21 @@ export default function PlayTab({ songs, config, onCancel }) {
 
       if (roundEnded) {
         setRoundOver(true);
+        setLastCorrect(correct);
         stopAudio();
-        // If you want a "Correct => ..." console log or message:
-        if (correct) {
-          console.log("PlayTab-> Correct => NICE job!");
-        } else {
-          console.log("PlayTab-> forced zero => Round Over!");
+        // Trigger celebration on correct answer
+        if (correct && celebrationRef.current) {
+          // Use emoji celebration for high scores, confetti for others
+          const pct = (roundScore / maxScore) * 100;
+          if (pct >= 80) {
+            celebrationRef.current.celebrate("emoji");
+          } else if (pct >= 50) {
+            celebrationRef.current.celebrate("confetti");
+          }
         }
       }
     },
-    [scoringAnswerSelect, stopAudio],
+    [scoringAnswerSelect, stopAudio, roundScore, maxScore],
   );
 
   // 6) doNextSong => proceed to next
@@ -182,7 +193,7 @@ export default function PlayTab({ songs, config, onCancel }) {
     return "You'll get the next one!";
   };
 
-  // C) If final => summary
+  // C) If final => summary with celebration
   if (showFinalSummary) {
     const totalRounds = roundStats.length;
     let avgTime = 0,
@@ -205,30 +216,78 @@ export default function PlayTab({ songs, config, onCancel }) {
           p: 2,
         }}
       >
-        <Typography variant="h4" gutterBottom>
-          Session Complete!
-        </Typography>
-        <Typography variant="h6" gutterBottom>
-          Total Score: {Math.floor(sessionScore)}
-        </Typography>
-        <Typography variant="body1" gutterBottom>
-          Average Time: {avgTime.toFixed(1)}s
-        </Typography>
-        <Typography variant="body1" gutterBottom>
-          Average Distractors: {avgDist.toFixed(1)}
-        </Typography>
-        <Button
-          variant="contained"
-          onClick={onCancel}
-          sx={{
-            backgroundColor: "var(--accent)",
-            color: "var(--background)",
-            "&:hover": { opacity: 0.8 },
-            mt: 3,
+        <Celebration ref={celebrationRef} id="final-celebration" />
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          onAnimationComplete={() => {
+            // Trigger celebration on mount
+            if (celebrationRef.current) {
+              celebrationRef.current.celebrate("balloons");
+            }
           }}
         >
-          Close
-        </Button>
+          <Typography
+            variant="h4"
+            gutterBottom
+            sx={{ textAlign: "center", fontWeight: "bold" }}
+          >
+            Session Complete!
+          </Typography>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.4 }}
+        >
+          <Box sx={{ textAlign: "center", my: 3 }}>
+            <AnimatedScore
+              score={sessionScore}
+              label="Total Score"
+              size="large"
+              showChange={false}
+            />
+          </Box>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5, duration: 0.4 }}
+        >
+          <Box sx={{ textAlign: "center", mb: 3 }}>
+            <Typography variant="body1" gutterBottom>
+              Average Time: <strong>{avgTime.toFixed(1)}s</strong>
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+              Wrong Guesses: <strong>{avgDist.toFixed(1)}</strong>
+            </Typography>
+          </Box>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7, duration: 0.3 }}
+        >
+          <AnimatedButton
+            variant="contained"
+            onClick={onCancel}
+            sx={{
+              backgroundColor: "var(--accent)",
+              color: "var(--background)",
+              px: 4,
+              py: 1.5,
+              fontSize: "1.1rem",
+              "&:hover": { opacity: 0.9 },
+            }}
+          >
+            Close
+          </AnimatedButton>
+        </motion.div>
       </Box>
     );
   }
@@ -243,6 +302,8 @@ export default function PlayTab({ songs, config, onCancel }) {
         p: 2,
       }}
     >
+      {/* Celebration overlay */}
+      <Celebration ref={celebrationRef} id="quiz-celebration" />
       {/* 
           Top row with Title (left) and GameHubRoute (right)
       */}
@@ -280,9 +341,14 @@ export default function PlayTab({ songs, config, onCancel }) {
       <RoundProgress totalRounds={numSongs} currentRound={currentIndex} />
 
       {/* Round time + score */}
-      <Typography variant="h6" sx={{ mb: 2, textAlign: "center" }}>
-        Available Points: {Math.floor(roundScore)}/{Math.floor(maxScore)}
-      </Typography>
+      <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
+        <AnimatedScore
+          score={roundScore}
+          label={`Available / ${Math.floor(maxScore)}`}
+          size="medium"
+          showChange={false}
+        />
+      </Box>
 
       {isPlaying && (
         <Box sx={{ mx: "auto", mb: 2, maxWidth: 400 }}>
@@ -297,104 +363,162 @@ export default function PlayTab({ songs, config, onCancel }) {
       {/* "Play Song" button */}
       {!isPlaying && !roundOver && currentSong && (
         <Box sx={{ textAlign: "center", mb: 2 }}>
-          <Button
+          <AnimatedButton
             variant="contained"
             onClick={clickPlaySong}
             sx={{
               backgroundColor: "var(--accent)",
               color: "var(--background)",
-              "&:hover": { opacity: 0.8 },
+              fontSize: "1.1rem",
+              px: 4,
+              py: 1.5,
+              "&:hover": { opacity: 0.9 },
             }}
           >
             I&apos;m Ready!
-          </Button>
+          </AnimatedButton>
         </Box>
       )}
 
       {/* Answers */}
       <List sx={{ mb: 2, maxWidth: 400, margin: "auto" }}>
-        {answers.map((ans) => {
-          const isWrong = wrongAnswers.includes(ans);
-          const isChosenCorrect =
-            roundOver &&
-            selectedAnswer === ans &&
-            ans.trim().toLowerCase() ===
-              (currentSong?.ArtistMaster || "").trim().toLowerCase();
+        <AnimatePresence>
+          {answers.map((ans, idx) => {
+            const isWrong = wrongAnswers.includes(ans);
+            const isChosenCorrect =
+              roundOver &&
+              selectedAnswer === ans &&
+              ans.trim().toLowerCase() ===
+                (currentSong?.ArtistMaster || "").trim().toLowerCase();
 
-          let borderColor = "var(--border-color)";
-          if (roundOver && isChosenCorrect) borderColor = "green";
-          else if (isWrong) borderColor = "red";
+            let borderColor = "var(--border-color)";
+            let bgColor = "transparent";
+            if (roundOver && isChosenCorrect) {
+              borderColor = "#4caf50";
+              bgColor = "rgba(76, 175, 80, 0.1)";
+            } else if (isWrong) {
+              borderColor = "#f44336";
+              bgColor = "rgba(244, 67, 54, 0.1)";
+            }
 
-          // disable if roundOver or not playing or isWrong or correct
-          const disabled =
-            roundOver || !isPlaying || isWrong || isChosenCorrect;
+            // disable if roundOver or not playing or isWrong or correct
+            const disabled =
+              roundOver || !isPlaying || isWrong || isChosenCorrect;
 
-          return (
-            <ListItem
-              key={ans}
-              onClick={() => handleAnswerSelect(ans)}
-              disabled={disabled}
-              sx={{
-                mb: 1,
-                border: `2px solid ${borderColor}`,
-                borderRadius: "4px",
-                cursor: disabled ? "default" : "pointer",
-                "&:hover": {
-                  backgroundColor: disabled ? "inherit" : "var(--input-bg)",
-                },
-              }}
-            >
-              <ListItemText
-                primary={
-                  <Typography sx={{ color: "var(--foreground)" }}>
-                    {ans}
-                  </Typography>
-                }
-              />
-            </ListItem>
-          );
-        })}
+            return (
+              <motion.div
+                key={ans}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{
+                  opacity: 1,
+                  x: 0,
+                  scale: isChosenCorrect ? [1, 1.05, 1] : isWrong ? [1, 0.95, 1] : 1,
+                }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ delay: idx * 0.05, duration: 0.2 }}
+              >
+                <ListItem
+                  onClick={() => !disabled && handleAnswerSelect(ans)}
+                  sx={{
+                    mb: 1,
+                    border: `2px solid ${borderColor}`,
+                    borderRadius: "8px",
+                    cursor: disabled ? "default" : "pointer",
+                    backgroundColor: bgColor,
+                    transition: "all 0.2s ease",
+                    "&:hover": {
+                      backgroundColor: disabled ? bgColor : "var(--input-bg)",
+                      transform: disabled ? "none" : "translateX(4px)",
+                    },
+                  }}
+                >
+                  <ListItemText
+                    primary={
+                      <Typography sx={{ color: "var(--foreground)" }}>
+                        {ans}
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
       </List>
 
       {/* If roundOver => performance + Next + Cancel */}
-      {roundOver && (
-        <Box sx={{ mt: 3, textAlign: "center" }}>
-          {roundScore > 0 ? (
-            <Typography variant="h6" gutterBottom>
-              {getPerformanceMessage()} (Round Score: {Math.floor(roundScore)})
-            </Typography>
-          ) : (
-            <Typography variant="h6" gutterBottom>
-              No Score. Answer: {currentSong?.ArtistMaster}
-            </Typography>
-          )}
-
-          <Typography variant="body1" gutterBottom>
-            Session Total: {Math.floor(sessionScore)}
-          </Typography>
-
-          <Button variant="contained" onClick={doNextSong} sx={{ mr: 2 }}>
-            Next
-          </Button>
-          <Button
-            variant="outlined"
-            onClick={() => {
-              stopAudio();
-              onCancel();
-            }}
-            sx={{
-              borderColor: "var(--foreground)",
-              color: "var(--foreground)",
-              "&:hover": {
-                backgroundColor: "var(--foreground)",
-                color: "var(--background)",
-              },
-            }}
+      <AnimatePresence>
+        {roundOver && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
           >
-            Cancel
-          </Button>
-        </Box>
-      )}
+            <Box sx={{ mt: 3, textAlign: "center" }}>
+              {lastCorrect ? (
+                <motion.div
+                  initial={{ scale: 0.8 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <Typography
+                    variant="h5"
+                    gutterBottom
+                    sx={{ color: "#4caf50", fontWeight: "bold" }}
+                  >
+                    {getPerformanceMessage()}
+                  </Typography>
+                  <AnimatedScore
+                    score={roundScore}
+                    label="Round Score"
+                    size="large"
+                    showChange={false}
+                  />
+                </motion.div>
+              ) : (
+                <Box>
+                  <Typography variant="h6" gutterBottom sx={{ color: "#f44336" }}>
+                    No Score
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    Answer: <strong>{currentSong?.ArtistMaster}</strong>
+                  </Typography>
+                </Box>
+              )}
+
+              <Box sx={{ mt: 2 }}>
+                <Typography variant="body1" gutterBottom>
+                  Session Total: <strong>{Math.floor(sessionScore)}</strong>
+                </Typography>
+              </Box>
+
+              <Box sx={{ mt: 2, display: "flex", justifyContent: "center", gap: 2 }}>
+                <AnimatedButton variant="contained" onClick={doNextSong}>
+                  Next
+                </AnimatedButton>
+                <AnimatedButton
+                  variant="outlined"
+                  onClick={() => {
+                    stopAudio();
+                    onCancel();
+                  }}
+                  sx={{
+                    borderColor: "var(--foreground)",
+                    color: "var(--foreground)",
+                    "&:hover": {
+                      backgroundColor: "var(--foreground)",
+                      color: "var(--background)",
+                    },
+                  }}
+                >
+                  Cancel
+                </AnimatedButton>
+              </Box>
+            </Box>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Box>
   );
 }

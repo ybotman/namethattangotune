@@ -23,20 +23,21 @@ export default function ClipSingerPage() {
     console.log("Clip Singer config:", config);
 
     const numSongs = config.numSongs ?? 10;
-    const artistLevels = config.levels || [];
+    const recognitionTiers = config.recognitionTiers || [1];
+    const periods = config.periods || [];
     const chosenArtists = (config.artists || []).map((a) => a.value);
     const chosenSingers = config.singers || [];
 
     const { songs: fetchedSongs } = await fetchFilteredSongs(
       chosenArtists,
-      artistLevels,
+      [], // artistLevels - legacy, no longer used
       [],
       [],
       "",
       "",
       "",
       numSongs,
-      { requireSinger: true, singers: chosenSingers },
+      { requireSinger: true, singers: chosenSingers, recognitionTiers, periods },
     );
 
     if (!fetchedSongs || fetchedSongs.length === 0) {

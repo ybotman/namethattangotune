@@ -1,6 +1,6 @@
 {
   "name": "nttt-app",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -16,11 +16,13 @@
     "@mui/icons-material": "^6.2.1",
     "@mui/material": "^6.2.1",
     "firebase": "^11.1.0",
+    "motion": "^12.34.3",
     "next": "15.1.11",
     "prettier": "^3.4.2",
     "prop-types": "^15.8.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-rewards": "^2.1.0",
     "sass": "^1.83.0",
     "wavesurfer.js": "^7.8.11"
   },

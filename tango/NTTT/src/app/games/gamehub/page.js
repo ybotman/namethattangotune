@@ -30,6 +30,12 @@ const gameCategories = [
         isActive: true,
       },
       {
+        name: "Song Title",
+        path: "/games/song-quiz",
+        icon: "icons/IconLearnSongs.webp",
+        isActive: true,
+      },
+      {
         name: "Year",
         path: "/games/year-learn",
         icon: "icons/IconLearnDecade.webp",
@@ -97,11 +103,61 @@ const gameCategories = [
       },
     ],
   },
+  {
+    title: "Compare",
+    description: "Compare different recordings",
+    games: [
+      {
+        name: "Same Song",
+        path: "/games/same-song",
+        icon: "icons/IconLearnSongs.webp",
+        isActive: true,
+      },
+    ],
+  },
+  {
+    title: "Tools",
+    description: "Development & validation",
+    games: [
+      {
+        name: "Recognition Validator",
+        path: "/games/recognition-validator",
+        icon: null, // No image - button only
+        isActive: true,
+        isButton: true,
+      },
+    ],
+  },
 ];
 
 function GameCard({ game, isMobile }) {
   const disabled = !game.isActive;
   const iconSize = isMobile ? 60 : 80;
+
+  // Button-only style (no image)
+  if (game.isButton) {
+    return (
+      <Link href={disabled ? "#" : game.path} style={{ textDecoration: "none" }}>
+        <Button
+          variant="outlined"
+          disabled={disabled}
+          sx={{
+            borderColor: "var(--accent)",
+            color: "var(--accent)",
+            textTransform: "none",
+            px: 3,
+            py: 1.5,
+            "&:hover": {
+              backgroundColor: "var(--accent)",
+              color: "var(--background)",
+            },
+          }}
+        >
+          {game.name}
+        </Button>
+      </Link>
+    );
+  }
 
   return (
     <Link href={disabled ? "#" : game.path} style={{ textDecoration: "none" }}>
@@ -227,6 +283,67 @@ function CategorySection({ category, isMobile }) {
   );
 }
 
+// Beta Banner Component
+function BetaBanner({ isMobile }) {
+  const [dismissed, setDismissed] = React.useState(false);
+
+  // Check if already dismissed this session
+  React.useEffect(() => {
+    const wasDismissed = sessionStorage.getItem("nttt-beta-dismissed");
+    if (wasDismissed) setDismissed(true);
+  }, []);
+
+  const handleDismiss = () => {
+    sessionStorage.setItem("nttt-beta-dismissed", "true");
+    setDismissed(true);
+  };
+
+  if (dismissed) return null;
+
+  return (
+    <Box
+      sx={{
+        backgroundColor: "rgba(102, 170, 255, 0.15)",
+        border: "1px solid var(--accent)",
+        borderRadius: 2,
+        p: 2,
+        mb: 2,
+        position: "relative",
+      }}
+    >
+      <Typography
+        variant="body2"
+        sx={{ color: "var(--foreground)", fontWeight: 500 }}
+      >
+        Welcome to NTTT 2.0 Beta!
+      </Typography>
+      <Typography
+        variant="caption"
+        sx={{ color: "var(--foreground)", opacity: 0.8, display: "block", mt: 0.5 }}
+      >
+        This version is under active development. Coming soon: login scoring,
+        score sharing, saved configurations, progressive lessons, and more. Stay tuned!
+      </Typography>
+      <Button
+        size="small"
+        onClick={handleDismiss}
+        sx={{
+          position: "absolute",
+          top: 8,
+          right: 8,
+          minWidth: "auto",
+          p: 0.5,
+          color: "var(--foreground)",
+          opacity: 0.6,
+          "&:hover": { opacity: 1 },
+        }}
+      >
+        X
+      </Button>
+    </Box>
+  );
+}
+
 export default function GameHubPage() {
   const { user, loading, logOut } = useContext(AuthContext);
   const router = useRouter();
@@ -248,6 +365,8 @@ export default function GameHubPage() {
         transition: "all 0.3s ease",
       }}
     >
+      {/* Beta Banner */}
+      <BetaBanner isMobile={isMobile} />
       {/* Header with Auth */}
       <Box
         sx={{
@@ -346,7 +465,7 @@ export default function GameHubPage() {
           variant="caption"
           sx={{ color: "var(--foreground)", opacity: 0.5 }}
         >
-          NTTT v2.0
+          NTTT v2.0.1
         </Typography>
       </Box>
     </Box>

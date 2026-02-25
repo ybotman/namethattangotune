@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useMemo } from "react";
 import { Box, Typography } from "@mui/material";
 
-const START_YEAR = 1916;
-const END_YEAR = 2023;
-const TOTAL_YEARS = END_YEAR - START_YEAR + 1;
+// Default year range (fallback)
+const DEFAULT_START_YEAR = 1920;
+const DEFAULT_END_YEAR = 1955;
 
 // Arc configuration
 const ARC_START_ANGLE = -140; // degrees from top (left side)
@@ -18,12 +18,17 @@ export default function YearDial({
   correctYear,
   showResult,
   disabled,
+  startYear = DEFAULT_START_YEAR,
+  endYear = DEFAULT_END_YEAR,
 }) {
   const svgRef = useRef(null);
 
+  // Calculate total years based on props
+  const totalYears = endYear - startYear + 1;
+
   // Convert year to angle on the arc
   const yearToAngle = (year) => {
-    const ratio = (year - START_YEAR) / (TOTAL_YEARS - 1);
+    const ratio = (year - startYear) / (totalYears - 1);
     return ARC_START_ANGLE + ratio * ARC_RANGE;
   };
 
@@ -61,31 +66,47 @@ export default function YearDial({
     // Check if within arc range
     if (angle >= ARC_START_ANGLE && angle <= ARC_END_ANGLE) {
       const ratio = (angle - ARC_START_ANGLE) / ARC_RANGE;
-      const year = Math.round(START_YEAR + ratio * (TOTAL_YEARS - 1));
+      const year = Math.round(startYear + ratio * (totalYears - 1));
       onYearClick(year);
     }
   };
 
-  // Generate tick marks for decades
-  const decades = [];
-  for (let year = 1920; year <= 2020; year += 10) {
-    const angle = yearToAngle(year);
-    const outer = angleToXY(angle, 95);
-    const inner = angleToXY(angle, 80);
-    const label = angleToXY(angle, 110);
-    decades.push({ year, outer, inner, label, angle });
-  }
+  // Generate tick marks for decades (within range)
+  const decades = useMemo(() => {
+    const ticks = [];
+    // Start from nearest decade >= startYear
+    const firstDecade = Math.ceil(startYear / 10) * 10;
+    // End at nearest decade <= endYear
+    const lastDecade = Math.floor(endYear / 10) * 10;
 
-  // Generate minor ticks (every 5 years)
-  const minorTicks = [];
-  for (let year = 1920; year <= 2020; year += 5) {
-    if (year % 10 !== 0) {
-      const angle = yearToAngle(year);
-      const outer = angleToXY(angle, 92);
-      const inner = angleToXY(angle, 85);
-      minorTicks.push({ year, outer, inner });
+    for (let year = firstDecade; year <= lastDecade; year += 10) {
+      if (year >= startYear && year <= endYear) {
+        const angle = yearToAngle(year);
+        const outer = angleToXY(angle, 95);
+        const inner = angleToXY(angle, 80);
+        const label = angleToXY(angle, 110);
+        ticks.push({ year, outer, inner, label, angle });
+      }
     }
-  }
+    return ticks;
+  }, [startYear, endYear]);
+
+  // Generate minor ticks (every 5 years within range)
+  const minorTicks = useMemo(() => {
+    const ticks = [];
+    const firstTick = Math.ceil(startYear / 5) * 5;
+    const lastTick = Math.floor(endYear / 5) * 5;
+
+    for (let year = firstTick; year <= lastTick; year += 5) {
+      if (year % 10 !== 0 && year >= startYear && year <= endYear) {
+        const angle = yearToAngle(year);
+        const outer = angleToXY(angle, 92);
+        const inner = angleToXY(angle, 85);
+        ticks.push({ year, outer, inner });
+      }
+    }
+    return ticks;
+  }, [startYear, endYear]);
 
   // Selected year marker
   const selectedAngle = selectedYear ? yearToAngle(selectedYear) : null;
@@ -209,10 +230,10 @@ export default function YearDial({
 
         {/* Year range labels */}
         <text x="30" y="150" fill="#666" fontSize="10" textAnchor="middle">
-          1916
+          {startYear}
         </text>
         <text x="270" y="150" fill="#666" fontSize="10" textAnchor="middle">
-          2023
+          {endYear}
         </text>
       </svg>
 
@@ -237,4 +258,4 @@ export default function YearDial({
   );
 }
 
-export { START_YEAR, END_YEAR };
+export { DEFAULT_START_YEAR, DEFAULT_END_YEAR };

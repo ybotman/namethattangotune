@@ -42,13 +42,13 @@ export default function useArtistQuiz() {
         return "At least one style must be selected.";
       }
 
-      const hasLevels = (theConfig.levels || []).length > 0;
+      const hasTiers = (theConfig.recognitionTiers || []).length > 0;
       const hasArtists = (theConfig.artists || []).length > 3;
-      if (!hasLevels && !hasArtists) {
-        return "You must select at least 4 Artists or one Level.";
+      if (!hasTiers && !hasArtists) {
+        return "You must select at least 4 Artists or one Recognition Tier.";
       }
-      if (hasLevels && hasArtists) {
-        return "Cannot select both Artists and Levels. Clear one of them.";
+      if (hasTiers && hasArtists) {
+        return "Cannot select both Artists and Recognition Tiers. Clear one of them.";
       }
       return "";
     },
@@ -121,7 +121,7 @@ export default function useArtistQuiz() {
             return a.artist.localeCompare(b.artist);
           })
           .map((artist) => ({
-            label: `${artist.artist} (Level ${artist.level})`,
+            label: artist.artist,
             value: artist.artist,
           }));
         setArtistOptions(activeArtists);
@@ -148,14 +148,9 @@ export default function useArtistQuiz() {
   const handleNumSongsChange = (val) => updateConfig("numSongs", val);
   const handleTimeLimitChange = (val) => updateConfig("timeLimit", val);
 
-  const handleLevelsChange = (newLevels) => {
-    if ((config.artists || []).length > 0 && newLevels.length > 0) {
-      setValidationMessage(
-        "Levels not available when artists are selected. Clear artists first.",
-      );
-      return;
-    }
-    updateConfig("levels", newLevels);
+  // Now handles recognition tiers instead of levels
+  const handleLevelsChange = (newTiers) => {
+    updateConfig("recognitionTiers", newTiers);
   };
 
   const handleStylesChange = (updated) => {
@@ -163,10 +158,6 @@ export default function useArtistQuiz() {
   };
 
   const handleArtistsChange = (arr) => {
-    if (arr.length > 0 && (config.levels || []).length > 0) {
-      updateConfig("levels", []);
-      setValidationMessage("Clearing levels because artists are selected.");
-    }
     updateConfig("artists", arr);
   };
 
