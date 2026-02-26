@@ -1,367 +1,152 @@
 // src/app/games/gamehub/page.js
-// Mobile-first responsive game hub
+// Mobile-first compact game hub
 
 "use client";
-import React, { useContext } from "react";
+import React from "react";
 import Image from "next/image";
-import { Box, Typography, Paper, useMediaQuery, Button, Avatar, IconButton } from "@mui/material";
+import { Box, Typography, Paper, useMediaQuery, Button } from "@mui/material";
 import Link from "next/link";
-import { AuthContext } from "@/contexts/AuthContext";
-import LoginIcon from "@mui/icons-material/Login";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { useRouter } from "next/navigation";
 
 // Tools password
 const TOOLS_PASSWORD = "!El4Gotan";
 
-// Game categories with games
-const gameCategories = [
-  {
-    title: "Timed Quiz",
-    description: "Race against the clock",
-    games: [
-      {
-        name: "Orchestra",
-        path: "/games/artist-quiz",
-        icon: "icons/IconQuiz.webp",
-        isActive: true,
-      },
-      {
-        name: "Singer",
-        path: "/games/singer-quiz",
-        icon: "icons/IconSinger.webp",
-        isActive: true,
-      },
-      {
-        name: "Song Title",
-        path: "/games/song-quiz",
-        icon: "icons/IconLearnSongs.webp",
-        isActive: true,
-      },
-      {
-        name: "Year",
-        path: "/games/year-learn",
-        icon: "icons/IconLearnDecade.webp",
-        isActive: true,
-      },
-    ],
-  },
-  {
-    title: "Clip Quiz",
-    description: "No timer - replay clips",
-    games: [
-      {
-        name: "Orchestra",
-        path: "/games/clip-orchestra",
-        icon: "icons/IconQuiz.webp",
-        isActive: true,
-      },
-      {
-        name: "Singer",
-        path: "/games/clip-singer",
-        icon: "icons/IconSinger.webp",
-        isActive: true,
-      },
-    ],
-  },
-  {
-    title: "Learn Mode",
-    description: "Practice without pressure",
-    games: [
-      {
-        name: "Orchestra",
-        path: "/games/artist-learn",
-        icon: "icons/IconLearnOrch.webp",
-        isActive: true,
-      },
-      {
-        name: "Singer",
-        path: "/games/singer-learn",
-        icon: "icons/IconLearnSinger.webp",
-        isActive: true,
-      },
-    ],
-  },
-  {
-    title: "Other",
-    description: "Listen & compare",
-    games: [
-      {
-        name: "Listen",
-        path: "/games/listen",
-        icon: "icons/IconLearnOrch.webp",
-        isActive: true,
-      },
-      {
-        name: "Same Song",
-        path: "/games/same-song",
-        icon: "icons/IconLearnSongs.webp",
-        isActive: true,
-      },
-    ],
-  },
-  {
-    title: "Tools",
-    description: "Development & validation",
-    requiresPassword: true,
-    games: [
-      {
-        name: "Recognition Validator",
-        path: "/games/recognition-validator",
-        icon: null, // No image - button only
-        isActive: true,
-        isButton: true,
-      },
-      {
-        name: "Data Quality",
-        path: "/games/data-quality",
-        icon: null,
-        isActive: true,
-        isButton: true,
-      },
-    ],
-  },
+// All games in a flat structure with category labels
+const games = [
+  // Timed Quiz
+  { name: "Orchestra", path: "/games/artist-quiz", icon: "icons/IconQuiz.webp", category: "Timed" },
+  { name: "Singer", path: "/games/singer-quiz", icon: "icons/IconSinger.webp", category: "Timed" },
+  { name: "Song", path: "/games/song-quiz", icon: "icons/IconLearnSongs.webp", category: "Timed" },
+  { name: "Year", path: "/games/year-learn", icon: "icons/IconLearnDecade.webp", category: "Timed" },
+  // Clip Quiz
+  { name: "Orchestra", path: "/games/clip-orchestra", icon: "icons/IconQuiz.webp", category: "Clip" },
+  { name: "Singer", path: "/games/clip-singer", icon: "icons/IconSinger.webp", category: "Clip" },
+  // Learn Mode
+  { name: "Orchestra", path: "/games/artist-learn", icon: "icons/IconLearnOrch.webp", category: "Learn" },
+  { name: "Singer", path: "/games/singer-learn", icon: "icons/IconLearnSinger.webp", category: "Learn" },
+  // Other
+  { name: "Listen", path: "/games/listen", icon: "icons/IconLearnOrch.webp", category: "Other" },
+  { name: "Compare", path: "/games/same-song", icon: "icons/IconLearnSongs.webp", category: "Other" },
 ];
 
-function GameCard({ game, isMobile }) {
-  const disabled = !game.isActive;
-  const iconSize = isMobile ? 60 : 80;
+// Reports and Tools - button only
+const reports = [
+  { name: "Orchestra Heatmap", path: "/reports/volumetrics/orchestra-heatmap" },
+  { name: "Singer Heatmap", path: "/reports/volumetrics/singer-heatmap" },
+  { name: "DNP Report", path: "/reports/volumetrics/dnp-report" },
+];
 
-  // Button-only style (no image)
-  if (game.isButton) {
-    return (
-      <Link href={disabled ? "#" : game.path} style={{ textDecoration: "none" }}>
-        <Button
-          variant="outlined"
-          disabled={disabled}
-          sx={{
-            borderColor: "var(--accent)",
-            color: "var(--accent)",
-            textTransform: "none",
-            px: 3,
-            py: 1.5,
-            "&:hover": {
-              backgroundColor: "var(--accent)",
-              color: "var(--background)",
-            },
-          }}
-        >
-          {game.name}
-        </Button>
-      </Link>
-    );
-  }
+const tools = [
+  { name: "Recognition Validator", path: "/games/recognition-validator" },
+  { name: "Data Quality", path: "/games/data-quality" },
+];
 
+// Category colors
+const categoryColors = {
+  Timed: "#FF6B6B",
+  Clip: "#4ECDC4",
+  Learn: "#45B7D1",
+  Other: "#96CEB4",
+};
+
+function CompactGameCard({ game, size = 48 }) {
   return (
-    <Link href={disabled ? "#" : game.path} style={{ textDecoration: "none" }}>
+    <Link href={game.path} style={{ textDecoration: "none" }}>
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          p: isMobile ? 1.5 : 2,
-          borderRadius: 2,
-          backgroundColor: disabled ? "transparent" : "var(--input-bg)",
-          cursor: disabled ? "default" : "pointer",
-          opacity: disabled ? 0.4 : 1,
-          transition: "all 0.2s ease",
-          minWidth: isMobile ? 80 : 100,
-          "&:hover": disabled
-            ? {}
-            : {
-                transform: "scale(1.05)",
-                backgroundColor: "var(--accent)",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
-              },
-          "&:active": disabled
-            ? {}
-            : {
-                transform: "scale(0.98)",
-              },
+          width: size + 16,
         }}
       >
+        {/* Icon block */}
         <Box
           sx={{
-            width: iconSize,
-            height: iconSize,
+            width: size,
+            height: size,
+            borderRadius: 1.5,
+            overflow: "hidden",
+            border: `2px solid ${categoryColors[game.category]}`,
+            backgroundColor: "var(--input-bg)",
+            cursor: "pointer",
+            transition: "all 0.15s ease",
             position: "relative",
-            mb: 1,
+            "&:hover": {
+              transform: "scale(1.08)",
+              borderColor: "var(--accent)",
+              boxShadow: `0 0 12px ${categoryColors[game.category]}66`,
+            },
+            "&:active": {
+              transform: "scale(0.95)",
+            },
           }}
         >
           <Image
             src={`/${game.icon}`}
-            alt={`${game.name} Icon`}
+            alt={game.name}
             fill
-            sizes={`${iconSize}px`}
-            style={{
-              objectFit: "cover",
-              borderRadius: "12px",
-              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.3)",
-            }}
+            sizes={`${size}px`}
+            style={{ objectFit: "cover" }}
           />
         </Box>
+
+        {/* Label below */}
         <Typography
-          variant={isMobile ? "body2" : "body1"}
-          textAlign="center"
           sx={{
-            color: disabled ? "gray" : "var(--foreground)",
+            fontSize: "0.7rem",
+            color: "var(--foreground)",
+            opacity: 0.7,
             fontWeight: 500,
+            textAlign: "center",
+            mt: 0.5,
           }}
         >
           {game.name}
         </Typography>
-        {disabled && (
-          <Typography
-            variant="caption"
-            sx={{ color: "gray", fontSize: "0.65rem" }}
-          >
-            Coming Soon
-          </Typography>
-        )}
       </Box>
     </Link>
   );
 }
 
-function CategorySection({ category, isMobile, isUnlocked, onUnlock }) {
-  const activeGames = category.games.filter((g) => g.isActive);
-  const inactiveGames = category.games.filter((g) => !g.isActive);
-  const [showPasswordInput, setShowPasswordInput] = React.useState(false);
-  const [password, setPassword] = React.useState("");
-  const [error, setError] = React.useState(false);
-
-  const needsUnlock = category.requiresPassword && !isUnlocked;
-
-  const handleUnlockClick = () => {
-    setShowPasswordInput(true);
-    setError(false);
-  };
-
-  const handlePasswordSubmit = () => {
-    if (password === TOOLS_PASSWORD) {
-      onUnlock();
-      setShowPasswordInput(false);
-      setPassword("");
-      setError(false);
-    } else {
-      setError(true);
-      setPassword("");
-    }
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      handlePasswordSubmit();
-    }
-  };
-
+function CategoryRow({ category, categoryGames, size }) {
   return (
-    <Paper
-      elevation={0}
-      sx={{
-        p: isMobile ? 2 : 3,
-        mb: 2,
-        backgroundColor: "var(--background)",
-        border: "1px solid var(--border-color)",
-        borderRadius: 3,
-      }}
-    >
-      <Box sx={{ mb: 2 }}>
-        <Typography
-          variant={isMobile ? "h6" : "h5"}
-          sx={{
-            fontWeight: "bold",
-            color: "var(--accent)",
-            mb: 0.5,
-          }}
-        >
-          {category.title}
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{ color: "var(--foreground)", opacity: 0.7 }}
-        >
-          {category.description}
-        </Typography>
-      </Box>
+    <Box sx={{ mb: 2 }}>
+      {/* Category label */}
+      <Typography
+        sx={{
+          fontSize: "0.65rem",
+          color: categoryColors[category],
+          fontWeight: 600,
+          textTransform: "uppercase",
+          letterSpacing: 1,
+          mb: 0.5,
+          textAlign: "center",
+        }}
+      >
+        {category === "Timed" ? "Timed Quiz" : category === "Clip" ? "Clip Quiz" : category === "Learn" ? "Learn Mode" : "Other"}
+      </Typography>
 
-      {needsUnlock ? (
-        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 1 }}>
-          {!showPasswordInput ? (
-            <Button
-              variant="outlined"
-              onClick={handleUnlockClick}
-              sx={{
-                borderColor: "gray",
-                color: "gray",
-                textTransform: "none",
-              }}
-            >
-              🔒 Unlock Tools
-            </Button>
-          ) : (
-            <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Password"
-                autoFocus
-                style={{
-                  padding: "8px 12px",
-                  borderRadius: "4px",
-                  border: error ? "2px solid #E53935" : "1px solid var(--accent)",
-                  backgroundColor: "var(--input-bg)",
-                  color: "var(--foreground)",
-                  outline: "none",
-                }}
-              />
-              <Button
-                variant="contained"
-                onClick={handlePasswordSubmit}
-                size="small"
-                sx={{
-                  backgroundColor: "var(--accent)",
-                  color: "var(--background)",
-                }}
-              >
-                Go
-              </Button>
-            </Box>
-          )}
-          {error && (
-            <Typography variant="caption" sx={{ color: "#E53935" }}>
-              Incorrect password
-            </Typography>
-          )}
-        </Box>
-      ) : (
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: isMobile ? 1 : 2,
-            justifyContent: isMobile ? "center" : "flex-start",
-          }}
-        >
-          {activeGames.map((game, idx) => (
-            <GameCard key={idx} game={game} isMobile={isMobile} />
-          ))}
-          {inactiveGames.map((game, idx) => (
-            <GameCard key={`inactive-${idx}`} game={game} isMobile={isMobile} />
-          ))}
-        </Box>
-      )}
-    </Paper>
+      {/* Games in row */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          gap: 1,
+          flexWrap: "wrap",
+        }}
+      >
+        {categoryGames.map((game) => (
+          <CompactGameCard key={game.path} game={game} size={size} />
+        ))}
+      </Box>
+    </Box>
   );
 }
 
-// Beta Banner Component
-function BetaBanner({ isMobile }) {
+// Beta Banner - more compact
+function BetaBanner() {
   const [dismissed, setDismissed] = React.useState(false);
 
-  // Check if already dismissed this session
   React.useEffect(() => {
     const wasDismissed = sessionStorage.getItem("nttt-beta-dismissed");
     if (wasDismissed) setDismissed(true);
@@ -377,39 +162,44 @@ function BetaBanner({ isMobile }) {
   return (
     <Box
       sx={{
-        backgroundColor: "rgba(102, 170, 255, 0.15)",
-        border: "1px solid var(--accent)",
+        backgroundColor: "rgba(255, 193, 7, 0.1)",
+        border: "1px solid rgba(255, 193, 7, 0.3)",
         borderRadius: 2,
-        p: 2,
+        p: 1.5,
         mb: 2,
         position: "relative",
       }}
     >
-      <Typography
-        variant="body2"
-        sx={{ color: "var(--foreground)", fontWeight: 500 }}
-      >
-        Welcome to NTTT 2.0 Beta!
-      </Typography>
-      <Typography
-        variant="caption"
-        sx={{ color: "var(--foreground)", opacity: 0.8, display: "block", mt: 0.5 }}
-      >
-        This version is under active development. Coming soon: login scoring,
-        score sharing, saved configurations, progressive lessons, and more. Stay tuned!
-      </Typography>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <Box
+          sx={{
+            backgroundColor: "rgba(255, 193, 7, 0.8)",
+            color: "#000",
+            px: 0.75,
+            py: 0.25,
+            borderRadius: 0.5,
+            fontSize: "0.7rem",
+            fontWeight: "bold",
+          }}
+        >
+          BETA
+        </Box>
+        <Typography variant="body2" sx={{ color: "var(--foreground)", fontSize: "0.8rem" }}>
+          NTTT 2.0 - Under active development
+        </Typography>
+      </Box>
       <Button
         size="small"
         onClick={handleDismiss}
         sx={{
           position: "absolute",
-          top: 8,
-          right: 8,
+          top: 4,
+          right: 4,
           minWidth: "auto",
           p: 0.5,
           color: "var(--foreground)",
-          opacity: 0.6,
-          "&:hover": { opacity: 1 },
+          opacity: 0.5,
+          fontSize: "0.7rem",
         }}
       >
         X
@@ -419,144 +209,246 @@ function BetaBanner({ isMobile }) {
 }
 
 export default function GameHubPage() {
-  const { user, loading, logOut } = useContext(AuthContext);
-  const router = useRouter();
   const isMobile = useMediaQuery("(max-width: 600px)");
-  const isTablet = useMediaQuery("(max-width: 900px)");
   const [toolsUnlocked, setToolsUnlocked] = React.useState(false);
+  const [showPasswordInput, setShowPasswordInput] = React.useState(false);
+  const [password, setPassword] = React.useState("");
+  const [error, setError] = React.useState(false);
 
-  // Check if tools were unlocked this session
+  const iconSize = isMobile ? 64 : 72;
+
   React.useEffect(() => {
     const unlocked = sessionStorage.getItem("nttt-tools-unlocked");
     if (unlocked === "true") setToolsUnlocked(true);
   }, []);
 
   const handleToolsUnlock = () => {
-    sessionStorage.setItem("nttt-tools-unlocked", "true");
-    setToolsUnlocked(true);
+    if (password === TOOLS_PASSWORD) {
+      sessionStorage.setItem("nttt-tools-unlocked", "true");
+      setToolsUnlocked(true);
+      setShowPasswordInput(false);
+      setPassword("");
+      setError(false);
+    } else {
+      setError(true);
+      setPassword("");
+    }
   };
 
-  const handleLogout = async () => {
-    await logOut();
+  // Group games by category
+  const gamesByCategory = {
+    Timed: games.filter(g => g.category === "Timed"),
+    Clip: games.filter(g => g.category === "Clip"),
+    Learn: games.filter(g => g.category === "Learn"),
+    Other: games.filter(g => g.category === "Other"),
   };
 
   return (
     <Box
       sx={{
         minHeight: "100vh",
-        width: "100%",
         backgroundColor: "var(--background)",
         color: "var(--foreground)",
-        p: isMobile ? 2 : 4,
-        transition: "all 0.3s ease",
+        p: isMobile ? 1.5 : 3,
       }}
     >
       {/* Beta Banner */}
-      <BetaBanner isMobile={isMobile} />
-      {/* Header with Auth */}
+      <BetaBanner />
+
+      {/* Banner */}
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
-          mb: isMobile ? 2 : 3,
-          pt: isMobile ? 1 : 2,
+          width: "100%",
+          maxWidth: 600,
+          margin: "0 auto",
+          mb: 2,
+          position: "relative",
+          height: isMobile ? 80 : 100,
         }}
       >
-        {/* Title */}
-        <Box sx={{ flex: 1 }}>
-          <Typography
-            variant={isMobile ? "h5" : "h4"}
-            sx={{
-              fontWeight: "bold",
-              color: "var(--foreground)",
-              mb: 0.5,
-            }}
-          >
-            Name That Tango Tune
-          </Typography>
-          <Typography
-            variant="body2"
-            sx={{ color: "var(--foreground)", opacity: 0.8 }}
-          >
-            Test your tango knowledge
-          </Typography>
-        </Box>
-
-        {/* Auth Section */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          {user ? (
-            <>
-              <Avatar
-                src={user.photoURL}
-                alt={user.displayName || "User"}
-                sx={{ width: 36, height: 36 }}
-              >
-                {user.displayName?.[0] || user.email?.[0] || "U"}
-              </Avatar>
-              {!isMobile && (
-                <Typography variant="body2" sx={{ color: "var(--foreground)" }}>
-                  {user.displayName || user.email?.split("@")[0]}
-                </Typography>
-              )}
-              <IconButton
-                onClick={handleLogout}
-                size="small"
-                sx={{ color: "var(--foreground)" }}
-                title="Sign Out"
-              >
-                <LogoutIcon />
-              </IconButton>
-            </>
-          ) : (
-            <Button
-              variant="outlined"
-              size="small"
-              startIcon={<LoginIcon />}
-              onClick={() => router.push("/auth/login")}
-              sx={{
-                borderColor: "var(--accent)",
-                color: "var(--accent)",
-                textTransform: "none",
-              }}
-            >
-              {isMobile ? "Login" : "Sign In"}
-            </Button>
-          )}
-        </Box>
+        <Image
+          src="/NTTTBanner3.png"
+          alt="Name That Tango Tune"
+          fill
+          sizes="100vw"
+          style={{ objectFit: "contain" }}
+          priority
+        />
       </Box>
 
-      {/* Game Categories */}
-      <Box
-        sx={{
-          maxWidth: isTablet ? "100%" : 900,
-          margin: "0 auto",
-        }}
-      >
-        {gameCategories.map((category, idx) => (
-          <CategorySection
-            key={idx}
+      {/* Games Grid - by category */}
+      <Box sx={{ maxWidth: 420, margin: "0 auto" }}>
+        {Object.entries(gamesByCategory).map(([category, categoryGames]) => (
+          <CategoryRow
+            key={category}
             category={category}
-            isMobile={isMobile}
-            isUnlocked={toolsUnlocked}
-            onUnlock={handleToolsUnlock}
+            categoryGames={categoryGames}
+            size={iconSize}
           />
         ))}
       </Box>
 
-      {/* Footer with theme info */}
-      <Box
+      {/* Reports - compact buttons */}
+      <Paper
+        elevation={0}
         sx={{
-          textAlign: "center",
-          mt: 4,
-          pt: 2,
-          borderTop: "1px solid var(--border-color)",
+          p: 1.5,
+          mt: 2,
+          backgroundColor: "var(--background)",
+          border: "1px solid var(--border-color)",
+          borderRadius: 2,
+          maxWidth: 420,
+          margin: "16px auto 0",
         }}
       >
         <Typography
-          variant="caption"
-          sx={{ color: "var(--foreground)", opacity: 0.5 }}
+          sx={{
+            fontSize: "0.65rem",
+            color: "var(--accent)",
+            fontWeight: 600,
+            textTransform: "uppercase",
+            letterSpacing: 1,
+            mb: 1,
+            textAlign: "center",
+          }}
         >
+          Reports
+        </Typography>
+        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, justifyContent: "center" }}>
+          {reports.map((r) => (
+            <Link key={r.path} href={r.path} style={{ textDecoration: "none" }}>
+              <Button
+                variant="outlined"
+                size="small"
+                sx={{
+                  borderColor: "var(--border-color)",
+                  color: "var(--foreground)",
+                  textTransform: "none",
+                  fontSize: "0.7rem",
+                  py: 0.5,
+                  px: 1.5,
+                  "&:hover": {
+                    borderColor: "var(--accent)",
+                    backgroundColor: "rgba(102, 170, 255, 0.1)",
+                  },
+                }}
+              >
+                {r.name}
+              </Button>
+            </Link>
+          ))}
+        </Box>
+      </Paper>
+
+      {/* Tools - password protected */}
+      <Paper
+        elevation={0}
+        sx={{
+          p: 1.5,
+          mt: 2,
+          backgroundColor: "var(--background)",
+          border: "1px solid var(--border-color)",
+          borderRadius: 2,
+          maxWidth: 420,
+          margin: "16px auto 0",
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: "0.65rem",
+            color: "gray",
+            fontWeight: 600,
+            textTransform: "uppercase",
+            letterSpacing: 1,
+            mb: 1,
+            textAlign: "center",
+          }}
+        >
+          Tools
+        </Typography>
+
+        {!toolsUnlocked ? (
+          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 1 }}>
+            {!showPasswordInput ? (
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={() => setShowPasswordInput(true)}
+                sx={{
+                  borderColor: "gray",
+                  color: "gray",
+                  textTransform: "none",
+                  fontSize: "0.7rem",
+                }}
+              >
+                Unlock
+              </Button>
+            ) : (
+              <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleToolsUnlock()}
+                  placeholder="Password"
+                  autoFocus
+                  style={{
+                    padding: "4px 8px",
+                    borderRadius: "4px",
+                    border: error ? "2px solid #E53935" : "1px solid gray",
+                    backgroundColor: "var(--input-bg)",
+                    color: "var(--foreground)",
+                    fontSize: "0.8rem",
+                    width: "100px",
+                  }}
+                />
+                <Button
+                  variant="contained"
+                  size="small"
+                  onClick={handleToolsUnlock}
+                  sx={{
+                    backgroundColor: "gray",
+                    fontSize: "0.7rem",
+                    py: 0.5,
+                    minWidth: "auto",
+                  }}
+                >
+                  Go
+                </Button>
+              </Box>
+            )}
+          </Box>
+        ) : (
+          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, justifyContent: "center" }}>
+            {tools.map((t) => (
+              <Link key={t.path} href={t.path} style={{ textDecoration: "none" }}>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  sx={{
+                    borderColor: "var(--border-color)",
+                    color: "var(--foreground)",
+                    textTransform: "none",
+                    fontSize: "0.7rem",
+                    py: 0.5,
+                    px: 1.5,
+                    "&:hover": {
+                      borderColor: "var(--accent)",
+                      backgroundColor: "rgba(102, 170, 255, 0.1)",
+                    },
+                  }}
+                >
+                  {t.name}
+                </Button>
+              </Link>
+            ))}
+          </Box>
+        )}
+      </Paper>
+
+      {/* Footer */}
+      <Box sx={{ textAlign: "center", mt: 3, pb: 2 }}>
+        <Typography variant="caption" sx={{ color: "var(--foreground)", opacity: 0.4 }}>
           NTTT v2.0.2
         </Typography>
       </Box>
