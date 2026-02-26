@@ -16,6 +16,7 @@ import {
   Button,
 } from "@mui/material";
 import HubIcon from "@mui/icons-material/Hub";
+import { trackEvent, getGameSessionId } from "@/utils/analytics";
 
 function GameHubRoute() {
   const router = useRouter();
@@ -34,6 +35,10 @@ function GameHubRoute() {
   };
 
   const handleClick = () => {
+    // Track the hub button click
+    const hasActiveGame = getGameSessionId() !== null;
+    trackEvent("hub_button_click", "Navigation", hasActiveGame ? "during_game" : "no_game");
+
     if (isPlaying) {
       setOpenDialog(true); // Open confirmation dialog if the game is playing
     } else {
@@ -42,6 +47,8 @@ function GameHubRoute() {
   };
 
   const handleConfirm = () => {
+    // Track abandonment via hub button
+    trackEvent("hub_abandon", "Navigation", "confirmed_exit");
     setOpenDialog(false);
     handleNavigateToHub();
   };

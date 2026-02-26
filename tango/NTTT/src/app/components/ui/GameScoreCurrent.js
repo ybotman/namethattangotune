@@ -13,6 +13,7 @@ import {
   Paper,
 } from "@mui/material";
 import AssessmentIcon from "@mui/icons-material/Assessment"; // Example "score" icon
+import { trackEvent, getGameSessionId } from "@/utils/analytics";
 
 /**
  * A small icon that, when clicked, shows a popover with game scores & a reset button.
@@ -28,6 +29,8 @@ export default function GameScoreCurrent({
 
   // Handle open/close
   const handleOpen = (event) => {
+    const hasActiveGame = getGameSessionId() !== null;
+    trackEvent("score_panel_open", "Navigation", hasActiveGame ? "during_game" : "no_game");
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -87,6 +90,7 @@ export default function GameScoreCurrent({
             variant="outlined"
             size="small"
             onClick={() => {
+              trackEvent("score_reset", "Navigation", `best:${bestScore}/total:${totalScore}/games:${completedGames}`);
               handleClose();
               if (onReset) onReset();
             }}
