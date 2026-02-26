@@ -24,6 +24,7 @@ import useSingerQuiz from "@/hooks/useSingerQuiz";
 import usePlay from "@/hooks/usePlay";
 import useSingerQuizScoring from "@/hooks/useSingerQuizScoring";
 import { shuffleArray } from "@/utils/dataFetching";
+import { trackPlayClick, trackGuess } from "@/utils/analytics";
 import RoundProgress from "@/components/ui/RoundProgress";
 import GameHubRoute from "@/components/ui/GameHubRoute";
 import AnimatedButton from "@/components/ui/AnimatedButton";

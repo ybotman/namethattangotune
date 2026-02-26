@@ -6,6 +6,7 @@ import React from "react";
 import Image from "next/image";
 import { Box, Typography, Paper, useMediaQuery, Button } from "@mui/material";
 import Link from "next/link";
+import { trackGameClick } from "@/utils/analytics";
 
 // Tools password
 const TOOLS_PASSWORD = "!El4Gotan";
@@ -49,8 +50,12 @@ const categoryColors = {
 };
 
 function CompactGameCard({ game, size = 48 }) {
+  const handleClick = () => {
+    trackGameClick(game.name, game.category);
+  };
+
   return (
-    <Link href={game.path} style={{ textDecoration: "none" }}>
+    <Link href={game.path} style={{ textDecoration: "none" }} onClick={handleClick}>
       <Box
         sx={{
           display: "flex",

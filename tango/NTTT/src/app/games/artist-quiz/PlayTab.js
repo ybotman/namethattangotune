@@ -23,6 +23,7 @@ import useArtistQuiz from "@/hooks/useArtistQuiz";
 import usePlay from "@/hooks/usePlay";
 import useArtistQuizScoring from "@/hooks/useArtistQuizScoring";
 import { shuffleArray } from "@/utils/dataFetching";
+import { trackPlayClick, trackGuess } from "@/utils/analytics";
 import RoundProgress from "@/components/ui/RoundProgress";
 import GameHubRoute from "@/components/ui/GameHubRoute";
 import Celebration from "@/components/ui/Celebration";
@@ -104,6 +105,7 @@ export default function PlayTab({ songs, config, onCancel }) {
     (ans) => {
       console.log("PlayTab-> handleAnswerSelect =>", ans);
       const { roundEnded, correct } = scoringAnswerSelect(ans);
+      trackGuess("artist-quiz", correct, ans);
 
       if (roundEnded) {
         setRoundOver(true);
@@ -136,6 +138,7 @@ export default function PlayTab({ songs, config, onCancel }) {
   // 7) clickPlaySong => waveSurfer snippet
   const clickPlaySong = useCallback(() => {
     console.log("PlayTab-> clickPlaySong");
+    trackPlayClick("artist-quiz");
     if (!currentSong) return;
     if (lastSongRef.current === currentSong.AudioUrl) return;
     lastSongRef.current = currentSong.AudioUrl;
