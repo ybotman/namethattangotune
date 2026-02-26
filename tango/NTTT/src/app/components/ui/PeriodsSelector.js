@@ -21,13 +21,21 @@ export default function PeriodsSelector({
   selectedPeriods = [],
   onChange,
   disabled,
+  singleSelect = false,
+  label = "Era",
 }) {
   const togglePeriod = (periodName) => {
     if (disabled) return;
-    const newPeriods = selectedPeriods.includes(periodName)
-      ? selectedPeriods.filter((p) => p !== periodName)
-      : [...selectedPeriods, periodName];
-    onChange(newPeriods);
+    if (singleSelect) {
+      // Single select mode - always set to clicked item
+      onChange([periodName]);
+    } else {
+      // Multi select mode - toggle
+      const newPeriods = selectedPeriods.includes(periodName)
+        ? selectedPeriods.filter((p) => p !== periodName)
+        : [...selectedPeriods, periodName];
+      onChange(newPeriods);
+    }
   };
 
   const blockSize = 40;
@@ -48,7 +56,7 @@ export default function PeriodsSelector({
           fontSize: "0.65rem",
         }}
       >
-        Era
+        {label}
       </Typography>
 
       {/* Container with fixed height for labels + blocks */}
@@ -158,9 +166,13 @@ PeriodsSelector.propTypes = {
   selectedPeriods: PropTypes.arrayOf(PropTypes.string),
   onChange: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
+  singleSelect: PropTypes.bool,
+  label: PropTypes.string,
 };
 
 PeriodsSelector.defaultProps = {
   selectedPeriods: [],
   disabled: false,
+  singleSelect: false,
+  label: "Era",
 };

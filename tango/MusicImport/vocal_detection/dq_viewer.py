@@ -6,7 +6,7 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 from collections import Counter, defaultdict
 import os
 
-os.chdir('/Users/tobybalsley/MyDocs/AppDev/NTTT/MusicImport')
+os.chdir('/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport')
 
 with open('djLibrary.json') as f:
     raw_data = json.load(f)

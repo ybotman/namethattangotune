@@ -113,13 +113,13 @@
     "level": "3",
     "grouped": []
   },
-    {
+  {
     "artist": "Disarliana",
     "active": "true",
     "level": "3",
     "grouped": []
   },
-    {
+  {
     "artist": "Enrique Rodriguez",
     "active": "true",
     "level": "2",
@@ -130,20 +130,20 @@
     "active": "true",
     "level": "2",
     "grouped": []
-  },  
-{
+  },
+  {
     "artist": "El Cachivache",
     "active": "true",
     "level": "3",
     "grouped": []
-  }, 
+  },
   {
     "artist": "Julio De Caro",
     "active": "true",
     "level": "5",
     "grouped": []
   },
-    {
+  {
     "artist": "Juan Maglio",
     "active": "true",
     "level": "5",
@@ -154,5 +154,161 @@
     "active": "true",
     "level": "5",
     "grouped": []
+  },
+  {
+    "artist": "Rodolfo Biagi",
+    "active": "true",
+    "level": "1",
+    "grouped": []
+  },
+  {
+    "artist": "Osvaldo Fresedo",
+    "active": "true",
+    "level": "1",
+    "grouped": []
+  },
+  {
+    "artist": "Pedro Laurenz",
+    "active": "true",
+    "level": "2",
+    "grouped": ["Quinteto Pedro Laurenz"]
+  },
+  {
+    "artist": "Héctor Varela",
+    "active": "true",
+    "level": "2",
+    "grouped": ["Hector Varela"]
+  },
+  {
+    "artist": "Orquesta Típica Victor",
+    "active": "true",
+    "level": "2",
+    "grouped": ["Orquesta Tipica Victor", "Orquesta Típica Víctor"]
+  },
+  {
+    "artist": "Quinteto Pirincho",
+    "active": "true",
+    "level": "3",
+    "grouped": []
+  },
+  {
+    "artist": "Rafael Canaro",
+    "active": "true",
+    "level": "3",
+    "grouped": []
+  },
+  {
+    "artist": "Osmar Maderna",
+    "active": "true",
+    "level": "3",
+    "grouped": []
+  },
+  {
+    "artist": "Horacio Salgán",
+    "active": "true",
+    "level": "3",
+    "grouped": ["Horacio Salgan y su Orquesta Típica"]
+  },
+  {
+    "artist": "Florindo Sassone",
+    "active": "true",
+    "level": "3",
+    "grouped": ["Florindo Sassone y Su Orquesta"]
+  },
+  {
+    "artist": "Alberto Castillo",
+    "active": "true",
+    "level": "3",
+    "grouped": []
+  },
+  {
+    "artist": "Angel Vargas",
+    "active": "true",
+    "level": "3",
+    "grouped": ["Angel Vargas y Orquesta Armando Lacava", "Angel Vargas con la Orquesta Armando Lacava", "Angel Vargas con la Orquesta de Armando Lacava", "Angel Vargas y Orquesta Eduardo del Piano", "Angel Vargas con la Orquesta Eduardo del Piano"]
+  },
+  {
+    "artist": "Hyperion Ensemble",
+    "active": "true",
+    "level": "4",
+    "grouped": ["Hyperion ensemble", "Hyperion Ensemble, Ruben Peloni"]
+  },
+  {
+    "artist": "Sexteto Milonguero",
+    "active": "true",
+    "level": "4",
+    "grouped": []
+  },
+  {
+    "artist": "Pablo Valle Sexteto",
+    "active": "true",
+    "level": "4",
+    "grouped": []
+  },
+  {
+    "artist": "Bandonegro",
+    "active": "true",
+    "level": "4",
+    "grouped": []
+  },
+  {
+    "artist": "Jose García y sus Zorros Grises",
+    "active": "true",
+    "level": "4",
+    "grouped": []
+  },
+  {
+    "artist": "Antonio Rodio",
+    "active": "true",
+    "level": "4",
+    "grouped": []
+  },
+  {
+    "artist": "Sexteto Cristal",
+    "active": "true",
+    "level": "4",
+    "grouped": []
+  },
+  {
+    "artist": "Quinteto Don Pancho",
+    "active": "true",
+    "level": "4",
+    "grouped": []
+  },
+  {
+    "artist": "Orquesta Típica Andariega",
+    "active": "true",
+    "level": "4",
+    "grouped": ["Orquesta Típica Andariega feat. Marisol Martinez"]
+  },
+  {
+    "artist": "Nina Miranda & Donato Racciatti",
+    "active": "true",
+    "level": "4",
+    "grouped": ["Nina Miranda & Donato Racciatti y Su Orquesta Típica"]
+  },
+  {
+    "artist": "Mario Melfi",
+    "active": "true",
+    "level": "5",
+    "grouped": []
+  },
+  {
+    "artist": "Fulvio Salamanca",
+    "active": "true",
+    "level": "5",
+    "grouped": ["Fulvio Salamanca Y Su Orquesta"]
+  },
+  {
+    "artist": "Caceres",
+    "active": "true",
+    "level": "5",
+    "grouped": []
+  },
+  {
+    "artist": "Chino Laborde",
+    "active": "true",
+    "level": "4",
+    "grouped": ["Chino Laborde and Solo Tango Orquesta"]
   }
 ]

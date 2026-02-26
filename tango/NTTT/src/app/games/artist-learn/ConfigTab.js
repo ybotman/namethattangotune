@@ -5,29 +5,21 @@ import { Box, Typography, Autocomplete, TextField } from "@mui/material";
 import styles from "../styles.module.css";
 
 import GameSetupDials from "@/components/ui/GameSetupDials";
+import PeriodsSelector from "@/components/ui/PeriodsSelector";
+import StylesSelector from "@/components/ui/StylesSelector";
 import { useGameContext } from "@/contexts/GameContext";
-
-// Eras - single select
-const ERAS = [
-  { name: "Old Guard", color: "#8D6E63", years: [1880, 1920] },
-  { name: "New Guard", color: "#FF8A65", years: [1920, 1935] },
-  { name: "Golden Age", color: "#FFD54F", years: [1935, 1955] },
-  { name: "Decline", color: "#90A4AE", years: [1955, 1980] },
-  { name: "Renaissance", color: "#4DD0E1", years: [1980, 2030] },
-];
-
-// Styles - single select
-const STYLES = ["Tango", "Vals", "Milonga"];
 
 export default function ConfigTab({ onConfigValid }) {
   const { config, updateConfig } = useGameContext();
 
-  // Local state
-  const [selectedEra, setSelectedEra] = useState("Golden Age");
-  const [selectedStyle, setSelectedStyle] = useState("Tango");
+  // Local state for orchestra selector
   const [selectedOrchestra, setSelectedOrchestra] = useState(null);
   const [orchestraOptions, setOrchestraOptions] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Get selected era and style from config
+  const selectedEra = (config.periods || ["Golden Age"])[0] || "Golden Age";
+  const selectedStyle = Object.keys(config.styles || { Tango: true }).find(k => config.styles[k]) || "Tango";
 
   // Fetch orchestras filtered by era and style
   useEffect(() => {
@@ -82,120 +74,49 @@ export default function ConfigTab({ onConfigValid }) {
     fetchFilteredOrchestras();
   }, [selectedEra, selectedStyle]);
 
-  // Update config when selections change
+  // Update config when orchestra changes
   useEffect(() => {
-    updateConfig("selectedEra", selectedEra);
-    updateConfig("selectedStyle", selectedStyle);
     updateConfig("selectedOrchestra", selectedOrchestra?.name || null);
-    updateConfig("styles", { [selectedStyle]: true });
-    updateConfig("periods", [selectedEra]);
     updateConfig("includeSinger", false); // Always instrumental
 
     // Notify parent if config is valid
     if (onConfigValid) {
       onConfigValid(!!selectedOrchestra);
     }
-  }, [selectedEra, selectedStyle, selectedOrchestra, updateConfig, onConfigValid]);
+  }, [selectedOrchestra, updateConfig, onConfigValid]);
 
   const handleNumSongsChange = (value) => updateConfig("numSongs", value);
   const handleTimeLimitChange = (value) => updateConfig("timeLimit", value);
 
+  const handlePeriodsChange = (periods) => {
+    updateConfig("periods", periods);
+    // Clear orchestra when era changes
+    setSelectedOrchestra(null);
+  };
+
+  const handleStylesChange = (styles) => {
+    updateConfig("styles", styles);
+    // Clear orchestra when style changes
+    setSelectedOrchestra(null);
+  };
+
   return (
     <Box className={styles.configurationContainer}>
       {/* Era - single select */}
-      <Box sx={{ mb: 2 }}>
-        <Typography
-          variant="caption"
-          sx={{
-            display: "block",
-            textAlign: "center",
-            color: "var(--foreground)",
-            opacity: 0.6,
-            mb: 0.5,
-            textTransform: "uppercase",
-            letterSpacing: 1,
-            fontSize: "0.65rem",
-          }}
-        >
-          Era (select one)
-        </Typography>
-        <Box sx={{ display: "flex", justifyContent: "center", gap: 1, flexWrap: "wrap" }}>
-          {ERAS.map((era) => {
-            const isSelected = selectedEra === era.name;
-            return (
-              <Box
-                key={era.name}
-                onClick={() => setSelectedEra(era.name)}
-                sx={{
-                  px: 1.5,
-                  py: 0.75,
-                  borderRadius: 1,
-                  cursor: "pointer",
-                  backgroundColor: isSelected ? era.color : "transparent",
-                  border: `2px solid ${era.color}`,
-                  color: isSelected ? "#000" : "var(--foreground)",
-                  fontWeight: isSelected ? "bold" : "normal",
-                  fontSize: "0.75rem",
-                  transition: "all 0.15s ease",
-                  "&:hover": {
-                    backgroundColor: isSelected ? era.color : `${era.color}33`,
-                  },
-                }}
-              >
-                {era.name}
-              </Box>
-            );
-          })}
-        </Box>
-      </Box>
+      <PeriodsSelector
+        selectedPeriods={config.periods || ["Golden Age"]}
+        onChange={handlePeriodsChange}
+        singleSelect={true}
+        label="Era (select one)"
+      />
 
-      {/* Style - single select */}
-      <Box sx={{ mb: 2 }}>
-        <Typography
-          variant="caption"
-          sx={{
-            display: "block",
-            textAlign: "center",
-            color: "var(--foreground)",
-            opacity: 0.6,
-            mb: 0.5,
-            textTransform: "uppercase",
-            letterSpacing: 1,
-            fontSize: "0.65rem",
-          }}
-        >
-          Style (select one)
-        </Typography>
-        <Box sx={{ display: "flex", justifyContent: "center", gap: 1 }}>
-          {STYLES.map((style) => {
-            const isSelected = selectedStyle === style;
-            const color = style === "Tango" ? "#E53935" : style === "Vals" ? "#1E88E5" : "#43A047";
-            return (
-              <Box
-                key={style}
-                onClick={() => setSelectedStyle(style)}
-                sx={{
-                  px: 2,
-                  py: 0.75,
-                  borderRadius: 1,
-                  cursor: "pointer",
-                  backgroundColor: isSelected ? color : "transparent",
-                  border: `2px solid ${color}`,
-                  color: isSelected ? "#fff" : "var(--foreground)",
-                  fontWeight: isSelected ? "bold" : "normal",
-                  fontSize: "0.8rem",
-                  transition: "all 0.15s ease",
-                  "&:hover": {
-                    backgroundColor: isSelected ? color : `${color}33`,
-                  },
-                }}
-              >
-                {style}
-              </Box>
-            );
-          })}
-        </Box>
-      </Box>
+      {/* Style - single select, no vocals */}
+      <StylesSelector
+        selectedStyles={config.styles || { Tango: true }}
+        onChange={handleStylesChange}
+        singleSelect={true}
+        showVocals={false}
+      />
 
       {/* Orchestra selector - type-ahead */}
       <Box sx={{ mb: 2, px: 2 }}>

@@ -24,11 +24,20 @@ export default function StylesSelector({
   showVocals = false,
   includeSinger = false,
   onVocalsChange,
+  // Single select mode
+  singleSelect = false,
 }) {
   const toggleStyle = (style) => {
     if (disabled) return;
-    const newStyles = { ...selectedStyles, [style]: !selectedStyles[style] };
-    onChange(newStyles);
+    if (singleSelect) {
+      // Single select mode - only one style active
+      const newStyles = { [style]: true };
+      onChange(newStyles);
+    } else {
+      // Multi select mode - toggle
+      const newStyles = { ...selectedStyles, [style]: !selectedStyles[style] };
+      onChange(newStyles);
+    }
   };
 
   const toggleVocals = () => {
@@ -181,6 +190,7 @@ StylesSelector.propTypes = {
   showVocals: PropTypes.bool,
   includeSinger: PropTypes.bool,
   onVocalsChange: PropTypes.func,
+  singleSelect: PropTypes.bool,
 };
 
 StylesSelector.defaultProps = {
@@ -190,4 +200,5 @@ StylesSelector.defaultProps = {
   showVocals: false,
   includeSinger: false,
   onVocalsChange: null,
+  singleSelect: false,
 };

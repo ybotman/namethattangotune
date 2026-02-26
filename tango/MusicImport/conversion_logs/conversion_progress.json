@@ -1,11 +1,11 @@
 {
-  "last_update": "2026-02-23T05:36:57.037790",
+  "last_update": "2026-02-24T18:38:07.432842",
   "stats": {
-    "processed": 2880,
-    "converted": 2714,
-    "backed_up": 2767,
-    "errors": 166,
+    "processed": 206,
+    "converted": 194,
+    "backed_up": 197,
+    "errors": 12,
     "skipped": 0
   },
-  "total": 3997
+  "total": 206
 }
