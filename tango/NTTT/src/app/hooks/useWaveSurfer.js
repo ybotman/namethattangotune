@@ -128,12 +128,13 @@ export default function useWaveSurfer({ onSongEnd }) {
     }, stepTime);
   }, []);
 
-  // 5) Play snippet => random start + fade in
+  // 5) Play snippet => start at specific position or random
   const playSnippet = useCallback(
     (
       songUrl,
       {
-        snippetMaxStart = 90,
+        snippetStart = null,     // Specific start time in seconds (e.g., vocal segment)
+        snippetMaxStart = 90,    // Max random start if snippetStart not provided
         fadeDurationSec = 1.0,
         onPlaySuccess,
         onPlayError,
@@ -147,10 +148,19 @@ export default function useWaveSurfer({ onSongEnd }) {
         const ws = waveSurferRef.current;
         if (!ws) return;
 
-        // random snippet
         const dur = ws.getDuration();
-        const randomStart = Math.floor(Math.random() * snippetMaxStart);
-        ws.seekTo(Math.min(randomStart, dur - 1) / dur);
+
+        // Use specific start position if provided, otherwise random
+        let startTime;
+        if (snippetStart !== null && snippetStart >= 0) {
+          startTime = Math.min(snippetStart, dur - 1);
+          console.log(`Playing from vocal segment at ${startTime.toFixed(1)}s`);
+        } else {
+          startTime = Math.floor(Math.random() * Math.min(snippetMaxStart, dur - 1));
+          console.log(`Playing from random position at ${startTime.toFixed(1)}s`);
+        }
+
+        ws.seekTo(startTime / dur);
 
         // play => fade in
         ws.play()

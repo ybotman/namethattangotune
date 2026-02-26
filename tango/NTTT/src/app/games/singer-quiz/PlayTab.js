@@ -29,30 +29,40 @@ import GameHubRoute from "@/components/ui/GameHubRoute";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 
 /**
- * Find a valid start position within a vocal segment that ensures
- * the entire playback duration has vocals.
+ * Find a valid start position within a vocal segment.
+ * Prioritizes segments long enough for full playback, but will use
+ * any vocal segment if none are long enough (better to start singing
+ * than random instrumental).
  */
 function findVocalStartPosition(song, playDuration) {
   const segments = song.vocalSegments || [];
 
-  // Find segments long enough for the play duration
-  const validSegments = segments.filter(
-    (seg) => seg.duration >= playDuration
-  );
-
-  if (validSegments.length === 0) {
-    // No segment long enough - fall back to random start
-    return null;
+  if (segments.length === 0) {
+    return null; // No vocal data - fall back to random
   }
 
-  // Pick a random valid segment
-  const segment = validSegments[Math.floor(Math.random() * validSegments.length)];
+  // First, try segments long enough for the full play duration
+  const longSegments = segments.filter((seg) => seg.duration >= playDuration);
 
-  // Pick a random start within the segment that allows full playback
-  const maxStart = segment.end - playDuration;
-  const start = segment.start + Math.random() * (maxStart - segment.start);
+  let segment;
+  if (longSegments.length > 0) {
+    // Use a random long segment
+    segment = longSegments[Math.floor(Math.random() * longSegments.length)];
+    // Pick a random start within the segment that allows full playback
+    const maxStart = segment.end - playDuration;
+    const start = segment.start + Math.random() * Math.max(0, maxStart - segment.start);
+    return Math.max(0, start);
+  }
 
-  return Math.max(0, start);
+  // No segment long enough - use the longest available segment
+  // Sort by duration descending and pick the longest
+  const sorted = [...segments].sort((a, b) => b.duration - a.duration);
+  segment = sorted[0];
+
+  // Start at the beginning of this segment (it's shorter than playDuration
+  // so there's no room to randomize within it)
+  console.log(`Using shorter vocal segment: ${segment.duration.toFixed(1)}s at ${segment.start.toFixed(1)}s`);
+  return Math.max(0, segment.start);
 }
 
 export default function PlayTab({ songs, config, onCancel }) {
@@ -154,6 +164,7 @@ export default function PlayTab({ songs, config, onCancel }) {
 
     // Find a vocal segment start position
     const vocalStart = findVocalStartPosition(currentSong, timeLimit);
+    console.log(`Singer Quiz: vocalSegments=${currentSong.vocalSegments?.length || 0}, vocalStart=${vocalStart}`);
 
     initWaveSurfer();
     playSnippet(currentSong.AudioUrl, {
