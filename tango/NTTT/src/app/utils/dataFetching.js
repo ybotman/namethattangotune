@@ -107,6 +107,9 @@ export async function fetchFilteredSongs(
     // Filtering logic
     let filtered = enrichedSongs;
 
+    // DNP filter - exclude doNotPlay songs from gameplay
+    filtered = filtered.filter((song) => !song.doNotPlay);
+
     // RequireOrchestra filter - only for orchestra-based games (artist-quiz, artist-learn, clip-orchestra)
     // ~1,305 songs are missing ArtistMaster but may have Singer data for singer games
     if (requireOrchestra) {
@@ -319,6 +322,9 @@ export async function getFilteredSongCount(options = {}) {
       const songLevel = artistName && artistLevelMap[artistName] ? artistLevelMap[artistName] : null;
       return { ...song, level: songLevel };
     });
+
+    // DNP filter - exclude doNotPlay songs
+    filtered = filtered.filter((song) => !song.doNotPlay);
 
     // Apply filters (same logic as fetchFilteredSongs)
     if (requireOrchestra) {

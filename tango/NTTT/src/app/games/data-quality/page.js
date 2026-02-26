@@ -20,6 +20,8 @@ import PauseIcon from "@mui/icons-material/Pause";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import SaveIcon from "@mui/icons-material/Save";
+import BlockIcon from "@mui/icons-material/Block";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import styles from "../styles.module.css";
 
 // Resolution options per category
@@ -85,15 +87,23 @@ export default function DataQualityPage() {
   const [showFixed, setShowFixed] = useState(false); // false = hide fixed
   const [yearFilter, setYearFilter] = useState(""); // empty = all years
   const [noYearOnly, setNoYearOnly] = useState(false); // show only songs without year
+  const [showDnpOnly, setShowDnpOnly] = useState(false); // show only DNP songs
+  const [songs, setSongs] = useState({ songs: [] }); // djSongsWeighted data
+  const [hasSongChanges, setHasSongChanges] = useState(false);
 
   const audioRef = useRef(null);
 
-  // Load issues on mount
+  // Load issues and songs on mount
   useEffect(() => {
-    fetch("/songData/dataQualityIssues.json")
-      .then((res) => res.json())
-      .then((data) => setIssues(data))
-      .catch((err) => console.error("Failed to load issues:", err));
+    Promise.all([
+      fetch("/songData/dataQualityIssues.json").then((res) => res.json()),
+      fetch("/songData/djSongsWeighted.json").then((res) => res.json()),
+    ])
+      .then(([issuesData, songsData]) => {
+        setIssues(issuesData);
+        setSongs(songsData);
+      })
+      .catch((err) => console.error("Failed to load data:", err));
   }, []);
 
   // Initialize audio
@@ -111,7 +121,39 @@ export default function DataQualityPage() {
     };
   }, []);
 
-  // Filter issues by category, fixed status, and year
+  // Build song lookup map for DNP status
+  const songMap = {};
+  songs.songs?.forEach((s) => {
+    songMap[s.SongID] = s;
+  });
+
+  // Get DNP status for an issue
+  const getDnpStatus = (issue) => {
+    const song = songMap[issue.songId];
+    return song?.doNotPlay || false;
+  };
+
+  // Toggle DNP for a song
+  const toggleDnp = (issue, reason = "data_quality") => {
+    const songId = issue.songId;
+    setSongs((prev) => {
+      const newSongs = { ...prev };
+      const idx = newSongs.songs.findIndex((s) => s.SongID === songId);
+      if (idx >= 0) {
+        const currentDnp = newSongs.songs[idx].doNotPlay || false;
+        newSongs.songs[idx] = {
+          ...newSongs.songs[idx],
+          doNotPlay: !currentDnp,
+          dnpReason: !currentDnp ? reason : null,
+          dnpNotes: !currentDnp ? `Set from DQ review: ${issue.issueId}` : null,
+        };
+      }
+      return newSongs;
+    });
+    setHasSongChanges(true);
+  };
+
+  // Filter issues by category, fixed status, year, and DNP
   const filteredIssues = issues.issues?.filter((i) => {
     // Category filter
     if (i.category !== currentCategory) return false;
@@ -121,6 +163,8 @@ export default function DataQualityPage() {
     if (noYearOnly && i.year) return false;
     // Year filter (only if not filtering for no year)
     if (!noYearOnly && yearFilter && !String(i.year || "").includes(yearFilter)) return false;
+    // DNP filter
+    if (showDnpOnly && !getDnpStatus(i)) return false;
     return true;
   }) || [];
   const currentIssue = filteredIssues[currentIndex];
@@ -272,14 +316,27 @@ export default function DataQualityPage() {
   const saveChanges = async () => {
     setSaveStatus("Saving...");
     try {
-      const res = await fetch("/api/data-quality/save", {
+      // Save DQ issues
+      const resIssues = await fetch("/api/data-quality/save", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(issues),
       });
-      if (res.ok) {
+
+      // Save songs (for DNP changes)
+      let resSongs = { ok: true };
+      if (hasSongChanges) {
+        resSongs = await fetch("/api/data-quality/save-songs", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(songs),
+        });
+      }
+
+      if (resIssues.ok && resSongs.ok) {
         setSaveStatus("Saved!");
         setHasChanges(false);
+        setHasSongChanges(false);
         setTimeout(() => setSaveStatus(""), 2000);
       } else {
         setSaveStatus("Save failed");
@@ -288,6 +345,9 @@ export default function DataQualityPage() {
       setSaveStatus("Save error: " + err.message);
     }
   };
+
+  // Count DNP songs
+  const dnpCount = songs.songs?.filter((s) => s.doNotPlay).length || 0;
 
   // Change category
   const handleCategoryChange = (_, newValue) => {
@@ -324,14 +384,19 @@ export default function DataQualityPage() {
             variant="contained"
             startIcon={<SaveIcon />}
             onClick={saveChanges}
-            disabled={!hasChanges}
+            disabled={!hasChanges && !hasSongChanges}
             sx={{
               background: hasChanges ? "var(--accent)" : "gray",
               color: "var(--background)",
             }}
           >
-            Save {hasChanges && "*"}
+            Save {(hasChanges || hasSongChanges) && "*"}
           </Button>
+          <Chip
+            label={`DNP: ${dnpCount}`}
+            size="small"
+            sx={{ background: dnpCount > 0 ? "#f44336" : "#888", color: "white" }}
+          />
         </Box>
       </Box>
 
@@ -411,6 +476,21 @@ export default function DataQualityPage() {
           placeholder="e.g. 2017"
           disabled={noYearOnly}
         />
+        <Button
+          variant={showDnpOnly ? "contained" : "outlined"}
+          size="small"
+          onClick={() => {
+            setShowDnpOnly(!showDnpOnly);
+            setCurrentIndex(0);
+          }}
+          sx={{
+            borderColor: showDnpOnly ? "#f44336" : "#888",
+            background: showDnpOnly ? "#f44336" : "transparent",
+            color: showDnpOnly ? "white" : "#888",
+          }}
+        >
+          {showDnpOnly ? "DNP Only" : "All Songs"}
+        </Button>
       </Box>
 
       {/* Progress */}
@@ -485,6 +565,22 @@ export default function DataQualityPage() {
                 {isPlaying && playingOriginal ? "Stop" : "Play"} Original ({currentIssue.originals[0].year})
               </Button>
             )}
+
+            {/* DNP Toggle */}
+            <Button
+              variant="contained"
+              startIcon={getDnpStatus(currentIssue) ? <CheckCircleIcon /> : <BlockIcon />}
+              onClick={() => toggleDnp(currentIssue)}
+              sx={{
+                background: getDnpStatus(currentIssue) ? "#f44336" : "#9E9E9E",
+                color: "white",
+                "&:hover": {
+                  background: getDnpStatus(currentIssue) ? "#d32f2f" : "#757575",
+                },
+              }}
+            >
+              {getDnpStatus(currentIssue) ? "DNP (Click to Remove)" : "Mark DNP"}
+            </Button>
           </Box>
 
           {/* Originals List */}
@@ -629,6 +725,9 @@ export default function DataQualityPage() {
             </Box>
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
               <Typography variant="caption">{issue.year}</Typography>
+              {getDnpStatus(issue) && (
+                <BlockIcon sx={{ fontSize: 14, color: "#f44336" }} />
+              )}
               <Box
                 sx={{
                   width: 8,
