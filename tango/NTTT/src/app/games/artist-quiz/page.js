@@ -12,6 +12,7 @@ import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
 import { trackGameSetup, trackGameStart } from "@/utils/analytics";
+import { enterGameMode, exitGameMode } from "@/hooks/useFullscreen";
 import styles from "./styles.module.css";
 
 export default function ArtistQuizPage() {
@@ -57,11 +58,15 @@ export default function ArtistQuizPage() {
     trackGameSetup("artist-quiz", config);
     trackGameStart("artist-quiz", config);
 
+    // Enter fullscreen + back trap for immersive gameplay
+    enterGameMode();
+
     setSongs(fetchedSongs);
     setShowPlayTab(true);
   }, [config]);
 
   const handleClosePlayTab = () => {
+    exitGameMode();
     setShowPlayTab(false);
   };
 

@@ -19,6 +19,7 @@ import CompareTab from "./CompareTab";
 import ConfigTab from "./ConfigTab";
 import { fetchSongsGroupedByTitle } from "@/utils/dataFetching";
 import { trackGameSetup, trackGameStart } from "@/utils/analytics";
+import { enterGameMode, exitGameMode } from "@/hooks/useFullscreen";
 import styles from "../styles.module.css";
 
 // All periods and tiers - no filtering by default (except DNP which is handled in dataFetching)
@@ -65,10 +66,12 @@ export default function SameSongPage() {
     // Track game setup and start
     trackGameSetup("same-song", { ...config, selectedSong: selectedGroup.title });
     trackGameStart("same-song", { ...config, selectedSong: selectedGroup.title });
+    enterGameMode();
     setShowCompareTab(true);
   }, [selectedGroup, config]);
 
   const handleCloseCompareTab = () => {
+    exitGameMode();
     setShowCompareTab(false);
   };
 

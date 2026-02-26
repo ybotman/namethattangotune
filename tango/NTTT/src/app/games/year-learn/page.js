@@ -8,6 +8,7 @@ import QuizTab from "./QuizTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs, shuffleArray } from "@/utils/dataFetching";
 import { trackGameSetup, trackGameStart } from "@/utils/analytics";
+import { enterGameMode, exitGameMode } from "@/hooks/useFullscreen";
 import styles from "../styles.module.css";
 
 export default function YearLearnPage() {
@@ -59,12 +60,14 @@ export default function YearLearnPage() {
     // Track game setup and start
     trackGameSetup("year-learn", config);
     trackGameStart("year-learn", config);
+    enterGameMode();
 
     setSongs(shuffleArray(songsWithYear));
     setShowPlayTab(true);
   }, [config]);
 
   const handleClose = () => {
+    exitGameMode();
     setShowPlayTab(false);
   };
 

@@ -8,6 +8,7 @@ import ListenTab from "./ListenTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs, fetchAllArtists, shuffleArray } from "@/utils/dataFetching";
 import { trackGameSetup, trackGameStart } from "@/utils/analytics";
+import { enterGameMode, exitGameMode } from "@/hooks/useFullscreen";
 import styles from "../styles.module.css";
 
 export default function ListenPage() {
@@ -76,6 +77,7 @@ export default function ListenPage() {
     // Track game setup and start
     trackGameSetup("listen", config);
     trackGameStart("listen", config);
+    enterGameMode();
 
     // Shuffle for random order
     const shuffled = shuffleArray(fetchedSongs);
@@ -84,6 +86,7 @@ export default function ListenPage() {
   }, [config]);
 
   const handleClose = () => {
+    exitGameMode();
     setShowListenTab(false);
   };
 

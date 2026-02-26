@@ -13,6 +13,7 @@ import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
 import { trackGameSetup, trackGameStart } from "@/utils/analytics";
+import { enterGameMode, exitGameMode } from "@/hooks/useFullscreen";
 import styles from "../styles.module.css";
 
 export default function SongQuizPage() {
@@ -55,12 +56,14 @@ export default function SongQuizPage() {
     // Track game setup and start
     trackGameSetup("song-quiz", config);
     trackGameStart("song-quiz", config);
+    enterGameMode();
 
     setSongs(fetchedSongs);
     setShowPlayTab(true);
   }, [config]);
 
   const handleClosePlayTab = () => {
+    exitGameMode();
     setShowPlayTab(false);
   };
 

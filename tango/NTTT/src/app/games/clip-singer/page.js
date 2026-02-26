@@ -12,6 +12,7 @@ import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
 import { trackGameSetup, trackGameStart } from "@/utils/analytics";
+import { enterGameMode, exitGameMode } from "@/hooks/useFullscreen";
 import styles from "../styles.module.css";
 
 export default function ClipSingerPage() {
@@ -51,12 +52,14 @@ export default function ClipSingerPage() {
     // Track game setup and start
     trackGameSetup("clip-singer", config);
     trackGameStart("clip-singer", config);
+    enterGameMode();
 
     setSongs(fetchedSongs);
     setShowPlayTab(true);
   }, [config]);
 
   const handleClosePlayTab = () => {
+    exitGameMode();
     setShowPlayTab(false);
   };
 

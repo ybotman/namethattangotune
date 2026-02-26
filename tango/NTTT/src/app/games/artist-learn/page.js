@@ -13,6 +13,7 @@ import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
 import { trackGameSetup, trackGameStart } from "@/utils/analytics";
+import { enterGameMode, exitGameMode } from "@/hooks/useFullscreen";
 import styles from "../styles.module.css";
 
 export default function ArtistLearnPage() {
@@ -67,12 +68,14 @@ export default function ArtistLearnPage() {
     // Track game setup and start
     trackGameSetup("artist-learn", config);
     trackGameStart("artist-learn", config);
+    enterGameMode();
 
     setSongs(finalSongs);
     setShowPlayTab(true);
   }, [config]);
 
   const handleClosePlayTab = () => {
+    exitGameMode();
     setShowPlayTab(false);
   };
 

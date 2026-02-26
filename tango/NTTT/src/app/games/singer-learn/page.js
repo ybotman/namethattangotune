@@ -12,6 +12,7 @@ import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
 import { trackGameSetup, trackGameStart } from "@/utils/analytics";
+import { enterGameMode, exitGameMode } from "@/hooks/useFullscreen";
 import styles from "../styles.module.css";
 
 export default function SingerLearnPage() {
@@ -72,12 +73,14 @@ export default function SingerLearnPage() {
     // Track game setup and start
     trackGameSetup("singer-learn", config);
     trackGameStart("singer-learn", config);
+    enterGameMode();
 
     setSongs(fetchedSongs);
     setShowPlayTab(true);
   }, [config]);
 
   const handleClosePlayTab = () => {
+    exitGameMode();
     setShowPlayTab(false);
   };
 

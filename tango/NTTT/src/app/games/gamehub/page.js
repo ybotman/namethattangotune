@@ -454,7 +454,7 @@ export default function GameHubPage() {
       {/* Footer */}
       <Box sx={{ textAlign: "center", mt: 3, pb: 2 }}>
         <Typography variant="caption" sx={{ color: "var(--foreground)", opacity: 0.4 }}>
-          NTTT v2.0.4
+          NTTT v2.0.5
         </Typography>
       </Box>
     </Box>

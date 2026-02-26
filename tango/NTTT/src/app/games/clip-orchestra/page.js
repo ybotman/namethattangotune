@@ -12,6 +12,7 @@ import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
 import { trackGameSetup, trackGameStart } from "@/utils/analytics";
+import { enterGameMode, exitGameMode } from "@/hooks/useFullscreen";
 import styles from "../styles.module.css";
 
 export default function ClipOrchestraPage() {
@@ -54,12 +55,14 @@ export default function ClipOrchestraPage() {
     // Track game setup and start
     trackGameSetup("clip-orchestra", config);
     trackGameStart("clip-orchestra", config);
+    enterGameMode();
 
     setSongs(fetchedSongs);
     setShowPlayTab(true);
   }, [config]);
 
   const handleClosePlayTab = () => {
+    exitGameMode();
     setShowPlayTab(false);
   };
 
