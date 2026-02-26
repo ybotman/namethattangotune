@@ -17,7 +17,6 @@ import {
   Alert,
   FormControlLabel,
   Switch,
-  Chip,
 } from "@mui/material";
 import styles from "../styles.module.css";
 import SongSnippet from "@/components/ui/SongSnippet";
@@ -411,14 +410,22 @@ export default function PlayTab({ songs, config, onCancel }) {
           </Box>
         )}
 
-        {/* Current Song Singer Display */}
+        {/* Singer name prominently at top + song info */}
         {isPlaying && currentIndex >= 0 && songs[currentIndex] && (
           <Box sx={{ textAlign: "center", mb: 2 }}>
-            <Chip
-              label={songs[currentIndex].Singer || "Unknown Singer"}
-              color="warning"
-              sx={{ fontSize: "1.2rem", py: 2, px: 1 }}
-            />
+            <Typography
+              variant="h4"
+              sx={{
+                fontWeight: "bold",
+                mb: 1,
+                color: "var(--accent)",
+              }}
+            >
+              {songs[currentIndex].Singer || "Unknown Singer"}
+            </Typography>
+            <Typography variant="body1" sx={{ opacity: 0.8 }}>
+              {songs[currentIndex].Title} - {songs[currentIndex].ArtistMaster} ({songs[currentIndex].Year})
+            </Typography>
           </Box>
         )}
 

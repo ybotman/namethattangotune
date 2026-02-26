@@ -344,9 +344,28 @@ export default function PlayTab({ songs, config, onCancel }) {
           </Button>
         </Box>
 
-        {/* If playing => show time & progress */}
-        {isPlaying && (
+        {/* If playing => show Artist prominently + time progress */}
+        {isPlaying && currentIndex >= 0 && songs[currentIndex] && (
           <Box sx={{ mb: 2 }}>
+            {/* Artist name prominently at top */}
+            <Typography
+              variant="h4"
+              sx={{
+                fontWeight: "bold",
+                textAlign: "center",
+                mb: 1,
+                color: "var(--accent)",
+              }}
+            >
+              {songs[currentIndex].ArtistMaster}
+            </Typography>
+            {/* Song title + year below */}
+            <Typography
+              variant="body1"
+              sx={{ textAlign: "center", mb: 2, opacity: 0.8 }}
+            >
+              {songs[currentIndex].Title} ({songs[currentIndex].Year})
+            </Typography>
             <LinearProgress
               variant="determinate"
               value={progressValue}

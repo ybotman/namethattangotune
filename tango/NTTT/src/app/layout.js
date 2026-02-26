@@ -3,14 +3,13 @@
 //------------------------------------------------------------
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import Script from "next/script";
 import "./globals.css";
 import PropTypes from "prop-types";
 import { AuthProvider } from "@/contexts/AuthContext";
-import { ScoreProvider, useScoreContext } from "@/contexts/ScoreContext";
+import { ScoreProvider } from "@/contexts/ScoreContext";
 import { ThemeProvider } from "@/hooks/useTheme";
-import { trackVisitor } from "@/utils/tracking";
 import { initErrorTracking } from "@/utils/analytics";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
@@ -19,34 +18,20 @@ import { Inter } from "next/font/google";
 
 const GA_MEASUREMENT_ID = "G-GSRFSWE79N";
 
-import GameScoreCurrent from "@/components/ui/GameScoreCurrent";
 import GameHubButton from "@/components/ui/GameHubRoute";
 import FullscreenButton from "@/components/ui/FullscreenButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
 function LayoutContent({ children }) {
-  // Access scores from ScoreContext
-  const { bestScore, totalScore, completedGames, resetAll } = useScoreContext();
-  const hasTrackedVisitorRef = useRef(false);
-
-  // Track visitor on first load (once per session) and init error tracking
+  // Init error tracking on first load
   useEffect(() => {
-    if (!hasTrackedVisitorRef.current) {
-      hasTrackedVisitorRef.current = true;
-      trackVisitor(window.location.pathname);
-      initErrorTracking();
-    }
+    initErrorTracking();
   }, []);
-
-  // Provide fallback in case they're undefined or null
-  const safeBest = bestScore ?? 0;
-  const safeTotal = totalScore ?? 0;
-  const safeCompleted = completedGames ?? 0;
 
   return (
     <>
-      {/* Top right icons: GameHub + Score */}
+      {/* Top right icons: Fullscreen + GameHub */}
       <Box
         sx={{
           position: "fixed",
@@ -60,12 +45,6 @@ function LayoutContent({ children }) {
       >
         <FullscreenButton />
         <GameHubButton />
-        <GameScoreCurrent
-          bestScore={safeBest}
-          totalScore={safeTotal}
-          completedGames={safeCompleted}
-          onReset={resetAll}
-        />
       </Box>
 
       {children}

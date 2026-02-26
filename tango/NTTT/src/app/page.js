@@ -192,7 +192,7 @@ export default function WelcomePage() {
           letterSpacing: 2,
         }}
       >
-        NTTT v2.0.5 BETA
+        NTTT v2.0.6 BETA
       </Typography>
     </Box>
   );
