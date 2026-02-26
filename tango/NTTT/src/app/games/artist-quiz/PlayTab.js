@@ -23,7 +23,7 @@ import useArtistQuiz from "@/hooks/useArtistQuiz";
 import usePlay from "@/hooks/usePlay";
 import useArtistQuizScoring from "@/hooks/useArtistQuizScoring";
 import { shuffleArray } from "@/utils/dataFetching";
-import { trackPlayClick, trackGuess, trackWrongAnswer, trackCorrectAnswer, trackGameComplete, trackGameCancel } from "@/utils/analytics";
+import { trackPlayClick, trackGuess, trackWrongAnswer, trackCorrectAnswer, trackGameComplete, trackGameCancel, trackRoundStart, trackRoundComplete, trackGameAbandon } from "@/utils/analytics";
 import RoundProgress from "@/components/ui/RoundProgress";
 import GameHubRoute from "@/components/ui/GameHubRoute";
 import Celebration from "@/components/ui/Celebration";
@@ -143,6 +143,13 @@ export default function PlayTab({ songs, config, onCancel }) {
     setRoundOver(false);
     handleNextSong();
   }, [handleNextSong]);
+
+  // 6b) handleCancel => track abandonment and close
+  const handleCancel = useCallback(() => {
+    trackGameAbandon("artist-quiz", currentIndex + 1, numSongs);
+    trackGameCancel("artist-quiz", currentIndex + 1, numSongs, config);
+    onCancel();
+  }, [currentIndex, numSongs, config, onCancel]);
 
   // 7) clickPlaySong => waveSurfer snippet
   const clickPlaySong = useCallback(() => {
@@ -293,7 +300,7 @@ export default function PlayTab({ songs, config, onCancel }) {
         >
           <AnimatedButton
             variant="contained"
-            onClick={onCancel}
+            onClick={handleCancel}
             sx={{
               backgroundColor: "var(--accent)",
               color: "var(--background)",
@@ -342,7 +349,7 @@ export default function PlayTab({ songs, config, onCancel }) {
         <Box sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
           <GameHubRoute />
           <IconButton
-            onClick={onCancel}
+            onClick={handleCancel}
             color="primary"
             aria-label="Back"
           >

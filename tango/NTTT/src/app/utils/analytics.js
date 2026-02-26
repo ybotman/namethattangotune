@@ -30,6 +30,7 @@ export const trackReportClick = (reportName) => {
 
 // ============ GAME SETUP ============
 
+// Called when user configures a game (periods, styles, etc)
 export const trackGameSetup = (gameName, config) => {
   trackEvent("game_setup", gameName, JSON.stringify({
     periods: config.periods,
@@ -38,19 +39,52 @@ export const trackGameSetup = (gameName, config) => {
     timeLimit: config.timeLimit,
     includeSinger: config.includeSinger,
     selectedOrchestra: config.selectedOrchestra,
-  }), config.numSongs);
+  }), config.numSongs, {
+    num_songs: config.numSongs,
+    time_limit: config.timeLimit,
+    periods: JSON.stringify(config.periods),
+    styles: JSON.stringify(config.styles),
+    include_singer: config.includeSinger,
+    selected_orchestra: config.selectedOrchestra,
+  });
 };
 
+// Called when user clicks "Start" to begin the game
 export const trackGameStart = (gameName, config) => {
-  trackEvent("game_start", gameName, `songs:${config.numSongs}/time:${config.timeLimit}`, config.numSongs);
+  trackEvent("game_start", gameName, `songs:${config.numSongs}/time:${config.timeLimit}`, config.numSongs, {
+    num_songs: config.numSongs,
+    time_limit: config.timeLimit,
+  });
 };
 
 // ============ GAME PLAY ============
 
+// Called when user clicks GO/Play button
 export const trackPlayClick = (gameName) => {
   trackEvent("play_click", "Game", gameName);
 };
 
+// Called when a new round starts - shows what choices are presented
+export const trackRoundStart = (gameName, roundNum, songUrl, songTitle, orchestra, choices) => {
+  trackEvent("round_start", gameName, `round:${roundNum}`, roundNum, {
+    song_url: songUrl,
+    song_title: songTitle,
+    orchestra: orchestra,
+    choices: JSON.stringify(choices),
+    num_choices: choices.length,
+  });
+};
+
+// Called on each guess click (even intermediate ones before final)
+export const trackGuessClick = (gameName, roundNum, userGuess, attemptNum) => {
+  trackEvent("guess_click", gameName, userGuess, attemptNum, {
+    round: roundNum,
+    attempt: attemptNum,
+    guess: userGuess,
+  });
+};
+
+// Called when round ends with correct/incorrect result
 export const trackGuess = (gameName, isCorrect, userGuess, correctAnswer, songUrl) => {
   trackEvent("guess", gameName, isCorrect ? "correct" : "incorrect", isCorrect ? 1 : 0, {
     user_guess: userGuess,
@@ -59,6 +93,7 @@ export const trackGuess = (gameName, isCorrect, userGuess, correctAnswer, songUr
   });
 };
 
+// Called on wrong answer with full song details
 export const trackWrongAnswer = (gameName, songUrl, songTitle, correctAnswer, userGuess, orchestra, year) => {
   trackEvent("wrong_answer", gameName, songUrl, 0, {
     song_title: songTitle,
@@ -69,15 +104,31 @@ export const trackWrongAnswer = (gameName, songUrl, songTitle, correctAnswer, us
   });
 };
 
+// Called on correct answer with score details
 export const trackCorrectAnswer = (gameName, songUrl, score, timeRemaining) => {
   trackEvent("correct_answer", gameName, songUrl, score, {
     time_remaining: timeRemaining,
+    score: score,
+  });
+};
+
+// Called when a round/song completes with its individual score
+export const trackRoundComplete = (gameName, roundNum, songUrl, score, maxScore, isCorrect) => {
+  const percentage = Math.round((score / maxScore) * 100);
+  trackEvent("round_complete", gameName, `round:${roundNum}`, score, {
+    round: roundNum,
+    song_url: songUrl,
+    score: score,
+    max_score: maxScore,
+    percentage: percentage,
+    correct: isCorrect,
   });
 };
 
 // ============ GAME COMPLETE ============
 
-export const trackGameComplete = (gameName, score, totalPossible, correctCount, totalQuestions) => {
+// Called when entire game session ends
+export const trackGameComplete = (gameName, score, totalPossible, correctCount, totalQuestions, config) => {
   const percentage = Math.round((score / totalPossible) * 100);
   trackEvent("game_complete", gameName, `${correctCount}/${totalQuestions}`, score, {
     score: score,
@@ -85,11 +136,27 @@ export const trackGameComplete = (gameName, score, totalPossible, correctCount, 
     correct_count: correctCount,
     total_questions: totalQuestions,
     percentage: percentage,
+    num_songs: config?.numSongs,
+    time_limit: config?.timeLimit,
   });
 };
 
-export const trackGameCancel = (gameName, currentRound, totalRounds) => {
-  trackEvent("game_cancel", gameName, `round:${currentRound}/${totalRounds}`, currentRound);
+// Called when user abandons/backs out of a game
+export const trackGameCancel = (gameName, currentRound, totalRounds, config) => {
+  trackEvent("game_cancel", gameName, `round:${currentRound}/${totalRounds}`, currentRound, {
+    current_round: currentRound,
+    total_rounds: totalRounds,
+    num_songs: config?.numSongs,
+    time_limit: config?.timeLimit,
+  });
+};
+
+// Called when user clicks back button during game
+export const trackGameAbandon = (gameName, currentRound, totalRounds) => {
+  trackEvent("game_abandon", gameName, `abandoned_at_round:${currentRound}`, currentRound, {
+    current_round: currentRound,
+    total_rounds: totalRounds,
+  });
 };
 
 // ============ WELCOME PAGE ============
@@ -111,4 +178,8 @@ export const trackLearnReveal = (gameName, orchestra, songTitle) => {
   trackEvent("learn_reveal", gameName, orchestra, 1, {
     song_title: songTitle,
   });
+};
+
+export const trackLearnNext = (gameName) => {
+  trackEvent("learn_next", gameName, "next_song");
 };
