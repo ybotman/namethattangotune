@@ -2,13 +2,43 @@
 
 export const GA_MEASUREMENT_ID = "G-GSRFSWE79N";
 
-// Core tracking function
+// Game session tracking - ties all events in a game together
+let currentGameSessionId = null;
+let gameStartTime = null;
+
+// Generate unique session ID
+export const generateGameSessionId = () => {
+  const timestamp = Date.now();
+  const random = Math.random().toString(36).substring(2, 8);
+  currentGameSessionId = `${timestamp}-${random}`;
+  gameStartTime = timestamp;
+  return currentGameSessionId;
+};
+
+// Get current session ID (for detecting orphaned events)
+export const getGameSessionId = () => currentGameSessionId;
+
+// Get elapsed time since game start
+export const getGameElapsedTime = () => {
+  if (!gameStartTime) return null;
+  return Math.round((Date.now() - gameStartTime) / 1000);
+};
+
+// Clear session (on game complete or abandon)
+export const clearGameSession = () => {
+  currentGameSessionId = null;
+  gameStartTime = null;
+};
+
+// Core tracking function - now includes session ID and elapsed time
 export const trackEvent = (action, category, label, value, extraParams = {}) => {
   if (typeof window !== "undefined" && window.gtag) {
     window.gtag("event", action, {
       event_category: category,
       event_label: label,
       value: value,
+      game_session_id: currentGameSessionId,
+      game_elapsed_sec: getGameElapsedTime(),
       ...extraParams,
     });
   }
@@ -51,9 +81,11 @@ export const trackGameSetup = (gameName, config) => {
 
 // Called when user clicks "Start" to begin the game
 export const trackGameStart = (gameName, config) => {
+  const sessionId = generateGameSessionId();
   trackEvent("game_start", gameName, `songs:${config.numSongs}/time:${config.timeLimit}`, config.numSongs, {
     num_songs: config.numSongs,
     time_limit: config.timeLimit,
+    session_id: sessionId,
   });
 };
 
@@ -130,6 +162,7 @@ export const trackRoundComplete = (gameName, roundNum, songUrl, score, maxScore,
 // Called when entire game session ends
 export const trackGameComplete = (gameName, score, totalPossible, correctCount, totalQuestions, config) => {
   const percentage = Math.round((score / totalPossible) * 100);
+  const totalTime = getGameElapsedTime();
   trackEvent("game_complete", gameName, `${correctCount}/${totalQuestions}`, score, {
     score: score,
     total_possible: totalPossible,
@@ -138,17 +171,22 @@ export const trackGameComplete = (gameName, score, totalPossible, correctCount, 
     percentage: percentage,
     num_songs: config?.numSongs,
     time_limit: config?.timeLimit,
+    total_game_time: totalTime,
   });
+  clearGameSession(); // End the session
 };
 
 // Called when user abandons/backs out of a game
 export const trackGameCancel = (gameName, currentRound, totalRounds, config) => {
+  const totalTime = getGameElapsedTime();
   trackEvent("game_cancel", gameName, `round:${currentRound}/${totalRounds}`, currentRound, {
     current_round: currentRound,
     total_rounds: totalRounds,
     num_songs: config?.numSongs,
     time_limit: config?.timeLimit,
+    total_game_time: totalTime,
   });
+  clearGameSession(); // End the session
 };
 
 // Called when user clicks back button during game
