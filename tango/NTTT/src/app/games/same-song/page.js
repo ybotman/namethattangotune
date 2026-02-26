@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 // src/app/games/same-song/page.js
 // Same Song Comparison - Compare different recordings of the same song
+// Uses local state only - does NOT persist to localStorage
 //-----------------------------------------------------------------------------
 
 "use client";
@@ -16,9 +17,12 @@ import {
 } from "@mui/material";
 import CompareTab from "./CompareTab";
 import ConfigTab from "./ConfigTab";
-import { useGameContext } from "@/contexts/GameContext";
 import { fetchSongsGroupedByTitle } from "@/utils/dataFetching";
 import styles from "../styles.module.css";
+
+// All periods and tiers - no filtering by default (except DNP which is handled in dataFetching)
+const ALL_PERIODS = ["Old Guard", "New Guard", "Golden Age", "Decline", "Renaissance"];
+const ALL_TIERS = [1, 2, 3, 4, 5];
 
 export default function SameSongPage() {
   const [songGroups, setSongGroups] = useState([]);
@@ -26,15 +30,24 @@ export default function SameSongPage() {
   const [showCompareTab, setShowCompareTab] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const { config } = useGameContext();
+  // Local config state - always starts with all selected, never persisted
+  const [config, setConfig] = useState({
+    recognitionTiers: ALL_TIERS,
+    periods: ALL_PERIODS,
+    timeLimit: 15,
+  });
+
+  const updateConfig = (key, value) => {
+    setConfig((prev) => ({ ...prev, [key]: value }));
+  };
 
   // Fetch song groups on mount and when config changes
   useEffect(() => {
     const loadGroups = async () => {
       setLoading(true);
       const groups = await fetchSongsGroupedByTitle({
-        recognitionTiers: config.recognitionTiers || [1, 2, 3, 4, 5],
-        periods: config.periods || ["Old Guard", "New Guard", "Golden Age", "Decline", "Renaissance"],
+        recognitionTiers: config.recognitionTiers,
+        periods: config.periods,
         minRecordings: 2,
       });
       setSongGroups(groups);
@@ -205,8 +218,8 @@ export default function SameSongPage() {
         )}
       </Box>
 
-      {/* Configuration Tab */}
-      <ConfigTab />
+      {/* Configuration Tab - receives local config */}
+      <ConfigTab config={config} updateConfig={updateConfig} />
     </Box>
   );
 }
