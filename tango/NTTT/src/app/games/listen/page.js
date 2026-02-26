@@ -7,6 +7,7 @@ import ConfigTab from "./ConfigTab";
 import ListenTab from "./ListenTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs, fetchAllArtists, shuffleArray } from "@/utils/dataFetching";
+import { trackGameSetup, trackGameStart } from "@/utils/analytics";
 import styles from "../styles.module.css";
 
 export default function ListenPage() {
@@ -71,6 +72,10 @@ export default function ListenPage() {
       alert("No songs found for this configuration. Try different settings.");
       return;
     }
+
+    // Track game setup and start
+    trackGameSetup("listen", config);
+    trackGameStart("listen", config);
 
     // Shuffle for random order
     const shuffled = shuffleArray(fetchedSongs);

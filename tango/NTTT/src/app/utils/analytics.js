@@ -221,3 +221,68 @@ export const trackLearnReveal = (gameName, orchestra, songTitle) => {
 export const trackLearnNext = (gameName) => {
   trackEvent("learn_next", gameName, "next_song");
 };
+
+// ============ ADMIN/TOOLS ============
+
+export const trackToolOpen = (toolName) => {
+  trackEvent("tool_open", "Tools", toolName);
+};
+
+export const trackReportView = (reportName) => {
+  trackEvent("report_view", "Reports", reportName);
+};
+
+// ============ ERROR TRACKING ============
+
+// Track React component errors (from Error Boundary)
+export const trackReactError = (error, errorInfo) => {
+  const errorMessage = error?.message || String(error);
+  const componentStack = errorInfo?.componentStack || "";
+
+  trackEvent("react_error", "Error", errorMessage.substring(0, 100), 1, {
+    error_message: errorMessage.substring(0, 500),
+    component_stack: componentStack.substring(0, 500),
+    page_url: typeof window !== "undefined" ? window.location.pathname : "",
+  });
+};
+
+// Track unhandled JS errors
+export const trackJSError = (message, source, lineno, colno, error) => {
+  const errorMessage = message || error?.message || "Unknown error";
+
+  trackEvent("js_error", "Error", errorMessage.substring(0, 100), 1, {
+    error_message: errorMessage.substring(0, 500),
+    source: source?.substring(0, 200) || "",
+    line: lineno,
+    column: colno,
+    stack: error?.stack?.substring(0, 500) || "",
+    page_url: typeof window !== "undefined" ? window.location.pathname : "",
+  });
+};
+
+// Track unhandled promise rejections
+export const trackUnhandledRejection = (reason) => {
+  const message = reason?.message || String(reason);
+
+  trackEvent("unhandled_rejection", "Error", message.substring(0, 100), 1, {
+    error_message: message.substring(0, 500),
+    stack: reason?.stack?.substring(0, 500) || "",
+    page_url: typeof window !== "undefined" ? window.location.pathname : "",
+  });
+};
+
+// Initialize global error handlers (call once on app load)
+export const initErrorTracking = () => {
+  if (typeof window === "undefined") return;
+
+  // Global JS errors
+  window.onerror = (message, source, lineno, colno, error) => {
+    trackJSError(message, source, lineno, colno, error);
+    return false; // Don't suppress the error
+  };
+
+  // Unhandled promise rejections
+  window.onunhandledrejection = (event) => {
+    trackUnhandledRejection(event.reason);
+  };
+};

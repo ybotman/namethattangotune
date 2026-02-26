@@ -12,6 +12,7 @@ import ConfigTab from "./ConfigTab";
 import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
+import { trackGameSetup, trackGameStart } from "@/utils/analytics";
 import styles from "../styles.module.css";
 
 export default function SongQuizPage() {
@@ -50,6 +51,10 @@ export default function SongQuizPage() {
       );
       return;
     }
+
+    // Track game setup and start
+    trackGameSetup("song-quiz", config);
+    trackGameStart("song-quiz", config);
 
     setSongs(fetchedSongs);
     setShowPlayTab(true);

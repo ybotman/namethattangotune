@@ -7,6 +7,7 @@ import ConfigTab from "./ConfigTab";
 import QuizTab from "./QuizTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs, shuffleArray } from "@/utils/dataFetching";
+import { trackGameSetup, trackGameStart } from "@/utils/analytics";
 import styles from "../styles.module.css";
 
 export default function YearLearnPage() {
@@ -54,6 +55,10 @@ export default function YearLearnPage() {
       alert("No songs with year data found. Try different settings.");
       return;
     }
+
+    // Track game setup and start
+    trackGameSetup("year-learn", config);
+    trackGameStart("year-learn", config);
 
     setSongs(shuffleArray(songsWithYear));
     setShowPlayTab(true);

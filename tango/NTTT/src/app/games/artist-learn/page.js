@@ -12,6 +12,7 @@ import ConfigTab from "./ConfigTab";
 import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
+import { trackGameSetup, trackGameStart } from "@/utils/analytics";
 import styles from "../styles.module.css";
 
 export default function ArtistLearnPage() {
@@ -62,6 +63,10 @@ export default function ArtistLearnPage() {
         return yearA - yearB;
       });
     }
+
+    // Track game setup and start
+    trackGameSetup("artist-learn", config);
+    trackGameStart("artist-learn", config);
 
     setSongs(finalSongs);
     setShowPlayTab(true);

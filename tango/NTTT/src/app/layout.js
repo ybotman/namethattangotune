@@ -11,6 +11,8 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { ScoreProvider, useScoreContext } from "@/contexts/ScoreContext";
 import { ThemeProvider } from "@/hooks/useTheme";
 import { trackVisitor } from "@/utils/tracking";
+import { initErrorTracking } from "@/utils/analytics";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 import { CssBaseline, Box } from "@mui/material";
 import { Inter } from "next/font/google";
@@ -27,11 +29,12 @@ function LayoutContent({ children }) {
   const { bestScore, totalScore, completedGames, resetAll } = useScoreContext();
   const hasTrackedVisitorRef = useRef(false);
 
-  // Track visitor on first load (once per session)
+  // Track visitor on first load (once per session) and init error tracking
   useEffect(() => {
     if (!hasTrackedVisitorRef.current) {
       hasTrackedVisitorRef.current = true;
       trackVisitor(window.location.pathname);
+      initErrorTracking();
     }
   }, []);
 
@@ -91,13 +94,15 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <CssBaseline />
-        <AuthProvider>
-          <ScoreProvider>
-            <ThemeProvider>
-              <LayoutContent>{children}</LayoutContent>
-            </ThemeProvider>
-          </ScoreProvider>
-        </AuthProvider>
+        <ErrorBoundary>
+          <AuthProvider>
+            <ScoreProvider>
+              <ThemeProvider>
+                <LayoutContent>{children}</LayoutContent>
+              </ThemeProvider>
+            </ScoreProvider>
+          </AuthProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

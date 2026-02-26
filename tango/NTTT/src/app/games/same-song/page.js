@@ -18,6 +18,7 @@ import {
 import CompareTab from "./CompareTab";
 import ConfigTab from "./ConfigTab";
 import { fetchSongsGroupedByTitle } from "@/utils/dataFetching";
+import { trackGameSetup, trackGameStart } from "@/utils/analytics";
 import styles from "../styles.module.css";
 
 // All periods and tiers - no filtering by default (except DNP which is handled in dataFetching)
@@ -61,8 +62,11 @@ export default function SameSongPage() {
       alert("Please select a song to compare");
       return;
     }
+    // Track game setup and start
+    trackGameSetup("same-song", { ...config, selectedSong: selectedGroup.title });
+    trackGameStart("same-song", { ...config, selectedSong: selectedGroup.title });
     setShowCompareTab(true);
-  }, [selectedGroup]);
+  }, [selectedGroup, config]);
 
   const handleCloseCompareTab = () => {
     setShowCompareTab(false);

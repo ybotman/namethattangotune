@@ -113,7 +113,7 @@ export default function PlayTab({ songs, config, onCancel }) {
       if (!correct && currentSong) {
         trackWrongAnswer("artist-quiz", currentSong.AudioUrl, currentSong.Title, correctAns, ans, currentSong.ArtistMaster, currentSong.Year);
       } else if (correct && currentSong) {
-        trackCorrectAnswer("artist-quiz", currentSong.AudioUrl, roundScore, timeRemaining);
+        trackCorrectAnswer("artist-quiz", currentSong.AudioUrl, roundScore, timeLimit - timeElapsed);
       }
 
       if (roundEnded) {
@@ -134,7 +134,7 @@ export default function PlayTab({ songs, config, onCancel }) {
         }
       }
     },
-    [scoringAnswerSelect, stopAudio, roundScore, maxScore, currentSong, timeRemaining],
+    [scoringAnswerSelect, stopAudio, roundScore, maxScore, currentSong, timeLimit, timeElapsed],
   );
 
   // 6) doNextSong => proceed to next

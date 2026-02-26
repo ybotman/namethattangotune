@@ -11,6 +11,7 @@ import ConfigTab from "./ConfigTab";
 import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
+import { trackGameSetup, trackGameStart } from "@/utils/analytics";
 import styles from "../styles.module.css";
 
 export default function ClipOrchestraPage() {
@@ -49,6 +50,10 @@ export default function ClipOrchestraPage() {
       );
       return;
     }
+
+    // Track game setup and start
+    trackGameSetup("clip-orchestra", config);
+    trackGameStart("clip-orchestra", config);
 
     setSongs(fetchedSongs);
     setShowPlayTab(true);

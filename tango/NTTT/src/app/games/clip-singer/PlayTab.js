@@ -23,7 +23,7 @@ import { motion, AnimatePresence } from "motion/react";
 
 import useWaveSurfer from "@/hooks/useWaveSurfer";
 import { shuffleArray } from "@/utils/dataFetching";
-import { trackPlayClick, trackGuess } from "@/utils/analytics";
+import { trackPlayClick, trackGuess, trackWrongAnswer, trackCorrectAnswer, trackGameComplete, trackGameCancel, trackGameAbandon } from "@/utils/analytics";
 import RoundProgress from "@/components/ui/RoundProgress";
 import GameHubRoute from "@/components/ui/GameHubRoute";
 import AnimatedButton from "@/components/ui/AnimatedButton";
@@ -165,6 +165,7 @@ export default function PlayTab({ songs, config, onCancel }) {
 
   // Play the clip from a vocal section
   const playClip = useCallback(() => {
+    trackPlayClick("clip-singer");
     if (!currentSong) return;
 
     // Generate start position from vocal segment on first play
@@ -254,10 +255,15 @@ export default function PlayTab({ songs, config, onCancel }) {
 
     setSelectedAnswer(ans);
     const correctSinger = (currentSong?.Singer || "").trim().toLowerCase();
+    const correctAns = currentSong?.Singer || "";
     const guess = ans.trim().toLowerCase();
     const isCorrect = guess === correctSinger;
 
+    // Track guess
+    trackGuess("clip-singer", isCorrect, ans, correctAns, currentSong?.AudioUrl);
+
     if (isCorrect) {
+      trackCorrectAnswer("clip-singer", currentSong.AudioUrl, roundScore, 0);
       cleanupWaveSurfer();
       setSessionScore((old) => old + Math.max(roundScore, 0));
       setRoundStats((old) => [
@@ -267,6 +273,7 @@ export default function PlayTab({ songs, config, onCancel }) {
       setRoundScorePercents(prev => [...prev, (roundScore / maxPossibleScore) * 100]);
       setRoundOver(true);
     } else {
+      trackWrongAnswer("clip-singer", currentSong.AudioUrl, currentSong.Title, correctAns, ans, currentSong.ArtistMaster, currentSong.Year);
       setWrongAnswers((old) => [...old, ans]);
       const newScore = Math.max(roundScore * (1 - WRONG_PENALTY), 0);
       setRoundScore(newScore);
@@ -281,7 +288,7 @@ export default function PlayTab({ songs, config, onCancel }) {
         setRoundOver(true);
       }
     }
-  }, [currentSong, roundOver, hasPlayed, roundScore, replayCount, wrongAnswers, cleanupWaveSurfer]);
+  }, [currentSong, roundOver, hasPlayed, roundScore, replayCount, wrongAnswers, cleanupWaveSurfer, maxPossibleScore]);
 
   // Next song
   const doNextSong = useCallback(() => {
@@ -333,7 +340,10 @@ export default function PlayTab({ songs, config, onCancel }) {
         </Typography>
         <Button
           variant="contained"
-          onClick={onCancel}
+          onClick={() => {
+            trackGameComplete("clip-singer", sessionScore, roundStats.length, numSongs, config);
+            onCancel();
+          }}
           sx={{
             backgroundColor: "var(--accent)",
             color: "var(--background)",
@@ -372,7 +382,11 @@ export default function PlayTab({ songs, config, onCancel }) {
 
         <Box sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
           <GameHubRoute />
-          <IconButton onClick={onCancel} color="primary" aria-label="Back">
+          <IconButton onClick={() => {
+            trackGameAbandon("clip-singer", currentIndex + 1, numSongs);
+            trackGameCancel("clip-singer", currentIndex + 1, numSongs, config);
+            onCancel();
+          }} color="primary" aria-label="Back">
             <ArrowBackIcon />
           </IconButton>
         </Box>

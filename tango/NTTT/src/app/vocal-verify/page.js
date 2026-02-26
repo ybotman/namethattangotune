@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import { trackToolOpen } from "@/utils/analytics";
 import {
   Box,
   Typography,
@@ -37,6 +38,9 @@ export default function VocalVerifyPage() {
 
   // Load songs and vocal analysis data
   useEffect(() => {
+    // Track page view
+    trackToolOpen("vocal-verify");
+
     Promise.all([
       fetch("/songData/djSongs.json").then((r) => r.json()),
       fetch("/api/vocal-data").then((r) => r.json()).catch(() => ({})),

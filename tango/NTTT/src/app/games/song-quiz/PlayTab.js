@@ -25,7 +25,7 @@ import useSongQuiz from "@/hooks/useSongQuiz";
 import usePlay from "@/hooks/usePlay";
 import useSongQuizScoring from "@/hooks/useSongQuizScoring";
 import { shuffleArray } from "@/utils/dataFetching";
-import { trackPlayClick, trackGuess } from "@/utils/analytics";
+import { trackPlayClick, trackGuess, trackWrongAnswer, trackCorrectAnswer, trackGameComplete, trackGameCancel, trackGameAbandon } from "@/utils/analytics";
 import RoundProgress from "@/components/ui/RoundProgress";
 import GameHubRoute from "@/components/ui/GameHubRoute";
 import AnimatedButton from "@/components/ui/AnimatedButton";
@@ -95,6 +95,16 @@ export default function PlayTab({ songs, config, onCancel }) {
     (ans) => {
       const { roundEnded, correct } = scoringAnswerSelect(ans);
 
+      // Track guess with song details
+      const correctAns = currentSong?.Title || "";
+      trackGuess("song-quiz", correct, ans, correctAns, currentSong?.AudioUrl);
+
+      if (!correct && currentSong) {
+        trackWrongAnswer("song-quiz", currentSong.AudioUrl, currentSong.Title, correctAns, ans, currentSong.ArtistMaster, currentSong.Year);
+      } else if (correct && currentSong) {
+        trackCorrectAnswer("song-quiz", currentSong.AudioUrl, roundScore, timeLimit - timeElapsed);
+      }
+
       if (roundEnded) {
         setRoundOver(true);
         const scorePercent = (roundScore / maxScore) * 100;
@@ -102,7 +112,7 @@ export default function PlayTab({ songs, config, onCancel }) {
         stopAudio();
       }
     },
-    [scoringAnswerSelect, stopAudio, roundScore, maxScore]
+    [scoringAnswerSelect, stopAudio, roundScore, maxScore, currentSong, timeLimit, timeElapsed]
   );
 
   const doNextSong = useCallback(() => {
@@ -111,6 +121,7 @@ export default function PlayTab({ songs, config, onCancel }) {
   }, [handleNextSong]);
 
   const clickPlaySong = useCallback(() => {
+    trackPlayClick("song-quiz");
     if (!currentSong) return;
     if (lastSongRef.current === currentSong.AudioUrl) return;
     lastSongRef.current = currentSong.AudioUrl;
@@ -209,7 +220,10 @@ export default function PlayTab({ songs, config, onCancel }) {
         </Typography>
         <Button
           variant="contained"
-          onClick={onCancel}
+          onClick={() => {
+            trackGameComplete("song-quiz", sessionScore, roundStats.length, numSongs, config);
+            onCancel();
+          }}
           sx={{
             backgroundColor: "var(--accent)",
             color: "var(--background)",
@@ -249,7 +263,11 @@ export default function PlayTab({ songs, config, onCancel }) {
 
         <Box sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
           <GameHubRoute />
-          <IconButton onClick={onCancel} color="primary" aria-label="Back">
+          <IconButton onClick={() => {
+            trackGameAbandon("song-quiz", currentIndex + 1, numSongs);
+            trackGameCancel("song-quiz", currentIndex + 1, numSongs, config);
+            onCancel();
+          }} color="primary" aria-label="Back">
             <ArrowBackIcon />
           </IconButton>
         </Box>

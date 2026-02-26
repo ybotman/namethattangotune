@@ -1,7 +1,8 @@
 // src/app/reports/volumetrics/dnp-report/page.js
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { trackReportView } from "@/utils/analytics";
 
 // DNP data grouped by orchestra - 59 songs total (updated 2026-02-26)
 const DNP_DATA = [
@@ -117,6 +118,11 @@ const PLAYABLE_COUNT = 4616;
 export default function DNPReportPage() {
   const [expandedOrch, setExpandedOrch] = useState(null);
   const [filterReason, setFilterReason] = useState("all");
+
+  // Track page view on mount
+  useEffect(() => {
+    trackReportView("dnp-report");
+  }, []);
 
   // Count by reason
   const reasonCounts = useMemo(() => {
