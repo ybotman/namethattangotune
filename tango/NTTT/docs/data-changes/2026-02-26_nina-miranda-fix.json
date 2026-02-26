@@ -1,0 +1,127 @@
+{
+  "date": "2026-02-26",
+  "timestamp": "2026-02-26 02:11:20",
+  "description": "Fix Nina Miranda & Donato Racciatti: set ArtistMaster, clear reissue year (2001)",
+  "changes": [
+    {
+      "file": "ArtistMaster.json",
+      "action": "update",
+      "description": "Remove accent from grouped alias"
+    },
+    {
+      "file": "djSongsWeighted.json",
+      "action": "update",
+      "count": 12,
+      "songs": [
+        {
+          "songId": "17e0c845-f14b-5d16-8e78-7830fd0c310f",
+          "title": "Sentimiento Gaucho",
+          "orchestra": "Nina Miranda & Donato Racciatti y Su Orquesta Tipica",
+          "oldYear": "2001",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Nina Miranda & Donato Racciatti"
+        },
+        {
+          "songId": "ad5ae2d3-f948-5f6f-99ba-83df2ea05ca1",
+          "title": "De Tardecita",
+          "orchestra": "Nina Miranda & Donato Racciatti y Su Orquesta Tipica",
+          "oldYear": "2001",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Nina Miranda & Donato Racciatti"
+        },
+        {
+          "songId": "0130dbb2-9560-5874-b8da-2e4e47212099",
+          "title": "Tu Corazon",
+          "orchestra": "Nina Miranda & Donato Racciatti y Su Orquesta Tipica",
+          "oldYear": "2001",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Nina Miranda & Donato Racciatti"
+        },
+        {
+          "songId": "ef00fad1-1b8e-52c4-b0eb-c148a178c217",
+          "title": "Garufa",
+          "orchestra": "Nina Miranda & Donato Racciatti y Su Orquesta Tipica",
+          "oldYear": "2001",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Nina Miranda & Donato Racciatti"
+        },
+        {
+          "songId": "5e7d81b1-8bbf-5c6e-ac1b-a14a0cb3ad61",
+          "title": "La Novena",
+          "orchestra": "Nina Miranda & Donato Racciatti y Su Orquesta Tipica",
+          "oldYear": "2001",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Nina Miranda & Donato Racciatti"
+        },
+        {
+          "songId": "8f8b85e5-b678-506d-81f2-52c7d4361dc4",
+          "title": "No Quiero Ni Acordarme",
+          "orchestra": "Nina Miranda & Donato Racciatti y Su Orquesta Tipica",
+          "oldYear": "2001",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Nina Miranda & Donato Racciatti"
+        },
+        {
+          "songId": "8c1aebee-af7d-5c7c-82ca-82728ec31c4b",
+          "title": "Vencida",
+          "orchestra": "Nina Miranda & Donato Racciatti y Su Orquesta Tipica",
+          "oldYear": "2001",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Nina Miranda & Donato Racciatti"
+        },
+        {
+          "songId": "c89c3824-6835-5987-a6b5-968832604641",
+          "title": "Venganza",
+          "orchestra": "Nina Miranda & Donato Racciatti y Su Orquesta Tipica",
+          "oldYear": "2001",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Nina Miranda & Donato Racciatti"
+        },
+        {
+          "songId": "f8ed9164-ebd5-5ecf-8cbc-6d3a07b90b77",
+          "title": "Gloria",
+          "orchestra": "Nina Miranda & Donato Racciatti y Su Orquesta Tipica",
+          "oldYear": "2001",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Nina Miranda & Donato Racciatti"
+        },
+        {
+          "songId": "7a25541f-3526-5062-a7b9-d19a4c0fc30e",
+          "title": "Sin Estrellas",
+          "orchestra": "Nina Miranda & Donato Racciatti y Su Orquesta Tipica",
+          "oldYear": "2001",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Nina Miranda & Donato Racciatti"
+        },
+        {
+          "songId": "6e7c41da-503e-5e7e-80e3-c1cc2031e2f3",
+          "title": "Andate Con la Otra",
+          "orchestra": "Nina Miranda & Donato Racciatti y Su Orquesta Tipica",
+          "oldYear": "2001",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Nina Miranda & Donato Racciatti"
+        },
+        {
+          "songId": "60ce8f35-9d46-5b7c-ba7b-34b1df47e99f",
+          "title": "A Media Luz",
+          "orchestra": "Nina Miranda & Donato Racciatti y Su Orquesta Tipica",
+          "oldYear": "2001",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Nina Miranda & Donato Racciatti"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "date": "2026-02-26",
+  "timestamp": "2026-02-26 02:15:47",
+  "description": "Mark 7 true duplicates as reissues: add isReissue, reissueYear, set Year to original",
+  "changes": [
+    {
+      "file": "djSongsWeighted.json",
+      "action": "update",
+      "count": 7,
+      "songs": [
+        {
+          "songId": "3429c7d2-b4cf-549f-afb6-ee2c8be61f44",
+          "title": "Palomita Blanca",
+          "orchestra": "Anibal Troilo",
+          "reissueYear": "1999",
+          "originalYear": "1944"
+        },
+        {
+          "songId": "5765953d-a90d-5e10-b126-7d62f352a831",
+          "title": "Noche Calurosa",
+          "orchestra": "Roberto Firpo",
+          "reissueYear": "2003",
+          "originalYear": "1959"
+        },
+        {
+          "songId": "06f888c1-83e2-56a0-ae08-62dcc56a5601",
+          "title": "El Aeroplano",
+          "orchestra": "Roberto Firpo",
+          "reissueYear": "2003",
+          "originalYear": "1936"
+        },
+        {
+          "songId": "2d7ed373-837a-5bf2-8da1-5b61ab1f69bc",
+          "title": "No le digas que la quiero",
+          "orchestra": "Rodolfo Biagi - Jorge Ortiz",
+          "reissueYear": "1996",
+          "originalYear": "1940"
+        },
+        {
+          "songId": "e7a10d42-870d-511b-ba95-94677cdfd841",
+          "title": "El Maraja (Tango)",
+          "orchestra": "Domingo Federico",
+          "reissueYear": "2019",
+          "originalYear": "1951"
+        },
+        {
+          "songId": "9ec6ee05-4813-5eec-a871-242f69f815ce",
+          "title": "Mi Vieja Linda",
+          "orchestra": "Orquesta Emilio Pellejero & Enalmar De Maria",
+          "reissueYear": "2002",
+          "originalYear": "1941"
+        },
+        {
+          "songId": "157b94c6-afd5-575d-a70d-6fa9d337ce21",
+          "title": "Zapatos (Remastered)",
+          "orchestra": "Domingo Federico",
+          "reissueYear": "2021",
+          "originalYear": "1945"
+        }
+      ]
+    }
+  ]
+}

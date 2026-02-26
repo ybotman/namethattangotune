@@ -1,0 +1,133 @@
+{
+  "date": "2026-02-26",
+  "timestamp": "2026-02-26 02:46:54",
+  "description": "Florindo Sassone: cleared 2005 reissue years, marked isReissue for review",
+  "changes": [
+    {
+      "file": "djSongsWeighted.json",
+      "action": "update",
+      "count": 17,
+      "songs": [
+        {
+          "songId": "a2449aea-8768-5e85-8b82-2582f2bedca3",
+          "title": "Tango nocturno (original)",
+          "oldYear": "2005-03-22T08:00:00Z",
+          "newYear": "",
+          "action": "cleared - needs original year"
+        },
+        {
+          "songId": "193d03bb-fc89-5ddc-9ccd-d0900d379781",
+          "title": "Beso Su Mano, Senora (original)",
+          "oldYear": "2005-03-22T08:00:00Z",
+          "newYear": "",
+          "action": "cleared - needs original year"
+        },
+        {
+          "songId": "f0ebb8bb-29e7-57cb-9a1d-15ec962c9c3a",
+          "title": "Nostalgias (original)",
+          "oldYear": "2005-03-22T08:00:00Z",
+          "newYear": "",
+          "action": "cleared - needs original year"
+        },
+        {
+          "songId": "95801d0c-7be2-5f35-b507-f7397986cc73",
+          "title": "Orquideas a la Luz de la Luna (original)",
+          "oldYear": "2005-03-22T08:00:00Z",
+          "newYear": "",
+          "action": "cleared - needs original year"
+        },
+        {
+          "songId": "014d6ede-f4f0-5e67-bd7b-37b25ff1b65d",
+          "title": "El Amor No Sirve Para Nada (original)",
+          "oldYear": "2005-03-22T08:00:00Z",
+          "newYear": "",
+          "action": "cleared - needs original year"
+        },
+        {
+          "songId": "8aa25bca-5038-5e93-bf41-4dc0d5c4b07f",
+          "title": "Lluvia Sobre el Camino (original)",
+          "oldYear": "2005-03-22T08:00:00Z",
+          "newYear": "",
+          "action": "cleared - needs original year"
+        },
+        {
+          "songId": "aa4e6a8a-0b12-53a9-ae43-b122ae3b12a6",
+          "title": "El Escondite de Hernando (original)",
+          "oldYear": "2005-03-22T08:00:00Z",
+          "newYear": "",
+          "action": "cleared - needs original year"
+        },
+        {
+          "songId": "8fe473a5-8ed5-5b83-93e4-141eabe8c524",
+          "title": "Isla de Capri (original)",
+          "oldYear": "2005-03-22T08:00:00Z",
+          "newYear": "",
+          "action": "cleared - needs original year"
+        },
+        {
+          "songId": "d0796a9c-73c7-5958-96ef-4a2c7fff5c2c",
+          "title": "Ojos negros (original)",
+          "oldYear": "2005-03-22T08:00:00Z",
+          "newYear": "",
+          "action": "cleared - needs original year"
+        },
+        {
+          "songId": "613cf5cc-db52-54e7-8d41-b57385444657",
+          "title": "Mujer (original)",
+          "oldYear": "2005-03-22T08:00:00Z",
+          "newYear": "",
+          "action": "cleared - needs original year"
+        },
+        {
+          "songId": "17667e08-05b8-57f7-8ec3-11f3bee6a331",
+          "title": "Cielo azul (original)",
+          "oldYear": "2005-03-22T08:00:00Z",
+          "newYear": "",
+          "action": "cleared - needs original year"
+        },
+        {
+          "songId": "d48f061f-396d-5bf7-b521-85b4dd2efd2a",
+          "title": "Un Jardin en Italia (original)",
+          "oldYear": "2005-03-22T08:00:00Z",
+          "newYear": "",
+          "action": "cleared - needs original year"
+        },
+        {
+          "songId": "580ae067-3ad2-59a1-9878-51e187c84733",
+          "title": "Tango azul (original)",
+          "oldYear": "2005-03-22T08:00:00Z",
+          "newYear": "",
+          "action": "cleared - needs original year"
+        },
+        {
+          "songId": "f24ac1eb-d1b0-50c0-9e62-dfc4af6e19f2",
+          "title": "En un Pequeno Cafe (original)",
+          "oldYear": "2005-03-22T08:00:00Z",
+          "newYear": "",
+          "action": "cleared - needs original year"
+        },
+        {
+          "songId": "b84cda71-3e43-5730-ac0f-622a248c92ea",
+          "title": "Luz azul (original)",
+          "oldYear": "2005-03-22T08:00:00Z",
+          "newYear": "",
+          "action": "cleared - needs original year"
+        },
+        {
+          "songId": "c60a4492-c690-5f9c-a2e6-b52dd16a2887",
+          "title": "Mi Corazon Es un Violin (original)",
+          "oldYear": "2005-03-22T08:00:00Z",
+          "newYear": "",
+          "action": "cleared - needs original year"
+        },
+        {
+          "songId": "d51cd938-2335-50e2-9c86-24090c675901",
+          "title": "Final de un Amor (original)",
+          "oldYear": "2005-03-22T08:00:00Z",
+          "newYear": "",
+          "action": "cleared - needs original year"
+        }
+      ]
+    }
+  ]
+}

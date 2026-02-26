@@ -1,0 +1,307 @@
+{
+  "date": "2026-02-26",
+  "timestamp": "2026-02-26 02:23:21",
+  "description": "Fix all Orquesta Tipica Andariega variations - valid modern orchestra (2011-2021)",
+  "changes": [
+    {
+      "file": "ArtistMaster.json",
+      "action": "update",
+      "description": "Added grouped variations"
+    },
+    {
+      "file": "djSongsWeighted.json",
+      "action": "update",
+      "count": 35,
+      "years": [
+        "2011",
+        "2014",
+        "2017",
+        "2019",
+        "2020",
+        "2021"
+      ],
+      "songs": [
+        {
+          "songId": "448e5de8-63a4-567a-9506-9317b7030fc3",
+          "title": "Este es el pueblo",
+          "orchestra": "Orquesta Tipica Andariega feat. Marisol Martinez",
+          "year": "2020",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "69e1477f-6fc2-5802-8b72-6defb14dfc89",
+          "title": "Gira Gira",
+          "orchestra": "Orquesta Tipica Andariega",
+          "year": "2014",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "27814762-6b48-54c8-88ea-01f7862d7a6c",
+          "title": "No me hables",
+          "orchestra": "Orquesta Tipica Andariega",
+          "year": "2014",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "56ba7c9c-cbde-5109-8c54-67d63eb92f2c",
+          "title": "Lontano",
+          "orchestra": "Orquesta Tipica Andariega",
+          "year": "2014",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "ad8d4bd2-835d-5ae6-9f87-b4be754e5f53",
+          "title": "Potenza",
+          "orchestra": "Orquesta Tipica Andariega",
+          "year": "2011",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "8d252db6-2387-5641-a823-ae9d85d1a9b8",
+          "title": "Jamas retornaras",
+          "orchestra": "Orquesta Tipica Andariega",
+          "year": "2014",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "c9a4d640-a2ba-51e9-94e8-9369ecff0862",
+          "title": "Buonasera",
+          "orchestra": "Orquesta Tipica Andariega",
+          "year": "2014",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "98796f58-1a4d-5760-84b6-86216143b68e",
+          "title": "Tormenta",
+          "orchestra": "Orquesta Tipica Andariega",
+          "year": "2014",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "047474cb-8db1-5ccb-9eff-9c3523f4aabe",
+          "title": "Corralera",
+          "orchestra": "Orquesta Tipica Andariega",
+          "year": "2011",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "73b40b23-07ce-5f33-9905-d24efb590b36",
+          "title": "Chau Paris",
+          "orchestra": "Orquesta Tipica Andariega",
+          "year": "2011",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "b710227f-0b32-5a71-b9bf-e31e9b7efed1",
+          "title": "La Bordona",
+          "orchestra": "Orquesta Tipica Andariega",
+          "year": "2011",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "695404df-3c92-56fc-bd92-3694bd644da4",
+          "title": "Campo Afuera",
+          "orchestra": "Orquesta Tipica Andariega",
+          "year": "2011",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "b519535a-14ee-58b4-b772-4cd396a783d0",
+          "title": "Inspiracion",
+          "orchestra": "Orquesta Tipica Andariega",
+          "year": "2011",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "b1cf3653-9f66-58c6-9b2b-3d0074875898",
+          "title": "Trenzas feat. Marisol Martinez",
+          "orchestra": "Orquesta Tipica Andariega feat. Marisol Martinez",
+          "year": "2019",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "a5c85084-ddec-503b-8d55-d0759fc82aa2",
+          "title": "Remembranza",
+          "orchestra": "Orquesta Tipica Andariega feat. Marisol Martinez",
+          "year": "2019",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "63a7e6d4-097c-5a3c-a3ab-55f1023da88d",
+          "title": "Un giorno ti diro feat. Marisol Martinez",
+          "orchestra": "Orquesta Tipica Andariega feat. Marisol Martinez",
+          "year": "2019",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "c3fbf393-6ad6-5fab-a924-fb57f22fa22d",
+          "title": "Manana zarpa un barco",
+          "orchestra": "Orquesta Tipica Andariega feat. Marisol Martinez",
+          "year": "2019",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "726e95d3-73fe-56af-8c2b-cfe0ea9cbab4",
+          "title": "Solamente ella",
+          "orchestra": "Orquesta Tipica Andariega feat. Marisol Martinez",
+          "year": "2019",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "83d66b0e-59e3-56cd-9ce4-54b56e0a2f26",
+          "title": "Al compas del corazon feat. Marisol Martinez",
+          "orchestra": "Orquesta Tipica Andariega feat. Marisol Martinez",
+          "year": "2019",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "ffec6f0d-4a34-5c2d-bdd0-e2a20d926e6c",
+          "title": "Creep",
+          "orchestra": "Orquesta Tipica Andariega feat. Marisol Martinez",
+          "year": "2019",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "df4db866-fc51-5243-a82d-de5c1df60d2a",
+          "title": "Buonasera",
+          "orchestra": "Orquesta Tipica Andariega feat. Marisol Martinez",
+          "year": "2019",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "74d32878-f164-5adf-959a-fd40257a0ed2",
+          "title": "Lontano",
+          "orchestra": "Orquesta Tipica Andariega feat. Marisol Martinez",
+          "year": "2019",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "b05605ce-cdcc-5f69-864e-1f00f2fff413",
+          "title": "Margarita Gauthier",
+          "orchestra": "Orquesta Tipica Andariega feat. Marisol Martinez",
+          "year": "2019",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "d31c2a13-3826-585b-8877-1e49171561f3",
+          "title": "Sollozos",
+          "orchestra": "Orquesta Tipica Andariega feat. Marisol Martinez",
+          "year": "2021",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "e5bb05ef-2f9b-50fd-9997-b3fc7d00d66b",
+          "title": "Isla de Capri",
+          "orchestra": "Orquesta Tipica Andariega feat. Marisol Martinez",
+          "year": "2021",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "81b26c09-971a-5e1e-92c5-e3e3ddd88267",
+          "title": "Sueno azul",
+          "orchestra": "Orquesta Tipica Andariega feat. Marisol Martinez",
+          "year": "2021",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "07a25149-ec33-5054-bd53-8384f70537e3",
+          "title": "Siempre es carnaval",
+          "orchestra": "Orquesta Tipica Andariega feat. Marisol Martinez",
+          "year": "2021",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "a3b4a525-fc39-5874-ab50-b8fb4c781b46",
+          "title": "En la huella del dolor",
+          "orchestra": "Orquesta Tipica Andariega feat. Marisol Martinez",
+          "year": "2021",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "8e09d705-5e6f-5b50-9794-10f9d4474a85",
+          "title": "Vida mia",
+          "orchestra": "Orquesta Tipica Andariega feat. Marisol Martinez",
+          "year": "2021",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "29150112-2119-5dfa-8294-980c434276d2",
+          "title": "Buscandote",
+          "orchestra": "Orquesta Tipica Andariega feat. Marisol Martinez",
+          "year": "2021",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "8d895e06-90dd-564f-8fa2-93954d607188",
+          "title": "Cordobesita",
+          "orchestra": "Orquesta Tipica Andariega feat. Marisol Martinez",
+          "year": "2021",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "4bd2e506-5022-52c2-aa15-e6059d8793df",
+          "title": "Vida mia",
+          "orchestra": "Orquesta Tipica Andariega feat. Walter Chino Laborde",
+          "year": "2017",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "d714a427-447d-5904-bd34-e108ae8e112b",
+          "title": "Te aconsejo que me olvides",
+          "orchestra": "Orquesta Tipica Andariega feat. Walter Chino Laborde",
+          "year": "2017",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "01622627-8d06-5a64-a7ae-af7b99e225a1",
+          "title": "Todo te nombre",
+          "orchestra": "Orquesta Tipica Andariega feat. Walter Chino Laborde",
+          "year": "2017",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        },
+        {
+          "songId": "7d63de29-b076-537c-b13a-e5f754e05514",
+          "title": "Oigo tu voz",
+          "orchestra": "Orquesta Tipica Andariega feat. Walter Chino Laborde",
+          "year": "2017",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Orquesta Tipica Andariega"
+        }
+      ]
+    }
+  ]
+}

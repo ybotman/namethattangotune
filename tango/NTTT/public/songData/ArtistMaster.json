@@ -1,14 +1,50 @@
 [
   {
+    "artist": "Alberto Castillo",
+    "active": "true",
+    "level": "3",
+    "grouped": []
+  },
+  {
+    "artist": "Alfredo Gobbi",
+    "active": "true",
+    "level": "3",
+    "grouped": []
+  },
+  {
     "artist": "Alfredo de Angelis",
     "active": "true",
     "level": "2",
     "grouped": []
   },
   {
+    "artist": "Angel D'Agostino",
+    "active": "true",
+    "level": "3",
+    "grouped": []
+  },
+  {
+    "artist": "Angel Vargas",
+    "active": "true",
+    "level": "3",
+    "grouped": [
+      "Angel Vargas y Orquesta Armando Lacava",
+      "Angel Vargas con la Orquesta Armando Lacava",
+      "Angel Vargas con la Orquesta de Armando Lacava",
+      "Angel Vargas y Orquesta Eduardo del Piano",
+      "Angel Vargas con la Orquesta Eduardo del Piano"
+    ]
+  },
+  {
     "artist": "Anibal Troilo",
     "active": "true",
     "level": "2",
+    "grouped": []
+  },
+  {
+    "artist": "Antonio Rodio",
+    "active": "true",
+    "level": "4",
     "grouped": []
   },
   {
@@ -18,13 +54,86 @@
     "grouped": []
   },
   {
+    "artist": "Bajofondo",
+    "active": "true",
+    "level": "3",
+    "grouped": []
+  },
+  {
+    "artist": "Bandonegro",
+    "active": "true",
+    "level": "4",
+    "grouped": []
+  },
+  {
+    "artist": "Caceres",
+    "active": "true",
+    "level": "5",
+    "grouped": []
+  },
+  {
     "artist": "Carlos Di Sarli",
     "active": "true",
     "level": "1",
     "grouped": []
   },
   {
+    "artist": "Chino Laborde",
+    "active": "true",
+    "level": "4",
+    "grouped": [
+      "Chino Laborde and Solo Tango Orquesta",
+      "Solo Tango Orquesta and Chino Laborde"
+    ]
+  },
+  {
+    "artist": "Color Tango",
+    "active": "true",
+    "level": "3",
+    "grouped": []
+  },
+  {
+    "artist": "Disarliana",
+    "active": "true",
+    "level": "3",
+    "grouped": []
+  },
+  {
+    "artist": "Domingo Federico",
+    "active": "true",
+    "level": "3",
+    "grouped": []
+  },
+  {
     "artist": "Edgardo Donato",
+    "active": "true",
+    "level": "2",
+    "grouped": []
+  },
+  {
+    "artist": "El Cachivache",
+    "active": "true",
+    "level": "3",
+    "grouped": [
+      "El Cachivache quinteto"
+    ]
+  },
+  {
+    "artist": "Enrique Rodriguez",
+    "active": "true",
+    "level": "2",
+    "grouped": []
+  },
+  {
+    "artist": "Florindo Sassone",
+    "active": "true",
+    "level": "3",
+    "grouped": [
+      "Florindo Sassone y Su Orquesta"
+    ]
+  },
+  {
+    "artist": "Francisco Canaro",
     "active": "true",
     "level": "2",
     "grouped": []
@@ -36,7 +145,133 @@
     "grouped": []
   },
   {
+    "artist": "Fulvio Salamanca",
+    "active": "true",
+    "level": "5",
+    "grouped": [
+      "Fulvio Salamanca Y Su Orquesta"
+    ]
+  },
+  {
+    "artist": "Gotan Project",
+    "active": "true",
+    "level": "3",
+    "grouped": []
+  },
+  {
+    "artist": "Hector Varela",
+    "active": "true",
+    "level": "2",
+    "grouped": [
+      "Hector Varela"
+    ]
+  },
+  {
+    "artist": "Horacio Salgan",
+    "active": "true",
+    "level": "3",
+    "grouped": [
+      "Horacio Salgan y su Orquesta T\u00edpica"
+    ]
+  },
+  {
+    "artist": "Hyperion Ensemble",
+    "active": "true",
+    "level": "4",
+    "grouped": [
+      "Hyperion ensemble",
+      "Ensemble Hyperion",
+      "Ruben Peloni Hyperion Ensemble"
+    ]
+  },
+  {
+    "artist": "Jose Garcia y sus Zorros Grises",
+    "active": "true",
+    "level": "4",
+    "grouped": []
+  },
+  {
     "artist": "Juan D'Arienzo",
+    "active": "true",
+    "level": "1",
+    "grouped": []
+  },
+  {
+    "artist": "Juan Maglio",
+    "active": "true",
+    "level": "5",
+    "grouped": []
+  },
+  {
+    "artist": "Julio De Caro",
+    "active": "true",
+    "level": "5",
+    "grouped": []
+  },
+  {
+    "artist": "Leopoldo Federico",
+    "active": "true",
+    "level": "4",
+    "grouped": []
+  },
+  {
+    "artist": "Lucio Demare",
+    "active": "true",
+    "level": "3",
+    "grouped": []
+  },
+  {
+    "artist": "Mario Melfi",
+    "active": "true",
+    "level": "5",
+    "grouped": []
+  },
+  {
+    "artist": "Miguel Calo",
+    "active": "true",
+    "level": "5",
+    "grouped": []
+  },
+  {
+    "artist": "Nina Miranda & Donato Racciatti",
+    "active": "true",
+    "level": "4",
+    "grouped": [
+      "Nina Miranda & Donato Racciatti y Su Orquesta Tipica"
+    ]
+  },
+  {
+    "artist": "Orquesta Romantica Milonguera",
+    "active": "true",
+    "level": "3",
+    "grouped": []
+  },
+  {
+    "artist": "Orquesta Tipica Andariega",
+    "active": "true",
+    "level": "4",
+    "grouped": [
+      "Orquesta Tipica Andariega feat. Marisol Martinez",
+      "Orquesta Tipica Andariega feat. Walter Chino Laborde"
+    ]
+  },
+  {
+    "artist": "Orquesta Tipica Victor",
+    "active": "true",
+    "level": "2",
+    "grouped": [
+      "Orquesta Tipica Victor",
+      "Orquesta T\u00edpica V\u00edctor"
+    ]
+  },
+  {
+    "artist": "Osmar Maderna",
+    "active": "true",
+    "level": "3",
+    "grouped": []
+  },
+  {
+    "artist": "Osvaldo Fresedo",
     "active": "true",
     "level": "1",
     "grouped": []
@@ -45,6 +280,50 @@
     "artist": "Osvaldo Pugliese",
     "active": "true",
     "level": "1",
+    "grouped": []
+  },
+  {
+    "artist": "Otros Aires",
+    "active": "true",
+    "level": "4",
+    "grouped": []
+  },
+  {
+    "artist": "Pablo Valle Sexteto",
+    "active": "true",
+    "level": "4",
+    "grouped": []
+  },
+  {
+    "artist": "Pedro Laurenz",
+    "active": "true",
+    "level": "2",
+    "grouped": [
+      "Quinteto Pedro Laurenz"
+    ]
+  },
+  {
+    "artist": "Quinteto Don Pancho",
+    "active": "true",
+    "level": "4",
+    "grouped": []
+  },
+  {
+    "artist": "Quinteto Pirincho",
+    "active": "true",
+    "level": "3",
+    "grouped": []
+  },
+  {
+    "artist": "Rafael Canaro",
+    "active": "true",
+    "level": "3",
+    "grouped": []
+  },
+  {
+    "artist": "Ricardo Malerba",
+    "active": "true",
+    "level": "4",
     "grouped": []
   },
   {
@@ -60,207 +339,9 @@
     "grouped": []
   },
   {
-    "artist": "Alfredo Gobbi",
-    "active": "true",
-    "level": "3",
-    "grouped": []
-  },
-  {
-    "artist": "Angel D'Agostino",
-    "active": "true",
-    "level": "3",
-    "grouped": []
-  },
-  {
-    "artist": "Bajofondo",
-    "active": "true",
-    "level": "3",
-    "grouped": []
-  },
-  {
-    "artist": "Color Tango",
-    "active": "true",
-    "level": "3",
-    "grouped": []
-  },
-  {
-    "artist": "Gotan Project",
-    "active": "true",
-    "level": "3",
-    "grouped": []
-  },
-  {
-    "artist": "Domingo Federico",
-    "active": "true",
-    "level": "3",
-    "grouped": []
-  },
-  {
-    "artist": "Leopoldo Federico",
-    "active": "true",
-    "level": "4",
-    "grouped": []
-  },
-  {
-    "artist": "Ricardo Malerba",
-    "active": "true",
-    "level": "4",
-    "grouped": []
-  },
-  {
-    "artist": "Lucio Demare",
-    "active": "true",
-    "level": "3",
-    "grouped": []
-  },
-  {
-    "artist": "Disarliana",
-    "active": "true",
-    "level": "3",
-    "grouped": []
-  },
-  {
-    "artist": "Enrique Rodriguez",
-    "active": "true",
-    "level": "2",
-    "grouped": []
-  },
-  {
-    "artist": "Francisco Canaro",
-    "active": "true",
-    "level": "2",
-    "grouped": []
-  },
-  {
-    "artist": "El Cachivache",
-    "active": "true",
-    "level": "3",
-    "grouped": []
-  },
-  {
-    "artist": "Julio De Caro",
-    "active": "true",
-    "level": "5",
-    "grouped": []
-  },
-  {
-    "artist": "Juan Maglio",
-    "active": "true",
-    "level": "5",
-    "grouped": []
-  },
-  {
-    "artist": "Miguel Calo",
-    "active": "true",
-    "level": "5",
-    "grouped": []
-  },
-  {
     "artist": "Rodolfo Biagi",
     "active": "true",
     "level": "1",
-    "grouped": []
-  },
-  {
-    "artist": "Osvaldo Fresedo",
-    "active": "true",
-    "level": "1",
-    "grouped": []
-  },
-  {
-    "artist": "Pedro Laurenz",
-    "active": "true",
-    "level": "2",
-    "grouped": ["Quinteto Pedro Laurenz"]
-  },
-  {
-    "artist": "Héctor Varela",
-    "active": "true",
-    "level": "2",
-    "grouped": ["Hector Varela"]
-  },
-  {
-    "artist": "Orquesta Típica Victor",
-    "active": "true",
-    "level": "2",
-    "grouped": ["Orquesta Tipica Victor", "Orquesta Típica Víctor"]
-  },
-  {
-    "artist": "Quinteto Pirincho",
-    "active": "true",
-    "level": "3",
-    "grouped": []
-  },
-  {
-    "artist": "Rafael Canaro",
-    "active": "true",
-    "level": "3",
-    "grouped": []
-  },
-  {
-    "artist": "Osmar Maderna",
-    "active": "true",
-    "level": "3",
-    "grouped": []
-  },
-  {
-    "artist": "Horacio Salgán",
-    "active": "true",
-    "level": "3",
-    "grouped": ["Horacio Salgan y su Orquesta Típica"]
-  },
-  {
-    "artist": "Florindo Sassone",
-    "active": "true",
-    "level": "3",
-    "grouped": ["Florindo Sassone y Su Orquesta"]
-  },
-  {
-    "artist": "Alberto Castillo",
-    "active": "true",
-    "level": "3",
-    "grouped": []
-  },
-  {
-    "artist": "Angel Vargas",
-    "active": "true",
-    "level": "3",
-    "grouped": ["Angel Vargas y Orquesta Armando Lacava", "Angel Vargas con la Orquesta Armando Lacava", "Angel Vargas con la Orquesta de Armando Lacava", "Angel Vargas y Orquesta Eduardo del Piano", "Angel Vargas con la Orquesta Eduardo del Piano"]
-  },
-  {
-    "artist": "Hyperion Ensemble",
-    "active": "true",
-    "level": "4",
-    "grouped": ["Hyperion ensemble", "Hyperion Ensemble, Ruben Peloni"]
-  },
-  {
-    "artist": "Sexteto Milonguero",
-    "active": "true",
-    "level": "4",
-    "grouped": []
-  },
-  {
-    "artist": "Pablo Valle Sexteto",
-    "active": "true",
-    "level": "4",
-    "grouped": []
-  },
-  {
-    "artist": "Bandonegro",
-    "active": "true",
-    "level": "4",
-    "grouped": []
-  },
-  {
-    "artist": "Jose García y sus Zorros Grises",
-    "active": "true",
-    "level": "4",
-    "grouped": []
-  },
-  {
-    "artist": "Antonio Rodio",
-    "active": "true",
-    "level": "4",
     "grouped": []
   },
   {
@@ -270,45 +351,9 @@
     "grouped": []
   },
   {
-    "artist": "Quinteto Don Pancho",
+    "artist": "Sexteto Milonguero",
     "active": "true",
     "level": "4",
     "grouped": []
-  },
-  {
-    "artist": "Orquesta Típica Andariega",
-    "active": "true",
-    "level": "4",
-    "grouped": ["Orquesta Típica Andariega feat. Marisol Martinez"]
-  },
-  {
-    "artist": "Nina Miranda & Donato Racciatti",
-    "active": "true",
-    "level": "4",
-    "grouped": ["Nina Miranda & Donato Racciatti y Su Orquesta Típica"]
-  },
-  {
-    "artist": "Mario Melfi",
-    "active": "true",
-    "level": "5",
-    "grouped": []
-  },
-  {
-    "artist": "Fulvio Salamanca",
-    "active": "true",
-    "level": "5",
-    "grouped": ["Fulvio Salamanca Y Su Orquesta"]
-  },
-  {
-    "artist": "Caceres",
-    "active": "true",
-    "level": "5",
-    "grouped": []
-  },
-  {
-    "artist": "Chino Laborde",
-    "active": "true",
-    "level": "4",
-    "grouped": ["Chino Laborde and Solo Tango Orquesta"]
   }
 ]

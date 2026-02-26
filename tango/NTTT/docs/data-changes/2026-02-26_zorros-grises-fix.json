@@ -1,0 +1,166 @@
+{
+  "date": "2026-02-26",
+  "timestamp": "2026-02-26 02:28:28",
+  "description": "Fix Jose Garcia y sus Zorros Grises: set ArtistMaster, clear reissue year (2017)",
+  "changes": [
+    {
+      "file": "djSongsWeighted.json",
+      "action": "update",
+      "count": 19,
+      "songs": [
+        {
+          "songId": "55b3e622-2bb1-5e11-a840-f95e6a6df0b2",
+          "title": "Calla Bandoneon",
+          "oldYear": "1944",
+          "newYear": "1944",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Jose Garcia y sus Zorros Grises"
+        },
+        {
+          "songId": "56ade241-3935-517a-b8ab-74da5bc2899c",
+          "title": "Nadie Ha de Saber",
+          "oldYear": "2017",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Jose Garcia y sus Zorros Grises"
+        },
+        {
+          "songId": "2c7e7c72-e3c8-5887-8712-869bd25eccae",
+          "title": "Lloran las Campanas",
+          "oldYear": "1944",
+          "newYear": "1944",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Jose Garcia y sus Zorros Grises"
+        },
+        {
+          "songId": "4f30d4f7-a2c3-5949-9d85-371735b74300",
+          "title": "Adios, Adios Corazon",
+          "oldYear": "2017",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Jose Garcia y sus Zorros Grises"
+        },
+        {
+          "songId": "1e5fb0cf-18d0-51ed-bee8-8863a1ad61d6",
+          "title": "Todos Estamos Solos",
+          "oldYear": "1944",
+          "newYear": "1944",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Jose Garcia y sus Zorros Grises"
+        },
+        {
+          "songId": "01f309c4-d47e-547e-ad44-dc587d4c579e",
+          "title": "Quien No Tuvo un Amor",
+          "oldYear": "2017",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Jose Garcia y sus Zorros Grises"
+        },
+        {
+          "songId": "e72160d0-a2dd-51e6-9202-9d9c6524c0b4",
+          "title": "Motivo Sentimental",
+          "oldYear": "1944",
+          "newYear": "1944",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Jose Garcia y sus Zorros Grises"
+        },
+        {
+          "songId": "cfa79f95-9aaa-52ff-87ce-001bd6747d32",
+          "title": "Junto a Tu Corazon",
+          "oldYear": "1942",
+          "newYear": "1942",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Jose Garcia y sus Zorros Grises"
+        },
+        {
+          "songId": "cd324b77-25d3-5935-906a-d31fbdfdfd14",
+          "title": "No Pudo Ser",
+          "oldYear": "2017",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Jose Garcia y sus Zorros Grises"
+        },
+        {
+          "songId": "11bfc44c-4f1b-55d0-aec7-b343aa923fdc",
+          "title": "Esta Noche de Luna",
+          "oldYear": "2017",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Jose Garcia y sus Zorros Grises"
+        },
+        {
+          "songId": "fc7b5235-47d3-5a45-b22c-97a893c75e40",
+          "title": "Tristeza Marina",
+          "oldYear": "2017",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Jose Garcia y sus Zorros Grises"
+        },
+        {
+          "songId": "e9e6840f-29f6-510a-bce8-682a272f059b",
+          "title": "Fea",
+          "oldYear": "2017",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Jose Garcia y sus Zorros Grises"
+        },
+        {
+          "songId": "05e322b7-7a0b-5f48-99f7-eeb68aae8431",
+          "title": "Zorzal",
+          "oldYear": "2017",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Jose Garcia y sus Zorros Grises"
+        },
+        {
+          "songId": "bacb5fc1-ee08-54ab-9455-749f403d2728",
+          "title": "Anselmo Acuna el Resero",
+          "oldYear": "2017",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Jose Garcia y sus Zorros Grises"
+        },
+        {
+          "songId": "132476a4-8c8f-5714-9c04-3d5578ffad59",
+          "title": "Que No Sepan las Estrellas",
+          "oldYear": "2017",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Jose Garcia y sus Zorros Grises"
+        },
+        {
+          "songId": "f8210750-1bdc-5029-bd0c-7c09b500cf07",
+          "title": "Si Escucharas Mis Amores",
+          "oldYear": "2017",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Jose Garcia y sus Zorros Grises"
+        },
+        {
+          "songId": "bff94a49-d2ed-51eb-96ee-920b0ed068f4",
+          "title": "A Lo Mejor Quien Te Dice",
+          "oldYear": "2017",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Jose Garcia y sus Zorros Grises"
+        },
+        {
+          "songId": "9bae4647-8585-5791-a0b0-fd35e8120249",
+          "title": "Turbion de Recuerdos",
+          "oldYear": "2017",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Jose Garcia y sus Zorros Grises"
+        },
+        {
+          "songId": "f433dbcb-e6d6-5eac-8a40-cfc313a47c52",
+          "title": "Solo Compasion",
+          "oldYear": "1942",
+          "newYear": "1942",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Jose Garcia y sus Zorros Grises"
+        }
+      ]
+    }
+  ]
+}

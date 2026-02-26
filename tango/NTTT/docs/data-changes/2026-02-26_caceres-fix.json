@@ -1,0 +1,29 @@
+{
+  "date": "2026-02-26",
+  "timestamp": "2026-02-26 02:39:12",
+  "description": "Mark Caceres (Juan Carlos Caceres) as valid modern (2003)",
+  "changes": [
+    {
+      "file": "dataQualityIssues.json",
+      "action": "update",
+      "count": 3,
+      "songs": [
+        {
+          "issueId": "DQ-0087",
+          "title": "Tango Negro",
+          "year": "2003"
+        },
+        {
+          "issueId": "DQ-0089",
+          "title": "Tango Retango",
+          "year": "2003"
+        },
+        {
+          "issueId": "DQ-0088",
+          "title": "Toga Tango",
+          "year": "2003"
+        }
+      ]
+    }
+  ]
+}

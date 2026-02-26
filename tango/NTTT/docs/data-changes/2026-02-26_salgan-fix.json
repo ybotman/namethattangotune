@@ -1,0 +1,140 @@
+{
+  "date": "2026-02-26",
+  "timestamp": "2026-02-26 02:00:50",
+  "description": "Fix Horacio Salgan songs: set ArtistMaster, clear wrong reissue year (2013)",
+  "changes": [
+    {
+      "file": "djSongsWeighted.json",
+      "action": "update",
+      "count": 14,
+      "songs": [
+        {
+          "songId": "bf915271-932d-5c19-a788-3d210e3cd844",
+          "title": "Mala Junta",
+          "orchestra": "Horacio Salgan y su Orquesta Tipica",
+          "oldYear": "2013",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Horacio Salgan"
+        },
+        {
+          "songId": "7345088a-a0d0-5745-9168-e24fe2645d2b",
+          "title": "Siga el Corso",
+          "orchestra": "Horacio Salgan y Su Orquesta Tipica & Roberto Goyeneche",
+          "oldYear": "2013",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Horacio Salgan"
+        },
+        {
+          "songId": "f6d75b26-2c7a-56b9-bf03-0fd34b797d35",
+          "title": "Tierra Querida",
+          "orchestra": "Horacio Salgan y su Orquesta Tipica",
+          "oldYear": "2013",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Horacio Salgan"
+        },
+        {
+          "songId": "1f885ece-23d3-5114-8468-7fd3022afd23",
+          "title": "La Tablada",
+          "orchestra": "Horacio Salgan y su Orquesta Tipica",
+          "oldYear": "2013",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Horacio Salgan"
+        },
+        {
+          "songId": "d7a74093-fad6-584c-9a6e-b7f5eb37a064",
+          "title": "La Clavada",
+          "orchestra": "Horacio Salgan y su Orquesta Tipica",
+          "oldYear": "2013",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Horacio Salgan"
+        },
+        {
+          "songId": "9bb54fd6-7f5b-598c-a8af-c4f60ed09f1f",
+          "title": "El Marne",
+          "orchestra": "Horacio Salgan y su Orquesta Tipica",
+          "oldYear": "2013",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Horacio Salgan"
+        },
+        {
+          "songId": "35d4514b-6b86-5446-806e-aff961b0656a",
+          "title": "Recuerdo",
+          "orchestra": "Horacio Salgan y su Orquesta Tipica",
+          "oldYear": "2013",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Horacio Salgan"
+        },
+        {
+          "songId": "d8a28932-fd0d-58bb-a16d-5bbab4921c84",
+          "title": "Del 1 al 5",
+          "orchestra": "Horacio Salgan y su Orquesta Tipica",
+          "oldYear": "2013",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Horacio Salgan"
+        },
+        {
+          "songId": "6bd4a598-57d9-59e2-be56-8210fd12709e",
+          "title": "Gallo Ciego",
+          "orchestra": "Horacio Salgan y su Orquesta Tipica",
+          "oldYear": "2013",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Horacio Salgan"
+        },
+        {
+          "songId": "b3c505a5-e9ad-50f5-91ee-f2f437b28bde",
+          "title": "Ojos Negros",
+          "orchestra": "Horacio Salgan y su Orquesta Tipica",
+          "oldYear": "2013",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Horacio Salgan"
+        },
+        {
+          "songId": "cd0bd9c0-8c6b-50ef-9540-0df50d8a8c4a",
+          "title": "Boedo",
+          "orchestra": "Horacio Salgan y su Orquesta Tipica",
+          "oldYear": "2013",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Horacio Salgan"
+        },
+        {
+          "songId": "386d0b03-86dd-505f-84c6-8654e2abc5f0",
+          "title": "Don Agustin Bardi",
+          "orchestra": "Horacio Salgan y su Orquesta Tipica",
+          "oldYear": "2013",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Horacio Salgan"
+        },
+        {
+          "songId": "b059e019-15ba-5dac-95b6-ce1a4d345155",
+          "title": "Pobre Colombina",
+          "orchestra": "Horacio Salgan y Su Orquesta Tipica & Horacio Deval",
+          "oldYear": "2013",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Horacio Salgan"
+        },
+        {
+          "songId": "59ab4096-2130-5ee9-98e8-b8d692050a56",
+          "title": "Los Mareados",
+          "orchestra": "Horacio Salgan y su Orquesta Tipica",
+          "oldYear": "2013",
+          "newYear": "",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Horacio Salgan"
+        }
+      ]
+    }
+  ]
+}

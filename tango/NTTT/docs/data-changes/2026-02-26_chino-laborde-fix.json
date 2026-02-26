@@ -1,0 +1,89 @@
+{
+  "date": "2026-02-26",
+  "timestamp": "2026-02-26 02:43:24",
+  "description": "Fix Chino Laborde / Solo Tango Orquesta variations - valid modern (2019-2020)",
+  "changes": [
+    {
+      "file": "ArtistMaster.json",
+      "action": "update",
+      "description": "Added both name variations to grouped"
+    },
+    {
+      "file": "djSongsWeighted.json",
+      "action": "update",
+      "count": 10,
+      "songs": [
+        {
+          "songId": "0f83543b-19ba-5814-a309-164a1f302d49",
+          "title": "Sin Palabras",
+          "orchestra": "Solo Tango Orquesta and Chino Laborde",
+          "year": "2019",
+          "oldArtistMaster": "EMPTY"
+        },
+        {
+          "songId": "411225a0-960f-5718-a746-4c7f94af0906",
+          "title": "Quedemonos Aqui",
+          "orchestra": "Solo Tango Orquesta and Chino Laborde",
+          "year": "2019",
+          "oldArtistMaster": "EMPTY"
+        },
+        {
+          "songId": "b5dca327-31c1-5799-975e-8dd524f9f24f",
+          "title": "Desencuentro",
+          "orchestra": "Solo Tango Orquesta and Chino Laborde",
+          "year": "2019",
+          "oldArtistMaster": "EMPTY"
+        },
+        {
+          "songId": "1117319d-60b1-594e-b9e3-e7ccc12db642",
+          "title": "Toda Mi Vida",
+          "orchestra": "Solo Tango Orquesta and Chino Laborde",
+          "year": "2019",
+          "oldArtistMaster": "EMPTY"
+        },
+        {
+          "songId": "bd39f2df-2f13-5570-aafb-b64bc8d99a48",
+          "title": "El Abrojito",
+          "orchestra": "Solo Tango Orquesta and Chino Laborde",
+          "year": "2019",
+          "oldArtistMaster": "EMPTY"
+        },
+        {
+          "songId": "5603d781-e201-5472-ac23-91f925c65053",
+          "title": "Caseron De Tejas",
+          "orchestra": "Solo Tango Orquesta and Chino Laborde",
+          "year": "2019",
+          "oldArtistMaster": "EMPTY"
+        },
+        {
+          "songId": "15921186-49a5-5f8f-a417-30f299857065",
+          "title": "Mi Dolor",
+          "orchestra": "Chino Laborde and Solo Tango Orquesta",
+          "year": "2020",
+          "oldArtistMaster": "Chino Laborde"
+        },
+        {
+          "songId": "a80e1ba3-5840-5296-9c02-15b4696bc88a",
+          "title": "Bien Pulenta",
+          "orchestra": "Chino Laborde and Solo Tango Orquesta",
+          "year": "2020",
+          "oldArtistMaster": "Chino Laborde"
+        },
+        {
+          "songId": "9f744272-417a-5735-8654-b227f9b0ba75",
+          "title": "Paciencia",
+          "orchestra": "Chino Laborde and Solo Tango Orquesta",
+          "year": "2020",
+          "oldArtistMaster": "Chino Laborde"
+        },
+        {
+          "songId": "e9a1d62c-172a-543c-a553-a331391e86eb",
+          "title": "Que Importa",
+          "orchestra": "Chino Laborde and Solo Tango Orquesta",
+          "year": "2020",
+          "oldArtistMaster": "Chino Laborde"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "date": "2026-02-26",
+  "timestamp": "2026-02-26 02:34:01",
+  "description": "Mark Pablo Valle Sexteto as valid modern (2014)",
+  "changes": [
+    {
+      "file": "dataQualityIssues.json",
+      "action": "update",
+      "count": 26,
+      "resolution": "valid_modern",
+      "songs": [
+        {
+          "issueId": "DQ-0289",
+          "title": "A la Gran Muneca",
+          "year": "2017"
+        },
+        {
+          "issueId": "DQ-0279",
+          "title": "Belgica",
+          "year": "2014"
+        },
+        {
+          "issueId": "DQ-0285",
+          "title": "Comme Il Faut",
+          "year": "2014"
+        },
+        {
+          "issueId": "DQ-0295",
+          "title": "Dotarpeando",
+          "year": "2017"
+        },
+        {
+          "issueId": "DQ-0299",
+          "title": "Dotarpeando Percu",
+          "year": "2017"
+        },
+        {
+          "issueId": "DQ-0282",
+          "title": "Emancipacion",
+          "year": "2014"
+        },
+        {
+          "issueId": "DQ-0297",
+          "title": "Guapeando",
+          "year": "2017"
+        },
+        {
+          "issueId": "DQ-0280",
+          "title": "Indiferencia",
+          "year": "2014"
+        },
+        {
+          "issueId": "DQ-0283",
+          "title": "La Mulateada",
+          "year": "2014"
+        },
+        {
+          "issueId": "DQ-0281",
+          "title": "La Yumba",
+          "year": "2014"
+        },
+        {
+          "issueId": "DQ-0278",
+          "title": "Lagrimas y Sonrisas",
+          "year": "2014"
+        },
+        {
+          "issueId": "DQ-0286",
+          "title": "Loca",
+          "year": "2014"
+        },
+        {
+          "issueId": "DQ-0274",
+          "title": "Loca (Vintage-Modern)",
+          "year": "2014"
+        },
+        {
+          "issueId": "DQ-0288",
+          "title": "No Mientas",
+          "year": "2017"
+        },
+        {
+          "issueId": "DQ-0291",
+          "title": "Para Siempre",
+          "year": "2017"
+        },
+        {
+          "issueId": "DQ-0298",
+          "title": "Pata Ancha",
+          "year": "2017"
+        },
+        {
+          "issueId": "DQ-0296",
+          "title": "Te Aconsejo Que Me Olvides",
+          "year": "2017"
+        },
+        {
+          "issueId": "DQ-0277",
+          "title": "Toda Mi Vida",
+          "year": "2014"
+        },
+        {
+          "issueId": "DQ-0293",
+          "title": "Todo Te Nombra",
+          "year": "2017"
+        },
+        {
+          "issueId": "DQ-0276",
+          "title": "Tres y Dos",
+          "year": "2014"
+        },
+        {
+          "issueId": "DQ-0284",
+          "title": "Tristeza Marina",
+          "year": "2014"
+        },
+        {
+          "issueId": "DQ-0292",
+          "title": "Tus Labios Me Diran",
+          "year": "2017"
+        },
+        {
+          "issueId": "DQ-0290",
+          "title": "Verdemar",
+          "year": "2017"
+        },
+        {
+          "issueId": "DQ-0294",
+          "title": "Viejo Porton",
+          "year": "2017"
+        },
+        {
+          "issueId": "DQ-0287",
+          "title": "Yapeyu",
+          "year": "2017"
+        },
+        {
+          "issueId": "DQ-0275",
+          "title": "Yuyo Brujo",
+          "year": "2014"
+        }
+      ]
+    }
+  ]
+}

@@ -126,6 +126,13 @@ const gameCategories = [
         isActive: true,
         isButton: true,
       },
+      {
+        name: "Data Quality",
+        path: "/games/data-quality",
+        icon: null,
+        isActive: true,
+        isButton: true,
+      },
     ],
   },
 ];

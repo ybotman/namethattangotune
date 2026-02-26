@@ -1,0 +1,34 @@
+{
+  "date": "2026-02-26",
+  "timestamp": "2026-02-26 01:58:18",
+  "description": "Remove accents from ArtistMaster entries for consistent matching",
+  "changes": [
+    {
+      "file": "ArtistMaster.json",
+      "action": "update",
+      "count": 5,
+      "artists": [
+        {
+          "old": "Horacio Salg\u00e1n",
+          "new": "Horacio Salgan"
+        },
+        {
+          "old": "H\u00e9ctor Varela",
+          "new": "Hector Varela"
+        },
+        {
+          "old": "Jose Garc\u00eda y sus Zorros Grises",
+          "new": "Jose Garcia y sus Zorros Grises"
+        },
+        {
+          "old": "Orquesta T\u00edpica Andariega",
+          "new": "Orquesta Tipica Andariega"
+        },
+        {
+          "old": "Orquesta T\u00edpica Victor",
+          "new": "Orquesta Tipica Victor"
+        }
+      ]
+    }
+  ]
+}
