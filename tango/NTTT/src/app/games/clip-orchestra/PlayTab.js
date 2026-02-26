@@ -252,20 +252,21 @@ export default function PlayTab({ songs, config, onCancel }) {
         </Box>
       </Box>
 
-      {/* Action Bar: Round Progress + Play/Next Button */}
+      {/* Action Bar: Round Progress + Play/Next Button - Compact */}
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          gap: 2,
-          mb: 2,
-          p: 1.5,
+          gap: 1,
+          mb: 1,
+          px: 1,
+          py: 0.5,
           backgroundColor: "var(--input-bg)",
-          borderRadius: 2,
+          borderRadius: 1,
         }}
       >
-        <Box sx={{ flex: 1 }}>
+        <Box sx={{ flex: 1, minWidth: 0 }}>
           <RoundProgress totalRounds={numSongs} currentRound={currentIndex} />
         </Box>
 
@@ -275,31 +276,35 @@ export default function PlayTab({ songs, config, onCancel }) {
               variant="contained"
               onClick={playClip}
               disabled={isPlaying}
-              startIcon={hasPlayed ? <ReplayIcon /> : null}
+              startIcon={hasPlayed ? <ReplayIcon sx={{ fontSize: 16 }} /> : null}
               size="small"
               sx={{
                 backgroundColor: hasPlayed ? "var(--accent)" : "#4CAF50",
                 color: "white",
                 fontWeight: "bold",
-                px: 2,
-                minWidth: 90,
+                px: 1.5,
+                py: 0.5,
+                minWidth: 60,
+                fontSize: "0.85rem",
                 "&:hover": { opacity: 0.9 },
               }}
             >
-              {isPlaying ? "..." : hasPlayed ? "Replay" : "Play"}
+              {isPlaying ? "..." : hasPlayed ? "" : "GO!"}
             </Button>
           )}
           {roundOver && (
             <Button
               variant="contained"
               onClick={doNextSong}
+              size="small"
               sx={{
                 backgroundColor: "var(--accent)",
                 color: "white",
                 fontWeight: "bold",
-                px: 3,
-                py: 1,
-                minWidth: 100,
+                px: 2,
+                py: 0.5,
+                minWidth: 60,
+                fontSize: "0.9rem",
                 "&:hover": { opacity: 0.9 },
               }}
             >
@@ -309,10 +314,38 @@ export default function PlayTab({ songs, config, onCancel }) {
         </Box>
       </Box>
 
-      {/* Score and Replay Info */}
-      <Typography variant="body1" sx={{ mb: 1, textAlign: "center" }}>
-        Points: {Math.floor(roundScore)}/{BASE_SCORE} | Replays: {replayCount}
-      </Typography>
+      {/* Score Display with color-coded bar */}
+      <Box sx={{ mx: "auto", mb: 1, maxWidth: 400 }}>
+        <Box sx={{ display: "flex", justifyContent: "space-between", mb: 0.5 }}>
+          <Typography variant="caption" sx={{ color: "var(--foreground)", opacity: 0.7 }}>
+            Points {replayCount > 0 ? `(${replayCount} replays)` : ""}
+          </Typography>
+          <Typography
+            variant="caption"
+            sx={{
+              fontWeight: "bold",
+              color: roundScore / BASE_SCORE > 0.6 ? "#4CAF50" :
+                     roundScore / BASE_SCORE > 0.3 ? "#FF9800" : "#f44336"
+            }}
+          >
+            {Math.floor(roundScore)} / {BASE_SCORE}
+          </Typography>
+        </Box>
+        <LinearProgress
+          variant="determinate"
+          value={(roundScore / BASE_SCORE) * 100}
+          sx={{
+            height: 6,
+            borderRadius: 3,
+            backgroundColor: "var(--border-color)",
+            "& .MuiLinearProgress-bar": {
+              backgroundColor: roundScore / BASE_SCORE > 0.6 ? "#4CAF50" :
+                               roundScore / BASE_SCORE > 0.3 ? "#FF9800" : "#f44336",
+              borderRadius: 3,
+            }
+          }}
+        />
+      </Box>
 
       {/* Answers */}
       <List sx={{ mb: 2, maxWidth: 400, margin: "auto" }}>
