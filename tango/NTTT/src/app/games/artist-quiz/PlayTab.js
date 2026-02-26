@@ -313,22 +313,19 @@ export default function PlayTab({ songs, config, onCancel }) {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          mb: 2,
+          mb: 1,
         }}
       >
         {/* Title */}
-        <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
           Identify the Artist
         </Typography>
 
         {/* Icons Row (Justified Right) */}
         <Box sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
-          {/* GameHubRoute Icon */}
           <GameHubRoute />
-
-          {/* Back Arrow Icon */}
           <IconButton
-            onClick={onCancel} // Add your back navigation logic here
+            onClick={onCancel}
             color="primary"
             aria-label="Back"
           >
@@ -337,11 +334,79 @@ export default function PlayTab({ songs, config, onCancel }) {
         </Box>
       </Box>
 
-      {/* Round Progress */}
-      <RoundProgress totalRounds={numSongs} currentRound={currentIndex} />
+      {/* Action Bar: Round Progress + Ready/Next Button */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 2,
+          mb: 2,
+          p: 1.5,
+          backgroundColor: "var(--input-bg)",
+          borderRadius: 2,
+        }}
+      >
+        {/* Round Progress - left side */}
+        <Box sx={{ flex: 1 }}>
+          <RoundProgress totalRounds={numSongs} currentRound={currentIndex} />
+        </Box>
 
-      {/* Round time + score */}
-      <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
+        {/* Ready/Next Button - right side, always visible */}
+        <Box sx={{ flexShrink: 0 }}>
+          {!isPlaying && !roundOver && currentSong && (
+            <AnimatedButton
+              variant="contained"
+              onClick={clickPlaySong}
+              sx={{
+                backgroundColor: "#4CAF50",
+                color: "white",
+                fontWeight: "bold",
+                px: 3,
+                py: 1,
+                minWidth: 100,
+                "&:hover": { backgroundColor: "#43A047" },
+              }}
+            >
+              Ready
+            </AnimatedButton>
+          )}
+          {roundOver && (
+            <AnimatedButton
+              variant="contained"
+              onClick={doNextSong}
+              sx={{
+                backgroundColor: "var(--accent)",
+                color: "white",
+                fontWeight: "bold",
+                px: 3,
+                py: 1,
+                minWidth: 100,
+                "&:hover": { opacity: 0.9 },
+              }}
+            >
+              Next
+            </AnimatedButton>
+          )}
+          {isPlaying && !roundOver && (
+            <Box
+              sx={{
+                px: 3,
+                py: 1,
+                minWidth: 100,
+                textAlign: "center",
+                color: "var(--accent)",
+                fontWeight: "bold",
+              }}
+            >
+              Playing...
+            </Box>
+          )}
+        </Box>
+      </Box>
+
+      {/* Score Display */}
+      <Box sx={{ display: "flex", justifyContent: "center", mb: 1 }}>
         <AnimatedScore
           score={roundScore}
           label={`Available / ${Math.floor(maxScore)}`}
@@ -350,6 +415,7 @@ export default function PlayTab({ songs, config, onCancel }) {
         />
       </Box>
 
+      {/* Time Progress Bar */}
       {isPlaying && (
         <Box sx={{ mx: "auto", mb: 2, maxWidth: 400 }}>
           <LinearProgress
@@ -357,26 +423,6 @@ export default function PlayTab({ songs, config, onCancel }) {
             value={timePercent}
             sx={{ height: 8, borderRadius: 4 }}
           />
-        </Box>
-      )}
-
-      {/* "Play Song" button */}
-      {!isPlaying && !roundOver && currentSong && (
-        <Box sx={{ textAlign: "center", mb: 2 }}>
-          <AnimatedButton
-            variant="contained"
-            onClick={clickPlaySong}
-            sx={{
-              backgroundColor: "var(--accent)",
-              color: "var(--background)",
-              fontSize: "1.1rem",
-              px: 4,
-              py: 1.5,
-              "&:hover": { opacity: 0.9 },
-            }}
-          >
-            I&apos;m Ready!
-          </AnimatedButton>
         </Box>
       )}
 
@@ -446,75 +492,42 @@ export default function PlayTab({ songs, config, onCancel }) {
         </AnimatePresence>
       </List>
 
-      {/* If roundOver => performance + Next + Cancel */}
+      {/* If roundOver => show result feedback (Next button is in header now) */}
       <AnimatePresence>
         {roundOver && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
           >
-            <Box sx={{ mt: 3, textAlign: "center" }}>
+            <Box sx={{ mt: 2, textAlign: "center" }}>
               {lastCorrect ? (
                 <motion.div
-                  initial={{ scale: 0.8 }}
+                  initial={{ scale: 0.9 }}
                   animate={{ scale: 1 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
                   <Typography
-                    variant="h5"
-                    gutterBottom
-                    sx={{ color: "#4caf50", fontWeight: "bold" }}
+                    variant="h6"
+                    sx={{ color: "#4caf50", fontWeight: "bold", mb: 1 }}
                   >
                     {getPerformanceMessage()}
                   </Typography>
-                  <AnimatedScore
-                    score={roundScore}
-                    label="Round Score"
-                    size="large"
-                    showChange={false}
-                  />
+                  <Typography variant="body1">
+                    +{Math.floor(roundScore)} pts | Total: {Math.floor(sessionScore)}
+                  </Typography>
                 </motion.div>
               ) : (
                 <Box>
-                  <Typography variant="h6" gutterBottom sx={{ color: "#f44336" }}>
-                    No Score
-                  </Typography>
-                  <Typography variant="body1" gutterBottom>
+                  <Typography variant="body1" sx={{ color: "#f44336", mb: 1 }}>
                     Answer: <strong>{currentSong?.ArtistMaster}</strong>
+                  </Typography>
+                  <Typography variant="body2">
+                    Total: {Math.floor(sessionScore)}
                   </Typography>
                 </Box>
               )}
-
-              <Box sx={{ mt: 2 }}>
-                <Typography variant="body1" gutterBottom>
-                  Session Total: <strong>{Math.floor(sessionScore)}</strong>
-                </Typography>
-              </Box>
-
-              <Box sx={{ mt: 2, display: "flex", justifyContent: "center", gap: 2 }}>
-                <AnimatedButton variant="contained" onClick={doNextSong}>
-                  Next
-                </AnimatedButton>
-                <AnimatedButton
-                  variant="outlined"
-                  onClick={() => {
-                    stopAudio();
-                    onCancel();
-                  }}
-                  sx={{
-                    borderColor: "var(--foreground)",
-                    color: "var(--foreground)",
-                    "&:hover": {
-                      backgroundColor: "var(--foreground)",
-                      color: "var(--background)",
-                    },
-                  }}
-                >
-                  Cancel
-                </AnimatedButton>
-              </Box>
             </Box>
           </motion.div>
         )}

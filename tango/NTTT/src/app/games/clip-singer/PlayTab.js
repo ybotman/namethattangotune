@@ -259,10 +259,10 @@ export default function PlayTab({ songs, config, onCancel }) {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          mb: 2,
+          mb: 1,
         }}
       >
-        <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
           Identify the Singer
         </Typography>
 
@@ -274,33 +274,67 @@ export default function PlayTab({ songs, config, onCancel }) {
         </Box>
       </Box>
 
-      <RoundProgress totalRounds={numSongs} currentRound={currentIndex} />
+      {/* Action Bar: Round Progress + Play/Next Button */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 2,
+          mb: 2,
+          p: 1.5,
+          backgroundColor: "var(--input-bg)",
+          borderRadius: 2,
+        }}
+      >
+        <Box sx={{ flex: 1 }}>
+          <RoundProgress totalRounds={numSongs} currentRound={currentIndex} />
+        </Box>
+
+        <Box sx={{ flexShrink: 0 }}>
+          {!roundOver && (
+            <Button
+              variant="contained"
+              onClick={playClip}
+              disabled={isPlaying}
+              startIcon={hasPlayed ? <ReplayIcon /> : null}
+              size="small"
+              sx={{
+                backgroundColor: hasPlayed ? "var(--accent)" : "#4CAF50",
+                color: "white",
+                fontWeight: "bold",
+                px: 2,
+                minWidth: 90,
+                "&:hover": { opacity: 0.9 },
+              }}
+            >
+              {isPlaying ? "..." : hasPlayed ? "Replay" : "Play"}
+            </Button>
+          )}
+          {roundOver && (
+            <Button
+              variant="contained"
+              onClick={doNextSong}
+              sx={{
+                backgroundColor: "var(--accent)",
+                color: "white",
+                fontWeight: "bold",
+                px: 3,
+                py: 1,
+                minWidth: 100,
+                "&:hover": { opacity: 0.9 },
+              }}
+            >
+              Next
+            </Button>
+          )}
+        </Box>
+      </Box>
 
       {/* Score and Replay Info */}
-      <Typography variant="h6" sx={{ mb: 1, textAlign: "center" }}>
-        Points: {Math.floor(roundScore)}/{BASE_SCORE}
+      <Typography variant="body1" sx={{ mb: 1, textAlign: "center" }}>
+        Points: {Math.floor(roundScore)}/{BASE_SCORE} | Replays: {replayCount}
       </Typography>
-      <Typography variant="body2" sx={{ mb: 2, textAlign: "center", color: "var(--accent)" }}>
-        Replays: {replayCount} | Clip: {clipLength}s
-      </Typography>
-
-      {/* Play/Replay Button */}
-      <Box sx={{ textAlign: "center", mb: 3 }}>
-        <Button
-          variant="contained"
-          onClick={playClip}
-          disabled={isPlaying || roundOver}
-          startIcon={hasPlayed ? <ReplayIcon /> : null}
-          sx={{
-            backgroundColor: "var(--accent)",
-            color: "var(--background)",
-            "&:hover": { opacity: 0.8 },
-            minWidth: 150,
-          }}
-        >
-          {isPlaying ? "Playing..." : hasPlayed ? "Replay Clip" : "Play Clip"}
-        </Button>
-      </Box>
 
       {/* Answers */}
       <List sx={{ mb: 2, maxWidth: 400, margin: "auto" }}>
@@ -352,43 +386,28 @@ export default function PlayTab({ songs, config, onCancel }) {
         </Typography>
       )}
 
-      {/* Round Over */}
+      {/* Round result feedback (Next button is in header now) */}
       {roundOver && (
-        <Box sx={{ mt: 3, textAlign: "center" }}>
+        <Box sx={{ mt: 2, textAlign: "center" }}>
           {roundScore > 0 ? (
-            <Typography variant="h6" gutterBottom>
-              Correct! Score: {Math.floor(roundScore)}
-            </Typography>
+            <>
+              <Typography variant="h6" sx={{ color: "#4caf50", fontWeight: "bold", mb: 1 }}>
+                Correct!
+              </Typography>
+              <Typography variant="body1">
+                +{Math.floor(roundScore)} pts | Total: {Math.floor(sessionScore)}
+              </Typography>
+            </>
           ) : (
-            <Typography variant="h6" gutterBottom>
-              Answer: {currentSong?.Singer || "Unknown"}
-            </Typography>
+            <>
+              <Typography variant="body1" sx={{ color: "#f44336", mb: 1 }}>
+                Answer: <strong>{currentSong?.Singer || "Unknown"}</strong>
+              </Typography>
+              <Typography variant="body2">
+                Total: {Math.floor(sessionScore)}
+              </Typography>
+            </>
           )}
-
-          <Typography variant="body1" gutterBottom>
-            Session Total: {Math.floor(sessionScore)}
-          </Typography>
-
-          <Button variant="contained" onClick={doNextSong} sx={{ mr: 2 }}>
-            Next
-          </Button>
-          <Button
-            variant="outlined"
-            onClick={() => {
-              cleanupWaveSurfer();
-              onCancel();
-            }}
-            sx={{
-              borderColor: "var(--foreground)",
-              color: "var(--foreground)",
-              "&:hover": {
-                backgroundColor: "var(--foreground)",
-                color: "var(--background)",
-              },
-            }}
-          >
-            Cancel
-          </Button>
         </Box>
       )}
     </Box>

@@ -228,10 +228,10 @@ export default function PlayTab({ songs, config, onCancel }) {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          mb: 2,
+          mb: 1,
         }}
       >
-        <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
           Name That Song!
         </Typography>
 
@@ -243,23 +243,89 @@ export default function PlayTab({ songs, config, onCancel }) {
         </Box>
       </Box>
 
+      {/* Action Bar: Round Progress + Ready/Next Button */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 2,
+          mb: 2,
+          p: 1.5,
+          backgroundColor: "var(--input-bg)",
+          borderRadius: 2,
+        }}
+      >
+        <Box sx={{ flex: 1 }}>
+          <RoundProgress totalRounds={numSongs} currentRound={currentIndex} />
+        </Box>
+
+        <Box sx={{ flexShrink: 0 }}>
+          {!isPlaying && !roundOver && currentSong && (
+            <Button
+              variant="contained"
+              onClick={clickPlaySong}
+              sx={{
+                backgroundColor: "#4CAF50",
+                color: "white",
+                fontWeight: "bold",
+                px: 3,
+                py: 1,
+                minWidth: 100,
+                "&:hover": { backgroundColor: "#43A047" },
+              }}
+            >
+              Ready
+            </Button>
+          )}
+          {roundOver && (
+            <Button
+              variant="contained"
+              onClick={doNextSong}
+              sx={{
+                backgroundColor: "var(--accent)",
+                color: "white",
+                fontWeight: "bold",
+                px: 3,
+                py: 1,
+                minWidth: 100,
+                "&:hover": { opacity: 0.9 },
+              }}
+            >
+              Next
+            </Button>
+          )}
+          {isPlaying && !roundOver && (
+            <Box
+              sx={{
+                px: 3,
+                py: 1,
+                minWidth: 100,
+                textAlign: "center",
+                color: "var(--accent)",
+                fontWeight: "bold",
+              }}
+            >
+              Playing...
+            </Box>
+          )}
+        </Box>
+      </Box>
+
       {/* Show orchestra hint */}
       {currentSong && (
         <Typography
-          variant="body1"
-          sx={{ textAlign: "center", mb: 2, color: "var(--accent)" }}
+          variant="body2"
+          sx={{ textAlign: "center", mb: 1, color: "var(--accent)" }}
         >
-          Orchestra: {currentSong.ArtistMaster || "Unknown"}
-          {currentSong.Singer && ` | Singer: ${currentSong.Singer}`}
+          {currentSong.ArtistMaster || "Unknown"}
+          {currentSong.Singer && ` | ${currentSong.Singer}`}
         </Typography>
       )}
 
-      {/* Round Progress */}
-      <RoundProgress totalRounds={numSongs} currentRound={currentIndex} />
-
-      {/* Round time + score */}
-      <Typography variant="h6" sx={{ mb: 2, textAlign: "center" }}>
-        Available Points: {Math.floor(roundScore)}/{Math.floor(maxScore)}
+      {/* Score Display */}
+      <Typography variant="body1" sx={{ mb: 1, textAlign: "center" }}>
+        Points: {Math.floor(roundScore)}/{Math.floor(maxScore)}
       </Typography>
 
       {isPlaying && (
@@ -269,23 +335,6 @@ export default function PlayTab({ songs, config, onCancel }) {
             value={timePercent}
             sx={{ height: 8, borderRadius: 4 }}
           />
-        </Box>
-      )}
-
-      {/* "Play Song" button */}
-      {!isPlaying && !roundOver && currentSong && (
-        <Box sx={{ textAlign: "center", mb: 2 }}>
-          <Button
-            variant="contained"
-            onClick={clickPlaySong}
-            sx={{
-              backgroundColor: "var(--accent)",
-              color: "var(--background)",
-              "&:hover": { opacity: 0.8 },
-            }}
-          >
-            I&apos;m Ready!
-          </Button>
         </Box>
       )}
 
@@ -333,43 +382,28 @@ export default function PlayTab({ songs, config, onCancel }) {
         })}
       </List>
 
-      {/* If roundOver => performance + Next + Cancel */}
+      {/* Round result feedback (Next button is in header now) */}
       {roundOver && (
-        <Box sx={{ mt: 3, textAlign: "center" }}>
+        <Box sx={{ mt: 2, textAlign: "center" }}>
           {roundScore > 0 ? (
-            <Typography variant="h6" gutterBottom>
-              {getPerformanceMessage()} (Round Score: {Math.floor(roundScore)})
-            </Typography>
+            <>
+              <Typography variant="h6" sx={{ color: "#4caf50", fontWeight: "bold", mb: 1 }}>
+                {getPerformanceMessage()}
+              </Typography>
+              <Typography variant="body1">
+                +{Math.floor(roundScore)} pts | Total: {Math.floor(sessionScore)}
+              </Typography>
+            </>
           ) : (
-            <Typography variant="h6" gutterBottom>
-              No Score. Answer: {currentSong?.Title}
-            </Typography>
+            <>
+              <Typography variant="body1" sx={{ color: "#f44336", mb: 1 }}>
+                Answer: <strong>{currentSong?.Title}</strong>
+              </Typography>
+              <Typography variant="body2">
+                Total: {Math.floor(sessionScore)}
+              </Typography>
+            </>
           )}
-
-          <Typography variant="body1" gutterBottom>
-            Session Total: {Math.floor(sessionScore)}
-          </Typography>
-
-          <Button variant="contained" onClick={doNextSong} sx={{ mr: 2 }}>
-            Next
-          </Button>
-          <Button
-            variant="outlined"
-            onClick={() => {
-              stopAudio();
-              onCancel();
-            }}
-            sx={{
-              borderColor: "var(--foreground)",
-              color: "var(--foreground)",
-              "&:hover": {
-                backgroundColor: "var(--foreground)",
-                color: "var(--background)",
-              },
-            }}
-          >
-            Cancel
-          </Button>
         </Box>
       )}
     </Box>
