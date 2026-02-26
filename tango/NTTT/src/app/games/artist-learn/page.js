@@ -114,68 +114,55 @@ export default function ArtistLearnPage() {
         </Box>
       )}
 
-      {/* Top Bar */}
+      {/* Header - Title + Play Button (compact) */}
       <Box
         sx={{
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
           px: 2,
-          mt: 1,
-          mb: 2,
+          pt: 1,
+          mb: 0,
         }}
       >
-        {/* Game Title */}
+        {/* Game Title - Centered */}
         <Typography
-          variant="h5"
+          variant="h6"
           sx={{
             fontWeight: "bold",
             color: "var(--foreground)",
-            mr: "auto", // Push everything else to the right
+            textAlign: "center",
+            mb: 0.5,
           }}
         >
-          Mastering
-          <br />
-          Orchestras
+          Mastering Orchestras
         </Typography>
 
-        {/* Play Button */}
+        {/* Play Button - pulsing icon */}
         <Box
+          onClick={handlePlayClick}
           sx={{
-            display: "flex",
-            justifyContent: "center",
-            ml: "-7rem",
-            flex: "1", // Ensure it spans remaining space
+            cursor: "pointer",
+            animation: "pulse 2s ease-in-out infinite",
+            "@keyframes pulse": {
+              "0%, 100%": { transform: "scale(1)", boxShadow: "0 0 15px rgba(0, 123, 255, 0.5)" },
+              "50%": { transform: "scale(1.08)", boxShadow: "0 0 25px rgba(0, 123, 255, 0.8)" },
+            },
+            borderRadius: "50%",
+            display: "inline-block",
           }}
         >
-          <Box sx={{ textAlign: "center" }}>
-            <Image
-              src={`/icons/IconLearnOrch.webp`}
-              alt="Play Button"
-              onClick={handlePlayClick}
-              width={80}
-              height={80}
-              style={{
-                cursor: "pointer",
-                borderRadius: "50%",
-                objectFit: "cover",
-                boxShadow: "0 0 15px rgba(0, 123, 255, 0.5)",
-                transition: "transform 0.2s",
-              }}
-              onMouseOver={(e) =>
-                (e.currentTarget.style.transform = "scale(1.05)")
-              }
-              onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
-            />
-            <Typography
-              variant="h5"
-              sx={{
-                mt: 1,
-                color: "var(--accent)",
-              }}
-            >
-              Play
-            </Typography>
-          </Box>
+          <Image
+            src={`/icons/IconLearnOrch.webp`}
+            alt="Play"
+            width={70}
+            height={70}
+            style={{
+              borderRadius: "50%",
+              objectFit: "cover",
+              display: "block",
+            }}
+          />
         </Box>
       </Box>
 

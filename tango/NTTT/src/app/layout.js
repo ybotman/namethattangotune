@@ -14,7 +14,6 @@ import { trackVisitor } from "@/utils/tracking";
 import { CssBaseline, Box } from "@mui/material";
 import { Inter } from "next/font/google";
 
-import ThemeSelector from "@/components/ui/ThemeSelector";
 import GameScoreCurrent from "@/components/ui/GameScoreCurrent";
 import GameHubButton from "@/components/ui/GameHubRoute";
 
@@ -40,19 +39,25 @@ function LayoutContent({ children }) {
 
   return (
     <>
-      <ThemeSelector />
-      <Box sx={{ position: "absolute", top: "1rem", right: "3rem" }}>
+      {/* Top right icons: GameHub + Score */}
+      <Box
+        sx={{
+          position: "fixed",
+          top: "0.5rem",
+          right: "0.5rem",
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          zIndex: 1000,
+        }}
+      >
+        <GameHubButton />
         <GameScoreCurrent
           bestScore={safeBest}
           totalScore={safeTotal}
           completedGames={safeCompleted}
           onReset={resetAll}
         />
-      </Box>
-
-      {/* Add GameHubButton to a fixed location */}
-      <Box sx={{ position: "absolute", top: "1rem", right: "5rem" }}>
-        <GameHubButton />
       </Box>
 
       {children}

@@ -32,13 +32,14 @@ import AnimatedButton from "@/components/ui/AnimatedButton";
 
 export default function PlayTab({ songs, config, onCancel }) {
   // 2) Quiz config
-  const { calculateMaxScore, WRONG_PENALTY, INTERVAL_MS } = useArtistQuiz();
+  const { calculateMaxScore, INTERVAL_MS } = useArtistQuiz();
   const timeLimit = config.timeLimit ?? 15;
   const maxScore = calculateMaxScore(timeLimit);
 
   // Local state
   const [roundOver, setRoundOver] = useState(false);
   const [lastCorrect, setLastCorrect] = useState(false);
+  const [roundScorePercents, setRoundScorePercents] = useState([]); // Track score % per round
   const lastSongRef = useRef(null);
   const celebrationRef = useRef(null);
   const numSongs = config.numSongs ?? 10;
@@ -71,6 +72,7 @@ export default function PlayTab({ songs, config, onCancel }) {
     setShowFinalSummary,
     roundStats,
     setRoundStats,
+    isLockedOut,
     startIntervals,
     stopAllIntervals,
     initRound,
@@ -79,15 +81,16 @@ export default function PlayTab({ songs, config, onCancel }) {
   } = useArtistQuizScoring({
     timeLimit,
     maxScore,
-    WRONG_PENALTY,
     INTERVAL_MS,
     onTimesUp: () => {
       console.log("PlayTab-> onTimesUp => forcing 0 score + roundOver");
       setRoundScore(0);
+      setRoundScorePercents(prev => [...prev, 0]); // Record 0% for timeout
       setRoundOver(true);
       stopAudio();
     },
     songs,
+    config, // Pass config for difficulty multipliers
   });
 
   // 4) Stop audio & intervals
@@ -106,14 +109,16 @@ export default function PlayTab({ songs, config, onCancel }) {
       if (roundEnded) {
         setRoundOver(true);
         setLastCorrect(correct);
+        // Record score percentage for this round
+        const scorePercent = (roundScore / maxScore) * 100;
+        setRoundScorePercents(prev => [...prev, scorePercent]);
         stopAudio();
         // Trigger celebration on correct answer
         if (correct && celebrationRef.current) {
           // Use emoji celebration for high scores, confetti for others
-          const pct = (roundScore / maxScore) * 100;
-          if (pct >= 80) {
+          if (scorePercent >= 80) {
             celebrationRef.current.celebrate("emoji");
-          } else if (pct >= 50) {
+          } else if (scorePercent >= 50) {
             celebrationRef.current.celebrate("confetti");
           }
         }
@@ -296,6 +301,7 @@ export default function PlayTab({ songs, config, onCancel }) {
   return (
     <Box
       sx={{
+        position: "relative",
         minHeight: "100vh",
         background: "var(--background)",
         color: "var(--foreground)",
@@ -304,31 +310,26 @@ export default function PlayTab({ songs, config, onCancel }) {
     >
       {/* Celebration overlay */}
       <Celebration ref={celebrationRef} id="quiz-celebration" />
-      {/* 
-          Top row with Title (left) and GameHubRoute (right)
-      */}
+
       {/* Title Row */}
       <Box
         sx={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          mb: 2,
+          mb: 1,
         }}
       >
         {/* Title */}
-        <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
           Identify the Artist
         </Typography>
 
         {/* Icons Row (Justified Right) */}
         <Box sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
-          {/* GameHubRoute Icon */}
           <GameHubRoute />
-
-          {/* Back Arrow Icon */}
           <IconButton
-            onClick={onCancel} // Add your back navigation logic here
+            onClick={onCancel}
             color="primary"
             aria-label="Back"
           >
@@ -337,48 +338,78 @@ export default function PlayTab({ songs, config, onCancel }) {
         </Box>
       </Box>
 
-      {/* Round Progress */}
-      <RoundProgress totalRounds={numSongs} currentRound={currentIndex} />
-
-      {/* Round time + score */}
-      <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
-        <AnimatedScore
-          score={roundScore}
-          label={`Available / ${Math.floor(maxScore)}`}
-          size="medium"
-          showChange={false}
+      {/* Round Progress - Score-colored dashes */}
+      <Box sx={{ mb: 1 }}>
+        <RoundProgress
+          totalRounds={numSongs}
+          currentRound={currentIndex}
+          roundScores={roundScorePercents}
         />
       </Box>
 
-      {isPlaying && (
-        <Box sx={{ mx: "auto", mb: 2, maxWidth: 400 }}>
-          <LinearProgress
-            variant="determinate"
-            value={timePercent}
-            sx={{ height: 8, borderRadius: 4 }}
-          />
-        </Box>
-      )}
-
-      {/* "Play Song" button */}
-      {!isPlaying && !roundOver && currentSong && (
-        <Box sx={{ textAlign: "center", mb: 2 }}>
-          <AnimatedButton
-            variant="contained"
-            onClick={clickPlaySong}
-            sx={{
-              backgroundColor: "var(--accent)",
-              color: "var(--background)",
-              fontSize: "1.1rem",
-              px: 4,
-              py: 1.5,
-              "&:hover": { opacity: 0.9 },
-            }}
-          >
-            I&apos;m Ready!
-          </AnimatedButton>
-        </Box>
-      )}
+      {/* Score Display with color-coded bar - always rendered to prevent layout shift */}
+      <Box sx={{ mx: "auto", mb: 1, maxWidth: 400, minHeight: 28 }}>
+        {isPlaying ? (
+          <>
+            {/* Score text */}
+            <Box sx={{ display: "flex", justifyContent: "space-between", mb: 0.5 }}>
+              <Typography variant="caption" sx={{ color: "var(--foreground)", opacity: 0.7 }}>
+                Points
+              </Typography>
+              <Typography
+                variant="caption"
+                sx={{
+                  fontWeight: "bold",
+                  color: roundScore / maxScore > 0.6 ? "#4CAF50" :
+                         roundScore / maxScore > 0.3 ? "#FF9800" : "#f44336"
+                }}
+              >
+                {Math.floor(roundScore)} / {Math.floor(maxScore)}
+              </Typography>
+            </Box>
+            {/* Color-coded progress bar - green to yellow to red */}
+            <LinearProgress
+              variant="determinate"
+              value={(roundScore / maxScore) * 100}
+              sx={{
+                height: 6,
+                borderRadius: 3,
+                backgroundColor: "var(--border-color)",
+                "& .MuiLinearProgress-bar": {
+                  backgroundColor: roundScore / maxScore > 0.6 ? "#4CAF50" :
+                                   roundScore / maxScore > 0.3 ? "#FF9800" : "#f44336",
+                  borderRadius: 3,
+                }
+              }}
+            />
+          </>
+        ) : (
+          <>
+            {/* Placeholder when not playing - maintains layout */}
+            <Box sx={{ display: "flex", justifyContent: "space-between", mb: 0.5 }}>
+              <Typography variant="caption" sx={{ color: "var(--foreground)", opacity: 0.4 }}>
+                Points
+              </Typography>
+              <Typography variant="caption" sx={{ color: "var(--foreground)", opacity: 0.4 }}>
+                0 / {Math.floor(maxScore)}
+              </Typography>
+            </Box>
+            <LinearProgress
+              variant="determinate"
+              value={0}
+              sx={{
+                height: 6,
+                borderRadius: 3,
+                backgroundColor: "var(--border-color)",
+                "& .MuiLinearProgress-bar": {
+                  backgroundColor: "var(--border-color)",
+                  borderRadius: 3,
+                }
+              }}
+            />
+          </>
+        )}
+      </Box>
 
       {/* Answers */}
       <List sx={{ mb: 2, maxWidth: 400, margin: "auto" }}>
@@ -399,11 +430,15 @@ export default function PlayTab({ songs, config, onCancel }) {
             } else if (isWrong) {
               borderColor = "#f44336";
               bgColor = "rgba(244, 67, 54, 0.1)";
+            } else if (isLockedOut) {
+              // Visual feedback during lockout
+              borderColor = "var(--border-color)";
+              bgColor = "rgba(128, 128, 128, 0.1)";
             }
 
-            // disable if roundOver or not playing or isWrong or correct
+            // disable if roundOver or not playing or isWrong or correct or locked out
             const disabled =
-              roundOver || !isPlaying || isWrong || isChosenCorrect;
+              roundOver || !isPlaying || isWrong || isChosenCorrect || isLockedOut;
 
             return (
               <motion.div
@@ -425,6 +460,7 @@ export default function PlayTab({ songs, config, onCancel }) {
                     borderRadius: "8px",
                     cursor: disabled ? "default" : "pointer",
                     backgroundColor: bgColor,
+                    opacity: isLockedOut && !isWrong ? 0.5 : 1,
                     transition: "all 0.2s ease",
                     "&:hover": {
                       backgroundColor: disabled ? bgColor : "var(--input-bg)",
@@ -446,79 +482,134 @@ export default function PlayTab({ songs, config, onCancel }) {
         </AnimatePresence>
       </List>
 
-      {/* If roundOver => performance + Next + Cancel */}
+      {/* If roundOver => show result feedback */}
       <AnimatePresence>
         {roundOver && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
           >
-            <Box sx={{ mt: 3, textAlign: "center" }}>
+            <Box sx={{ mt: 2, textAlign: "center" }}>
               {lastCorrect ? (
                 <motion.div
-                  initial={{ scale: 0.8 }}
+                  initial={{ scale: 0.9 }}
                   animate={{ scale: 1 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
                   <Typography
-                    variant="h5"
-                    gutterBottom
-                    sx={{ color: "#4caf50", fontWeight: "bold" }}
+                    variant="h6"
+                    sx={{ color: "#4caf50", fontWeight: "bold", mb: 1 }}
                   >
                     {getPerformanceMessage()}
                   </Typography>
-                  <AnimatedScore
-                    score={roundScore}
-                    label="Round Score"
-                    size="large"
-                    showChange={false}
-                  />
+                  <Typography variant="body1">
+                    +{Math.floor(roundScore)} pts | Total: {Math.floor(sessionScore)}
+                  </Typography>
                 </motion.div>
               ) : (
                 <Box>
-                  <Typography variant="h6" gutterBottom sx={{ color: "#f44336" }}>
-                    No Score
-                  </Typography>
-                  <Typography variant="body1" gutterBottom>
+                  <Typography variant="body1" sx={{ color: "#f44336", mb: 1 }}>
                     Answer: <strong>{currentSong?.ArtistMaster}</strong>
+                  </Typography>
+                  <Typography variant="body2">
+                    Total: {Math.floor(sessionScore)}
                   </Typography>
                 </Box>
               )}
-
-              <Box sx={{ mt: 2 }}>
-                <Typography variant="body1" gutterBottom>
-                  Session Total: <strong>{Math.floor(sessionScore)}</strong>
-                </Typography>
-              </Box>
-
-              <Box sx={{ mt: 2, display: "flex", justifyContent: "center", gap: 2 }}>
-                <AnimatedButton variant="contained" onClick={doNextSong}>
-                  Next
-                </AnimatedButton>
-                <AnimatedButton
-                  variant="outlined"
-                  onClick={() => {
-                    stopAudio();
-                    onCancel();
-                  }}
-                  sx={{
-                    borderColor: "var(--foreground)",
-                    color: "var(--foreground)",
-                    "&:hover": {
-                      backgroundColor: "var(--foreground)",
-                      color: "var(--background)",
-                    },
-                  }}
-                >
-                  Cancel
-                </AnimatedButton>
-              </Box>
             </Box>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* GO!/Next Button - Floating overlay, doesn't affect layout */}
+      <Box
+        sx={{
+          position: "fixed",
+          bottom: "15%",
+          left: 0,
+          right: 0,
+          display: "flex",
+          justifyContent: "center",
+          zIndex: 100,
+          pointerEvents: "none",
+        }}
+      >
+        <AnimatePresence>
+          {!isPlaying && !roundOver && currentSong && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.2 }}
+              style={{ pointerEvents: "auto" }}
+            >
+              <AnimatedButton
+                variant="contained"
+                onClick={clickPlaySong}
+                sx={{
+                  backgroundColor: "#4CAF50",
+                  color: "white",
+                  fontWeight: "bold",
+                  px: 4,
+                  py: 1.5,
+                  fontSize: "1.2rem",
+                  borderRadius: 3,
+                  boxShadow: "0 4px 20px rgba(76, 175, 80, 0.5)",
+                  position: "relative",
+                  overflow: "hidden",
+                  "&:hover": { backgroundColor: "#43A047" },
+                  "&::before": {
+                    content: '""',
+                    position: "absolute",
+                    top: 0,
+                    left: "-100%",
+                    width: "100%",
+                    height: "100%",
+                    background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
+                    animation: "shine 2s infinite",
+                  },
+                  "@keyframes shine": {
+                    "0%": { left: "-100%" },
+                    "50%": { left: "100%" },
+                    "100%": { left: "100%" },
+                  },
+                }}
+              >
+                GO!
+              </AnimatedButton>
+            </motion.div>
+          )}
+          {roundOver && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.2 }}
+              style={{ pointerEvents: "auto" }}
+            >
+              <AnimatedButton
+                variant="contained"
+                onClick={doNextSong}
+                sx={{
+                  backgroundColor: "var(--accent)",
+                  color: "white",
+                  fontWeight: "bold",
+                  px: 4,
+                  py: 1.5,
+                  fontSize: "1.2rem",
+                  borderRadius: 3,
+                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.4)",
+                  "&:hover": { opacity: 0.9 },
+                }}
+              >
+                Next
+              </AnimatedButton>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </Box>
     </Box>
   );
 }

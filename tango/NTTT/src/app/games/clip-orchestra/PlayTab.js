@@ -17,12 +17,14 @@ import {
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ReplayIcon from "@mui/icons-material/Replay";
+import { motion, AnimatePresence } from "motion/react";
 
 import useWaveSurfer from "@/hooks/useWaveSurfer";
 import { shuffleArray } from "@/utils/dataFetching";
 import { getDistractors } from "@/utils/dataFetching";
 import RoundProgress from "@/components/ui/RoundProgress";
 import GameHubRoute from "@/components/ui/GameHubRoute";
+import AnimatedButton from "@/components/ui/AnimatedButton";
 
 const BASE_SCORE = 100;
 const REPLAY_PENALTY = 0.15; // 15% reduction per replay
@@ -45,6 +47,7 @@ export default function PlayTab({ songs, config, onCancel }) {
   const [replayCount, setReplayCount] = useState(0);
   const [hasPlayed, setHasPlayed] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [roundScorePercents, setRoundScorePercents] = useState([]);
 
   const clipStartRef = useRef(null);
   const waveSurferRef = useRef(null);
@@ -141,6 +144,7 @@ export default function PlayTab({ songs, config, onCancel }) {
         ...old,
         { replays: replayCount, wrongGuesses: wrongAnswers.length },
       ]);
+      setRoundScorePercents(prev => [...prev, (roundScore / BASE_SCORE) * 100]);
       setRoundOver(true);
     } else {
       setWrongAnswers((old) => [...old, ans]);
@@ -153,6 +157,7 @@ export default function PlayTab({ songs, config, onCancel }) {
           ...old,
           { replays: replayCount, wrongGuesses: wrongAnswers.length + 1 },
         ]);
+        setRoundScorePercents(prev => [...prev, 0]);
         setRoundOver(true);
       }
     }
@@ -225,6 +230,7 @@ export default function PlayTab({ songs, config, onCancel }) {
   return (
     <Box
       sx={{
+        position: "relative",
         minHeight: "100vh",
         background: "var(--background)",
         color: "var(--foreground)",
@@ -237,10 +243,10 @@ export default function PlayTab({ songs, config, onCancel }) {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          mb: 2,
+          mb: 1,
         }}
       >
-        <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
           Identify the Orchestra
         </Typography>
 
@@ -252,32 +258,46 @@ export default function PlayTab({ songs, config, onCancel }) {
         </Box>
       </Box>
 
-      <RoundProgress totalRounds={numSongs} currentRound={currentIndex} />
+      {/* Round Progress - Score-colored dashes */}
+      <Box sx={{ mb: 1 }}>
+        <RoundProgress
+          totalRounds={numSongs}
+          currentRound={currentIndex}
+          roundScores={roundScorePercents}
+        />
+      </Box>
 
-      {/* Score and Replay Info */}
-      <Typography variant="h6" sx={{ mb: 1, textAlign: "center" }}>
-        Points: {Math.floor(roundScore)}/{BASE_SCORE}
-      </Typography>
-      <Typography variant="body2" sx={{ mb: 2, textAlign: "center", color: "var(--accent)" }}>
-        Replays: {replayCount} | Clip: {clipLength}s
-      </Typography>
-
-      {/* Play/Replay Button */}
-      <Box sx={{ textAlign: "center", mb: 3 }}>
-        <Button
-          variant="contained"
-          onClick={playClip}
-          disabled={isPlaying || roundOver}
-          startIcon={hasPlayed ? <ReplayIcon /> : null}
+      {/* Score Display with color-coded bar */}
+      <Box sx={{ mx: "auto", mb: 1, maxWidth: 400 }}>
+        <Box sx={{ display: "flex", justifyContent: "space-between", mb: 0.5 }}>
+          <Typography variant="caption" sx={{ color: "var(--foreground)", opacity: 0.7 }}>
+            Points {replayCount > 0 ? `(${replayCount} replays)` : ""}
+          </Typography>
+          <Typography
+            variant="caption"
+            sx={{
+              fontWeight: "bold",
+              color: roundScore / BASE_SCORE > 0.6 ? "#4CAF50" :
+                     roundScore / BASE_SCORE > 0.3 ? "#FF9800" : "#f44336"
+            }}
+          >
+            {Math.floor(roundScore)} / {BASE_SCORE}
+          </Typography>
+        </Box>
+        <LinearProgress
+          variant="determinate"
+          value={(roundScore / BASE_SCORE) * 100}
           sx={{
-            backgroundColor: "var(--accent)",
-            color: "var(--background)",
-            "&:hover": { opacity: 0.8 },
-            minWidth: 150,
+            height: 6,
+            borderRadius: 3,
+            backgroundColor: "var(--border-color)",
+            "& .MuiLinearProgress-bar": {
+              backgroundColor: roundScore / BASE_SCORE > 0.6 ? "#4CAF50" :
+                               roundScore / BASE_SCORE > 0.3 ? "#FF9800" : "#f44336",
+              borderRadius: 3,
+            }
           }}
-        >
-          {isPlaying ? "Playing..." : hasPlayed ? "Replay Clip" : "Play Clip"}
-        </Button>
+        />
       </Box>
 
       {/* Answers */}
@@ -330,45 +350,122 @@ export default function PlayTab({ songs, config, onCancel }) {
         </Typography>
       )}
 
-      {/* Round Over */}
+      {/* Round result feedback */}
       {roundOver && (
-        <Box sx={{ mt: 3, textAlign: "center" }}>
+        <Box sx={{ mt: 2, textAlign: "center" }}>
           {roundScore > 0 ? (
-            <Typography variant="h6" gutterBottom>
-              Correct! Score: {Math.floor(roundScore)}
-            </Typography>
+            <>
+              <Typography variant="h6" sx={{ color: "#4caf50", fontWeight: "bold", mb: 1 }}>
+                Correct!
+              </Typography>
+              <Typography variant="body1">
+                +{Math.floor(roundScore)} pts | Total: {Math.floor(sessionScore)}
+              </Typography>
+            </>
           ) : (
-            <Typography variant="h6" gutterBottom>
-              Answer: {currentSong?.ArtistMaster}
-            </Typography>
+            <>
+              <Typography variant="body1" sx={{ color: "#f44336", mb: 1 }}>
+                Answer: <strong>{currentSong?.ArtistMaster}</strong>
+              </Typography>
+              <Typography variant="body2">
+                Total: {Math.floor(sessionScore)}
+              </Typography>
+            </>
           )}
-
-          <Typography variant="body1" gutterBottom>
-            Session Total: {Math.floor(sessionScore)}
-          </Typography>
-
-          <Button variant="contained" onClick={doNextSong} sx={{ mr: 2 }}>
-            Next
-          </Button>
-          <Button
-            variant="outlined"
-            onClick={() => {
-              cleanupWaveSurfer();
-              onCancel();
-            }}
-            sx={{
-              borderColor: "var(--foreground)",
-              color: "var(--foreground)",
-              "&:hover": {
-                backgroundColor: "var(--foreground)",
-                color: "var(--background)",
-              },
-            }}
-          >
-            Cancel
-          </Button>
         </Box>
       )}
+
+      {/* GO!/Replay/Next Button - Floating overlay, doesn't affect layout */}
+      <Box
+        sx={{
+          position: "fixed",
+          bottom: "15%",
+          left: 0,
+          right: 0,
+          display: "flex",
+          justifyContent: "center",
+          zIndex: 100,
+          pointerEvents: "none",
+        }}
+      >
+        <AnimatePresence>
+          {!roundOver && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.2 }}
+              style={{ pointerEvents: "auto" }}
+            >
+              <AnimatedButton
+                variant="contained"
+                onClick={playClip}
+                disabled={isPlaying}
+                startIcon={hasPlayed ? <ReplayIcon sx={{ fontSize: 18 }} /> : null}
+                sx={{
+                  backgroundColor: hasPlayed ? "var(--accent)" : "#4CAF50",
+                  color: "white",
+                  fontWeight: "bold",
+                  px: 4,
+                  py: 1.5,
+                  fontSize: "1.2rem",
+                  borderRadius: 3,
+                  boxShadow: "0 4px 20px rgba(76, 175, 80, 0.5)",
+                  position: "relative",
+                  overflow: "hidden",
+                  "&:hover": { opacity: 0.9 },
+                  ...(!hasPlayed && {
+                    "&::before": {
+                      content: '""',
+                      position: "absolute",
+                      top: 0,
+                      left: "-100%",
+                      width: "100%",
+                      height: "100%",
+                      background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
+                      animation: "shine 2s infinite",
+                    },
+                    "@keyframes shine": {
+                      "0%": { left: "-100%" },
+                      "50%": { left: "100%" },
+                      "100%": { left: "100%" },
+                    },
+                  }),
+                }}
+              >
+                {isPlaying ? "..." : hasPlayed ? "Replay" : "GO!"}
+              </AnimatedButton>
+            </motion.div>
+          )}
+          {roundOver && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.2 }}
+              style={{ pointerEvents: "auto" }}
+            >
+              <AnimatedButton
+                variant="contained"
+                onClick={doNextSong}
+                sx={{
+                  backgroundColor: "var(--accent)",
+                  color: "white",
+                  fontWeight: "bold",
+                  px: 4,
+                  py: 1.5,
+                  fontSize: "1.2rem",
+                  borderRadius: 3,
+                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.4)",
+                  "&:hover": { opacity: 0.9 },
+                }}
+              >
+                Next
+              </AnimatedButton>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </Box>
     </Box>
   );
 }

@@ -13,19 +13,26 @@ export function useGameContext() {
   return useContext(GameContext);
 }
 
+// Config version - increment to force localStorage reset when defaults change
+const CONFIG_VERSION = 2;
+
+const DEFAULT_CONFIG = {
+  numSongs: 10,
+  timeLimit: 15,
+  levels: [],  // Legacy - orchestra-based levels
+  recognitionTiers: [1],  // Default: Iconic only
+  styles: { Tango: true, Vals: true, Milonga: true },  // Default: all styles
+  includeSinger: true,  // Default: vocals on
+  artists: [],
+  periods: ["Golden Age"],  // Default: Golden Age only
+  validConfig: false,
+  _version: CONFIG_VERSION,
+};
+
 export function GameProvider({ children }) {
 
-  // 1) Game config (with null defaults where relevant)
-  const [config, setConfig] = useState({
-    numSongs: null,
-    timeLimit: null,
-    levels: [],  // Legacy - orchestra-based levels
-    recognitionTiers: [1],  // Default: Iconic only
-    styles: { Tango: true, Vals: true, Milonga: true },  // Default: all styles
-    artists: [],
-    periods: [],
-    validConfig: false,
-  });
+  // 1) Game config (with defaults)
+  const [config, setConfig] = useState(DEFAULT_CONFIG);
 
 
   // 2) Score/Usage tracking
@@ -42,7 +49,13 @@ export function GameProvider({ children }) {
         const saved = localStorage.getItem("artistLearn_config");
         if (saved) {
           const parsed = JSON.parse(saved);
-          // Merge with defaults if needed
+          // Check version - reset to defaults if outdated
+          if (parsed._version !== CONFIG_VERSION) {
+            console.log("Config version changed, resetting to defaults");
+            localStorage.removeItem("artistLearn_config");
+            return;
+          }
+          // Merge with defaults
           setConfig((prev) => ({
             ...prev,
             ...parsed,
@@ -85,14 +98,7 @@ export function GameProvider({ children }) {
 
   // 5) Reset everything
   function resetAll() {
-    setConfig({
-      numSongs: null,
-      timeLimit: null,
-      levels: [],
-      recognitionTiers: [1],  // Iconic only
-      styles: { Tango: true, Vals: true, Milonga: true },
-      artists: [],
-    });
+    setConfig({ ...DEFAULT_CONFIG });
     setCurrentScore(0);
     setBestScore(0);
     setTotalScore(0);
