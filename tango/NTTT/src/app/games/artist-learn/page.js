@@ -1,5 +1,6 @@
 //-----------------------------------------------------------------------------
 //src/app/games/artist-learn/page.js
+// Mastering Orchestras - Learn mode with orchestra selection
 //-----------------------------------------------------------------------------
 
 "use client";
@@ -16,47 +17,39 @@ import styles from "../styles.module.css";
 export default function ArtistLearnPage() {
   const [songs, setSongs] = useState([]);
   const [showPlayTab, setShowPlayTab] = useState(false);
+  const [configValid, setConfigValid] = useState(false);
 
-  const {
-    config,
-    bestScore,
-    totalScore,
-    completedGames,
-    resetAll,
-    validConfig,
-  } = useGameContext();
+  const { config } = useGameContext();
 
   const handlePlayClick = useCallback(async () => {
-    console.log(config);
+    if (!config.selectedOrchestra) {
+      alert("Please select an orchestra first");
+      return;
+    }
 
     const numSongs = config.numSongs ?? 10;
-    const timeLimit = config.timeLimit ?? 15;
-    const activeStyles = Object.keys(config.styles || {}).filter(
-      (key) => config.styles[key],
-    );
-    const recognitionTiers = config.recognitionTiers || [1];
-    const periods = config.periods || [];
-    const chosenArtists = (config.artists || []).map((a) => a.value);
-
-    // Simple vocals toggle - same as artist-quiz
-    const includeSinger = config.includeSinger ?? false;
+    const selectedStyle = config.selectedStyle || "Tango";
+    const selectedEra = config.selectedEra || "Golden Age";
+    const selectedOrchestra = config.selectedOrchestra;
 
     const { songs: fetchedSongs } = await fetchFilteredSongs(
-      chosenArtists,
-      [], // artistLevels - legacy, no longer used
-      [], // composers
-      activeStyles,
-      "", // candombe - empty = no filter
-      "", // alternative - empty = no filter
-      "", // cancion - empty = no filter
+      [selectedOrchestra], // Single orchestra
+      [],
+      [],
+      [selectedStyle], // Single style
+      "",
+      "",
+      "",
       numSongs,
-      { includeSinger, recognitionTiers, periods, requireOrchestra: true },
+      {
+        includeSinger: false, // Instrumental only
+        periods: [selectedEra],
+        requireOrchestra: true,
+      },
     );
 
     if (!fetchedSongs || fetchedSongs.length === 0) {
-      alert(
-        "No songs returned for this configuration. Try different settings.",
-      );
+      alert("No songs found for this configuration. Try a different orchestra.");
       return;
     }
 
@@ -123,18 +116,20 @@ export default function ArtistLearnPage() {
           Mastering Orchestras
         </Typography>
 
-        {/* Play Button - pulsing icon */}
+        {/* Play Button - pulsing only when valid */}
         <Box
-          onClick={handlePlayClick}
+          onClick={configValid ? handlePlayClick : undefined}
           sx={{
-            cursor: "pointer",
-            animation: "pulse 2s ease-in-out infinite",
+            cursor: configValid ? "pointer" : "not-allowed",
+            animation: configValid ? "pulse 2s ease-in-out infinite" : "none",
             "@keyframes pulse": {
               "0%, 100%": { transform: "scale(1)", boxShadow: "0 0 15px rgba(0, 123, 255, 0.5)" },
               "50%": { transform: "scale(1.08)", boxShadow: "0 0 25px rgba(0, 123, 255, 0.8)" },
             },
             borderRadius: "50%",
             display: "inline-block",
+            opacity: configValid ? 1 : 0.4,
+            filter: configValid ? "none" : "grayscale(50%)",
           }}
         >
           <Image
@@ -152,7 +147,7 @@ export default function ArtistLearnPage() {
       </Box>
 
       {/* Configuration Tab */}
-      <ConfigTab />
+      <ConfigTab onConfigValid={setConfigValid} />
     </Box>
   );
 }
