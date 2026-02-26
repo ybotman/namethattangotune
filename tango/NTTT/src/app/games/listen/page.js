@@ -40,7 +40,7 @@ export default function ListenPage() {
   }, []);
 
   const handlePlayClick = useCallback(async () => {
-    const numSongs = config.numSongs ?? 30;
+    const numSongs = config.numSongs ?? 50;
     const activeStyles = Object.keys(config.styles || {}).filter(
       (key) => config.styles[key],
     );
@@ -48,7 +48,7 @@ export default function ListenPage() {
     const chosenSingers = (config.singers || []).map((s) =>
       typeof s === "string" ? s : s.value
     );
-    const instrumentalOnly = config.instrumentalOnly ?? false;
+    const includeSinger = config.includeSinger ?? true;
 
     const { songs: fetchedSongs } = await fetchFilteredSongs(
       chosenArtists,
@@ -60,10 +60,10 @@ export default function ListenPage() {
       "", // cancion
       numSongs,
       {
-        includeSinger: !instrumentalOnly,
+        includeSinger: includeSinger,
         requireSinger: chosenSingers.length > 0,
         singers: chosenSingers,
-        yearRange: config.yearRange ?? [1929, 1939],
+        periods: config.periods || [],
       },
     );
 
