@@ -28,12 +28,11 @@ export default function GameSetupDials({
     <Box
       sx={{
         display: "flex",
-        justifyContent: "space-between",
-        maxWidth: "340px",
+        justifyContent: "center",
+        gap: 3,
         mx: "auto",
         mb: 1,
         mt: 1,
-        px: 1,
       }}
     >
       {/* Songs Dial */}
