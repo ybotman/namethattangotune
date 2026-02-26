@@ -21,6 +21,7 @@ const GA_MEASUREMENT_ID = "G-GSRFSWE79N";
 
 import GameScoreCurrent from "@/components/ui/GameScoreCurrent";
 import GameHubButton from "@/components/ui/GameHubRoute";
+import FullscreenButton from "@/components/ui/FullscreenButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -57,6 +58,7 @@ function LayoutContent({ children }) {
           zIndex: 1000,
         }}
       >
+        <FullscreenButton />
         <GameHubButton />
         <GameScoreCurrent
           bestScore={safeBest}

@@ -1,0 +1,274 @@
+{
+  "generated": "2026-02-26T19:33:54.756Z",
+  "summary": {
+    "totalSongs": 4675,
+    "playableSongs": 4555,
+    "doNotPlay": 120,
+    "noAudioUrl": 0
+  },
+  "missingFields": {
+    "orchestra": {
+      "count": 95,
+      "percent": "2.0%",
+      "playableAffected": 45
+    },
+    "year": {
+      "count": 177,
+      "percent": "3.8%",
+      "playableAffected": 141
+    },
+    "title": {
+      "count": 0,
+      "percent": "0.0%",
+      "playableAffected": 0
+    },
+    "bothOrchestraAndYear": {
+      "count": 38,
+      "percent": "0.8%"
+    }
+  },
+  "samplesMissingOrchestra": [
+    {
+      "songId": "7bdaa33e-4640-55a6-9fe9-68707b257fa2",
+      "title": "La Cumparsita",
+      "year": "1929",
+      "style": "Tango"
+    },
+    {
+      "songId": "a1309454-edec-5b18-ab8d-d4e9e2bece96",
+      "title": "Milonga Sentimental",
+      "year": "1932",
+      "style": "Milonga"
+    },
+    {
+      "songId": "8a551ce6-a227-5258-a256-5c29db94cf3d",
+      "title": "Soy una fiera",
+      "year": "1945",
+      "style": "Milonga"
+    },
+    {
+      "songId": "b6bb95de-80da-582a-b2cd-a026854bcda9",
+      "title": "La Naranja Nacio Verde",
+      "year": "1943",
+      "style": "Milonga"
+    },
+    {
+      "songId": "13113817-a886-5418-83ba-5c661d31355a",
+      "title": "Ficha personal",
+      "year": "1952",
+      "style": "Milonga"
+    },
+    {
+      "songId": "b27e9020-894a-584e-85f2-896310ed3430",
+      "title": "La Naranja Nacio Verde",
+      "year": "1949",
+      "style": "Milonga"
+    },
+    {
+      "songId": "5febe996-5dd9-512c-9594-e8fb92c0df30",
+      "title": "Corrales viejos",
+      "year": "1953",
+      "style": "Milonga"
+    },
+    {
+      "songId": "22e08e21-f83c-5598-b3da-d44b7a315718",
+      "title": "Mano Brava",
+      "year": "1942",
+      "style": "Milonga"
+    },
+    {
+      "songId": "b9f8f19a-9ab3-53a1-bb9a-8cde2216adb5",
+      "title": "Milonga de mis amores",
+      "year": "1953",
+      "style": "Milonga"
+    },
+    {
+      "songId": "01e3c5da-091f-553f-9042-1c4d25a23eff",
+      "title": "La Naranja Nacio Verde",
+      "year": "",
+      "style": "Milonga"
+    },
+    {
+      "songId": "91b34f1c-292c-508f-9d88-3f8639f10dbb",
+      "title": "Begin for Julia",
+      "year": "2001",
+      "style": "Tango"
+    },
+    {
+      "songId": "95d28ab2-1220-57b9-a07a-20bfe439a4a9",
+      "title": "No Hay Tierra Domo La Mia",
+      "year": "",
+      "style": "Milonga"
+    },
+    {
+      "songId": "ad35e191-7bb6-5d75-ad93-5a0a6f839ba8",
+      "title": "La cumparsita",
+      "year": "1955",
+      "style": "Tango"
+    },
+    {
+      "songId": "4b34b9f2-471d-5911-b544-245e29091c8a",
+      "title": "La cumparsita",
+      "year": "2006",
+      "style": "Tango"
+    },
+    {
+      "songId": "ae3b86d1-acfa-5c3a-8774-bfafb6ebecca",
+      "title": "El Ponchazo",
+      "year": "1941",
+      "style": "Tango"
+    },
+    {
+      "songId": "78323cae-e664-5a43-90a8-32bd50f24046",
+      "title": "Barrilito",
+      "year": "1940",
+      "style": "Tango"
+    },
+    {
+      "songId": "02172fd9-b586-5a01-8046-2ce3b463887f",
+      "title": "Rodriguez Pena",
+      "year": "1927",
+      "style": "Tango"
+    },
+    {
+      "songId": "857ceae3-1978-5e66-b598-ad0582f62c98",
+      "title": "El Entrerriano",
+      "year": "1940",
+      "style": "Tango"
+    },
+    {
+      "songId": "b9056c0f-d534-559a-bd75-60720074694a",
+      "title": "Son nefes - Ibrahim Ozgur",
+      "year": "2001",
+      "style": "Tango"
+    },
+    {
+      "songId": "8679e9fa-072e-5359-97aa-b493b69d6a7d",
+      "title": "Ayse - Ibrahim Ozgur",
+      "year": "2004",
+      "style": "Tango"
+    }
+  ],
+  "samplesMissingYear": [
+    {
+      "songId": "4cdce63b-aff1-5352-9c68-6d4ef9e91758",
+      "title": "Ruego",
+      "orchestra": "Edgardo Donato",
+      "style": "Tango"
+    },
+    {
+      "songId": "b8e84aa7-aa17-5bfc-81e5-0f721f8267e5",
+      "title": "Entre Los Ceibos",
+      "orchestra": "Roberto Firpo",
+      "style": "Vals"
+    },
+    {
+      "songId": "60c1d5c3-544e-528a-a68c-3e5f4d3832b2",
+      "title": "La Mulita+",
+      "orchestra": "Roberto Firpo",
+      "style": "Milonga"
+    },
+    {
+      "songId": "310e90b3-31a2-5ad4-9555-9db9ece96811",
+      "title": "Recordando Lo Pasado",
+      "orchestra": "Roberto Firpo",
+      "style": "Vals"
+    },
+    {
+      "songId": "9ab36854-71cb-5162-a1f6-681a6c14fa81",
+      "title": "El Internado+",
+      "orchestra": "Roberto Firpo",
+      "style": "Tango"
+    },
+    {
+      "songId": "f3a34815-f4ec-5428-90c0-187c0ec94704",
+      "title": "Chagrin d'amour",
+      "orchestra": "Mario Melfi",
+      "style": "Tango"
+    },
+    {
+      "songId": "a37f1970-69f3-5f95-a100-7eef609cb74f",
+      "title": "Reviens Piccina Bella",
+      "orchestra": "Mario Melfi",
+      "style": "Tango"
+    },
+    {
+      "songId": "9b529f02-aa60-542a-bc22-6d45af7e9f0d",
+      "title": "Un tango, Madame",
+      "orchestra": "Mario Melfi",
+      "style": "Tango"
+    },
+    {
+      "songId": "dd50f57b-c386-53ba-a8e1-578d98692128",
+      "title": "Ecris-moi",
+      "orchestra": "Mario Melfi",
+      "style": "Tango"
+    },
+    {
+      "songId": "d95637a9-5893-582b-afe7-4a4e265daf60",
+      "title": "Nostalgias",
+      "orchestra": "Mario Melfi",
+      "style": "Tango"
+    },
+    {
+      "songId": "084c906a-6efc-5c8a-8347-a0fa29f33046",
+      "title": "Mieux que personne",
+      "orchestra": "Mario Melfi",
+      "style": "Tango"
+    },
+    {
+      "songId": "ba32d535-fd10-5a13-a48a-4010408470f9",
+      "title": "Yo canto",
+      "orchestra": "Mario Melfi",
+      "style": "Tango"
+    },
+    {
+      "songId": "ac9a0252-1140-571a-b2f5-472f52eea13f",
+      "title": "Madre",
+      "orchestra": "Mario Melfi",
+      "style": "Tango"
+    },
+    {
+      "songId": "0c28cab4-7af5-5c71-b058-c52c365e9e59",
+      "title": "Demain",
+      "orchestra": "Mario Melfi",
+      "style": "Tango"
+    },
+    {
+      "songId": "0b78eaa2-024b-515a-b34b-dfde83609939",
+      "title": "Ce soir je veux t'aimer",
+      "orchestra": "Mario Melfi",
+      "style": "Tango"
+    },
+    {
+      "songId": "01e3c5da-091f-553f-9042-1c4d25a23eff",
+      "title": "La Naranja Nacio Verde",
+      "orchestra": "",
+      "style": "Milonga"
+    },
+    {
+      "songId": "d64fe721-c7f6-5dbc-a8f4-598e629e3bf6",
+      "title": "Bajo Un Cielo De Estrellas(1941.alberto.podesta)-F-V",
+      "orchestra": "Miguel Calo",
+      "style": "Vals"
+    },
+    {
+      "songId": "fd399cd1-a4b2-5fcb-87bc-338261e63ba5",
+      "title": "Remembranzas(slow.ver)-S-R-V",
+      "orchestra": "Juan D'Arienzo",
+      "style": "Tango"
+    },
+    {
+      "songId": "bfc77548-cd50-58a6-8a6e-87a82c876aff",
+      "title": "El Resero",
+      "orchestra": "Carlos Di Sarli",
+      "style": "Tango"
+    },
+    {
+      "songId": "0f98b984-b820-5daf-8841-fbbc48d784a5",
+      "title": "Remembranza(fast.ver)-S-R-V",
+      "orchestra": "Juan D'Arienzo",
+      "style": "Tango"
+    }
+  ]
+}
