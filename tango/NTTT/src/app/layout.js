@@ -39,18 +39,25 @@ function LayoutContent({ children }) {
 
   return (
     <>
-      <Box sx={{ position: "absolute", top: "1rem", right: "3rem" }}>
+      {/* Top right icons: GameHub + Score */}
+      <Box
+        sx={{
+          position: "fixed",
+          top: "0.5rem",
+          right: "0.5rem",
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          zIndex: 1000,
+        }}
+      >
+        <GameHubButton />
         <GameScoreCurrent
           bestScore={safeBest}
           totalScore={safeTotal}
           completedGames={safeCompleted}
           onReset={resetAll}
         />
-      </Box>
-
-      {/* Add GameHubButton to a fixed location */}
-      <Box sx={{ position: "absolute", top: "1rem", right: "5rem" }}>
-        <GameHubButton />
       </Box>
 
       {children}
