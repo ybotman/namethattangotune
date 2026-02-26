@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Box, Typography, Button, Paper, useMediaQuery } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { trackStartPlaying } from "@/utils/analytics";
 
 export default function WelcomePage() {
   const router = useRouter();
@@ -102,7 +103,7 @@ export default function WelcomePage() {
         variant="contained"
         size="large"
         startIcon={<PlayArrowIcon />}
-        onClick={() => router.push("/games/gamehub")}
+        onClick={() => { trackStartPlaying(); router.push("/games/gamehub"); }}
         sx={{
           backgroundColor: "var(--accent)",
           color: "var(--background)",

@@ -23,7 +23,7 @@ import useArtistQuiz from "@/hooks/useArtistQuiz";
 import usePlay from "@/hooks/usePlay";
 import useArtistQuizScoring from "@/hooks/useArtistQuizScoring";
 import { shuffleArray } from "@/utils/dataFetching";
-import { trackPlayClick, trackGuess } from "@/utils/analytics";
+import { trackPlayClick, trackGuess, trackWrongAnswer, trackCorrectAnswer, trackGameComplete, trackGameCancel } from "@/utils/analytics";
 import RoundProgress from "@/components/ui/RoundProgress";
 import GameHubRoute from "@/components/ui/GameHubRoute";
 import Celebration from "@/components/ui/Celebration";
@@ -105,7 +105,16 @@ export default function PlayTab({ songs, config, onCancel }) {
     (ans) => {
       console.log("PlayTab-> handleAnswerSelect =>", ans);
       const { roundEnded, correct } = scoringAnswerSelect(ans);
-      trackGuess("artist-quiz", correct, ans);
+
+      // Track guess with song details
+      const correctAns = currentSong?.ArtistMaster || "";
+      trackGuess("artist-quiz", correct, ans, correctAns, currentSong?.AudioUrl);
+
+      if (!correct && currentSong) {
+        trackWrongAnswer("artist-quiz", currentSong.AudioUrl, currentSong.Title, correctAns, ans, currentSong.ArtistMaster, currentSong.Year);
+      } else if (correct && currentSong) {
+        trackCorrectAnswer("artist-quiz", currentSong.AudioUrl, roundScore, timeRemaining);
+      }
 
       if (roundEnded) {
         setRoundOver(true);
@@ -125,7 +134,7 @@ export default function PlayTab({ songs, config, onCancel }) {
         }
       }
     },
-    [scoringAnswerSelect, stopAudio, roundScore, maxScore],
+    [scoringAnswerSelect, stopAudio, roundScore, maxScore, currentSong, timeRemaining],
   );
 
   // 6) doNextSong => proceed to next

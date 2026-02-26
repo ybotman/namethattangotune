@@ -6,7 +6,7 @@ import React from "react";
 import Image from "next/image";
 import { Box, Typography, Paper, useMediaQuery, Button } from "@mui/material";
 import Link from "next/link";
-import { trackGameClick } from "@/utils/analytics";
+import { trackGameClick, trackReportClick } from "@/utils/analytics";
 
 // Tools password
 const TOOLS_PASSWORD = "!El4Gotan";
@@ -321,7 +321,7 @@ export default function GameHubPage() {
         </Typography>
         <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, justifyContent: "center" }}>
           {reports.map((r) => (
-            <Link key={r.path} href={r.path} style={{ textDecoration: "none" }}>
+            <Link key={r.path} href={r.path} style={{ textDecoration: "none" }} onClick={() => trackReportClick(r.name)}>
               <Button
                 variant="outlined"
                 size="small"
