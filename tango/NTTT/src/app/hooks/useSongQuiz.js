@@ -120,6 +120,7 @@ export default function useSongQuiz() {
   const handleTimeLimitChange = (val) => updateConfig("timeLimit", val);
   const handleStylesChange = (updated) => updateConfig("styles", updated);
   const handleArtistsChange = (arr) => updateConfig("artists", arr);
+  const handleIncludeSingerChange = (val) => updateConfig("includeSinger", val);
 
   return {
     config,
@@ -132,5 +133,6 @@ export default function useSongQuiz() {
     handleTimeLimitChange,
     handleStylesChange,
     handleArtistsChange,
+    handleIncludeSingerChange,
   };
 }

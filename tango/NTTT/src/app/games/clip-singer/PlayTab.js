@@ -14,9 +14,11 @@ import {
   ListItem,
   ListItemText,
   IconButton,
+  LinearProgress,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ReplayIcon from "@mui/icons-material/Replay";
+import ShuffleIcon from "@mui/icons-material/Shuffle";
 import { motion, AnimatePresence } from "motion/react";
 
 import useWaveSurfer from "@/hooks/useWaveSurfer";
@@ -26,8 +28,59 @@ import GameHubRoute from "@/components/ui/GameHubRoute";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 
 const BASE_SCORE = 100;
-const REPLAY_PENALTY = 0.15;
-const WRONG_PENALTY = 0.25;
+const REPLAY_PENALTY = 0.03; // 3% reduction per replay
+const WRONG_PENALTY = 0.33; // 33% reduction per wrong answer
+const NEW_CLIP_PENALTY = 0.10; // 10% reduction for getting a new clip
+
+// Get base score from clip length (non-linear, heavily weighted to short clips)
+// 1s=1000 (max), halving each second, 30s=10 (min)
+function getClipBaseScore(clipLength) {
+  const scoreMap = [
+    [1, 1000],
+    [2, 500],
+    [3, 250],
+    [4, 125],
+    [5, 60],
+    [10, 20],
+    [30, 10],
+  ];
+
+  // Exact match or below minimum
+  if (clipLength <= scoreMap[0][0]) return scoreMap[0][1];
+
+  // Find range and interpolate
+  for (let i = 0; i < scoreMap.length - 1; i++) {
+    const [x1, y1] = scoreMap[i];
+    const [x2, y2] = scoreMap[i + 1];
+    if (clipLength <= x2) {
+      // Linear interpolation between points
+      const t = (clipLength - x1) / (x2 - x1);
+      return Math.round(y1 + t * (y2 - y1));
+    }
+  }
+
+  // Beyond 30s
+  return scoreMap[scoreMap.length - 1][1];
+}
+
+// Calculate max possible score based on difficulty multipliers
+function calculateMaxScore(config) {
+  const clipLength = config.clipLength ?? 5;
+  const tiers = config.recognitionTiers || [1];
+
+  // Base score from clip length
+  const clipScore = getClipBaseScore(clipLength);
+
+  // Calculate average tier level (1=Iconic easiest, 5=Deep hardest)
+  const avgTier = tiers.length > 0
+    ? tiers.reduce((a, b) => a + b, 0) / tiers.length
+    : 1;
+
+  // Average tier 1 = 1x, average tier 5 = 2x
+  const familiarityMultiplier = 1 + (avgTier - 1) * 0.25;
+
+  return Math.round(clipScore * familiarityMultiplier);
+}
 
 /**
  * Find a start position within a vocal segment that ensures
@@ -51,6 +104,7 @@ function findVocalStartPosition(song, clipDuration) {
 export default function PlayTab({ songs, config, onCancel }) {
   const clipLength = config.clipLength ?? 5;
   const numSongs = config.numSongs ?? 10;
+  const maxPossibleScore = calculateMaxScore(config);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentSong, setCurrentSong] = useState(songs[0] || null);
@@ -58,7 +112,7 @@ export default function PlayTab({ songs, config, onCancel }) {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [wrongAnswers, setWrongAnswers] = useState([]);
   const [roundOver, setRoundOver] = useState(false);
-  const [roundScore, setRoundScore] = useState(BASE_SCORE);
+  const [roundScore, setRoundScore] = useState(maxPossibleScore);
   const [sessionScore, setSessionScore] = useState(0);
   const [showFinalSummary, setShowFinalSummary] = useState(false);
   const [roundStats, setRoundStats] = useState([]);
@@ -66,6 +120,7 @@ export default function PlayTab({ songs, config, onCancel }) {
   const [hasPlayed, setHasPlayed] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [roundScorePercents, setRoundScorePercents] = useState([]);
+  const [usedNewClip, setUsedNewClip] = useState(false);
 
   const clipStartRef = useRef(null);
 
@@ -83,11 +138,12 @@ export default function PlayTab({ songs, config, onCancel }) {
     setCurrentSong(songs[idx]);
     setSelectedAnswer(null);
     setWrongAnswers([]);
-    setRoundScore(BASE_SCORE);
+    setRoundScore(maxPossibleScore);
     setReplayCount(0);
     setRoundOver(false);
     setHasPlayed(false);
     setIsPlaying(false);
+    setUsedNewClip(false);
     clipStartRef.current = null;
   }, [songs]);
 
@@ -128,12 +184,13 @@ export default function PlayTab({ songs, config, onCancel }) {
       setRoundScore((prev) => Math.max(prev * (1 - REPLAY_PENALTY), 10));
     }
 
+    const fadeDuration = 0.5; // seconds for fade in/out
     setIsPlaying(true);
     initWaveSurfer();
     playSnippet(currentSong.AudioUrl, {
       snippetStart: clipStartRef.current,
       snippetDuration: clipLength,
-      fadeDurationSec: 0.3,
+      fadeDurationSec: fadeDuration,
       onPlaySuccess: () => {
         setHasPlayed(true);
       },
@@ -143,12 +200,52 @@ export default function PlayTab({ songs, config, onCancel }) {
       },
     });
 
-    // Stop after clip length
+    // Total time = fade-in + clip duration + fade-out + buffer
+    const totalPlayTime = (fadeDuration + clipLength + fadeDuration) * 1000 + 200;
     setTimeout(() => {
       cleanupWaveSurfer();
       setIsPlaying(false);
-    }, clipLength * 1000 + 300);
+    }, totalPlayTime);
   }, [currentSong, clipLength, hasPlayed, initWaveSurfer, playSnippet, cleanupWaveSurfer]);
+
+  // Get a different clip (10% penalty, can only do once)
+  const getNewClip = useCallback(() => {
+    if (!currentSong || usedNewClip || isPlaying) return;
+
+    // Apply penalty
+    setRoundScore((prev) => Math.max(prev * (1 - NEW_CLIP_PENALTY), 10));
+    setUsedNewClip(true);
+
+    // Generate new start position from vocal segment
+    const vocalStart = findVocalStartPosition(currentSong, clipLength);
+    if (vocalStart !== null) {
+      clipStartRef.current = vocalStart;
+    } else {
+      const maxStart = Math.max(0, 90 - clipLength);
+      clipStartRef.current = Math.random() * maxStart;
+    }
+
+    // Auto-play the new clip
+    const fadeDuration = 0.5;
+    setIsPlaying(true);
+    initWaveSurfer();
+    playSnippet(currentSong.AudioUrl, {
+      snippetStart: clipStartRef.current,
+      snippetDuration: clipLength,
+      fadeDurationSec: fadeDuration,
+      onPlaySuccess: () => {},
+      onPlayError: (err) => {
+        console.error("New clip play error:", err);
+        setIsPlaying(false);
+      },
+    });
+
+    const totalPlayTime = (fadeDuration + clipLength + fadeDuration) * 1000 + 200;
+    setTimeout(() => {
+      cleanupWaveSurfer();
+      setIsPlaying(false);
+    }, totalPlayTime);
+  }, [currentSong, usedNewClip, isPlaying, clipLength, initWaveSurfer, playSnippet, cleanupWaveSurfer]);
 
   // Handle answer selection
   const handleAnswerSelect = useCallback((ans) => {
@@ -166,7 +263,7 @@ export default function PlayTab({ songs, config, onCancel }) {
         ...old,
         { replays: replayCount, wrongGuesses: wrongAnswers.length },
       ]);
-      setRoundScorePercents(prev => [...prev, (roundScore / BASE_SCORE) * 100]);
+      setRoundScorePercents(prev => [...prev, (roundScore / maxPossibleScore) * 100]);
       setRoundOver(true);
     } else {
       setWrongAnswers((old) => [...old, ans]);
@@ -299,23 +396,23 @@ export default function PlayTab({ songs, config, onCancel }) {
             variant="caption"
             sx={{
               fontWeight: "bold",
-              color: roundScore / BASE_SCORE > 0.6 ? "#4CAF50" :
-                     roundScore / BASE_SCORE > 0.3 ? "#FF9800" : "#f44336"
+              color: roundScore / maxPossibleScore > 0.6 ? "#4CAF50" :
+                     roundScore / maxPossibleScore > 0.3 ? "#FF9800" : "#f44336"
             }}
           >
-            {Math.floor(roundScore)} / {BASE_SCORE}
+            {Math.floor(roundScore)} / {maxPossibleScore}
           </Typography>
         </Box>
         <LinearProgress
           variant="determinate"
-          value={(roundScore / BASE_SCORE) * 100}
+          value={(roundScore / maxPossibleScore) * 100}
           sx={{
             height: 6,
             borderRadius: 3,
             backgroundColor: "var(--border-color)",
             "& .MuiLinearProgress-bar": {
-              backgroundColor: roundScore / BASE_SCORE > 0.6 ? "#4CAF50" :
-                               roundScore / BASE_SCORE > 0.3 ? "#FF9800" : "#f44336",
+              backgroundColor: roundScore / maxPossibleScore > 0.6 ? "#4CAF50" :
+                               roundScore / maxPossibleScore > 0.3 ? "#FF9800" : "#f44336",
               borderRadius: 3,
             }
           }}
@@ -356,9 +453,16 @@ export default function PlayTab({ songs, config, onCancel }) {
             >
               <ListItemText
                 primary={
-                  <Typography sx={{ color: "var(--foreground)" }}>
-                    {ans}
-                  </Typography>
+                  <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <Typography sx={{ color: "var(--foreground)" }}>
+                      {ans}
+                    </Typography>
+                    {isWrong && (
+                      <Typography sx={{ color: "#f44336", fontSize: "0.75rem", fontWeight: "bold" }}>
+                        -33%
+                      </Typography>
+                    )}
+                  </Box>
                 }
               />
             </ListItem>
@@ -406,6 +510,7 @@ export default function PlayTab({ songs, config, onCancel }) {
           right: 0,
           display: "flex",
           justifyContent: "center",
+          gap: 2,
           zIndex: 100,
           pointerEvents: "none",
         }}
@@ -417,8 +522,9 @@ export default function PlayTab({ songs, config, onCancel }) {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ duration: 0.2 }}
-              style={{ pointerEvents: "auto" }}
+              style={{ pointerEvents: "auto", display: "flex", gap: 12 }}
             >
+              {/* Replay / GO button */}
               <AnimatedButton
                 variant="contained"
                 onClick={playClip}
@@ -455,8 +561,35 @@ export default function PlayTab({ songs, config, onCancel }) {
                   }),
                 }}
               >
-                {isPlaying ? "..." : hasPlayed ? "Replay" : "GO!"}
+                {isPlaying ? "..." : hasPlayed ? (
+                  <>Replay <Typography component="span" sx={{ fontSize: "0.7rem", opacity: 0.7 }}>-3%</Typography></>
+                ) : "GO!"}
               </AnimatedButton>
+
+              {/* New Clip button - only shows after first play and if not already used */}
+              {hasPlayed && !usedNewClip && (
+                <AnimatedButton
+                  variant="outlined"
+                  onClick={getNewClip}
+                  disabled={isPlaying}
+                  startIcon={<ShuffleIcon sx={{ fontSize: 18 }} />}
+                  sx={{
+                    borderColor: "#FF9800",
+                    color: "#FF9800",
+                    fontWeight: "bold",
+                    px: 2,
+                    py: 1.5,
+                    fontSize: "0.9rem",
+                    borderRadius: 3,
+                    "&:hover": {
+                      backgroundColor: "rgba(255, 152, 0, 0.1)",
+                      borderColor: "#FF9800",
+                    },
+                  }}
+                >
+                  New Clip <Typography component="span" sx={{ fontSize: "0.65rem", opacity: 0.7 }}>-10%</Typography>
+                </AnimatedButton>
+              )}
             </motion.div>
           )}
           {roundOver && (

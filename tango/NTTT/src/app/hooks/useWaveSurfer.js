@@ -135,7 +135,8 @@ export default function useWaveSurfer({ onSongEnd }) {
       {
         snippetStart = null,     // Specific start time in seconds (e.g., vocal segment)
         snippetMaxStart = 90,    // Max random start if snippetStart not provided
-        fadeDurationSec = 1.0,
+        snippetDuration = null,  // Duration of clip (fades are ADDED to this, not subtracted)
+        fadeDurationSec = 0.5,   // Fade in/out duration (added to both sides)
         onPlaySuccess,
         onPlayError,
       },
@@ -168,6 +169,21 @@ export default function useWaveSurfer({ onSongEnd }) {
             ws.setVolume(0);
             fadeVolume(0, 1, fadeDurationSec, () => {
               if (onPlaySuccess) onPlaySuccess();
+
+              // If snippetDuration specified, schedule fade-out and stop
+              if (snippetDuration && snippetDuration > 0) {
+                // Wait for clip duration, then fade out
+                setTimeout(() => {
+                  if (waveSurferRef.current) {
+                    fadeVolume(1, 0, fadeDurationSec, () => {
+                      // Stop after fade out completes
+                      if (waveSurferRef.current) {
+                        waveSurferRef.current.pause();
+                      }
+                    });
+                  }
+                }, snippetDuration * 1000);
+              }
             });
           })
           .catch((err) => {

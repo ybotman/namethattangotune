@@ -7,7 +7,6 @@ import styles from "../styles.module.css";
 import GameSetupDials from "@/components/ui/GameSetupDials";
 import RecognitionSelector from "@/components/ui/RecognitionSelector";
 import StylesSelector from "@/components/ui/StylesSelector";
-import ContiguousPeriodSelector from "@/components/ui/ContiguousPeriodSelector";
 import { useGameContext } from "@/contexts/GameContext";
 
 const PRIMARY_STYLES = [
@@ -15,8 +14,6 @@ const PRIMARY_STYLES = [
   { style: "Vals" },
   { style: "Milonga" },
 ];
-
-const DEFAULT_PERIODS = ["New Guard", "Golden Age"];
 
 export default function ConfigTab() {
   const { config, updateConfig } = useGameContext();
@@ -27,18 +24,10 @@ export default function ConfigTab() {
   const hasEnoughSongs = availableCount === null || availableCount >= numSongs;
 
   useEffect(() => {
-    if (!config.periods || config.periods.length === 0) {
-      updateConfig("periods", DEFAULT_PERIODS);
-    }
-  }, []);
-
-  useEffect(() => {
     setIsConfigValid(hasEnoughSongs);
   }, [hasEnoughSongs]);
 
-  const handleYearRangeChange = (range) => {
-    updateConfig("yearDialRange", range);
-  };
+  const handleIncludeSingerChange = (val) => updateConfig("includeSinger", val);
 
   return (
     <Box className={styles.configurationContainer}>
@@ -65,18 +54,14 @@ export default function ConfigTab() {
         compact
       />
 
-      {/* Era */}
-      <ContiguousPeriodSelector
-        selectedPeriods={config.periods || DEFAULT_PERIODS}
-        onChange={(val) => updateConfig("periods", val)}
-        onYearRangeChange={handleYearRangeChange}
-      />
-
-      {/* Style */}
+      {/* Style + Vocals */}
       <StylesSelector
         availableStyles={PRIMARY_STYLES}
         selectedStyles={config.styles || { Tango: true }}
         onChange={(val) => updateConfig("styles", val)}
+        showVocals={true}
+        includeSinger={config.includeSinger ?? true}
+        onVocalsChange={handleIncludeSingerChange}
       />
 
       {/* Validation */}

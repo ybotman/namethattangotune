@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import styles from "../styles.module.css";
 
 import GameSetupDials from "@/components/ui/GameSetupDials";
 import RecognitionSelector from "@/components/ui/RecognitionSelector";
 import PeriodsSelector from "@/components/ui/PeriodsSelector";
+import ClipScorePotential from "@/components/ui/ClipScorePotential";
 import useSingerQuiz from "@/hooks/useSingerQuiz";
 import { useGameContext } from "@/contexts/GameContext";
 
@@ -45,12 +46,8 @@ export default function ConfigTab() {
         onClipLengthChange={handleClipLengthChange}
       />
 
-      {/* Info */}
-      <Box sx={{ textAlign: "center", mb: 2, px: 2 }}>
-        <Typography variant="caption" sx={{ color: "var(--foreground)", opacity: 0.6 }}>
-          Clip plays from vocal section
-        </Typography>
-      </Box>
+      {/* Score Potential Display */}
+      <ClipScorePotential config={config} />
 
       {/* Familiarity */}
       <RecognitionSelector

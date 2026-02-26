@@ -19,6 +19,7 @@ export default function ConfigTab() {
     handleNumSongsChange,
     handleTimeLimitChange,
     handleStylesChange,
+    handleIncludeSingerChange,
   } = useSongQuiz();
 
   const { config, updateConfig } = useGameContext();
@@ -54,11 +55,14 @@ export default function ConfigTab() {
         compact
       />
 
-      {/* Style - tile buttons (no vocals for song quiz) */}
+      {/* Style - tile buttons + Vocals toggle */}
       <StylesSelector
         availableStyles={primaryStyles}
         selectedStyles={config.styles || {}}
         onChange={handleStylesChange}
+        showVocals={true}
+        includeSinger={config.includeSinger ?? true}
+        onVocalsChange={handleIncludeSingerChange}
       />
 
       {/* Era - 2 rows of tile buttons */}

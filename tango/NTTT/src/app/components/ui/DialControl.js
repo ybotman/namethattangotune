@@ -29,6 +29,8 @@ export default function DialControl({
   // Calculate the rotation angle based on value
   const range = max - min;
   const normalizedValue = (value - min) / range;
+  // Ensure minimum visible arc (at least 10 degrees even at min value)
+  const arcDegrees = Math.max(10, normalizedValue * 270);
   const angle = normalizedValue * 270 - 135; // -135 to 135 degrees
 
   const handleIncrement = useCallback(() => {
@@ -147,8 +149,8 @@ export default function DialControl({
             background: `conic-gradient(
               from -135deg,
               ${color}20 0deg,
-              ${color}60 ${normalizedValue * 270}deg,
-              var(--background) ${normalizedValue * 270}deg,
+              ${color}60 ${arcDegrees}deg,
+              var(--background) ${arcDegrees}deg,
               var(--background) 270deg
             )`,
             border: `3px solid ${color}`,

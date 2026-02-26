@@ -22,7 +22,6 @@ export default function YearLearnPage() {
     );
 
     const recognitionTiers = config.recognitionTiers || [1];
-    const periods = config.periods || [];
 
     const { songs: fetchedSongs } = await fetchFilteredSongs(
       [], // artists
@@ -34,9 +33,9 @@ export default function YearLearnPage() {
       "", // cancion
       numSongs,
       {
-        includeSinger: true,
+        includeSinger: config.includeSinger ?? true,
         recognitionTiers,
-        periods,
+        // No era filter - would be a cheat for year guessing
       },
     );
 
