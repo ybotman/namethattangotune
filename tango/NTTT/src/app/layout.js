@@ -14,7 +14,6 @@ import { trackVisitor } from "@/utils/tracking";
 import { CssBaseline, Box } from "@mui/material";
 import { Inter } from "next/font/google";
 
-import ThemeSelector from "@/components/ui/ThemeSelector";
 import GameScoreCurrent from "@/components/ui/GameScoreCurrent";
 import GameHubButton from "@/components/ui/GameHubRoute";
 
@@ -40,7 +39,6 @@ function LayoutContent({ children }) {
 
   return (
     <>
-      <ThemeSelector />
       <Box sx={{ position: "absolute", top: "1rem", right: "3rem" }}>
         <GameScoreCurrent
           bestScore={safeBest}

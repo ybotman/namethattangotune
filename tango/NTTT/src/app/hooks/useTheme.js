@@ -20,16 +20,10 @@ export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState("dark"); // Default to dark
   const [mounted, setMounted] = useState(false);
 
-  // Check localStorage and system preference on mount
+  // Always use dark theme
   useEffect(() => {
     setMounted(true);
-    const stored = localStorage.getItem("nttt-theme");
-    if (stored) {
-      setTheme(stored);
-    } else {
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      setTheme(prefersDark ? "dark" : "light");
-    }
+    setTheme("dark");
   }, []);
 
   // Apply the theme to <html data-theme="..."> and persist
