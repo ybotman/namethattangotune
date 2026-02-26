@@ -72,18 +72,6 @@ const gameCategories = [
         isActive: true,
       },
       {
-        name: "Year",
-        path: "/games/year-learn",
-        icon: "icons/IconLearnDecade.webp",
-        isActive: false,
-      },
-      {
-        name: "Style",
-        path: "/games/style-learn",
-        icon: "icons/IconLearnStyles.webp",
-        isActive: false,
-      },
-      {
         name: "Singer",
         path: "/games/singer-learn",
         icon: "icons/IconLearnSinger.webp",
