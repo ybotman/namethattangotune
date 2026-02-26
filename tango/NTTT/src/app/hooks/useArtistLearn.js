@@ -148,6 +148,10 @@ export default function useArtistLearn() {
     updateConfig("styles", updatedStylesObj);
   };
 
+  const handleIncludeSingerChange = (value) => {
+    updateConfig("includeSinger", value);
+  };
+
   const handleArtistsChange = (newSelected) => {
     if (newSelected.length > 0 && (config.recognitionTiers || []).length > 0) {
       updateConfig("recognitionTiers", []);
@@ -188,6 +192,7 @@ export default function useArtistLearn() {
     handleLevelsChange,
     handleRecognitionTiersChange,
     handleStylesChange,
+    handleIncludeSingerChange,
     handleArtistsChange,
   };
 }

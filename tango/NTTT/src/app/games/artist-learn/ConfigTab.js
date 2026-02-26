@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Box, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import styles from "../styles.module.css";
 
 import GameSetupDials from "@/components/ui/GameSetupDials";
@@ -19,6 +19,7 @@ export default function ConfigTab() {
     handleTimeLimitChange,
     handleRecognitionTiersChange,
     handleStylesChange,
+    handleIncludeSingerChange,
   } = useArtistLearn();
 
   const { config, updateConfig } = useGameContext();
@@ -44,51 +45,6 @@ export default function ConfigTab() {
         secondsLabel="Time"
       />
 
-      {/* Vocals Toggle */}
-      <Box sx={{ mb: 2 }}>
-        <Typography
-          variant="caption"
-          sx={{
-            display: "block",
-            textAlign: "center",
-            color: "var(--foreground)",
-            opacity: 0.6,
-            mb: 0.5,
-            textTransform: "uppercase",
-            letterSpacing: 1,
-            fontSize: "0.65rem",
-          }}
-        >
-          Vocals
-        </Typography>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <ToggleButtonGroup
-            value={config.vocalFilter || "instrumental"}
-            exclusive
-            onChange={(e, val) => val && updateConfig("vocalFilter", val)}
-            size="small"
-            sx={{
-              "& .MuiToggleButton-root": {
-                color: "var(--foreground)",
-                borderColor: "var(--accent)",
-                fontSize: "0.7rem",
-                py: 0.5,
-                px: 1.5,
-                "&.Mui-selected": {
-                  backgroundColor: "var(--accent)",
-                  color: "white",
-                },
-              },
-            }}
-          >
-            <ToggleButton value="instrumental">Inst</ToggleButton>
-            <ToggleButton value="solo">Solo</ToggleButton>
-            <ToggleButton value="duetsOnly">Duets</ToggleButton>
-            <ToggleButton value="all">All</ToggleButton>
-          </ToggleButtonGroup>
-        </Box>
-      </Box>
-
       {/* Familiarity */}
       <RecognitionSelector
         selectedTiers={config.recognitionTiers || [1]}
@@ -96,11 +52,14 @@ export default function ConfigTab() {
         compact
       />
 
-      {/* Style */}
+      {/* Style + Vocals - same as artist-quiz */}
       <StylesSelector
         availableStyles={primaryStyles}
         selectedStyles={config.styles || {}}
         onChange={handleStylesChange}
+        showVocals={true}
+        includeSinger={config.includeSinger ?? false}
+        onVocalsChange={handleIncludeSingerChange}
       />
 
       {/* Era */}

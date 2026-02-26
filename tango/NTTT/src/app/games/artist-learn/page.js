@@ -38,23 +38,8 @@ export default function ArtistLearnPage() {
     const periods = config.periods || [];
     const chosenArtists = (config.artists || []).map((a) => a.value);
 
-    // Build vocal filter options based on vocalFilter toggle
-    const vocalFilter = config.vocalFilter || "instrumental";
-    let vocalOptions = {};
-
-    if (vocalFilter === "instrumental") {
-      // Only instrumental (no vocals)
-      vocalOptions = { includeSinger: false };
-    } else if (vocalFilter === "solo") {
-      // Only songs with solo singers
-      vocalOptions = { requireSinger: true, duetFilter: "solo" };
-    } else if (vocalFilter === "duetsOnly") {
-      // Only songs with duet singers
-      vocalOptions = { requireSinger: true, duetFilter: "duetsOnly" };
-    } else {
-      // "all" - include everything
-      vocalOptions = { includeSinger: true };
-    }
+    // Simple vocals toggle - same as artist-quiz
+    const includeSinger = config.includeSinger ?? false;
 
     const { songs: fetchedSongs } = await fetchFilteredSongs(
       chosenArtists,
@@ -65,7 +50,7 @@ export default function ArtistLearnPage() {
       "", // alternative - empty = no filter
       "", // cancion - empty = no filter
       numSongs,
-      { ...vocalOptions, yearRange: config.yearRange, recognitionTiers, periods, requireOrchestra: true },
+      { includeSinger, recognitionTiers, periods, requireOrchestra: true },
     );
 
     if (!fetchedSongs || fetchedSongs.length === 0) {
