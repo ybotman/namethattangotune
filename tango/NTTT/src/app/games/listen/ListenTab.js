@@ -28,6 +28,7 @@ const PAUSE_BETWEEN_SONGS = 3; // seconds
 
 export default function ListenTab({ songs, onCancel }) {
   const listRef = useRef(null);
+  const isMountedRef = useRef(true);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -53,7 +54,9 @@ export default function ListenTab({ songs, onCancel }) {
 
   // Cleanup on unmount
   useEffect(() => {
+    isMountedRef.current = true;
     return () => {
+      isMountedRef.current = false;
       cleanupWaveSurfer();
       if (countdownRef.current) clearInterval(countdownRef.current);
       if (timeUpdateRef.current) clearInterval(timeUpdateRef.current);
@@ -100,12 +103,15 @@ export default function ListenTab({ songs, onCancel }) {
   // Load and play current song
   const loadCurrentSong = useCallback(() => {
     const song = songs[currentIndex];
-    if (!song) return;
+    if (!song || !isMountedRef.current) return;
 
     cleanupWaveSurfer();
     initWaveSurfer();
 
     loadSong(song.AudioUrl, () => {
+      // Abort if component unmounted during load
+      if (!isMountedRef.current) return;
+
       const ws = waveSurferRef.current;
       if (!ws) return;
 
