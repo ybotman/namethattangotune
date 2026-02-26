@@ -67,7 +67,7 @@ export default function GameSetupDials({
           label="Clip"
           value={clipLength}
           min={1}
-          max={7}
+          max={15}
           onChange={onClipLengthChange}
           size={90}
           color="#FF9800"
