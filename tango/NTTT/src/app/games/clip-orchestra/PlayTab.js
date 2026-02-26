@@ -21,7 +21,6 @@ import { motion, AnimatePresence } from "motion/react";
 
 import useWaveSurfer from "@/hooks/useWaveSurfer";
 import { shuffleArray } from "@/utils/dataFetching";
-import { getDistractors } from "@/utils/dataFetching";
 import RoundProgress from "@/components/ui/RoundProgress";
 import GameHubRoute from "@/components/ui/GameHubRoute";
 import AnimatedButton from "@/components/ui/AnimatedButton";
@@ -74,21 +73,20 @@ export default function PlayTab({ songs, config, onCancel }) {
     clipStartRef.current = null;
   }, [songs]);
 
-  // Build answers when song changes
+  // Build answers from artists in the filtered songs pool
   useEffect(() => {
     if (!currentSong) return;
     const correctArtist = currentSong.ArtistMaster || "";
 
-    getDistractors(correctArtist, config, 3)
-      .then((distractors) => {
-        const finalAnswers = shuffleArray([correctArtist, ...distractors]);
-        setAnswers(finalAnswers);
-      })
-      .catch((err) => {
-        console.error("Error in getDistractors:", err);
-        setAnswers([correctArtist]);
-      });
-  }, [currentSong, config]);
+    // Get unique artists from the songs list as distractors
+    const allArtists = [...new Set(songs.map((s) => s.ArtistMaster).filter(Boolean))];
+    const distractors = shuffleArray(
+      allArtists.filter((a) => a !== correctArtist)
+    ).slice(0, 3);
+
+    const finalAnswers = shuffleArray([correctArtist, ...distractors]);
+    setAnswers(finalAnswers);
+  }, [currentSong, songs]);
 
   // Play the clip
   const playClip = useCallback(() => {

@@ -149,6 +149,9 @@ export default function PlayTab({ songs, config, onCancel }) {
     if (lastSongRef.current === currentSong.AudioUrl) return;
     lastSongRef.current = currentSong.AudioUrl;
 
+    // Hide GO button immediately
+    setIsPlaying(true);
+
     // Find a vocal segment start position
     const vocalStart = findVocalStartPosition(currentSong, timeLimit);
 
@@ -158,11 +161,11 @@ export default function PlayTab({ songs, config, onCancel }) {
       snippetMaxStart: vocalStart !== null ? null : 90, // Fall back to random if no vocal segment
       fadeDurationSec: 1.0,
       onPlaySuccess: () => {
-        setIsPlaying(true);
         startIntervals();
       },
       onPlayError: (err) => {
         console.error("Snippet play error:", err);
+        setIsPlaying(false);
         doNextSong();
       },
     });

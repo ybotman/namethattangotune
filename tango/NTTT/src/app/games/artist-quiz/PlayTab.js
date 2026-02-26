@@ -23,7 +23,6 @@ import useArtistQuiz from "@/hooks/useArtistQuiz";
 import usePlay from "@/hooks/usePlay";
 import useArtistQuizScoring from "@/hooks/useArtistQuizScoring";
 import { shuffleArray } from "@/utils/dataFetching";
-import { getDistractors } from "@/utils/dataFetching";
 import RoundProgress from "@/components/ui/RoundProgress";
 import GameHubRoute from "@/components/ui/GameHubRoute";
 import Celebration from "@/components/ui/Celebration";
@@ -141,16 +140,19 @@ export default function PlayTab({ songs, config, onCancel }) {
     if (lastSongRef.current === currentSong.AudioUrl) return;
     lastSongRef.current = currentSong.AudioUrl;
 
+    // Hide GO button immediately
+    setIsPlaying(true);
+
     initWaveSurfer();
     playSnippet(currentSong.AudioUrl, {
       snippetMaxStart: 90,
       fadeDurationSec: 1.0,
       onPlaySuccess: () => {
-        setIsPlaying(true);
         startIntervals();
       },
       onPlayError: (err) => {
         console.error("Snippet play error:", err);
+        setIsPlaying(false);
         doNextSong();
       },
     });
@@ -169,21 +171,20 @@ export default function PlayTab({ songs, config, onCancel }) {
     return () => stopAudio();
   }, [currentIndex, initRound, stopAudio]);
 
-  // 9) Build answers on currentSong change
+  // 9) Build answers from artists in the filtered songs pool
   useEffect(() => {
     if (!currentSong) return;
     const correctArtist = currentSong.ArtistMaster || "";
 
-    getDistractors(correctArtist, config, 3)
-      .then((distractors) => {
-        const finalAnswers = shuffleArray([correctArtist, ...distractors]);
-        setAnswers(finalAnswers);
-      })
-      .catch((err) => {
-        console.error("Error in getDistractors:", err);
-        setAnswers([correctArtist]); // fallback
-      });
-  }, [currentSong, config, setAnswers]);
+    // Get unique artists from the songs list as distractors
+    const allArtists = [...new Set(songs.map((s) => s.ArtistMaster).filter(Boolean))];
+    const distractors = shuffleArray(
+      allArtists.filter((a) => a !== correctArtist)
+    ).slice(0, 3);
+
+    const finalAnswers = shuffleArray([correctArtist, ...distractors]);
+    setAnswers(finalAnswers);
+  }, [currentSong, songs, setAnswers]);
 
   // A) timePercent for progress
   const timePercent = (timeElapsed / timeLimit) * 100;

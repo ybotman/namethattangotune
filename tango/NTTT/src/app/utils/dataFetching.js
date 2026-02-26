@@ -545,21 +545,29 @@ export async function getDistractors(
 
   // 4) Now build the candidate pool
   //    - Only artists who are active
-  //    - Whose level is in finalLevels
-  //    OR are in config.artists explicitly (some might not have level set)
+  //    - If no filters specified, include ALL active artists
+  //    - Otherwise filter by level or explicit artist selection
   const configArtistNames = (config.artists || []).map((a) => {
     const name = typeof a === "string" ? a : a?.value;
     return name?.trim().toLowerCase() || "";
   });
 
+  // If no filters specified, use all active artists
+  const noFiltersSpecified = finalLevels.size === 0 && configArtistNames.length === 0;
+
   const candidatePool = allArtists.filter((a) => {
+    if (a.active !== "true") return false;
+
+    // If no filters, include all active artists
+    if (noFiltersSpecified) return true;
+
     const nameLower = a.artist?.trim().toLowerCase();
     const numericLevel = parseInt(a.level, 10);
 
     const isInLevel = finalLevels.has(numericLevel);
     const isInArtist = configArtistNames.includes(nameLower);
 
-    return a.active === "true" && (isInLevel || isInArtist);
+    return isInLevel || isInArtist;
   });
 
   // 5) Exclude the correct artist
@@ -569,8 +577,8 @@ export async function getDistractors(
   );
 
   // 6) Shuffle + slice
-  shuffleArray(filtered);
-  const finalList = filtered.slice(0, numDistractors).map((a) => a.artist);
+  const shuffled = shuffleArray(filtered);
+  const finalList = shuffled.slice(0, numDistractors).map((a) => a.artist);
 
   console.log(`getDistractors => returning:`, finalList);
   return finalList;
@@ -724,8 +732,8 @@ export async function getTitleDistractors(correctTitle, config, numDistractors =
     });
 
     // Shuffle and return
-    shuffleArray(titles);
-    return titles.slice(0, numDistractors);
+    const shuffled = shuffleArray(titles);
+    return shuffled.slice(0, numDistractors);
   } catch (error) {
     console.error("Error in getTitleDistractors:", error);
     return [];
@@ -818,7 +826,7 @@ export function getDistractorsByConfig(
   );
 
   // 6) Shuffle & pick up to numDistractors
-  shuffleArray(filtered);
-  console.log(`Final distractors (before slicing): ${filtered}`);
-  return filtered.slice(0, numDistractors);
+  const shuffled = shuffleArray(filtered);
+  console.log(`Final distractors (before slicing): ${shuffled}`);
+  return shuffled.slice(0, numDistractors);
 }

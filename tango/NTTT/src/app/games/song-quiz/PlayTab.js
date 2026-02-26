@@ -24,7 +24,7 @@ import useWaveSurfer from "@/hooks/useWaveSurfer";
 import useSongQuiz from "@/hooks/useSongQuiz";
 import usePlay from "@/hooks/usePlay";
 import useSongQuizScoring from "@/hooks/useSongQuizScoring";
-import { shuffleArray, getTitleDistractors } from "@/utils/dataFetching";
+import { shuffleArray } from "@/utils/dataFetching";
 import RoundProgress from "@/components/ui/RoundProgress";
 import GameHubRoute from "@/components/ui/GameHubRoute";
 import AnimatedButton from "@/components/ui/AnimatedButton";
@@ -114,16 +114,19 @@ export default function PlayTab({ songs, config, onCancel }) {
     if (lastSongRef.current === currentSong.AudioUrl) return;
     lastSongRef.current = currentSong.AudioUrl;
 
+    // Hide GO button immediately
+    setIsPlaying(true);
+
     initWaveSurfer();
     playSnippet(currentSong.AudioUrl, {
       snippetMaxStart: 90,
       fadeDurationSec: 1.0,
       onPlaySuccess: () => {
-        setIsPlaying(true);
         startIntervals();
       },
       onPlayError: (err) => {
         console.error("Snippet play error:", err);
+        setIsPlaying(false);
         doNextSong();
       },
     });
@@ -142,21 +145,20 @@ export default function PlayTab({ songs, config, onCancel }) {
     return () => stopAudio();
   }, [currentIndex, initRound, stopAudio]);
 
-  // Build answers on currentSong change
+  // Build answers from titles in the filtered songs pool
   useEffect(() => {
     if (!currentSong) return;
     const correctTitle = currentSong.Title || "";
 
-    getTitleDistractors(correctTitle, config, 3)
-      .then((distractors) => {
-        const finalAnswers = shuffleArray([correctTitle, ...distractors]);
-        setAnswers(finalAnswers);
-      })
-      .catch((err) => {
-        console.error("Error in getTitleDistractors:", err);
-        setAnswers([correctTitle]);
-      });
-  }, [currentSong, config, setAnswers]);
+    // Get unique titles from the songs list as distractors
+    const allTitles = [...new Set(songs.map((s) => s.Title).filter(Boolean))];
+    const distractors = shuffleArray(
+      allTitles.filter((t) => t !== correctTitle)
+    ).slice(0, 3);
+
+    const finalAnswers = shuffleArray([correctTitle, ...distractors]);
+    setAnswers(finalAnswers);
+  }, [currentSong, songs, setAnswers]);
 
   const timePercent = (timeElapsed / timeLimit) * 100;
 
