@@ -563,7 +563,7 @@ export default function GameHubPage() {
           variant="caption"
           sx={{ color: "var(--foreground)", opacity: 0.5 }}
         >
-          NTTT v2.0.1
+          NTTT v2.0.2
         </Typography>
       </Box>
     </Box>
