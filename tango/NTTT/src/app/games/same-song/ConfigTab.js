@@ -32,16 +32,16 @@ export default function ConfigTab() {
         />
       </Box>
 
-      {/* Familiarity */}
+      {/* Familiarity - default all selected */}
       <RecognitionSelector
-        selectedTiers={config.recognitionTiers || [1]}
+        selectedTiers={config.recognitionTiers || [1, 2, 3, 4, 5]}
         onChange={(tiers) => updateConfig("recognitionTiers", tiers)}
         compact
       />
 
-      {/* Era */}
+      {/* Era - default all selected */}
       <PeriodsSelector
-        selectedPeriods={config.periods || []}
+        selectedPeriods={config.periods || ["Old Guard", "New Guard", "Golden Age", "Decline", "Renaissance"]}
         onChange={(val) => updateConfig("periods", val)}
       />
 

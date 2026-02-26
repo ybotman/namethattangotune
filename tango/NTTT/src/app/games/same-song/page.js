@@ -33,8 +33,8 @@ export default function SameSongPage() {
     const loadGroups = async () => {
       setLoading(true);
       const groups = await fetchSongsGroupedByTitle({
-        recognitionTiers: config.recognitionTiers || [1],
-        periods: config.periods || [],
+        recognitionTiers: config.recognitionTiers || [1, 2, 3, 4, 5],
+        periods: config.periods || ["Old Guard", "New Guard", "Golden Age", "Decline", "Renaissance"],
         minRecordings: 2,
       });
       setSongGroups(groups);
