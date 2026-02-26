@@ -298,7 +298,8 @@ export default function PlayTab({ songs, config, onCancel }) {
           <RoundProgress totalRounds={numSongs} currentRound={currentIndex} />
         </Box>
 
-        <Box sx={{ flexShrink: 0 }}>
+        {/* Fixed height to prevent layout shift */}
+        <Box sx={{ flexShrink: 0, minWidth: 60, height: 32, display: "flex", alignItems: "center", justifyContent: "center" }}>
           {!isPlaying && !roundOver && currentSong && (
             <Button
               variant="contained"
@@ -309,9 +310,9 @@ export default function PlayTab({ songs, config, onCancel }) {
                 color: "white",
                 fontWeight: "bold",
                 px: 2,
-                py: 0.5,
+                py: 0.25,
                 minWidth: 60,
-                fontSize: "0.9rem",
+                fontSize: "0.85rem",
                 "&:hover": { backgroundColor: "#43A047" },
               }}
             >
@@ -328,29 +329,14 @@ export default function PlayTab({ songs, config, onCancel }) {
                 color: "white",
                 fontWeight: "bold",
                 px: 2,
-                py: 0.5,
+                py: 0.25,
                 minWidth: 60,
-                fontSize: "0.9rem",
+                fontSize: "0.85rem",
                 "&:hover": { opacity: 0.9 },
               }}
             >
               Next
             </Button>
-          )}
-          {isPlaying && !roundOver && (
-            <Box
-              sx={{
-                px: 2,
-                py: 0.5,
-                minWidth: 60,
-                textAlign: "center",
-                color: "var(--accent)",
-                fontWeight: "bold",
-                fontSize: "0.85rem",
-              }}
-            >
-              ...
-            </Box>
           )}
         </Box>
       </Box>
