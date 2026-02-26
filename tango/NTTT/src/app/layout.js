@@ -31,20 +31,21 @@ function LayoutContent({ children }) {
 
   return (
     <>
-      {/* Top right icons: Fullscreen + GameHub */}
+      {/* Top right icons: GameHub on top, Fullscreen below */}
       <Box
         sx={{
           position: "fixed",
           top: "0.5rem",
           right: "0.5rem",
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
-          gap: 1,
+          gap: 0.5,
           zIndex: 1000,
         }}
       >
-        <FullscreenButton />
         <GameHubButton />
+        <FullscreenButton />
       </Box>
 
       {children}
