@@ -17,11 +17,13 @@ import {
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ReplayIcon from "@mui/icons-material/Replay";
+import { motion, AnimatePresence } from "motion/react";
 
 import useWaveSurfer from "@/hooks/useWaveSurfer";
 import { shuffleArray } from "@/utils/dataFetching";
 import RoundProgress from "@/components/ui/RoundProgress";
 import GameHubRoute from "@/components/ui/GameHubRoute";
+import AnimatedButton from "@/components/ui/AnimatedButton";
 
 const BASE_SCORE = 100;
 const REPLAY_PENALTY = 0.15;
@@ -63,6 +65,7 @@ export default function PlayTab({ songs, config, onCancel }) {
   const [replayCount, setReplayCount] = useState(0);
   const [hasPlayed, setHasPlayed] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [roundScorePercents, setRoundScorePercents] = useState([]);
 
   const clipStartRef = useRef(null);
 
@@ -163,6 +166,7 @@ export default function PlayTab({ songs, config, onCancel }) {
         ...old,
         { replays: replayCount, wrongGuesses: wrongAnswers.length },
       ]);
+      setRoundScorePercents(prev => [...prev, (roundScore / BASE_SCORE) * 100]);
       setRoundOver(true);
     } else {
       setWrongAnswers((old) => [...old, ans]);
@@ -175,6 +179,7 @@ export default function PlayTab({ songs, config, onCancel }) {
           ...old,
           { replays: replayCount, wrongGuesses: wrongAnswers.length + 1 },
         ]);
+        setRoundScorePercents(prev => [...prev, 0]);
         setRoundOver(true);
       }
     }
@@ -247,6 +252,7 @@ export default function PlayTab({ songs, config, onCancel }) {
   return (
     <Box
       sx={{
+        position: "relative",
         minHeight: "100vh",
         background: "var(--background)",
         color: "var(--foreground)",
@@ -274,67 +280,13 @@ export default function PlayTab({ songs, config, onCancel }) {
         </Box>
       </Box>
 
-      {/* Action Bar: Round Progress + Play/Next Button - Compact */}
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: 1,
-          mb: 1,
-          px: 1,
-          py: 0.5,
-          backgroundColor: "var(--input-bg)",
-          borderRadius: 1,
-        }}
-      >
-        <Box sx={{ flex: 1, minWidth: 0 }}>
-          <RoundProgress totalRounds={numSongs} currentRound={currentIndex} />
-        </Box>
-
-        {/* Fixed height to prevent layout shift */}
-        <Box sx={{ flexShrink: 0, minWidth: 60, height: 32, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          {!roundOver && (
-            <Button
-              variant="contained"
-              onClick={playClip}
-              disabled={isPlaying}
-              startIcon={hasPlayed ? <ReplayIcon sx={{ fontSize: 16 }} /> : null}
-              size="small"
-              sx={{
-                backgroundColor: hasPlayed ? "var(--accent)" : "#4CAF50",
-                color: "white",
-                fontWeight: "bold",
-                px: 1.5,
-                py: 0.25,
-                minWidth: 60,
-                fontSize: "0.85rem",
-                "&:hover": { opacity: 0.9 },
-              }}
-            >
-              {isPlaying ? "..." : hasPlayed ? "" : "GO!"}
-            </Button>
-          )}
-          {roundOver && (
-            <Button
-              variant="contained"
-              onClick={doNextSong}
-              size="small"
-              sx={{
-                backgroundColor: "var(--accent)",
-                color: "white",
-                fontWeight: "bold",
-                px: 2,
-                py: 0.25,
-                minWidth: 60,
-                fontSize: "0.85rem",
-                "&:hover": { opacity: 0.9 },
-              }}
-            >
-              Next
-            </Button>
-          )}
-        </Box>
+      {/* Round Progress - Score-colored dashes */}
+      <Box sx={{ mb: 1 }}>
+        <RoundProgress
+          totalRounds={numSongs}
+          currentRound={currentIndex}
+          roundScores={roundScorePercents}
+        />
       </Box>
 
       {/* Score Display with color-coded bar */}
@@ -420,7 +372,7 @@ export default function PlayTab({ songs, config, onCancel }) {
         </Typography>
       )}
 
-      {/* Round result feedback (Next button is in header now) */}
+      {/* Round result feedback */}
       {roundOver && (
         <Box sx={{ mt: 2, textAlign: "center" }}>
           {roundScore > 0 ? (
@@ -444,6 +396,98 @@ export default function PlayTab({ songs, config, onCancel }) {
           )}
         </Box>
       )}
+
+      {/* GO!/Replay/Next Button - Floating overlay, doesn't affect layout */}
+      <Box
+        sx={{
+          position: "fixed",
+          bottom: "15%",
+          left: 0,
+          right: 0,
+          display: "flex",
+          justifyContent: "center",
+          zIndex: 100,
+          pointerEvents: "none",
+        }}
+      >
+        <AnimatePresence>
+          {!roundOver && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.2 }}
+              style={{ pointerEvents: "auto" }}
+            >
+              <AnimatedButton
+                variant="contained"
+                onClick={playClip}
+                disabled={isPlaying}
+                startIcon={hasPlayed ? <ReplayIcon sx={{ fontSize: 18 }} /> : null}
+                sx={{
+                  backgroundColor: hasPlayed ? "var(--accent)" : "#4CAF50",
+                  color: "white",
+                  fontWeight: "bold",
+                  px: 4,
+                  py: 1.5,
+                  fontSize: "1.2rem",
+                  borderRadius: 3,
+                  boxShadow: "0 4px 20px rgba(76, 175, 80, 0.5)",
+                  position: "relative",
+                  overflow: "hidden",
+                  "&:hover": { opacity: 0.9 },
+                  ...(!hasPlayed && {
+                    "&::before": {
+                      content: '""',
+                      position: "absolute",
+                      top: 0,
+                      left: "-100%",
+                      width: "100%",
+                      height: "100%",
+                      background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
+                      animation: "shine 2s infinite",
+                    },
+                    "@keyframes shine": {
+                      "0%": { left: "-100%" },
+                      "50%": { left: "100%" },
+                      "100%": { left: "100%" },
+                    },
+                  }),
+                }}
+              >
+                {isPlaying ? "..." : hasPlayed ? "Replay" : "GO!"}
+              </AnimatedButton>
+            </motion.div>
+          )}
+          {roundOver && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.2 }}
+              style={{ pointerEvents: "auto" }}
+            >
+              <AnimatedButton
+                variant="contained"
+                onClick={doNextSong}
+                sx={{
+                  backgroundColor: "var(--accent)",
+                  color: "white",
+                  fontWeight: "bold",
+                  px: 4,
+                  py: 1.5,
+                  fontSize: "1.2rem",
+                  borderRadius: 3,
+                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.4)",
+                  "&:hover": { opacity: 0.9 },
+                }}
+              >
+                Next
+              </AnimatedButton>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </Box>
     </Box>
   );
 }

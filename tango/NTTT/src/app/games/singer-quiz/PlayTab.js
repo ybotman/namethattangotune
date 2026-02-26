@@ -17,6 +17,8 @@ import {
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
+import { motion, AnimatePresence } from "motion/react";
+
 import useWaveSurfer from "@/hooks/useWaveSurfer";
 import useSingerQuiz from "@/hooks/useSingerQuiz";
 import usePlay from "@/hooks/usePlay";
@@ -24,6 +26,7 @@ import useSingerQuizScoring from "@/hooks/useSingerQuizScoring";
 import { shuffleArray } from "@/utils/dataFetching";
 import RoundProgress from "@/components/ui/RoundProgress";
 import GameHubRoute from "@/components/ui/GameHubRoute";
+import AnimatedButton from "@/components/ui/AnimatedButton";
 
 /**
  * Find a valid start position within a vocal segment that ensures
@@ -58,6 +61,7 @@ export default function PlayTab({ songs, config, onCancel }) {
   const maxScore = calculateMaxScore(timeLimit);
 
   const [roundOver, setRoundOver] = useState(false);
+  const [roundScorePercents, setRoundScorePercents] = useState([]);
   const lastSongRef = useRef(null);
   const numSongs = config.numSongs ?? 10;
 
@@ -99,6 +103,7 @@ export default function PlayTab({ songs, config, onCancel }) {
     onTimesUp: () => {
       console.log("PlayTab-> onTimesUp => forcing 0 score + roundOver");
       setRoundScore(0);
+      setRoundScorePercents(prev => [...prev, 0]);
       setRoundOver(true);
       stopAudio();
     },
@@ -119,6 +124,8 @@ export default function PlayTab({ songs, config, onCancel }) {
 
       if (roundEnded) {
         setRoundOver(true);
+        const scorePercent = (roundScore / maxScore) * 100;
+        setRoundScorePercents(prev => [...prev, scorePercent]);
         stopAudio();
         if (correct) {
           console.log("PlayTab-> Correct!");
@@ -127,7 +134,7 @@ export default function PlayTab({ songs, config, onCancel }) {
         }
       }
     },
-    [scoringAnswerSelect, stopAudio],
+    [scoringAnswerSelect, stopAudio, roundScore, maxScore],
   );
 
   const doNextSong = useCallback(() => {
@@ -253,6 +260,7 @@ export default function PlayTab({ songs, config, onCancel }) {
   return (
     <Box
       sx={{
+        position: "relative",
         minHeight: "100vh",
         background: "var(--background)",
         color: "var(--foreground)",
@@ -280,65 +288,13 @@ export default function PlayTab({ songs, config, onCancel }) {
         </Box>
       </Box>
 
-      {/* Action Bar: Round Progress + GO!/Next Button - Compact */}
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: 1,
-          mb: 1,
-          px: 1,
-          py: 0.5,
-          backgroundColor: "var(--input-bg)",
-          borderRadius: 1,
-        }}
-      >
-        <Box sx={{ flex: 1, minWidth: 0 }}>
-          <RoundProgress totalRounds={numSongs} currentRound={currentIndex} />
-        </Box>
-
-        {/* Fixed height to prevent layout shift */}
-        <Box sx={{ flexShrink: 0, minWidth: 60, height: 32, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          {!isPlaying && !roundOver && currentSong && (
-            <Button
-              variant="contained"
-              onClick={clickPlaySong}
-              size="small"
-              sx={{
-                backgroundColor: "#4CAF50",
-                color: "white",
-                fontWeight: "bold",
-                px: 2,
-                py: 0.25,
-                minWidth: 60,
-                fontSize: "0.85rem",
-                "&:hover": { backgroundColor: "#43A047" },
-              }}
-            >
-              GO!
-            </Button>
-          )}
-          {roundOver && (
-            <Button
-              variant="contained"
-              onClick={doNextSong}
-              size="small"
-              sx={{
-                backgroundColor: "var(--accent)",
-                color: "white",
-                fontWeight: "bold",
-                px: 2,
-                py: 0.25,
-                minWidth: 60,
-                fontSize: "0.85rem",
-                "&:hover": { opacity: 0.9 },
-              }}
-            >
-              Next
-            </Button>
-          )}
-        </Box>
+      {/* Round Progress - Score-colored dashes */}
+      <Box sx={{ mb: 1 }}>
+        <RoundProgress
+          totalRounds={numSongs}
+          currentRound={currentIndex}
+          roundScores={roundScorePercents}
+        />
       </Box>
 
       {/* Score Display with color-coded bar - always rendered to prevent layout shift */}
@@ -461,7 +417,7 @@ export default function PlayTab({ songs, config, onCancel }) {
         })}
       </List>
 
-      {/* Round result feedback (Next button is in header now) */}
+      {/* Round result feedback */}
       {roundOver && (
         <Box sx={{ mt: 2, textAlign: "center" }}>
           {roundScore > 0 ? (
@@ -485,6 +441,94 @@ export default function PlayTab({ songs, config, onCancel }) {
           )}
         </Box>
       )}
+
+      {/* GO!/Next Button - Floating overlay, doesn't affect layout */}
+      <Box
+        sx={{
+          position: "fixed",
+          bottom: "15%",
+          left: 0,
+          right: 0,
+          display: "flex",
+          justifyContent: "center",
+          zIndex: 100,
+          pointerEvents: "none",
+        }}
+      >
+        <AnimatePresence>
+          {!isPlaying && !roundOver && currentSong && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.2 }}
+              style={{ pointerEvents: "auto" }}
+            >
+              <AnimatedButton
+                variant="contained"
+                onClick={clickPlaySong}
+                sx={{
+                  backgroundColor: "#4CAF50",
+                  color: "white",
+                  fontWeight: "bold",
+                  px: 4,
+                  py: 1.5,
+                  fontSize: "1.2rem",
+                  borderRadius: 3,
+                  boxShadow: "0 4px 20px rgba(76, 175, 80, 0.5)",
+                  position: "relative",
+                  overflow: "hidden",
+                  "&:hover": { backgroundColor: "#43A047" },
+                  "&::before": {
+                    content: '""',
+                    position: "absolute",
+                    top: 0,
+                    left: "-100%",
+                    width: "100%",
+                    height: "100%",
+                    background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
+                    animation: "shine 2s infinite",
+                  },
+                  "@keyframes shine": {
+                    "0%": { left: "-100%" },
+                    "50%": { left: "100%" },
+                    "100%": { left: "100%" },
+                  },
+                }}
+              >
+                GO!
+              </AnimatedButton>
+            </motion.div>
+          )}
+          {roundOver && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.2 }}
+              style={{ pointerEvents: "auto" }}
+            >
+              <AnimatedButton
+                variant="contained"
+                onClick={doNextSong}
+                sx={{
+                  backgroundColor: "var(--accent)",
+                  color: "white",
+                  fontWeight: "bold",
+                  px: 4,
+                  py: 1.5,
+                  fontSize: "1.2rem",
+                  borderRadius: 3,
+                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.4)",
+                  "&:hover": { opacity: 0.9 },
+                }}
+              >
+                Next
+              </AnimatedButton>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </Box>
     </Box>
   );
 }
