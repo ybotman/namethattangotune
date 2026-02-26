@@ -92,71 +92,56 @@ export default function SameSongPage() {
         </Box>
       )}
 
-      {/* Top Bar */}
+      {/* Header - Title + Play Button (compact) */}
       <Box
         sx={{
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
           px: 2,
-          mt: 1,
-          mb: 2,
+          pt: 1,
+          mb: 0,
         }}
       >
-        {/* Game Title */}
+        {/* Game Title - Centered */}
         <Typography
-          variant="h5"
+          variant="h6"
           sx={{
             fontWeight: "bold",
             color: "var(--foreground)",
-            mr: "auto",
+            textAlign: "center",
+            mb: 0.5,
           }}
         >
-          Same Song
-          <br />
-          Compare
+          Same Song Compare
         </Typography>
 
-        {/* Play Button */}
+        {/* Play Button - pulsing icon */}
         <Box
+          onClick={handlePlayClick}
           sx={{
-            display: "flex",
-            justifyContent: "center",
-            ml: "-7rem",
-            flex: "1",
+            cursor: selectedGroup ? "pointer" : "not-allowed",
+            animation: selectedGroup ? "pulse 2s ease-in-out infinite" : "none",
+            "@keyframes pulse": {
+              "0%, 100%": { transform: "scale(1)", boxShadow: "0 0 15px rgba(255, 165, 0, 0.5)" },
+              "50%": { transform: "scale(1.08)", boxShadow: "0 0 25px rgba(255, 165, 0, 0.8)" },
+            },
+            borderRadius: "50%",
+            display: "inline-block",
+            opacity: selectedGroup ? 1 : 0.5,
           }}
         >
-          <Box sx={{ textAlign: "center" }}>
-            <Image
-              src={`/icons/IconLearnSongs.webp`}
-              alt="Compare Button"
-              onClick={handlePlayClick}
-              width={80}
-              height={80}
-              style={{
-                cursor: selectedGroup ? "pointer" : "not-allowed",
-                borderRadius: "50%",
-                objectFit: "cover",
-                boxShadow: selectedGroup
-                  ? "0 0 15px rgba(255, 165, 0, 0.5)"
-                  : "none",
-                opacity: selectedGroup ? 1 : 0.5,
-                transition: "transform 0.2s",
-              }}
-              onMouseOver={(e) =>
-                selectedGroup && (e.currentTarget.style.transform = "scale(1.05)")
-              }
-              onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
-            />
-            <Typography
-              variant="h5"
-              sx={{
-                mt: 1,
-                color: selectedGroup ? "var(--accent)" : "gray",
-              }}
-            >
-              Compare
-            </Typography>
-          </Box>
+          <Image
+            src={`/icons/IconLearnSongs.webp`}
+            alt="Play"
+            width={70}
+            height={70}
+            style={{
+              borderRadius: "50%",
+              objectFit: "cover",
+              display: "block",
+            }}
+          />
         </Box>
       </Box>
 

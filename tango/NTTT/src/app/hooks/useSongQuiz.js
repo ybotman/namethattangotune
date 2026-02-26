@@ -59,7 +59,7 @@ export default function useSongQuiz() {
     return Math.round(val);
   }, []);
 
-  const WRONG_PENALTY = 0.1;
+  // Interval => 100ms for score/time updates
   const INTERVAL_MS = 100;
 
   // One-time fetch for Styles & Artists
@@ -127,7 +127,6 @@ export default function useSongQuiz() {
     primaryStyles,
     artistOptions,
     calculateMaxScore,
-    WRONG_PENALTY,
     INTERVAL_MS,
     handleNumSongsChange,
     handleTimeLimitChange,

@@ -1,20 +1,23 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
+import { applyScoreMultiplier, LOCKOUT_DURATION_MS } from "@/utils/scoringUtils";
 
 /**
  * Provide time & scoring logic for the Artist Quiz.
- * The parent owns 'roundOver' and waveSurfer stop,
- * but we manage time/score intervals.
+ * Features:
+ * - Score drains over time
+ * - Wrong answers trigger lockout (no score penalty, just time loss)
+ * - Difficulty multipliers applied to final score
  */
 export default function useArtistQuizScoring({
   timeLimit,
   maxScore,
-  WRONG_PENALTY,
   INTERVAL_MS,
-  onTimesUp, // parent callback when time is up
-  getGoPhrase, // optional
+  onTimesUp,
+  getGoPhrase,
   songs,
+  config = {}, // Game config for multipliers (recognitionTiers, includeSinger)
 }) {
   // Round & Session states
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -32,9 +35,22 @@ export default function useArtistQuizScoring({
   const [showFinalSummary, setShowFinalSummary] = useState(false);
   const [roundStats, setRoundStats] = useState([]);
 
+  // Lockout state
+  const [isLockedOut, setIsLockedOut] = useState(false);
+  const lockoutTimeoutRef = useRef(null);
+
   // Interval refs
   const decrementIntervalRef = useRef(null);
   const timeIntervalRef = useRef(null);
+
+  // Clear lockout timeout
+  const clearLockout = useCallback(() => {
+    if (lockoutTimeoutRef.current) {
+      clearTimeout(lockoutTimeoutRef.current);
+      lockoutTimeoutRef.current = null;
+    }
+    setIsLockedOut(false);
+  }, []);
 
   // initRound
   const initRound = useCallback(
@@ -48,13 +64,13 @@ export default function useArtistQuizScoring({
       setRoundScore(maxScore);
       setTimeElapsed(0);
       setIsPlaying(false);
+      clearLockout();
 
       if (getGoPhrase) {
-        const phrase = await getGoPhrase();
-        // you could store or log the phrase, if needed
+        await getGoPhrase();
       }
     },
-    [songs, maxScore, getGoPhrase],
+    [songs, maxScore, getGoPhrase, clearLockout],
   );
 
   // stopAllIntervals
@@ -67,11 +83,12 @@ export default function useArtistQuizScoring({
       clearInterval(timeIntervalRef.current);
       timeIntervalRef.current = null;
     }
-  }, []);
+    clearLockout();
+  }, [clearLockout]);
 
   // handleAnswerSelect => return { roundEnded, correct }
-  const handleAnswerSelect = (ans) => {
-    if (!currentSong || !isPlaying) {
+  const handleAnswerSelect = useCallback((ans) => {
+    if (!currentSong || !isPlaying || isLockedOut) {
       return { roundEnded: false, correct: false };
     }
     setSelectedAnswer(ans);
@@ -82,36 +99,35 @@ export default function useArtistQuizScoring({
 
     if (isCorrect) {
       stopAllIntervals();
-      setSessionScore((old) => old + Math.max(roundScore, 0));
+      // Apply difficulty multiplier to the round score
+      const multipliedScore = applyScoreMultiplier(Math.max(roundScore, 0), config);
+      setSessionScore((old) => old + multipliedScore);
       setRoundStats((old) => [
         ...old,
-        { timeUsed: timeElapsed, distractorsUsed: wrongAnswers.length },
+        { timeUsed: timeElapsed, distractorsUsed: wrongAnswers.length, score: multipliedScore },
       ]);
       return { roundEnded: true, correct: true };
     } else {
-      // Wrong => penalize
+      // Wrong => lockout (score keeps draining during lockout)
       setWrongAnswers((old) => [...old, ans]);
-      const newVal = Math.max(roundScore - roundScore * WRONG_PENALTY, 0);
-      setRoundScore(newVal);
+      setIsLockedOut(true);
 
-      if (newVal <= 0) {
-        stopAllIntervals();
-        setRoundStats((old) => [
-          ...old,
-          { timeUsed: timeElapsed, distractorsUsed: wrongAnswers.length + 1 },
-        ]);
-        return { roundEnded: true, correct: false };
-      } else {
-        // let them guess again
-        return { roundEnded: false, correct: false };
-      }
+      // Clear lockout after duration
+      lockoutTimeoutRef.current = setTimeout(() => {
+        setIsLockedOut(false);
+      }, LOCKOUT_DURATION_MS);
+
+      return { roundEnded: false, correct: false };
     }
-  };
+  }, [currentSong, isPlaying, isLockedOut, roundScore, config, stopAllIntervals, timeElapsed, wrongAnswers.length]);
 
   // startIntervals => time & score countdown
   const startIntervals = useCallback(() => {
     decrementIntervalRef.current = setInterval(() => {
-      setRoundScore((old) => Math.max(old - maxScore / (timeLimit * 10), 0));
+      setRoundScore((old) => {
+        const newVal = Math.max(old - maxScore / (timeLimit * 10), 0);
+        return newVal;
+      });
     }, INTERVAL_MS);
 
     timeIntervalRef.current = setInterval(() => {
@@ -157,6 +173,9 @@ export default function useArtistQuizScoring({
     setShowFinalSummary,
     roundStats,
     setRoundStats,
+
+    // Lockout state
+    isLockedOut,
 
     startIntervals,
     stopAllIntervals,

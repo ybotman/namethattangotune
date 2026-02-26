@@ -53,7 +53,7 @@ function findVocalStartPosition(song, playDuration) {
 }
 
 export default function PlayTab({ songs, config, onCancel }) {
-  const { calculateMaxScore, WRONG_PENALTY, INTERVAL_MS } = useSingerQuiz();
+  const { calculateMaxScore, INTERVAL_MS } = useSingerQuiz();
   const timeLimit = config.timeLimit ?? 15;
   const maxScore = calculateMaxScore(timeLimit);
 
@@ -86,6 +86,7 @@ export default function PlayTab({ songs, config, onCancel }) {
     setShowFinalSummary,
     roundStats,
     setRoundStats,
+    isLockedOut,
     startIntervals,
     stopAllIntervals,
     initRound,
@@ -94,7 +95,6 @@ export default function PlayTab({ songs, config, onCancel }) {
   } = useSingerQuizScoring({
     timeLimit,
     maxScore,
-    WRONG_PENALTY,
     INTERVAL_MS,
     onTimesUp: () => {
       console.log("PlayTab-> onTimesUp => forcing 0 score + roundOver");
@@ -103,6 +103,7 @@ export default function PlayTab({ songs, config, onCancel }) {
       stopAudio();
     },
     songs,
+    config, // Pass config for difficulty multipliers
   });
 
   const stopAudio = useCallback(() => {
@@ -354,40 +355,67 @@ export default function PlayTab({ songs, config, onCancel }) {
         </Box>
       </Box>
 
-      {/* Score Display with color-coded bar */}
-      {isPlaying && (
-        <Box sx={{ mx: "auto", mb: 1, maxWidth: 400 }}>
-          <Box sx={{ display: "flex", justifyContent: "space-between", mb: 0.5 }}>
-            <Typography variant="caption" sx={{ color: "var(--foreground)", opacity: 0.7 }}>
-              Points
-            </Typography>
-            <Typography
-              variant="caption"
+      {/* Score Display with color-coded bar - always rendered to prevent layout shift */}
+      <Box sx={{ mx: "auto", mb: 1, maxWidth: 400, minHeight: 28 }}>
+        {isPlaying ? (
+          <>
+            <Box sx={{ display: "flex", justifyContent: "space-between", mb: 0.5 }}>
+              <Typography variant="caption" sx={{ color: "var(--foreground)", opacity: 0.7 }}>
+                Points
+              </Typography>
+              <Typography
+                variant="caption"
+                sx={{
+                  fontWeight: "bold",
+                  color: roundScore / maxScore > 0.6 ? "#4CAF50" :
+                         roundScore / maxScore > 0.3 ? "#FF9800" : "#f44336"
+                }}
+              >
+                {Math.floor(roundScore)} / {Math.floor(maxScore)}
+              </Typography>
+            </Box>
+            <LinearProgress
+              variant="determinate"
+              value={(roundScore / maxScore) * 100}
               sx={{
-                fontWeight: "bold",
-                color: roundScore / maxScore > 0.6 ? "#4CAF50" :
-                       roundScore / maxScore > 0.3 ? "#FF9800" : "#f44336"
-              }}
-            >
-              {Math.floor(roundScore)} / {Math.floor(maxScore)}
-            </Typography>
-          </Box>
-          <LinearProgress
-            variant="determinate"
-            value={(roundScore / maxScore) * 100}
-            sx={{
-              height: 6,
-              borderRadius: 3,
-              backgroundColor: "var(--border-color)",
-              "& .MuiLinearProgress-bar": {
-                backgroundColor: roundScore / maxScore > 0.6 ? "#4CAF50" :
-                                 roundScore / maxScore > 0.3 ? "#FF9800" : "#f44336",
+                height: 6,
                 borderRadius: 3,
-              }
-            }}
-          />
-        </Box>
-      )}
+                backgroundColor: "var(--border-color)",
+                "& .MuiLinearProgress-bar": {
+                  backgroundColor: roundScore / maxScore > 0.6 ? "#4CAF50" :
+                                   roundScore / maxScore > 0.3 ? "#FF9800" : "#f44336",
+                  borderRadius: 3,
+                }
+              }}
+            />
+          </>
+        ) : (
+          <>
+            {/* Placeholder when not playing - maintains layout */}
+            <Box sx={{ display: "flex", justifyContent: "space-between", mb: 0.5 }}>
+              <Typography variant="caption" sx={{ color: "var(--foreground)", opacity: 0.4 }}>
+                Points
+              </Typography>
+              <Typography variant="caption" sx={{ color: "var(--foreground)", opacity: 0.4 }}>
+                0 / {Math.floor(maxScore)}
+              </Typography>
+            </Box>
+            <LinearProgress
+              variant="determinate"
+              value={0}
+              sx={{
+                height: 6,
+                borderRadius: 3,
+                backgroundColor: "var(--border-color)",
+                "& .MuiLinearProgress-bar": {
+                  backgroundColor: "var(--border-color)",
+                  borderRadius: 3,
+                }
+              }}
+            />
+          </>
+        )}
+      </Box>
 
       {/* Answers */}
       <List sx={{ mb: 2, maxWidth: 400, margin: "auto" }}>
@@ -400,24 +428,38 @@ export default function PlayTab({ songs, config, onCancel }) {
             ans.trim().toLowerCase() === correctSinger.trim().toLowerCase();
 
           let borderColor = "var(--border-color)";
-          if (roundOver && isChosenCorrect) borderColor = "green";
-          else if (isWrong) borderColor = "red";
+          let bgColor = "transparent";
+          if (roundOver && isChosenCorrect) {
+            borderColor = "#4caf50";
+            bgColor = "rgba(76, 175, 80, 0.1)";
+          } else if (isWrong) {
+            borderColor = "#f44336";
+            bgColor = "rgba(244, 67, 54, 0.1)";
+          } else if (isLockedOut) {
+            // Visual feedback during lockout
+            borderColor = "var(--border-color)";
+            bgColor = "rgba(128, 128, 128, 0.1)";
+          }
 
+          // disable if roundOver or not playing or isWrong or correct or locked out
           const disabled =
-            roundOver || !isPlaying || isWrong || isChosenCorrect;
+            roundOver || !isPlaying || isWrong || isChosenCorrect || isLockedOut;
 
           return (
             <ListItem
               key={ans}
-              onClick={() => handleAnswerSelect(ans)}
-              disabled={disabled}
+              onClick={() => !disabled && handleAnswerSelect(ans)}
               sx={{
                 mb: 1,
                 border: `2px solid ${borderColor}`,
-                borderRadius: "4px",
+                borderRadius: "8px",
                 cursor: disabled ? "default" : "pointer",
+                backgroundColor: bgColor,
+                opacity: isLockedOut && !isWrong ? 0.5 : 1,
+                transition: "all 0.2s ease",
                 "&:hover": {
-                  backgroundColor: disabled ? "inherit" : "var(--input-bg)",
+                  backgroundColor: disabled ? bgColor : "var(--input-bg)",
+                  transform: disabled ? "none" : "translateX(4px)",
                 },
               }}
             >

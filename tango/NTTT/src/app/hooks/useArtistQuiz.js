@@ -77,9 +77,7 @@ export default function useArtistQuiz() {
     return Math.round(val);
   }, []);
 
-  // Wrong answer penalty
-  const WRONG_PENALTY = 0.1;
-  // Interval => 100ms
+  // Interval => 100ms for score/time updates
   const INTERVAL_MS = 100;
 
   // -----------------------
@@ -175,7 +173,6 @@ export default function useArtistQuiz() {
 
     // Scoring parameters
     calculateMaxScore,
-    WRONG_PENALTY,
     INTERVAL_MS,
 
     // Config update handlers

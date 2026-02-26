@@ -15,8 +15,8 @@ async function getFileSize(url) {
   return size;
 }
 
-export async function GET(request, { params }) {
-  const { songId } = await params;
+export async function GET(request, context) {
+  const { songId } = await context.params;
   const url = `${AZURE_BASE}/${songId}.mp3`;
   const range = request.headers.get("range");
 
@@ -70,8 +70,8 @@ export async function GET(request, { params }) {
   }
 }
 
-export async function HEAD(request, { params }) {
-  const { songId } = await params;
+export async function HEAD(request, context) {
+  const { songId } = await context.params;
   const url = `${AZURE_BASE}/${songId}.mp3`;
 
   try {

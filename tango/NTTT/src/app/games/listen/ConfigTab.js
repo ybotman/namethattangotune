@@ -1,14 +1,11 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React from "react";
 import { Box, FormControlLabel, Switch, Typography } from "@mui/material";
 import styles from "../styles.module.css";
 
 import DialControl from "@/components/ui/DialControl";
-import FilterSection from "@/components/ui/FilterSection";
 import StylesSelector from "@/components/ui/StylesSelector";
-import ArtistsSelector from "@/components/ui/ArtistsSelector";
-import SingersSelector from "@/components/ui/SingersSelector";
 import YearRangeSelector from "@/components/ui/YearRangeSelector";
 import { useGameContext } from "@/contexts/GameContext";
 
@@ -22,29 +19,7 @@ export default function ConfigTab({ artistOptions, singerOptions }) {
   const { config, updateConfig } = useGameContext();
 
   const instrumentalOnly = config.instrumentalOnly ?? false;
-
-  // Summary helpers
-  const styleSummary = useMemo(() => {
-    const styles = Object.keys(config.styles || {}).filter(k => config.styles[k]);
-    return styles.length > 0 ? styles : ["All"];
-  }, [config.styles]);
-
-  const artistSummary = useMemo(() => {
-    const artists = config.artists || [];
-    if (artists.length === 0) return "All";
-    return artists.map(a => a.label || a.value);
-  }, [config.artists]);
-
-  const singerSummary = useMemo(() => {
-    if (instrumentalOnly) return "Instrumental only";
-    const singers = (config.singers || []).map((s) =>
-      typeof s === "string" ? s : (s.label || s.value)
-    );
-    return singers.length > 0 ? singers : "All";
-  }, [config.singers, instrumentalOnly]);
-
   const yearRange = config.yearRange ?? [1929, 1939];
-  const yearSummary = `${yearRange[0]} - ${yearRange[1]}`;
 
   return (
     <Box className={styles.configurationContainer}>
@@ -62,31 +37,38 @@ export default function ConfigTab({ artistOptions, singerOptions }) {
         />
       </Box>
 
-      {/* Filters */}
-      <FilterSection title="Year Range" summary={yearSummary} defaultExpanded>
+      {/* Year Range */}
+      <Box sx={{ mb: 2 }}>
+        <Typography
+          variant="caption"
+          sx={{
+            display: "block",
+            textAlign: "center",
+            color: "var(--foreground)",
+            opacity: 0.6,
+            mb: 0.5,
+            textTransform: "uppercase",
+            letterSpacing: 1,
+            fontSize: "0.65rem",
+          }}
+        >
+          Year Range
+        </Typography>
         <YearRangeSelector
           value={config.yearRange ?? [1929, 1939]}
           onChange={(val) => updateConfig("yearRange", val)}
         />
-      </FilterSection>
+      </Box>
 
-      <FilterSection title="Style" summary={styleSummary}>
-        <StylesSelector
-          availableStyles={PRIMARY_STYLES}
-          selectedStyles={config.styles || {}}
-          onChange={(val) => updateConfig("styles", val)}
-        />
-      </FilterSection>
+      {/* Style */}
+      <StylesSelector
+        availableStyles={PRIMARY_STYLES}
+        selectedStyles={config.styles || {}}
+        onChange={(val) => updateConfig("styles", val)}
+      />
 
-      <FilterSection title="Orchestra" summary={artistSummary}>
-        <ArtistsSelector
-          availableArtists={artistOptions}
-          selectedArtists={config.artists || []}
-          onChange={(val) => updateConfig("artists", val)}
-        />
-      </FilterSection>
-
-      <FilterSection title="Vocals" summary={singerSummary}>
+      {/* Vocals Toggle */}
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
         <FormControlLabel
           control={
             <Switch
@@ -96,25 +78,12 @@ export default function ConfigTab({ artistOptions, singerOptions }) {
             />
           }
           label={
-            <Typography variant="body2" sx={{ color: "var(--foreground)" }}>
+            <Typography variant="body2" sx={{ color: "var(--foreground)", fontSize: "0.85rem" }}>
               Instrumental only
             </Typography>
           }
-          sx={{ mb: 1 }}
         />
-
-        {!instrumentalOnly && (
-          <SingersSelector
-            availableSingers={singerOptions}
-            selectedSingers={
-              (config.singers || []).map((s) =>
-                typeof s === "string" ? { label: s, value: s } : s
-              )
-            }
-            onChange={(val) => updateConfig("singers", val)}
-          />
-        )}
-      </FilterSection>
+      </Box>
     </Box>
   );
 }

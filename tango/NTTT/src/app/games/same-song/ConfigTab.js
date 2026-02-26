@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React from "react";
 import { Box, Typography } from "@mui/material";
 import styles from "../styles.module.css";
 
 import DialControl from "@/components/ui/DialControl";
-import FilterSection from "@/components/ui/FilterSection";
-import RecognitionSelector, { TIER_CONFIG } from "@/components/ui/RecognitionSelector";
+import RecognitionSelector from "@/components/ui/RecognitionSelector";
 import PeriodsSelector from "@/components/ui/PeriodsSelector";
 import { useGameContext } from "@/contexts/GameContext";
 
@@ -16,16 +15,6 @@ export default function ConfigTab() {
   const handleTimeLimitChange = (value) => {
     updateConfig("timeLimit", value);
   };
-
-  // Summary helpers
-  const tierSummary = useMemo(() => {
-    const tiers = config.recognitionTiers || [1];
-    return tiers.map(t => TIER_CONFIG[t]?.name || t);
-  }, [config.recognitionTiers]);
-
-  const periodSummary = useMemo(() => {
-    return config.periods || [];
-  }, [config.periods]);
 
   return (
     <Box className={styles.configurationContainer}>
@@ -43,25 +32,22 @@ export default function ConfigTab() {
         />
       </Box>
 
-      {/* Filters */}
-      <FilterSection title="Difficulty" summary={tierSummary} defaultExpanded>
-        <RecognitionSelector
-          selectedTiers={config.recognitionTiers || [1]}
-          onChange={(tiers) => updateConfig("recognitionTiers", tiers)}
-          compact
-        />
-      </FilterSection>
+      {/* Familiarity */}
+      <RecognitionSelector
+        selectedTiers={config.recognitionTiers || [1]}
+        onChange={(tiers) => updateConfig("recognitionTiers", tiers)}
+        compact
+      />
 
-      <FilterSection title="Period" summary={periodSummary.length > 0 ? periodSummary : "All"}>
-        <PeriodsSelector
-          selectedPeriods={config.periods || []}
-          onChange={(val) => updateConfig("periods", val)}
-        />
-      </FilterSection>
+      {/* Era */}
+      <PeriodsSelector
+        selectedPeriods={config.periods || []}
+        onChange={(val) => updateConfig("periods", val)}
+      />
 
       {/* Instructions */}
       <Box sx={{ mt: 2, p: 2, backgroundColor: "var(--input-bg)", borderRadius: 2 }}>
-        <Typography variant="caption" sx={{ color: "var(--foreground)", opacity: 0.8 }}>
+        <Typography variant="caption" sx={{ color: "var(--foreground)", opacity: 0.7 }}>
           Compare recordings of the same song by different orchestras
         </Typography>
       </Box>

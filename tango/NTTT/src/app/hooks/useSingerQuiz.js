@@ -50,7 +50,7 @@ export default function useSingerQuiz() {
     return Math.round(val);
   }, []);
 
-  const WRONG_PENALTY = 0.1;
+  // Interval => 100ms for score/time updates
   const INTERVAL_MS = 100;
 
   // Fetch artists and singers
@@ -145,7 +145,6 @@ export default function useSingerQuiz() {
     artistOptions,
     singerOptions,
     calculateMaxScore,
-    WRONG_PENALTY,
     INTERVAL_MS,
     handleNumSongsChange,
     handleTimeLimitChange,

@@ -1,29 +1,22 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
-import { Box, Typography } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Box } from "@mui/material";
 import styles from "../styles.module.css";
 
 import GameSetupDials from "@/components/ui/GameSetupDials";
-import FilterSection from "@/components/ui/FilterSection";
-import RecognitionSelector, { TIER_CONFIG } from "@/components/ui/RecognitionSelector";
-import ArtistsSelector from "@/components/ui/ArtistsSelector";
-import SingersSelector from "@/components/ui/SingersSelector";
+import RecognitionSelector from "@/components/ui/RecognitionSelector";
 import PeriodsSelector from "@/components/ui/PeriodsSelector";
-import SongCountDisplay from "@/components/ui/SongCountDisplay";
+import ScorePotential from "@/components/ui/ScorePotential";
 import useSingerQuiz from "@/hooks/useSingerQuiz";
 import { useGameContext } from "@/contexts/GameContext";
 
 export default function ConfigTab() {
   const {
-    artistOptions,
-    singerOptions,
     validationMessage,
     handleNumSongsChange,
     handleTimeLimitChange,
     handleLevelsChange,
-    handleArtistsChange,
-    handleSingersChange,
   } = useSingerQuiz();
 
   const { config, updateConfig } = useGameContext();
@@ -38,28 +31,6 @@ export default function ConfigTab() {
     setIsConfigValid(!validationMessage && hasEnoughSongs);
   }, [validationMessage, hasEnoughSongs]);
 
-  // Summary helpers
-  const tierSummary = useMemo(() => {
-    const tiers = config.recognitionTiers || [1];
-    return tiers.map(t => TIER_CONFIG[t]?.name || t);
-  }, [config.recognitionTiers]);
-
-  const periodSummary = useMemo(() => {
-    return config.periods || [];
-  }, [config.periods]);
-
-  const artistSummary = useMemo(() => {
-    const artists = config.artists || [];
-    if (artists.length === 0) return "All";
-    return artists.map(a => a.label || a.value);
-  }, [config.artists]);
-
-  const singerSummary = useMemo(() => {
-    const singers = config.singers || [];
-    if (singers.length === 0) return "All";
-    return singers.map(s => typeof s === 'string' ? s : (s.label || s.value));
-  }, [config.singers]);
-
   return (
     <Box className={styles.configurationContainer}>
       {/* Dial Controls */}
@@ -71,49 +42,20 @@ export default function ConfigTab() {
         secondsLabel="Time"
       />
 
-      {/* Filters */}
-      <FilterSection title="Difficulty" summary={tierSummary} defaultExpanded>
-        <RecognitionSelector
-          selectedTiers={config.recognitionTiers || [1]}
-          onChange={handleLevelsChange}
-          compact
-        />
-      </FilterSection>
+      {/* Score Potential Display */}
+      <ScorePotential config={config} />
 
-      <FilterSection title="Period" summary={periodSummary.length > 0 ? periodSummary : "All"}>
-        <PeriodsSelector
-          selectedPeriods={config.periods || []}
-          onChange={(val) => updateConfig("periods", val)}
-        />
-      </FilterSection>
+      {/* Familiarity - tile buttons */}
+      <RecognitionSelector
+        selectedTiers={config.recognitionTiers || [1]}
+        onChange={handleLevelsChange}
+        compact
+      />
 
-      <FilterSection title="Orchestra" summary={artistSummary}>
-        <ArtistsSelector
-          availableArtists={artistOptions}
-          selectedArtists={config.artists || []}
-          onChange={handleArtistsChange}
-        />
-      </FilterSection>
-
-      <FilterSection title="Singer" summary={singerSummary}>
-        <SingersSelector
-          availableSingers={singerOptions}
-          selectedSingers={config.singers || []}
-          onChange={handleSingersChange}
-        />
-        {singerOptions.length === 0 && (
-          <Typography variant="caption" sx={{ color: "var(--accent)", mt: 1, display: "block" }}>
-            Singer data loading...
-          </Typography>
-        )}
-      </FilterSection>
-
-      {/* Song Count Display */}
-      <SongCountDisplay
-        config={config}
-        numSongs={numSongs}
-        gameType="singer"
-        onCountChange={setAvailableCount}
+      {/* Era - 2 rows of tile buttons */}
+      <PeriodsSelector
+        selectedPeriods={config.periods || []}
+        onChange={(val) => updateConfig("periods", val)}
       />
 
       {/* Validation Message */}
