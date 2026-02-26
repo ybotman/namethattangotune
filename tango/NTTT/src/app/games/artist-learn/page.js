@@ -53,7 +53,17 @@ export default function ArtistLearnPage() {
       return;
     }
 
-    setSongs(fetchedSongs);
+    // Sort by year if option is enabled
+    let finalSongs = fetchedSongs;
+    if (config.sortByYear) {
+      finalSongs = [...fetchedSongs].sort((a, b) => {
+        const yearA = parseInt(a.Year, 10) || 0;
+        const yearB = parseInt(b.Year, 10) || 0;
+        return yearA - yearB;
+      });
+    }
+
+    setSongs(finalSongs);
     setShowPlayTab(true);
   }, [config]);
 

@@ -13,8 +13,6 @@ import {
   ListItemText,
   Button,
   LinearProgress,
-  Snackbar,
-  Alert,
   FormControlLabel,
   Switch,
 } from "@mui/material";
@@ -44,7 +42,6 @@ export default function PlayTab({ songs, config, onCancel }) {
 
   const onIOS = isIOS();
   const [autoNext, setAutoNext] = useState(!onIOS);
-  const [iosBugOpen, setIosBugOpen] = useState(onIOS);
 
   const PLAY_DURATION = config.timeLimit ?? 15;
   const FADE_DURATION = 0.8;
@@ -285,14 +282,8 @@ export default function PlayTab({ songs, config, onCancel }) {
     );
   }
 
-  // Minimal function to render each song's metadata
-  const renderMetadata = (song) => {
-    const artist = song.ArtistMaster || "";
-    const style = song.Style || "";
-    const year = song.Year || "";
-    const composer = song.Composer || "";
-    return [artist, style, year, composer].filter(Boolean).join(" | ");
-  };
+  // Just show year since orchestra and style are forced
+  const renderMetadata = (song) => song.Year || "";
 
   // -----------------------------
   //   JSX Layout
@@ -309,22 +300,6 @@ export default function PlayTab({ songs, config, onCancel }) {
     >
       {/* Top portion with Switch/Next/Cancel, plus progress & snippet */}
       <Box sx={{ flex: "0 0 auto", p: 2 }}>
-        {/* iOS bug message */}
-        <Snackbar
-          open={iosBugOpen && onIOS}
-          autoHideDuration={6000}
-          onClose={() => setIosBugOpen(false)}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        >
-          <Alert
-            onClose={() => setIosBugOpen(false)}
-            severity="info"
-            sx={{ width: "100%" }}
-          >
-            Bug: This iPhone cannot auto-play. Please tap the songs to play!
-          </Alert>
-        </Snackbar>
-
         {/* Switch/Next/Cancel row */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
           <FormControlLabel

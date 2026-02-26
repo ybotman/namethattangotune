@@ -2,10 +2,10 @@
   "metadata": {
     "version": "1.0",
     "created": "2026-02-26T01:13:02.831409",
-    "lastModified": "2026-02-26 02:46:54",
+    "lastModified": "2026-02-26T20:23:36.607Z",
     "totalIssues": 373,
-    "reviewed": 0,
-    "fixed": 251
+    "reviewed": 312,
+    "fixed": 312
   },
   "issues": [
     {
@@ -995,7 +995,7 @@
     {
       "issueId": "DQ-0069",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "c5c978d5-dca3-572d-bb33-f123825329c2",
       "title": "Canyengue (feat. Mario Corrales)",
       "orchestra": "Antonio Rodio",
@@ -1004,14 +1004,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/c5c978d5-dca3-572d-bb33-f123825329c2.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "update_year",
+      "notes": "Fixed: set original year (1943-1944), marked isReissue=2014, removed DNP",
+      "reviewedAt": "2026-02-26T20:23:36.607Z"
     },
     {
       "issueId": "DQ-0058",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "320cd6c8-42eb-5e5a-aab4-e7fc62b90282",
       "title": "Cien Noches (feat. Alberto Serna)",
       "orchestra": "Antonio Rodio",
@@ -1020,14 +1020,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/320cd6c8-42eb-5e5a-aab4-e7fc62b90282.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "update_year",
+      "notes": "Fixed: set original year (1943-1944), marked isReissue=2014, removed DNP",
+      "reviewedAt": "2026-02-26T20:23:36.607Z"
     },
     {
       "issueId": "DQ-0064",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "337bc15b-8ea7-58e2-a4f3-fb5e64ee7ed6",
       "title": "Corazon Que Has Hecho (feat. Alberto Serna)",
       "orchestra": "Antonio Rodio",
@@ -1036,14 +1036,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/337bc15b-8ea7-58e2-a4f3-fb5e64ee7ed6.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "update_year",
+      "notes": "Fixed: set original year (1943-1944), marked isReissue=2014, removed DNP",
+      "reviewedAt": "2026-02-26T20:23:36.607Z"
     },
     {
       "issueId": "DQ-0063",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "ac194a09-1e78-565d-9f69-a01e7e960f4d",
       "title": "Cuatro Campanadas",
       "orchestra": "Antonio Rodio",
@@ -1052,14 +1052,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/ac194a09-1e78-565d-9f69-a01e7e960f4d.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "update_year",
+      "notes": "Fixed: set original year (1943-1944), marked isReissue=2014, removed DNP",
+      "reviewedAt": "2026-02-26T20:23:36.607Z"
     },
     {
       "issueId": "DQ-0056",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "87796072-3304-52d6-9438-7e41763e7d3c",
       "title": "Desvelos (feat. Alberto Serna)",
       "orchestra": "Antonio Rodio",
@@ -1068,14 +1068,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/87796072-3304-52d6-9438-7e41763e7d3c.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "update_year",
+      "notes": "Fixed: set original year (1943-1944), marked isReissue=2014, removed DNP",
+      "reviewedAt": "2026-02-26T20:23:36.607Z"
     },
     {
       "issueId": "DQ-0055",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "e971c98f-9ba0-5772-9312-a4b2ccbe2f36",
       "title": "Donde Estas Corazon? (feat. Alberto Serna)",
       "orchestra": "Antonio Rodio",
@@ -1084,14 +1084,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/e971c98f-9ba0-5772-9312-a4b2ccbe2f36.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "update_year",
+      "notes": "Fixed: set original year (1943-1944), marked isReissue=2014, removed DNP",
+      "reviewedAt": "2026-02-26T20:23:36.607Z"
     },
     {
       "issueId": "DQ-0057",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "733fbb43-5b4f-55ea-83c2-0202a3a88c76",
       "title": "Esta Noche en Buenos Aires (feat. Alberto Serna)",
       "orchestra": "Antonio Rodio",
@@ -1100,14 +1100,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/733fbb43-5b4f-55ea-83c2-0202a3a88c76.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "update_year",
+      "notes": "Fixed: set original year (1943-1944), marked isReissue=2014, removed DNP",
+      "reviewedAt": "2026-02-26T20:23:36.607Z"
     },
     {
       "issueId": "DQ-0065",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "387e7201-2347-5bc8-b018-50d6d316e992",
       "title": "La Cumparsita",
       "orchestra": "Antonio Rodio",
@@ -1116,14 +1116,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/387e7201-2347-5bc8-b018-50d6d316e992.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "update_year",
+      "notes": "Fixed: set original year (1943-1944), marked isReissue=2014, removed DNP",
+      "reviewedAt": "2026-02-26T20:23:36.607Z"
     },
     {
       "issueId": "DQ-0059",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "845253b0-ab8a-595e-9176-fb5472e2b14c",
       "title": "Me Voy Buenos Aires (feat. Alberto Serna)",
       "orchestra": "Antonio Rodio",
@@ -1132,14 +1132,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/845253b0-ab8a-595e-9176-fb5472e2b14c.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "update_year",
+      "notes": "Fixed: set original year (1943-1944), marked isReissue=2014, removed DNP",
+      "reviewedAt": "2026-02-26T20:23:36.607Z"
     },
     {
       "issueId": "DQ-0060",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "c6e29550-f59e-5122-964d-952f1fbb4dab",
       "title": "Munequita",
       "orchestra": "Antonio Rodio",
@@ -1148,14 +1148,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/c6e29550-f59e-5122-964d-952f1fbb4dab.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "update_year",
+      "notes": "Fixed: set original year (1943-1944), marked isReissue=2014, removed DNP",
+      "reviewedAt": "2026-02-26T20:23:36.607Z"
     },
     {
       "issueId": "DQ-0068",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "725c23c4-1023-5297-8db1-823271e9b3f0",
       "title": "Parece Mentira (feat. Alberto Serna)",
       "orchestra": "Antonio Rodio",
@@ -1164,14 +1164,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/725c23c4-1023-5297-8db1-823271e9b3f0.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "update_year",
+      "notes": "Fixed: set original year (1943-1944), marked isReissue=2014, removed DNP",
+      "reviewedAt": "2026-02-26T20:23:36.607Z"
     },
     {
       "issueId": "DQ-0062",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "17680a1c-5ff0-5f34-b959-b97bff3ae96f",
       "title": "Rosa Celeste (feat. Alberto Serna)",
       "orchestra": "Antonio Rodio",
@@ -1180,14 +1180,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/17680a1c-5ff0-5f34-b959-b97bff3ae96f.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "update_year",
+      "notes": "Fixed: set original year (1943-1944), marked isReissue=2014, removed DNP",
+      "reviewedAt": "2026-02-26T20:23:36.607Z"
     },
     {
       "issueId": "DQ-0061",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "f0e037ce-e7ad-5a53-ad19-2757bc2f6567",
       "title": "Tabu (feat. Mario Corrales)",
       "orchestra": "Antonio Rodio",
@@ -1196,14 +1196,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/f0e037ce-e7ad-5a53-ad19-2757bc2f6567.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "update_year",
+      "notes": "Fixed: set original year (1943-1944), marked isReissue=2014, removed DNP",
+      "reviewedAt": "2026-02-26T20:23:36.607Z"
     },
     {
       "issueId": "DQ-0066",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "9354577a-1158-57f5-9393-7fa2aa90a125",
       "title": "Vieja Esquina (feat. Alberto Serna)",
       "orchestra": "Antonio Rodio",
@@ -1212,14 +1212,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/9354577a-1158-57f5-9393-7fa2aa90a125.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "update_year",
+      "notes": "Fixed: set original year (1943-1944), marked isReissue=2014, removed DNP",
+      "reviewedAt": "2026-02-26T20:23:36.607Z"
     },
     {
       "issueId": "DQ-0067",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "3f072a33-734b-51f8-822b-6409a82ea95d",
       "title": "Viejo Arrabal (feat. Alberto Serna)",
       "orchestra": "Antonio Rodio",
@@ -1228,9 +1228,9 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/3f072a33-734b-51f8-822b-6409a82ea95d.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "update_year",
+      "notes": "Fixed: set original year (1943-1944), marked isReissue=2014, removed DNP",
+      "reviewedAt": "2026-02-26T20:23:36.607Z"
     },
     {
       "issueId": "DQ-0324",
@@ -4451,7 +4451,7 @@
     {
       "issueId": "DQ-0099",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "557b5586-23f6-5eaf-bb6b-6696abce134c",
       "title": "Caricias",
       "orchestra": "Sexteto Cristal",
@@ -4460,14 +4460,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/557b5586-23f6-5eaf-bb6b-6696abce134c.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.543Z"
     },
     {
       "issueId": "DQ-0094",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "4eeaad7f-c8e7-5377-a2f0-53cec513c023",
       "title": "Cuando Florescan los Rosales",
       "orchestra": "Sexteto Cristal",
@@ -4476,14 +4476,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/4eeaad7f-c8e7-5377-a2f0-53cec513c023.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0102",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "8bffac05-fd54-584f-b8f5-1cf069abab65",
       "title": "Despues del Carnaval",
       "orchestra": "Sexteto Cristal",
@@ -4492,14 +4492,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/8bffac05-fd54-584f-b8f5-1cf069abab65.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0095",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "be0fa5c9-e5b4-5592-93b4-9d3747346445",
       "title": "El Adios",
       "orchestra": "Sexteto Cristal",
@@ -4508,14 +4508,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/be0fa5c9-e5b4-5592-93b4-9d3747346445.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0101",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "d262cba3-2f7f-5770-b39b-e1a22981f7d2",
       "title": "El Recodo",
       "orchestra": "Sexteto Cristal",
@@ -4524,14 +4524,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/d262cba3-2f7f-5770-b39b-e1a22981f7d2.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0092",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "5e62c998-b152-5a59-8777-881f7068cf77",
       "title": "Flor de Montserrat",
       "orchestra": "Sexteto Cristal",
@@ -4540,14 +4540,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/5e62c998-b152-5a59-8777-881f7068cf77.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0098",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "0420a001-a60b-5339-99fb-43e0a58448b6",
       "title": "Mentira",
       "orchestra": "Sexteto Cristal",
@@ -4556,14 +4556,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/0420a001-a60b-5339-99fb-43e0a58448b6.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0096",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "ffbc10c6-097a-566a-b2b2-a4f6f18974cf",
       "title": "Mi Vieja Linda",
       "orchestra": "Sexteto Cristal",
@@ -4572,14 +4572,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/ffbc10c6-097a-566a-b2b2-a4f6f18974cf.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0100",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "57d43596-8ba3-587a-96be-fbf0c28e3964",
       "title": "Noches de Invierno",
       "orchestra": "Sexteto Cristal",
@@ -4588,14 +4588,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/57d43596-8ba3-587a-96be-fbf0c28e3964.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0093",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "52776722-7185-557f-a12a-13654a0ce9e8",
       "title": "S.O.S.",
       "orchestra": "Sexteto Cristal",
@@ -4604,14 +4604,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/52776722-7185-557f-a12a-13654a0ce9e8.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0103",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "109c862b-a487-510b-ab3f-e2e9051bc4dc",
       "title": "Vals del Recuerdo",
       "orchestra": "Sexteto Cristal",
@@ -4620,14 +4620,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/109c862b-a487-510b-ab3f-e2e9051bc4dc.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0097",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "a7fccb99-48f5-5150-9a66-0ee88a6f16c0",
       "title": "Viento Norte",
       "orchestra": "Sexteto Cristal",
@@ -4636,14 +4636,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/a7fccb99-48f5-5150-9a66-0ee88a6f16c0.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0019",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "40a88c81-cd8a-56d4-b904-a0742b069433",
       "title": "Bajo Un Cielo De Estrellas",
       "orchestra": "Sexteto Milonguero",
@@ -4652,14 +4652,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/40a88c81-cd8a-56d4-b904-a0742b069433.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0021",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "efd509a9-3724-5dc3-a7d4-1037d91570b2",
       "title": "Cachirulo",
       "orchestra": "Sexteto Milonguero",
@@ -4668,14 +4668,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/efd509a9-3724-5dc3-a7d4-1037d91570b2.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0015",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "340931d6-cbdf-5818-a2ba-dc4b32e10ba3",
       "title": "Como Le Digo",
       "orchestra": "Sexteto Milonguero",
@@ -4684,14 +4684,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/340931d6-cbdf-5818-a2ba-dc4b32e10ba3.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0010",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "83f2d34b-c164-5594-a124-f526e578357c",
       "title": "El Recodo (long intro)",
       "orchestra": "Sexteto Milonguero",
@@ -4700,14 +4700,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/83f2d34b-c164-5594-a124-f526e578357c.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0007",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "da0cd788-0e68-5c84-a127-e4125e289d6e",
       "title": "Flor De Lino",
       "orchestra": "Sexteto Milonguero",
@@ -4716,14 +4716,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/da0cd788-0e68-5c84-a127-e4125e289d6e.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0036",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "53766a69-10e1-54f7-9171-b8277b79176c",
       "title": "Guapeando",
       "orchestra": "Sexteto Milonguero",
@@ -4732,14 +4732,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/53766a69-10e1-54f7-9171-b8277b79176c.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0032",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "88e0a64f-6bb6-5298-b8db-93a458cc8b9a",
       "title": "Junto A Tu Corazon",
       "orchestra": "Sexteto Milonguero",
@@ -4748,14 +4748,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/88e0a64f-6bb6-5298-b8db-93a458cc8b9a.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0018",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "bffd8130-dc75-5aba-9ea5-85405c2f6aaf",
       "title": "Llorar Por Una Mujer",
       "orchestra": "Sexteto Milonguero",
@@ -4764,14 +4764,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/bffd8130-dc75-5aba-9ea5-85405c2f6aaf.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0012",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "661d233a-7859-55d3-932f-3a52c79302cb",
       "title": "No Hay Tierra Como La Mia",
       "orchestra": "Sexteto Milonguero",
@@ -4780,14 +4780,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/661d233a-7859-55d3-932f-3a52c79302cb.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0037",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "f7af682f-0259-5541-aa7b-f90652c6fa5e",
       "title": "Noches Del Colon",
       "orchestra": "Sexteto Milonguero",
@@ -4796,14 +4796,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/f7af682f-0259-5541-aa7b-f90652c6fa5e.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0026",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "e7b5dbf8-3fcd-5008-9da7-44e019a9e404",
       "title": "Oigo Tu Voz",
       "orchestra": "Sexteto Milonguero",
@@ -4812,14 +4812,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/e7b5dbf8-3fcd-5008-9da7-44e019a9e404.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0034",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "c74f27b3-07d6-5c31-b3e8-dabc2c73366c",
       "title": "Yerba Mala",
       "orchestra": "Sexteto Milonguero",
@@ -4828,14 +4828,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/c74f27b3-07d6-5c31-b3e8-dabc2c73366c.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0033",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "60d16886-1a76-53ea-a13a-6b5338affe1a",
       "title": "Cafe Dominguez",
       "orchestra": "Sexteto Milonguero - Instrumental",
@@ -4844,14 +4844,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/60d16886-1a76-53ea-a13a-6b5338affe1a.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0009",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "7ea9a450-ed77-52f2-abb6-371ef85c47bb",
       "title": "Al Pasar",
       "orchestra": "Sexteto Milonguero - Javier Di Ciriaco",
@@ -4860,14 +4860,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/7ea9a450-ed77-52f2-abb6-371ef85c47bb.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0022",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "bda76639-540c-539b-acc0-899d92556bd4",
       "title": "Anda A Saber",
       "orchestra": "Sexteto Milonguero - Javier Di Ciriaco",
@@ -4876,14 +4876,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/bda76639-540c-539b-acc0-899d92556bd4.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0023",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "f8aa77c9-f4e8-520b-a0bd-503d1060ff9e",
       "title": "Arrabalera",
       "orchestra": "Sexteto Milonguero - Javier Di Ciriaco",
@@ -4892,14 +4892,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/f8aa77c9-f4e8-520b-a0bd-503d1060ff9e.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0038",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "9094f408-ea2e-52fc-a063-e6b17a88d696",
       "title": "Buscandote",
       "orchestra": "Sexteto Milonguero - Javier Di Ciriaco",
@@ -4908,14 +4908,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/9094f408-ea2e-52fc-a063-e6b17a88d696.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0027",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "6ed2dc91-9e9b-5439-99df-0410dfbf1a3b",
       "title": "Dichas que vivi",
       "orchestra": "Sexteto Milonguero - Javier Di Ciriaco",
@@ -4924,14 +4924,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/6ed2dc91-9e9b-5439-99df-0410dfbf1a3b.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0031",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "5ea0fc7d-8ed8-55f1-be8a-e2b6f4909dd9",
       "title": "El Adios",
       "orchestra": "Sexteto Milonguero - Javier Di Ciriaco",
@@ -4940,14 +4940,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/5ea0fc7d-8ed8-55f1-be8a-e2b6f4909dd9.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0014",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "697d0603-9838-57d8-a388-f08fc7c8a878",
       "title": "El Yacare",
       "orchestra": "Sexteto Milonguero - Javier Di Ciriaco",
@@ -4956,14 +4956,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/697d0603-9838-57d8-a388-f08fc7c8a878.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0035",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "b4722eb8-8677-50c2-9f61-8cf6bbf95056",
       "title": "Ella es asi",
       "orchestra": "Sexteto Milonguero - Javier Di Ciriaco",
@@ -4972,14 +4972,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/b4722eb8-8677-50c2-9f61-8cf6bbf95056.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0030",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "79f36883-1295-51b8-a880-9a84529ca06f",
       "title": "Humillacion",
       "orchestra": "Sexteto Milonguero - Javier Di Ciriaco",
@@ -4988,14 +4988,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/79f36883-1295-51b8-a880-9a84529ca06f.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0016",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "e8e86afb-fe47-5477-92f3-9f424f3c4050",
       "title": "La Mulateada",
       "orchestra": "Sexteto Milonguero - Javier Di Ciriaco",
@@ -5004,14 +5004,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/e8e86afb-fe47-5477-92f3-9f424f3c4050.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0011",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "2c9b1f61-9689-5c76-950b-6ea0c448b034",
       "title": "Lejos Estas",
       "orchestra": "Sexteto Milonguero - Javier Di Ciriaco",
@@ -5020,14 +5020,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/2c9b1f61-9689-5c76-950b-6ea0c448b034.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0017",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "d8606da0-fa23-58c8-bc4e-959e124dc605",
       "title": "Paisaje",
       "orchestra": "Sexteto Milonguero - Javier Di Ciriaco",
@@ -5036,14 +5036,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/d8606da0-fa23-58c8-bc4e-959e124dc605.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0039",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "4f6e0de5-fb03-51e1-8636-37ea8a762ad3",
       "title": "Pensalo Bien",
       "orchestra": "Sexteto Milonguero - Javier Di Ciriaco",
@@ -5052,14 +5052,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/4f6e0de5-fb03-51e1-8636-37ea8a762ad3.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0024",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "b58061bb-9170-5643-8934-2a657389c6f9",
       "title": "Pocas Palabras",
       "orchestra": "Sexteto Milonguero - Javier Di Ciriaco",
@@ -5068,14 +5068,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/b58061bb-9170-5643-8934-2a657389c6f9.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0020",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "a047a0f8-7fa3-5d06-84c1-60f869e87a69",
       "title": "Romance de barrio",
       "orchestra": "Sexteto Milonguero - Javier Di Ciriaco",
@@ -5084,14 +5084,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/a047a0f8-7fa3-5d06-84c1-60f869e87a69.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0008",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "741976d1-fb1b-5cf1-a152-d2df94ca483a",
       "title": "Tres Esquinas",
       "orchestra": "Sexteto Milonguero - Javier Di Ciriaco",
@@ -5100,14 +5100,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/741976d1-fb1b-5cf1-a152-d2df94ca483a.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0025",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "293afd24-3d28-5f05-919a-0ecdfc4efcf7",
       "title": "Tu el cielo y tu",
       "orchestra": "Sexteto Milonguero - Javier Di Ciriaco",
@@ -5116,14 +5116,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/293afd24-3d28-5f05-919a-0ecdfc4efcf7.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0040",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "a1d9c346-ebb5-5011-b08e-b29cc391503d",
       "title": "Una emocion",
       "orchestra": "Sexteto Milonguero - Javier Di Ciriaco",
@@ -5132,14 +5132,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/a1d9c346-ebb5-5011-b08e-b29cc391503d.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0028",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "0404547a-df45-5f4b-90b2-725bbf5ce955",
       "title": "Viejo Porton",
       "orchestra": "Sexteto Milonguero - Javier Di Ciriaco",
@@ -5148,14 +5148,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/0404547a-df45-5f4b-90b2-725bbf5ce955.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0013",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "b2503229-db9f-5deb-b8c3-45f71b290a23",
       "title": "Yo soy de San Telmo",
       "orchestra": "Sexteto Milonguero - Javier Di Ciriaco",
@@ -5164,14 +5164,14 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/b2503229-db9f-5deb-b8c3-45f71b290a23.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0029",
       "category": "other",
-      "status": "not_reviewed",
+      "status": "fixed",
       "songId": "b46365b6-2a5f-5575-a596-9cac6d3d97bd",
       "title": "Yo soy el tango",
       "orchestra": "Sexteto Milonguero - Javier Di Ciriaco",
@@ -5180,9 +5180,9 @@
       "audioUrl": "https://nttt.blob.core.windows.net/v20/b46365b6-2a5f-5575-a596-9cac6d3d97bd.mp3",
       "originals": [],
       "suggestedYear": null,
-      "resolution": null,
-      "notes": "",
-      "reviewedAt": null
+      "resolution": "valid_modern",
+      "notes": "Valid Renaissance orchestra - removed DNP, made playable",
+      "reviewedAt": "2026-02-26T20:09:39.550Z"
     },
     {
       "issueId": "DQ-0186",

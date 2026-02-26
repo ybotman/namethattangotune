@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Box, Typography, Autocomplete, TextField } from "@mui/material";
+import { Box, Typography, Autocomplete, TextField, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import styles from "../styles.module.css";
 
 import GameSetupDials from "@/components/ui/GameSetupDials";
@@ -16,6 +16,16 @@ export default function ConfigTab({ onConfigValid }) {
   const [selectedOrchestra, setSelectedOrchestra] = useState(null);
   const [orchestraOptions, setOrchestraOptions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [initialized, setInitialized] = useState(false);
+
+  // Initialize defaults for this game (Golden Age only, Tango only)
+  useEffect(() => {
+    if (!initialized) {
+      updateConfig("periods", ["Golden Age"]);
+      updateConfig("styles", { Tango: true });
+      setInitialized(true);
+    }
+  }, [initialized, updateConfig]);
 
   // Get selected era and style from config
   const selectedEra = (config.periods || ["Golden Age"])[0] || "Golden Age";
@@ -102,6 +112,15 @@ export default function ConfigTab({ onConfigValid }) {
 
   return (
     <Box className={styles.configurationContainer}>
+      {/* Dial Controls - at top like other games */}
+      <GameSetupDials
+        numSongs={config.numSongs ?? 10}
+        onNumSongsChange={handleNumSongsChange}
+        timeLimit={config.timeLimit ?? 15}
+        onTimeLimitChange={handleTimeLimitChange}
+        secondsLabel="Time"
+      />
+
       {/* Era - single select */}
       <PeriodsSelector
         selectedPeriods={config.periods || ["Golden Age"]}
@@ -184,14 +203,48 @@ export default function ConfigTab({ onConfigValid }) {
         )}
       </Box>
 
-      {/* Dial Controls */}
-      <GameSetupDials
-        numSongs={config.numSongs ?? 10}
-        onNumSongsChange={handleNumSongsChange}
-        timeLimit={config.timeLimit ?? 15}
-        onTimeLimitChange={handleTimeLimitChange}
-        secondsLabel="Time"
-      />
+      {/* Sort Order Toggle */}
+      <Box sx={{ mb: 2 }}>
+        <Typography
+          variant="caption"
+          sx={{
+            display: "block",
+            textAlign: "center",
+            color: "var(--foreground)",
+            opacity: 0.6,
+            mb: 0.5,
+            textTransform: "uppercase",
+            letterSpacing: 1,
+            fontSize: "0.65rem",
+          }}
+        >
+          Song Order
+        </Typography>
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <ToggleButtonGroup
+            value={config.sortByYear ? "year" : "random"}
+            exclusive
+            onChange={(e, val) => val && updateConfig("sortByYear", val === "year")}
+            size="small"
+            sx={{
+              "& .MuiToggleButton-root": {
+                color: "var(--foreground)",
+                borderColor: "var(--accent)",
+                fontSize: "0.7rem",
+                py: 0.5,
+                px: 1.5,
+                "&.Mui-selected": {
+                  backgroundColor: "var(--accent)",
+                  color: "white",
+                },
+              },
+            }}
+          >
+            <ToggleButton value="random">Random</ToggleButton>
+            <ToggleButton value="year">By Year</ToggleButton>
+          </ToggleButtonGroup>
+        </Box>
+      </Box>
 
       {/* Info */}
       <Box sx={{ mt: 1, px: 2 }}>

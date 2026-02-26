@@ -1,0 +1,161 @@
+{
+  "date": "2026-02-26",
+  "timestamp": "2026-02-26T20:23:36.599Z",
+  "description": "Fix Antonio Rodio: set original years (1943-1944), add singers, remove DNP - Golden Age recordings reissued 2014",
+  "orchestraInfo": {
+    "artist": "Antonio Rodio",
+    "era": "Golden Age (1943-1944)",
+    "singers": [
+      "Alberto Serna",
+      "Mario Corrales",
+      "Daniel Adamo"
+    ],
+    "note": "Digital reissue September 2014, original recordings 1943-1944"
+  },
+  "changes": [
+    {
+      "file": "djSongsWeighted.json",
+      "action": "update",
+      "orchestra": "Antonio Rodio",
+      "count": 15,
+      "description": "Set original years, added singers, marked isReissue, removed DNP",
+      "songs": [
+        {
+          "songId": "e971c98f-9ba0-5772-9312-a4b2ccbe2f36",
+          "title": "Donde Estas Corazon? (feat. Alberto Serna)",
+          "oldYear": "2014-09-30T07:00:00Z",
+          "newYear": "1944",
+          "oldSinger": null,
+          "newSinger": "Alberto Serna",
+          "wasDnp": true
+        },
+        {
+          "songId": "87796072-3304-52d6-9438-7e41763e7d3c",
+          "title": "Desvelos (feat. Alberto Serna)",
+          "oldYear": "2014-09-30T07:00:00Z",
+          "newYear": "1944",
+          "oldSinger": null,
+          "newSinger": "Alberto Serna",
+          "wasDnp": true
+        },
+        {
+          "songId": "733fbb43-5b4f-55ea-83c2-0202a3a88c76",
+          "title": "Esta Noche en Buenos Aires (feat. Alberto Serna)",
+          "oldYear": "2014-09-30T07:00:00Z",
+          "newYear": "1944",
+          "oldSinger": null,
+          "newSinger": "Alberto Serna",
+          "wasDnp": true
+        },
+        {
+          "songId": "320cd6c8-42eb-5e5a-aab4-e7fc62b90282",
+          "title": "Cien Noches (feat. Alberto Serna)",
+          "oldYear": "2014-09-30T07:00:00Z",
+          "newYear": "1944",
+          "oldSinger": null,
+          "newSinger": "Alberto Serna",
+          "wasDnp": true
+        },
+        {
+          "songId": "845253b0-ab8a-595e-9176-fb5472e2b14c",
+          "title": "Me Voy Buenos Aires (feat. Alberto Serna)",
+          "oldYear": "2014-09-30T07:00:00Z",
+          "newYear": "1943",
+          "oldSinger": null,
+          "newSinger": "Alberto Serna",
+          "wasDnp": true
+        },
+        {
+          "songId": "c6e29550-f59e-5122-964d-952f1fbb4dab",
+          "title": "Munequita",
+          "oldYear": "2014-09-30T07:00:00Z",
+          "newYear": "1944",
+          "oldSinger": null,
+          "newSinger": "Alberto Serna, Daniel Adamo",
+          "wasDnp": true
+        },
+        {
+          "songId": "f0e037ce-e7ad-5a53-ad19-2757bc2f6567",
+          "title": "Tabu (feat. Mario Corrales)",
+          "oldYear": "2014-09-30T07:00:00Z",
+          "newYear": "1943",
+          "oldSinger": null,
+          "newSinger": "Mario Corrales",
+          "wasDnp": true
+        },
+        {
+          "songId": "17680a1c-5ff0-5f34-b959-b97bff3ae96f",
+          "title": "Rosa Celeste (feat. Alberto Serna)",
+          "oldYear": "2014-09-30T07:00:00Z",
+          "newYear": "1944",
+          "oldSinger": null,
+          "newSinger": "Alberto Serna",
+          "wasDnp": true
+        },
+        {
+          "songId": "ac194a09-1e78-565d-9f69-a01e7e960f4d",
+          "title": "Cuatro Campanadas",
+          "oldYear": "2014-09-30T07:00:00Z",
+          "newYear": "1944",
+          "oldSinger": null,
+          "newSinger": "Alberto Serna, Daniel Adamo",
+          "wasDnp": true
+        },
+        {
+          "songId": "337bc15b-8ea7-58e2-a4f3-fb5e64ee7ed6",
+          "title": "Corazon Que Has Hecho (feat. Alberto Serna)",
+          "oldYear": "2014-09-30T07:00:00Z",
+          "newYear": "1943",
+          "oldSinger": null,
+          "newSinger": "Alberto Serna",
+          "wasDnp": true
+        },
+        {
+          "songId": "387e7201-2347-5bc8-b018-50d6d316e992",
+          "title": "La Cumparsita",
+          "oldYear": "2014-09-30T07:00:00Z",
+          "newYear": "1944",
+          "oldSinger": null,
+          "newSinger": null,
+          "wasDnp": true
+        },
+        {
+          "songId": "9354577a-1158-57f5-9393-7fa2aa90a125",
+          "title": "Vieja Esquina (feat. Alberto Serna)",
+          "oldYear": "2014-09-30T07:00:00Z",
+          "newYear": "1943",
+          "oldSinger": null,
+          "newSinger": "Alberto Serna",
+          "wasDnp": true
+        },
+        {
+          "songId": "3f072a33-734b-51f8-822b-6409a82ea95d",
+          "title": "Viejo Arrabal (feat. Alberto Serna)",
+          "oldYear": "2014-09-30T07:00:00Z",
+          "newYear": "1943",
+          "oldSinger": null,
+          "newSinger": null,
+          "wasDnp": true
+        },
+        {
+          "songId": "725c23c4-1023-5297-8db1-823271e9b3f0",
+          "title": "Parece Mentira (feat. Alberto Serna)",
+          "oldYear": "2014-09-30T07:00:00Z",
+          "newYear": "1944",
+          "oldSinger": null,
+          "newSinger": "Alberto Serna",
+          "wasDnp": true
+        },
+        {
+          "songId": "c5c978d5-dca3-572d-bb33-f123825329c2",
+          "title": "Canyengue (feat. Mario Corrales)",
+          "oldYear": "2014-09-30T07:00:00Z",
+          "newYear": "1943",
+          "oldSinger": null,
+          "newSinger": "Mario Corrales",
+          "wasDnp": true
+        }
+      ]
+    }
+  ]
+}

@@ -4,7 +4,7 @@
 // src/app/contexts/GameContext.js
 // ------------------------------------------------------------
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 
 const GameContext = createContext(null);
@@ -74,18 +74,18 @@ export function GameProvider({ children }) {
     }
   }, [config]);
 
-  // 3) Config setter
-  function updateConfig(key, value) {
+  // 3) Config setter (memoized to prevent infinite loops in useEffect deps)
+  const updateConfig = useCallback((key, value) => {
     setConfig((prev) => ({ ...prev, [key]: value }));
-  }
+  }, []);
 
-  // 3a) **NEW**: Provide a setter for filteredArtists
-  function updateFilteredArtists(arr) {
+  // 3a) Provide a setter for filteredArtists (memoized)
+  const updateFilteredArtists = useCallback((arr) => {
     setFilteredArtists(arr || []);
-  }
+  }, []);
 
   // 4) Game completion logic (increment scores, track best, etc.)
-  function completeGame(finalScore) {
+  const completeGame = useCallback((finalScore) => {
     setCurrentScore(finalScore);
 
     // Update total & best
@@ -94,17 +94,17 @@ export function GameProvider({ children }) {
 
     // Increment completedGames
     setCompletedGames((old) => old + 1);
-  }
+  }, []);
 
   // 5) Reset everything
-  function resetAll() {
+  const resetAll = useCallback(() => {
     setConfig({ ...DEFAULT_CONFIG });
     setCurrentScore(0);
     setBestScore(0);
     setTotalScore(0);
     setCompletedGames(0);
     setFilteredArtists([]);
-  }
+  }, []);
 
   // Provide everything in the context value
   const value = {

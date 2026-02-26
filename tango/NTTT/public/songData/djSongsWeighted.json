@@ -29202,9 +29202,9 @@
       "recognitionScore": 0.215,
       "recognitionTier": 5,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "741976d1-fb1b-5cf1-a152-d2df94ca483a",
@@ -29227,9 +29227,9 @@
       "recognitionScore": 0.215,
       "recognitionTier": 5,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "7ea9a450-ed77-52f2-abb6-371ef85c47bb",
@@ -29252,9 +29252,9 @@
       "recognitionScore": 0.4794,
       "recognitionTier": 2,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "83f2d34b-c164-5594-a124-f526e578357c",
@@ -29277,9 +29277,9 @@
       "recognitionScore": 0.3025,
       "recognitionTier": 4,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "2c9b1f61-9689-5c76-950b-6ea0c448b034",
@@ -29302,9 +29302,9 @@
       "recognitionScore": 0.215,
       "recognitionTier": 5,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "661d233a-7859-55d3-932f-3a52c79302cb",
@@ -29327,9 +29327,9 @@
       "recognitionScore": 0.3025,
       "recognitionTier": 4,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "b2503229-db9f-5deb-b8c3-45f71b290a23",
@@ -29352,9 +29352,9 @@
       "recognitionScore": 0.5508,
       "recognitionTier": 2,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "697d0603-9838-57d8-a388-f08fc7c8a878",
@@ -29377,9 +29377,9 @@
       "recognitionScore": 0.215,
       "recognitionTier": 5,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "340931d6-cbdf-5818-a2ba-dc4b32e10ba3",
@@ -29402,9 +29402,9 @@
       "recognitionScore": 0.3025,
       "recognitionTier": 4,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "e8e86afb-fe47-5477-92f3-9f424f3c4050",
@@ -29427,9 +29427,9 @@
       "recognitionScore": 0.5508,
       "recognitionTier": 2,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "d8606da0-fa23-58c8-bc4e-959e124dc605",
@@ -29452,9 +29452,9 @@
       "recognitionScore": 0.215,
       "recognitionTier": 5,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "bffd8130-dc75-5aba-9ea5-85405c2f6aaf",
@@ -29477,9 +29477,9 @@
       "recognitionScore": 0.6704,
       "recognitionTier": 1,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "40a88c81-cd8a-56d4-b904-a0742b069433",
@@ -29502,9 +29502,9 @@
       "recognitionScore": 0.4794,
       "recognitionTier": 2,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "a047a0f8-7fa3-5d06-84c1-60f869e87a69",
@@ -29527,9 +29527,9 @@
       "recognitionScore": 0.3035,
       "recognitionTier": 4,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "efd509a9-3724-5dc3-a7d4-1037d91570b2",
@@ -29552,9 +29552,9 @@
       "recognitionScore": 0.3035,
       "recognitionTier": 4,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "bda76639-540c-539b-acc0-899d92556bd4",
@@ -29577,9 +29577,9 @@
       "recognitionScore": 0.5079,
       "recognitionTier": 2,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "f8aa77c9-f4e8-520b-a0bd-503d1060ff9e",
@@ -29602,9 +29602,9 @@
       "recognitionScore": 0.215,
       "recognitionTier": 5,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "b58061bb-9170-5643-8934-2a657389c6f9",
@@ -29627,9 +29627,9 @@
       "recognitionScore": 0.6838,
       "recognitionTier": 1,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "293afd24-3d28-5f05-919a-0ecdfc4efcf7",
@@ -29652,9 +29652,9 @@
       "recognitionScore": 0.5311,
       "recognitionTier": 2,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "e7b5dbf8-3fcd-5008-9da7-44e019a9e404",
@@ -29677,9 +29677,9 @@
       "recognitionScore": 0.5311,
       "recognitionTier": 2,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "6ed2dc91-9e9b-5439-99df-0410dfbf1a3b",
@@ -29702,9 +29702,9 @@
       "recognitionScore": 0.215,
       "recognitionTier": 5,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "0404547a-df45-5f4b-90b2-725bbf5ce955",
@@ -29727,9 +29727,9 @@
       "recognitionScore": 0.4794,
       "recognitionTier": 2,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "b46365b6-2a5f-5575-a596-9cac6d3d97bd",
@@ -29752,9 +29752,9 @@
       "recognitionScore": 0.215,
       "recognitionTier": 5,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "79f36883-1295-51b8-a880-9a84529ca06f",
@@ -29777,9 +29777,9 @@
       "recognitionScore": 0.4794,
       "recognitionTier": 2,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "5ea0fc7d-8ed8-55f1-be8a-e2b6f4909dd9",
@@ -29802,9 +29802,9 @@
       "recognitionScore": 0.215,
       "recognitionTier": 5,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "88e0a64f-6bb6-5298-b8db-93a458cc8b9a",
@@ -29827,9 +29827,9 @@
       "recognitionScore": 0.215,
       "recognitionTier": 5,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "60d16886-1a76-53ea-a13a-6b5338affe1a",
@@ -29852,9 +29852,9 @@
       "recognitionScore": 0.391,
       "recognitionTier": 3,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "c74f27b3-07d6-5c31-b3e8-dabc2c73366c",
@@ -29877,9 +29877,9 @@
       "recognitionScore": 0.39,
       "recognitionTier": 3,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "b4722eb8-8677-50c2-9f61-8cf6bbf95056",
@@ -29902,9 +29902,9 @@
       "recognitionScore": 0.5508,
       "recognitionTier": 2,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "53766a69-10e1-54f7-9171-b8277b79176c",
@@ -29927,9 +29927,9 @@
       "recognitionScore": 0.215,
       "recognitionTier": 5,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "f7af682f-0259-5541-aa7b-f90652c6fa5e",
@@ -29952,9 +29952,9 @@
       "recognitionScore": 0.215,
       "recognitionTier": 5,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "9094f408-ea2e-52fc-a063-e6b17a88d696",
@@ -29977,9 +29977,9 @@
       "recognitionScore": 0.4794,
       "recognitionTier": 2,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "4f6e0de5-fb03-51e1-8636-37ea8a762ad3",
@@ -30002,9 +30002,9 @@
       "recognitionScore": 0.215,
       "recognitionTier": 5,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "a1d9c346-ebb5-5011-b08e-b29cc391503d",
@@ -30027,9 +30027,9 @@
       "recognitionScore": 0.215,
       "recognitionTier": 5,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "1e8711b9-9a16-515b-b8a4-43b14e84c20b",
@@ -98990,23 +98990,25 @@
       "ArtistMaster": "Antonio Rodio",
       "AudioUrl": "https://nttt.blob.core.windows.net/v20/e971c98f-9ba0-5772-9312-a4b2ccbe2f36.mp3",
       "Composer": "",
-      "Year": "2014-09-30T07:00:00Z",
+      "Year": "1944",
       "Style": "Tango",
       "Alternative": "false",
       "Candombe": "false",
       "Cancion": "false",
-      "Singer": null,
+      "Singer": "Alberto Serna",
       "Rating": 3,
       "TimesPlayed": 0,
       "PriorityTier": "B",
       "Weight": 3,
-      "HasSinger": false,
+      "HasSinger": true,
       "recognitionScore": 0.215,
       "recognitionTier": 5,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null,
+      "isReissue": true,
+      "reissueYear": "2014"
     },
     {
       "SongID": "87796072-3304-52d6-9438-7e41763e7d3c",
@@ -99015,23 +99017,25 @@
       "ArtistMaster": "Antonio Rodio",
       "AudioUrl": "https://nttt.blob.core.windows.net/v20/87796072-3304-52d6-9438-7e41763e7d3c.mp3",
       "Composer": "",
-      "Year": "2014-09-30T07:00:00Z",
+      "Year": "1944",
       "Style": "Tango",
       "Alternative": "false",
       "Candombe": "false",
       "Cancion": "false",
-      "Singer": null,
+      "Singer": "Alberto Serna",
       "Rating": 5,
       "TimesPlayed": 7,
       "PriorityTier": "A",
       "Weight": 23,
-      "HasSinger": false,
+      "HasSinger": true,
       "recognitionScore": 0.6554,
       "recognitionTier": 1,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null,
+      "isReissue": true,
+      "reissueYear": "2014"
     },
     {
       "SongID": "733fbb43-5b4f-55ea-83c2-0202a3a88c76",
@@ -99040,23 +99044,25 @@
       "ArtistMaster": "Antonio Rodio",
       "AudioUrl": "https://nttt.blob.core.windows.net/v20/733fbb43-5b4f-55ea-83c2-0202a3a88c76.mp3",
       "Composer": "",
-      "Year": "2014-09-30T07:00:00Z",
+      "Year": "1944",
       "Style": "Tango",
       "Alternative": "false",
       "Candombe": "false",
       "Cancion": "false",
-      "Singer": null,
+      "Singer": "Alberto Serna",
       "Rating": 4,
       "TimesPlayed": 0,
       "PriorityTier": "B",
       "Weight": 6,
-      "HasSinger": false,
+      "HasSinger": true,
       "recognitionScore": 0.3025,
       "recognitionTier": 4,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null,
+      "isReissue": true,
+      "reissueYear": "2014"
     },
     {
       "SongID": "320cd6c8-42eb-5e5a-aab4-e7fc62b90282",
@@ -99065,23 +99071,25 @@
       "ArtistMaster": "Antonio Rodio",
       "AudioUrl": "https://nttt.blob.core.windows.net/v20/320cd6c8-42eb-5e5a-aab4-e7fc62b90282.mp3",
       "Composer": "",
-      "Year": "2014-09-30T07:00:00Z",
+      "Year": "1944",
       "Style": "Tango",
       "Alternative": "false",
       "Candombe": "false",
       "Cancion": "false",
-      "Singer": null,
+      "Singer": "Alberto Serna",
       "Rating": 3,
       "TimesPlayed": 3,
       "PriorityTier": "B",
       "Weight": 9,
-      "HasSinger": false,
+      "HasSinger": true,
       "recognitionScore": 0.3919,
       "recognitionTier": 3,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null,
+      "isReissue": true,
+      "reissueYear": "2014"
     },
     {
       "SongID": "845253b0-ab8a-595e-9176-fb5472e2b14c",
@@ -99090,23 +99098,25 @@
       "ArtistMaster": "Antonio Rodio",
       "AudioUrl": "https://nttt.blob.core.windows.net/v20/845253b0-ab8a-595e-9176-fb5472e2b14c.mp3",
       "Composer": "",
-      "Year": "2014-09-30T07:00:00Z",
+      "Year": "1943",
       "Style": "Tango",
       "Alternative": "false",
       "Candombe": "false",
       "Cancion": "false",
-      "Singer": null,
+      "Singer": "Alberto Serna",
       "Rating": 3,
       "TimesPlayed": 0,
       "PriorityTier": "B",
       "Weight": 3,
-      "HasSinger": false,
+      "HasSinger": true,
       "recognitionScore": 0.215,
       "recognitionTier": 5,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null,
+      "isReissue": true,
+      "reissueYear": "2014"
     },
     {
       "SongID": "c6e29550-f59e-5122-964d-952f1fbb4dab",
@@ -99115,23 +99125,25 @@
       "ArtistMaster": "Antonio Rodio",
       "AudioUrl": "https://nttt.blob.core.windows.net/v20/c6e29550-f59e-5122-964d-952f1fbb4dab.mp3",
       "Composer": "",
-      "Year": "2014-09-30T07:00:00Z",
+      "Year": "1944",
       "Style": "Tango",
       "Alternative": "false",
       "Candombe": "false",
       "Cancion": "false",
-      "Singer": null,
+      "Singer": "Alberto Serna, Daniel Adamo",
       "Rating": 3,
       "TimesPlayed": 0,
       "PriorityTier": "B",
       "Weight": 3,
-      "HasSinger": false,
+      "HasSinger": true,
       "recognitionScore": 0.215,
       "recognitionTier": 5,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null,
+      "isReissue": true,
+      "reissueYear": "2014"
     },
     {
       "SongID": "f0e037ce-e7ad-5a53-ad19-2757bc2f6567",
@@ -99140,23 +99152,25 @@
       "ArtistMaster": "Antonio Rodio",
       "AudioUrl": "https://nttt.blob.core.windows.net/v20/f0e037ce-e7ad-5a53-ad19-2757bc2f6567.mp3",
       "Composer": "",
-      "Year": "2014-09-30T07:00:00Z",
+      "Year": "1943",
       "Style": "Tango",
       "Alternative": "false",
       "Candombe": "false",
       "Cancion": "false",
-      "Singer": null,
+      "Singer": "Mario Corrales",
       "Rating": 4,
       "TimesPlayed": 3,
       "PriorityTier": "B",
       "Weight": 12,
-      "HasSinger": false,
+      "HasSinger": true,
       "recognitionScore": 0.4794,
       "recognitionTier": 2,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null,
+      "isReissue": true,
+      "reissueYear": "2014"
     },
     {
       "SongID": "17680a1c-5ff0-5f34-b959-b97bff3ae96f",
@@ -99165,23 +99179,25 @@
       "ArtistMaster": "Antonio Rodio",
       "AudioUrl": "https://nttt.blob.core.windows.net/v20/17680a1c-5ff0-5f34-b959-b97bff3ae96f.mp3",
       "Composer": "",
-      "Year": "2014-09-30T07:00:00Z",
+      "Year": "1944",
       "Style": "Tango",
       "Alternative": "false",
       "Candombe": "false",
       "Cancion": "false",
-      "Singer": null,
+      "Singer": "Alberto Serna",
       "Rating": 5,
       "TimesPlayed": 8,
       "PriorityTier": "A",
       "Weight": 25,
-      "HasSinger": false,
+      "HasSinger": true,
       "recognitionScore": 0.6704,
       "recognitionTier": 1,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null,
+      "isReissue": true,
+      "reissueYear": "2014"
     },
     {
       "SongID": "ac194a09-1e78-565d-9f69-a01e7e960f4d",
@@ -99190,23 +99206,25 @@
       "ArtistMaster": "Antonio Rodio",
       "AudioUrl": "https://nttt.blob.core.windows.net/v20/ac194a09-1e78-565d-9f69-a01e7e960f4d.mp3",
       "Composer": "",
-      "Year": "2014-09-30T07:00:00Z",
+      "Year": "1944",
       "Style": "Tango",
       "Alternative": "false",
       "Candombe": "false",
       "Cancion": "false",
-      "Singer": null,
+      "Singer": "Alberto Serna, Daniel Adamo",
       "Rating": 4,
       "TimesPlayed": 2,
       "PriorityTier": "B",
       "Weight": 10,
-      "HasSinger": false,
+      "HasSinger": true,
       "recognitionScore": 0.4427,
       "recognitionTier": 3,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null,
+      "isReissue": true,
+      "reissueYear": "2014"
     },
     {
       "SongID": "337bc15b-8ea7-58e2-a4f3-fb5e64ee7ed6",
@@ -99215,23 +99233,25 @@
       "ArtistMaster": "Antonio Rodio",
       "AudioUrl": "https://nttt.blob.core.windows.net/v20/337bc15b-8ea7-58e2-a4f3-fb5e64ee7ed6.mp3",
       "Composer": "",
-      "Year": "2014-09-30T07:00:00Z",
+      "Year": "1943",
       "Style": "Tango",
       "Alternative": "false",
       "Candombe": "false",
       "Cancion": "false",
-      "Singer": null,
+      "Singer": "Alberto Serna",
       "Rating": 4,
       "TimesPlayed": 4,
       "PriorityTier": "B",
       "Weight": 14,
-      "HasSinger": false,
+      "HasSinger": true,
       "recognitionScore": 0.5079,
       "recognitionTier": 2,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null,
+      "isReissue": true,
+      "reissueYear": "2014"
     },
     {
       "SongID": "387e7201-2347-5bc8-b018-50d6d316e992",
@@ -99240,7 +99260,7 @@
       "ArtistMaster": "Antonio Rodio",
       "AudioUrl": "https://nttt.blob.core.windows.net/v20/387e7201-2347-5bc8-b018-50d6d316e992.mp3",
       "Composer": "",
-      "Year": "2014-09-30T07:00:00Z",
+      "Year": "1944",
       "Style": "Tango",
       "Alternative": "false",
       "Candombe": "false",
@@ -99254,9 +99274,11 @@
       "recognitionScore": 0.391,
       "recognitionTier": 3,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null,
+      "isReissue": true,
+      "reissueYear": "2014"
     },
     {
       "SongID": "9354577a-1158-57f5-9393-7fa2aa90a125",
@@ -99265,23 +99287,25 @@
       "ArtistMaster": "Antonio Rodio",
       "AudioUrl": "https://nttt.blob.core.windows.net/v20/9354577a-1158-57f5-9393-7fa2aa90a125.mp3",
       "Composer": "",
-      "Year": "2014-09-30T07:00:00Z",
+      "Year": "1943",
       "Style": "Tango",
       "Alternative": "false",
       "Candombe": "false",
       "Cancion": "false",
-      "Singer": null,
+      "Singer": "Alberto Serna",
       "Rating": 3,
       "TimesPlayed": 0,
       "PriorityTier": "B",
       "Weight": 3,
-      "HasSinger": false,
+      "HasSinger": true,
       "recognitionScore": 0.215,
       "recognitionTier": 5,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null,
+      "isReissue": true,
+      "reissueYear": "2014"
     },
     {
       "SongID": "3f072a33-734b-51f8-822b-6409a82ea95d",
@@ -99290,7 +99314,7 @@
       "ArtistMaster": "Antonio Rodio",
       "AudioUrl": "https://nttt.blob.core.windows.net/v20/3f072a33-734b-51f8-822b-6409a82ea95d.mp3",
       "Composer": "",
-      "Year": "2014-09-30T07:00:00Z",
+      "Year": "1943",
       "Style": "Tango",
       "Alternative": "false",
       "Candombe": "false",
@@ -99304,9 +99328,11 @@
       "recognitionScore": 0.215,
       "recognitionTier": 5,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null,
+      "isReissue": true,
+      "reissueYear": "2014"
     },
     {
       "SongID": "725c23c4-1023-5297-8db1-823271e9b3f0",
@@ -99315,23 +99341,25 @@
       "ArtistMaster": "Antonio Rodio",
       "AudioUrl": "https://nttt.blob.core.windows.net/v20/725c23c4-1023-5297-8db1-823271e9b3f0.mp3",
       "Composer": "",
-      "Year": "2014-09-30T07:00:00Z",
+      "Year": "1944",
       "Style": "Tango",
       "Alternative": "false",
       "Candombe": "false",
       "Cancion": "false",
-      "Singer": null,
+      "Singer": "Alberto Serna",
       "Rating": 3,
       "TimesPlayed": 1,
       "PriorityTier": "B",
       "Weight": 5,
-      "HasSinger": false,
+      "HasSinger": true,
       "recognitionScore": 0.3035,
       "recognitionTier": 4,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null,
+      "isReissue": true,
+      "reissueYear": "2014"
     },
     {
       "SongID": "c5c978d5-dca3-572d-bb33-f123825329c2",
@@ -99340,23 +99368,25 @@
       "ArtistMaster": "Antonio Rodio",
       "AudioUrl": "https://nttt.blob.core.windows.net/v20/c5c978d5-dca3-572d-bb33-f123825329c2.mp3",
       "Composer": "",
-      "Year": "2014-09-30T07:00:00Z",
+      "Year": "1943",
       "Style": "Tango",
       "Alternative": "false",
       "Candombe": "false",
       "Cancion": "false",
-      "Singer": null,
+      "Singer": "Mario Corrales",
       "Rating": 4,
       "TimesPlayed": 5,
       "PriorityTier": "A",
       "Weight": 16,
-      "HasSinger": false,
+      "HasSinger": true,
       "recognitionScore": 0.5311,
       "recognitionTier": 2,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null,
+      "isReissue": true,
+      "reissueYear": "2014"
     },
     {
       "SongID": "a2449aea-8768-5e85-8b82-2582f2bedca3",
@@ -106890,9 +106920,9 @@
       "recognitionScore": 0.4427,
       "recognitionTier": 3,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "52776722-7185-557f-a12a-13654a0ce9e8",
@@ -106915,9 +106945,9 @@
       "recognitionScore": 0.6186,
       "recognitionTier": 2,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "4eeaad7f-c8e7-5377-a2f0-53cec513c023",
@@ -106940,9 +106970,9 @@
       "recognitionScore": 0.215,
       "recognitionTier": 5,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "be0fa5c9-e5b4-5592-93b4-9d3747346445",
@@ -106965,9 +106995,9 @@
       "recognitionScore": 0.5079,
       "recognitionTier": 2,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "ffbc10c6-097a-566a-b2b2-a4f6f18974cf",
@@ -106990,9 +107020,9 @@
       "recognitionScore": 0.5954,
       "recognitionTier": 2,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "a7fccb99-48f5-5150-9a66-0ee88a6f16c0",
@@ -107015,9 +107045,9 @@
       "recognitionScore": 0.4427,
       "recognitionTier": 3,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "0420a001-a60b-5339-99fb-43e0a58448b6",
@@ -107040,9 +107070,9 @@
       "recognitionScore": 0.215,
       "recognitionTier": 5,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "557b5586-23f6-5eaf-bb6b-6696abce134c",
@@ -107065,9 +107095,9 @@
       "recognitionScore": 0.4427,
       "recognitionTier": 3,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "57d43596-8ba3-587a-96be-fbf0c28e3964",
@@ -107090,9 +107120,9 @@
       "recognitionScore": 0.391,
       "recognitionTier": 3,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "d262cba3-2f7f-5770-b39b-e1a22981f7d2",
@@ -107115,9 +107145,9 @@
       "recognitionScore": 0.391,
       "recognitionTier": 3,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "8bffac05-fd54-584f-b8f5-1cf069abab65",
@@ -107140,9 +107170,9 @@
       "recognitionScore": 0.5079,
       "recognitionTier": 2,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "109c862b-a487-510b-ab3f-e2e9051bc4dc",
@@ -107165,9 +107195,9 @@
       "recognitionScore": 0.215,
       "recognitionTier": 5,
       "orchestraLevel": 4,
-      "doNotPlay": true,
-      "dnpReason": "data_quality",
-      "dnpNotes": "Auto-marked from unreviewed DQ issues"
+      "doNotPlay": false,
+      "dnpReason": null,
+      "dnpNotes": null
     },
     {
       "SongID": "5ed52bc7-f7ee-5895-85c4-1293966cb4fc",
@@ -107326,7 +107356,7 @@
       "ArtistMaster": "Sexteto Cristal",
       "AudioUrl": "https://nttt.blob.core.windows.net/v20/2515f1b0-fc59-5c2c-9d6a-59332372bfaa.mp3",
       "Composer": "",
-      "Year": "",
+      "Year": "2018",
       "Style": "Tango",
       "Alternative": "false",
       "Candombe": "false",
@@ -107376,7 +107406,7 @@
       "ArtistMaster": "Sexteto Cristal",
       "AudioUrl": "https://nttt.blob.core.windows.net/v20/6269bfca-9a45-52a6-9071-ec1f33e7157b.mp3",
       "Composer": "",
-      "Year": "",
+      "Year": "2018",
       "Style": "Tango",
       "Alternative": "false",
       "Candombe": "false",
@@ -107401,7 +107431,7 @@
       "ArtistMaster": "Sexteto Cristal",
       "AudioUrl": "https://nttt.blob.core.windows.net/v20/ca4aa1a8-7cdc-5366-b4fe-5c96d176aa4f.mp3",
       "Composer": "",
-      "Year": "",
+      "Year": "2018",
       "Style": "Tango",
       "Alternative": "false",
       "Candombe": "false",

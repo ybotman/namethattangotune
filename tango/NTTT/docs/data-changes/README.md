@@ -62,6 +62,23 @@ YYYY-MM-DD_description.json
 | Date | Description | Songs Affected |
 |------|-------------|----------------|
 | 2026-02-26 | Add Orquesta Romantica Milonguera | 9 |
+| 2026-02-26 | Fix Romantica year format | 9 |
+| 2026-02-26 | Remove accents from ArtistMaster | 5 |
+| 2026-02-26 | Normalize Hyperion variations | 17 |
+| 2026-02-26 | Fix Nina Miranda & Racciatti | 12 |
+| 2026-02-26 | Mark reissues (7 true duplicates) | 7 |
+| 2026-02-26 | Fix El Cachivache quinteto | 9 |
+| 2026-02-26 | Fix Andariega variations | 35 |
+| 2026-02-26 | Fix Zorros Grises | 19 |
+| 2026-02-26 | Mark Bandonegro valid modern | 25 |
+| 2026-02-26 | Mark Pablo Valle valid modern | 26 |
+| 2026-02-26 | Add Otros Aires | 7 |
+| 2026-02-26 | Mark Caceres valid modern | 3 |
+| 2026-02-26 | Fix Chino Laborde / Solo Tango | 10 |
+| 2026-02-26 | Fix Florindo Sassone years | 17 |
+| 2026-02-26 | Fix Horacio Salgan | 14 |
+| 2026-02-26 | **Sexteto Milonguero + Cristal valid** | **49** |
+| 2026-02-26 | **Antonio Rodio: fix years 1943-44, add singers** | **15** |
 
 ---
 *Compas - NTTT Data Quality*
