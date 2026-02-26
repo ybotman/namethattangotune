@@ -83,8 +83,8 @@ const gameCategories = [
     ],
   },
   {
-    title: "Listen Mode",
-    description: "Just listen - no scoring",
+    title: "Other",
+    description: "Listen & compare",
     games: [
       {
         name: "Listen",
@@ -92,12 +92,6 @@ const gameCategories = [
         icon: "icons/IconLearnOrch.webp",
         isActive: true,
       },
-    ],
-  },
-  {
-    title: "Compare",
-    description: "Compare different recordings",
-    games: [
       {
         name: "Same Song",
         path: "/games/same-song",
