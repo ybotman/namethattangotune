@@ -11,6 +11,9 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useRouter } from "next/navigation";
 
+// Tools password
+const TOOLS_PASSWORD = "!El4Gotan";
+
 // Game categories with games
 const gameCategories = [
   {
@@ -106,6 +109,7 @@ const gameCategories = [
   {
     title: "Tools",
     description: "Development & validation",
+    requiresPassword: true,
     games: [
       {
         name: "Recognition Validator",
@@ -225,9 +229,37 @@ function GameCard({ game, isMobile }) {
   );
 }
 
-function CategorySection({ category, isMobile }) {
+function CategorySection({ category, isMobile, isUnlocked, onUnlock }) {
   const activeGames = category.games.filter((g) => g.isActive);
   const inactiveGames = category.games.filter((g) => !g.isActive);
+  const [showPasswordInput, setShowPasswordInput] = React.useState(false);
+  const [password, setPassword] = React.useState("");
+  const [error, setError] = React.useState(false);
+
+  const needsUnlock = category.requiresPassword && !isUnlocked;
+
+  const handleUnlockClick = () => {
+    setShowPasswordInput(true);
+    setError(false);
+  };
+
+  const handlePasswordSubmit = () => {
+    if (password === TOOLS_PASSWORD) {
+      onUnlock();
+      setShowPasswordInput(false);
+      setPassword("");
+      setError(false);
+    } else {
+      setError(true);
+      setPassword("");
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handlePasswordSubmit();
+    }
+  };
 
   return (
     <Paper
@@ -259,21 +291,74 @@ function CategorySection({ category, isMobile }) {
         </Typography>
       </Box>
 
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: isMobile ? 1 : 2,
-          justifyContent: isMobile ? "center" : "flex-start",
-        }}
-      >
-        {activeGames.map((game, idx) => (
-          <GameCard key={idx} game={game} isMobile={isMobile} />
-        ))}
-        {inactiveGames.map((game, idx) => (
-          <GameCard key={`inactive-${idx}`} game={game} isMobile={isMobile} />
-        ))}
-      </Box>
+      {needsUnlock ? (
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 1 }}>
+          {!showPasswordInput ? (
+            <Button
+              variant="outlined"
+              onClick={handleUnlockClick}
+              sx={{
+                borderColor: "gray",
+                color: "gray",
+                textTransform: "none",
+              }}
+            >
+              🔒 Unlock Tools
+            </Button>
+          ) : (
+            <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Password"
+                autoFocus
+                style={{
+                  padding: "8px 12px",
+                  borderRadius: "4px",
+                  border: error ? "2px solid #E53935" : "1px solid var(--accent)",
+                  backgroundColor: "var(--input-bg)",
+                  color: "var(--foreground)",
+                  outline: "none",
+                }}
+              />
+              <Button
+                variant="contained"
+                onClick={handlePasswordSubmit}
+                size="small"
+                sx={{
+                  backgroundColor: "var(--accent)",
+                  color: "var(--background)",
+                }}
+              >
+                Go
+              </Button>
+            </Box>
+          )}
+          {error && (
+            <Typography variant="caption" sx={{ color: "#E53935" }}>
+              Incorrect password
+            </Typography>
+          )}
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: isMobile ? 1 : 2,
+            justifyContent: isMobile ? "center" : "flex-start",
+          }}
+        >
+          {activeGames.map((game, idx) => (
+            <GameCard key={idx} game={game} isMobile={isMobile} />
+          ))}
+          {inactiveGames.map((game, idx) => (
+            <GameCard key={`inactive-${idx}`} game={game} isMobile={isMobile} />
+          ))}
+        </Box>
+      )}
     </Paper>
   );
 }
@@ -344,6 +429,18 @@ export default function GameHubPage() {
   const router = useRouter();
   const isMobile = useMediaQuery("(max-width: 600px)");
   const isTablet = useMediaQuery("(max-width: 900px)");
+  const [toolsUnlocked, setToolsUnlocked] = React.useState(false);
+
+  // Check if tools were unlocked this session
+  React.useEffect(() => {
+    const unlocked = sessionStorage.getItem("nttt-tools-unlocked");
+    if (unlocked === "true") setToolsUnlocked(true);
+  }, []);
+
+  const handleToolsUnlock = () => {
+    sessionStorage.setItem("nttt-tools-unlocked", "true");
+    setToolsUnlocked(true);
+  };
 
   const handleLogout = async () => {
     await logOut();
@@ -443,7 +540,13 @@ export default function GameHubPage() {
         }}
       >
         {gameCategories.map((category, idx) => (
-          <CategorySection key={idx} category={category} isMobile={isMobile} />
+          <CategorySection
+            key={idx}
+            category={category}
+            isMobile={isMobile}
+            isUnlocked={toolsUnlocked}
+            onUnlock={handleToolsUnlock}
+          />
         ))}
       </Box>
 
