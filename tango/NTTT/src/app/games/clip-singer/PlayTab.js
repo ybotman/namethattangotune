@@ -492,12 +492,6 @@ export default function PlayTab({ songs, config, onCancel }) {
         })}
       </List>
 
-      {!hasPlayed && !roundOver && (
-        <Typography variant="body2" sx={{ textAlign: "center", color: "var(--accent)" }}>
-          Play the clip to reveal answers
-        </Typography>
-      )}
-
       {/* Round result feedback */}
       {roundOver && (
         <Box sx={{ mt: 2, textAlign: "center" }}>
