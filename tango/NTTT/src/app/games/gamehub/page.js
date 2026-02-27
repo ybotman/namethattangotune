@@ -756,6 +756,7 @@ export default function GameHubPage() {
   const router = useRouter();
   const isMobile = useMediaQuery("(max-width: 600px)");
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+  const [targetPage, setTargetPage] = useState(undefined);
 
   // Check if first visit on mount
   useEffect(() => {
@@ -772,7 +773,7 @@ export default function GameHubPage() {
   const handleStartFromWelcome = () => {
     markWelcomeSeen();
     setShowWelcomeModal(false);
-    router.push("/games/orchestra-learn");
+    setTargetPage(1); // Navigate to Orchestra page (index 1)
   };
 
   const handleQuickStart = () => {
@@ -856,7 +857,7 @@ export default function GameHubPage() {
 
       {/* Swipeable Menu */}
       <Box sx={{ flex: 1, minHeight: 0 }}>
-        <SwipeMenu pages={pages} initialPage={0} />
+        <SwipeMenu pages={pages} initialPage={0} externalPage={targetPage} />
       </Box>
     </Box>
   );

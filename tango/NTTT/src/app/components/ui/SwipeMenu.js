@@ -11,8 +11,16 @@ import { motion, AnimatePresence, useMotionValue, useTransform } from "motion/re
 
 const SWIPE_THRESHOLD = 50; // px needed to trigger page change
 
-export default function SwipeMenu({ pages, initialPage = 0, onPageChange }) {
+export default function SwipeMenu({ pages, initialPage = 0, onPageChange, externalPage }) {
   const [currentPage, setCurrentPage] = useState(initialPage);
+
+  // Allow external control of page
+  useEffect(() => {
+    if (externalPage !== undefined && externalPage !== currentPage) {
+      setDirection(externalPage > currentPage ? 1 : -1);
+      setCurrentPage(externalPage);
+    }
+  }, [externalPage]);
   const [direction, setDirection] = useState(0);
   const dragX = useMotionValue(0);
 
