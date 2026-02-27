@@ -87,12 +87,11 @@ export default function PlayButton({ onClick, size = 90, disabled = false }) {
         },
       }}
     >
-      {/* Play icon with drop shadow for depth */}
+      {/* Play icon centered with drop shadow for depth */}
       <PlayArrowIcon
         sx={{
           fontSize: size * 0.55,
           color: "white",
-          marginLeft: size * 0.06,
           filter: "drop-shadow(2px 3px 3px rgba(0, 0, 0, 0.4))",
         }}
       />
