@@ -260,6 +260,9 @@ export default function PlayTab({ songs, config, onCancel }) {
   const handleAnswerSelect = useCallback((ans) => {
     if (roundOver || !hasPlayed) return;
 
+    // Stop playback and hide countdown when answer selected
+    stopPlayback();
+
     setSelectedAnswer(ans);
     const correctSinger = (currentSong?.Singer || "").trim().toLowerCase();
     const correctAns = currentSong?.Singer || "";
@@ -295,7 +298,7 @@ export default function PlayTab({ songs, config, onCancel }) {
         setRoundOver(true);
       }
     }
-  }, [currentSong, roundOver, hasPlayed, roundScore, replayCount, wrongAnswers, cleanupWaveSurfer, maxPossibleScore]);
+  }, [currentSong, roundOver, hasPlayed, roundScore, replayCount, wrongAnswers, cleanupWaveSurfer, maxPossibleScore, stopPlayback]);
 
   // Next song
   const doNextSong = useCallback(() => {
