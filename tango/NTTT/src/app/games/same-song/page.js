@@ -7,7 +7,6 @@
 "use client";
 
 import React, { useState, useCallback, useEffect } from "react";
-import Image from "next/image";
 import {
   Box,
   Typography,
@@ -17,6 +16,7 @@ import {
 } from "@mui/material";
 import CompareTab from "./CompareTab";
 import ConfigTab from "./ConfigTab";
+import PlayButton from "@/components/ui/PlayButton";
 import { fetchSongsGroupedByTitle } from "@/utils/dataFetching";
 import { trackGameSetup, trackGameStart } from "@/utils/analytics";
 import { enterGameMode, exitGameMode } from "@/hooks/useFullscreen";
@@ -136,33 +136,8 @@ export default function SameSongPage() {
           Same Song Compare
         </Typography>
 
-        {/* Play Button - pulsing icon */}
-        <Box
-          onClick={handlePlayClick}
-          sx={{
-            cursor: selectedGroup ? "pointer" : "not-allowed",
-            animation: selectedGroup ? "pulse 2s ease-in-out infinite" : "none",
-            "@keyframes pulse": {
-              "0%, 100%": { transform: "scale(1)", boxShadow: "0 0 15px rgba(255, 165, 0, 0.5)" },
-              "50%": { transform: "scale(1.08)", boxShadow: "0 0 25px rgba(255, 165, 0, 0.8)" },
-            },
-            borderRadius: "50%",
-            display: "inline-block",
-            opacity: selectedGroup ? 1 : 0.5,
-          }}
-        >
-          <Image
-            src={`/icons/IconLearnSongs.webp`}
-            alt="Play"
-            width={70}
-            height={70}
-            style={{
-              borderRadius: "50%",
-              objectFit: "cover",
-              display: "block",
-            }}
-          />
-        </Box>
+        {/* Play Button */}
+        <PlayButton onClick={handlePlayClick} disabled={!selectedGroup} />
       </Box>
 
       {/* Song Selector */}

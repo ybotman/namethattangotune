@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, useCallback, useEffect } from "react";
-import Image from "next/image";
 import { Box, Typography } from "@mui/material";
 import ConfigTab from "./ConfigTab";
+import PlayButton from "@/components/ui/PlayButton";
 import ListenTab from "./ListenTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs, fetchAllArtists, shuffleArray } from "@/utils/dataFetching";
@@ -140,32 +140,8 @@ export default function ListenPage() {
           Listen Mode
         </Typography>
 
-        {/* Play Button - pulsing icon */}
-        <Box
-          onClick={handlePlayClick}
-          sx={{
-            cursor: "pointer",
-            animation: "pulse 2s ease-in-out infinite",
-            "@keyframes pulse": {
-              "0%, 100%": { transform: "scale(1)", boxShadow: "0 0 15px rgba(100, 200, 100, 0.5)" },
-              "50%": { transform: "scale(1.08)", boxShadow: "0 0 25px rgba(100, 200, 100, 0.8)" },
-            },
-            borderRadius: "50%",
-            display: "inline-block",
-          }}
-        >
-          <Image
-            src="/icons/IconLearnOrch.webp"
-            alt="Play"
-            width={70}
-            height={70}
-            style={{
-              borderRadius: "50%",
-              objectFit: "cover",
-              display: "block",
-            }}
-          />
-        </Box>
+        {/* Play Button */}
+        <PlayButton onClick={handlePlayClick} />
       </Box>
 
       {/* Configuration */}

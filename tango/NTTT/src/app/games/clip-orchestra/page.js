@@ -6,8 +6,8 @@
 
 import React, { useState, useCallback } from "react";
 import { Box, Typography } from "@mui/material";
-import Image from "next/image";
 import ConfigTab from "./ConfigTab";
+import PlayButton from "@/components/ui/PlayButton";
 import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
@@ -121,32 +121,8 @@ export default function ClipOrchestraPage() {
           Clip Quiz: Orchestra
         </Typography>
 
-        {/* Play Button - pulsing icon */}
-        <Box
-          onClick={handlePlayClick}
-          sx={{
-            cursor: "pointer",
-            animation: "pulse 2s ease-in-out infinite",
-            "@keyframes pulse": {
-              "0%, 100%": { transform: "scale(1)", boxShadow: "0 0 15px rgba(0, 123, 255, 0.5)" },
-              "50%": { transform: "scale(1.08)", boxShadow: "0 0 25px rgba(0, 123, 255, 0.8)" },
-            },
-            borderRadius: "50%",
-            display: "inline-block",
-          }}
-        >
-          <Image
-            src={`/icons/IconQuiz.webp`}
-            alt="Play"
-            width={70}
-            height={70}
-            style={{
-              borderRadius: "50%",
-              objectFit: "cover",
-              display: "block",
-            }}
-          />
-        </Box>
+        {/* Play Button */}
+        <PlayButton onClick={handlePlayClick} />
       </Box>
 
       <ConfigTab />

@@ -6,9 +6,9 @@
 "use client";
 
 import React, { useState, useCallback } from "react";
-import Image from "next/image";
 import { Box, Typography } from "@mui/material";
 import ConfigTab from "./ConfigTab";
+import PlayButton from "@/components/ui/PlayButton";
 import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
@@ -134,34 +134,8 @@ export default function ArtistLearnPage() {
           Mastering Orchestras
         </Typography>
 
-        {/* Play Button - pulsing only when valid */}
-        <Box
-          onClick={configValid ? handlePlayClick : undefined}
-          sx={{
-            cursor: configValid ? "pointer" : "not-allowed",
-            animation: configValid ? "pulse 2s ease-in-out infinite" : "none",
-            "@keyframes pulse": {
-              "0%, 100%": { transform: "scale(1)", boxShadow: "0 0 15px rgba(0, 123, 255, 0.5)" },
-              "50%": { transform: "scale(1.08)", boxShadow: "0 0 25px rgba(0, 123, 255, 0.8)" },
-            },
-            borderRadius: "50%",
-            display: "inline-block",
-            opacity: configValid ? 1 : 0.4,
-            filter: configValid ? "none" : "grayscale(50%)",
-          }}
-        >
-          <Image
-            src={`/icons/IconLearnOrch.webp`}
-            alt="Play"
-            width={70}
-            height={70}
-            style={{
-              borderRadius: "50%",
-              objectFit: "cover",
-              display: "block",
-            }}
-          />
-        </Box>
+        {/* Play Button */}
+        <PlayButton onClick={handlePlayClick} disabled={!configValid} />
       </Box>
 
       {/* Configuration Tab */}
