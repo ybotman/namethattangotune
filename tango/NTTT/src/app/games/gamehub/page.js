@@ -7,7 +7,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Box, Typography, Paper, Button, useMediaQuery, Modal, IconButton } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import CloseIcon from "@mui/icons-material/Close";
@@ -754,9 +754,21 @@ function SetupPage() {
 // Main GameHub Page
 export default function GameHubPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const isMobile = useMediaQuery("(max-width: 600px)");
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [targetPage, setTargetPage] = useState(undefined);
+
+  // Check for page param in URL (e.g., ?page=1 for Orchestra)
+  useEffect(() => {
+    const pageParam = searchParams.get("page");
+    if (pageParam !== null) {
+      const pageNum = parseInt(pageParam, 10);
+      if (!isNaN(pageNum) && pageNum >= 0) {
+        setTargetPage(pageNum);
+      }
+    }
+  }, [searchParams]);
 
   // Check if first visit on mount
   useEffect(() => {

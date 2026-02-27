@@ -161,7 +161,7 @@ export default function ClipSingerPage() {
         }}
       >
         <Box sx={{ position: "absolute", left: 8 }}>
-          <BackButton />
+          <BackButton href="/games/gamehub?page=2" />
         </Box>
         <Typography
           variant="h6"

@@ -161,7 +161,7 @@ export default function ClipOrchestraPage() {
         }}
       >
         <Box sx={{ position: "absolute", left: 8 }}>
-          <BackButton />
+          <BackButton href="/games/gamehub?page=1" />
         </Box>
         <Typography
           variant="h6"
