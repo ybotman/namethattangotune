@@ -1,5 +1,5 @@
 //--------
-//src/app/games/singer-quiz/page.js
+//src/app/games/orchestra-quiz/page.js
 //--------
 
 "use client";
@@ -18,14 +18,15 @@ import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
 import { trackGameSetup, trackGameStart } from "@/utils/analytics";
 import { enterGameMode, exitGameMode } from "@/hooks/useFullscreen";
-import styles from "../styles.module.css";
+import styles from "./styles.module.css";
 
-export default function SingerQuizPage() {
+export default function ArtistQuizPage() {
   const [songs, setSongs] = useState([]);
   const [showPlayTab, setShowPlayTab] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
 
   // Detect landscape mode (min-width 768px AND landscape orientation)
+  // noSsr: true ensures it updates dynamically without needing refresh
   const isLandscape = useMediaQuery("(min-width: 768px) and (orientation: landscape)", { noSsr: true });
 
   const { config, resetAll } = useGameContext();
@@ -39,39 +40,33 @@ export default function SingerQuizPage() {
 
   const handlePlayClick = useCallback(async () => {
     if (!canPlay) {
-      alert("Please select at least 1 Familiarity level and 1 Era to play.");
+      alert("Please select at least 1 Familiarity level, 1 Style, and 1 Era to play.");
       return;
     }
-
-    console.log("Singer Quiz config:", config);
 
     const numSongs = config.numSongs ?? 10;
     const chosenArtists = (config.artists || []).map((a) => a.value);
-    const chosenSingers = config.singers || [];
+    const includeSinger = config.includeSinger ?? false;
 
-    // Fetch songs with singers (requireSinger = true)
     const { songs: fetchedSongs } = await fetchFilteredSongs(
       chosenArtists,
-      [], // artistLevels - legacy, no longer used
-      [], // composers
-      [], // styles - not used for singer quiz
-      "", // candombe
-      "", // alternative
-      "", // cancion
+      [],
+      [],
+      activeStyles,
+      "",
+      "",
+      "",
       numSongs,
-      { requireSinger: true, singers: chosenSingers, recognitionTiers, periods },
+      { includeSinger, recognitionTiers, periods, requireOrchestra: true },
     );
 
     if (!fetchedSongs || fetchedSongs.length === 0) {
-      alert(
-        "No songs with singers found for this configuration. Try different settings or wait for vocal analysis to complete.",
-      );
+      alert("No songs returned for this configuration. Try different settings.");
       return;
     }
 
-    // Track game setup and start
-    trackGameSetup("singer-quiz", config);
-    trackGameStart("singer-quiz", config);
+    trackGameSetup("orchestra-quiz", config);
+    trackGameStart("orchestra-quiz", config);
     enterGameMode();
 
     setSongs(fetchedSongs);
@@ -113,10 +108,10 @@ export default function SingerQuizPage() {
         </Typography>
       )}
       <Box sx={{ display: "flex", gap: 3, alignItems: "center" }}>
-        <PulsingArrow gameId="singer-quiz" />
+        <PulsingArrow gameId="orchestra-quiz" />
         <HelpButton
-          title="Singer Quiz"
-          description="Identify the singer from a vocal clip. Filter by orchestra or specific singers. Clips start in vocal sections. Faster = more points."
+          title="Orchestra Quiz"
+          description="Listen to a clip and guess which orchestra is playing. Filter by era, style, or specific orchestras. Faster correct answers = higher scores. Wrong guesses reduce points."
         />
         <ResetButton onClick={resetAll} />
       </Box>
@@ -172,7 +167,7 @@ export default function SingerQuizPage() {
             textAlign: "center",
           }}
         >
-          Singer Quiz
+          Orchestra Quiz
         </Typography>
       </Box>
 
@@ -241,10 +236,10 @@ export default function SingerQuizPage() {
           >
             <Box sx={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
               <Box sx={{ position: "absolute", left: -65, display: "flex", alignItems: "center" }}>
-                <PulsingArrow gameId="singer-quiz" />
+                <PulsingArrow gameId="orchestra-quiz" />
                 <HelpButton
-                  title="Singer Quiz"
-                  description="Identify the singer from a vocal clip. Filter by orchestra or specific singers. Clips start in vocal sections. Faster = more points."
+                  title="Orchestra Quiz"
+                  description="Listen to a clip and guess which orchestra is playing. Filter by era, style, or specific orchestras. Faster correct answers = higher scores. Wrong guesses reduce points."
                 />
               </Box>
               <PlayButton onClick={handlePlayClick} disabled={!canPlay || showFilters} />

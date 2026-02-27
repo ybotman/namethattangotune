@@ -1,10 +1,13 @@
 "use client";
 
 import React, { useState, useCallback, useEffect } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Divider, useMediaQuery } from "@mui/material";
 import ConfigTab from "./ConfigTab";
+import BackButton from "@/components/ui/BackButton";
 import PlayButton from "@/components/ui/PlayButton";
 import HelpButton from "@/components/ui/HelpButton";
+import PulsingArrow from "@/components/ui/PulsingArrow";
+import ResetButton from "@/components/ui/ResetButton";
 import ListenTab from "./ListenTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs, fetchAllArtists, shuffleArray } from "@/utils/dataFetching";
@@ -18,7 +21,10 @@ export default function ListenPage() {
   const [artistOptions, setArtistOptions] = useState([]);
   const [singerOptions, setSingerOptions] = useState([]);
 
-  const { config } = useGameContext();
+  // Detect landscape mode (min-width 768px AND landscape orientation)
+  const isLandscape = useMediaQuery("(min-width: 768px) and (orientation: landscape)", { noSsr: true });
+
+  const { config, resetAll } = useGameContext();
 
   // Load artist and singer options on mount
   useEffect(() => {
@@ -42,11 +48,19 @@ export default function ListenPage() {
     })();
   }, []);
 
+  // Validation: need at least 1 style and 1 era
+  const activeStyles = Object.keys(config.styles || {}).filter((key) => config.styles[key]);
+  const periods = config.periods || [];
+
+  const canPlay = activeStyles.length >= 1 && periods.length >= 1;
+
   const handlePlayClick = useCallback(async () => {
+    if (!canPlay) {
+      alert("Please select at least 1 Style and 1 Era to play.");
+      return;
+    }
+
     const numSongs = config.numSongs ?? 50;
-    const activeStyles = Object.keys(config.styles || {}).filter(
-      (key) => config.styles[key],
-    );
     const chosenArtists = (config.artists || []).map((a) => a.value);
     const chosenSingers = (config.singers || []).map((s) =>
       typeof s === "string" ? s : s.value
@@ -91,6 +105,47 @@ export default function ListenPage() {
     setShowListenTab(false);
   };
 
+  // Build validation message
+  const getValidationMessage = () => {
+    const missing = [];
+    if (activeStyles.length === 0) missing.push("Style");
+    if (periods.length === 0) missing.push("Era");
+    if (missing.length === 0) return null;
+    return `Select at least 1 ${missing.join(", 1 ")}`;
+  };
+
+  // Play area component (reused in both layouts)
+  const PlayArea = () => (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 3,
+        height: "100%",
+      }}
+    >
+      <Typography variant="body2" sx={{ color: "var(--foreground)", opacity: 0.6, textAlign: "center" }}>
+        Pure listening - no quizzes!
+      </Typography>
+      <PlayButton onClick={handlePlayClick} disabled={!canPlay} />
+      {!canPlay && (
+        <Typography variant="caption" sx={{ color: "#FF9800", textAlign: "center" }}>
+          {getValidationMessage()}
+        </Typography>
+      )}
+      <Box sx={{ display: "flex", gap: 3, alignItems: "center" }}>
+        <PulsingArrow gameId="listen" />
+        <HelpButton
+          title="Listen Mode"
+          description="Pure listening - no quizzes! Auto-plays through songs with full info displayed. Filter by orchestra, singer, style, or era. Great for passive learning."
+        />
+        <ResetButton onClick={resetAll} />
+      </Box>
+    </Box>
+  );
+
   return (
     <Box
       className={styles.container}
@@ -117,44 +172,120 @@ export default function ListenPage() {
         </Box>
       )}
 
-      {/* Header - Title + Play Button (compact) */}
+      {/* Header: Back button + Title */}
       <Box
         sx={{
           display: "flex",
-          flexDirection: "column",
           alignItems: "center",
-          px: 2,
+          justifyContent: "center",
+          position: "relative",
           pt: 1,
-          mb: 0,
+          mb: 1,
         }}
       >
-        {/* Game Title - Centered */}
+        <Box sx={{ position: "absolute", left: 8 }}>
+          <BackButton />
+        </Box>
         <Typography
           variant="h6"
           sx={{
             fontWeight: "bold",
             color: "var(--foreground)",
             textAlign: "center",
-            mb: 0.5,
           }}
         >
           Listen Mode
         </Typography>
-
-        {/* Play Button (centered) + Help Button (left) */}
-        <Box sx={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
-          <Box sx={{ position: "absolute", left: -50 }}>
-            <HelpButton
-              title="Listen Mode"
-              description="Pure listening - no quizzes! Auto-plays through songs with full info displayed. Filter by orchestra, singer, style, or era. Great for passive learning."
-            />
-          </Box>
-          <PlayButton onClick={handlePlayClick} />
-        </Box>
       </Box>
 
-      {/* Configuration */}
-      <ConfigTab artistOptions={artistOptions} singerOptions={singerOptions} />
+      {isLandscape ? (
+        // LANDSCAPE LAYOUT: Two columns
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "stretch",
+            height: "calc(100vh - 60px)",
+            px: 2,
+          }}
+        >
+          {/* Left: Config */}
+          <Box
+            sx={{
+              flex: 1,
+              overflowY: "auto",
+              pr: 2,
+            }}
+          >
+            <ConfigTab artistOptions={artistOptions} singerOptions={singerOptions} />
+          </Box>
+
+          {/* Divider */}
+          <Divider
+            orientation="vertical"
+            flexItem
+            sx={{ borderColor: "rgba(255,255,255,0.2)", mx: 1 }}
+          />
+
+          {/* Right: Play Area */}
+          <Box
+            sx={{
+              flex: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              pl: 2,
+              height: "100%",
+            }}
+          >
+            <PlayArea />
+          </Box>
+        </Box>
+      ) : (
+        // PORTRAIT LAYOUT: Vertical stack with justified spacing
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "space-evenly",
+            minHeight: "calc(100vh - 60px)",
+            px: 2,
+          }}
+        >
+          {/* Play Button area */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Box sx={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+              <Box sx={{ position: "absolute", left: -65, display: "flex", alignItems: "center" }}>
+                <PulsingArrow gameId="listen" />
+                <HelpButton
+                  title="Listen Mode"
+                  description="Pure listening - no quizzes! Auto-plays through songs with full info displayed. Filter by orchestra, singer, style, or era. Great for passive learning."
+                />
+              </Box>
+              <PlayButton onClick={handlePlayClick} disabled={!canPlay} />
+              <Box sx={{ position: "absolute", right: -65, display: "flex", alignItems: "center" }}>
+                <ResetButton onClick={resetAll} />
+              </Box>
+            </Box>
+          </Box>
+
+          <Divider sx={{ width: "60%", borderColor: "rgba(255,255,255,0.1)" }} />
+
+          {/* Configuration */}
+          <Box sx={{ width: "100%" }}>
+            <ConfigTab artistOptions={artistOptions} singerOptions={singerOptions} />
+          </Box>
+
+          <Divider sx={{ width: "60%", borderColor: "rgba(255,255,255,0.1)" }} />
+        </Box>
+      )}
     </Box>
   );
 }

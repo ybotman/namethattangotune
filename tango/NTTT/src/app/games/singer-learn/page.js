@@ -5,10 +5,13 @@
 "use client";
 
 import React, { useState, useCallback } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Divider, useMediaQuery } from "@mui/material";
 import ConfigTab from "./ConfigTab";
+import BackButton from "@/components/ui/BackButton";
 import PlayButton from "@/components/ui/PlayButton";
 import HelpButton from "@/components/ui/HelpButton";
+import PulsingArrow from "@/components/ui/PulsingArrow";
+import ResetButton from "@/components/ui/ResetButton";
 import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
@@ -19,17 +22,27 @@ import styles from "../styles.module.css";
 export default function SingerLearnPage() {
   const [songs, setSongs] = useState([]);
   const [showPlayTab, setShowPlayTab] = useState(false);
+  const [configValid, setConfigValid] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
 
-  const {
-    config,
-    bestScore,
-    totalScore,
-    completedGames,
-    resetAll,
-    validConfig,
-  } = useGameContext();
+  // Detect landscape mode (min-width 768px AND landscape orientation)
+  const isLandscape = useMediaQuery("(min-width: 768px) and (orientation: landscape)", { noSsr: true });
+
+  const { config, resetAll } = useGameContext();
+
+  // Validation: need singer selected + at least 1 familiarity, 1 style, 1 era
+  const recognitionTiers = config.recognitionTiers || [1];
+  const activeStyles = Object.keys(config.styles || {}).filter((key) => config.styles[key]);
+  const periods = config.periods || [];
+  const hasSinger = (config.singers || []).length >= 1;
+
+  const canPlay = configValid && hasSinger && recognitionTiers.length >= 1 && activeStyles.length >= 1 && periods.length >= 1;
 
   const handlePlayClick = useCallback(async () => {
+    if (!canPlay) {
+      alert("Please select a Singer, at least 1 Familiarity level, 1 Style, and 1 Era to play.");
+      return;
+    }
     console.log("Singer Learn config:", config);
 
     const numSongs = config.numSongs ?? 10;
@@ -85,6 +98,49 @@ export default function SingerLearnPage() {
     setShowPlayTab(false);
   };
 
+  // Build validation message
+  const getValidationMessage = () => {
+    const missing = [];
+    if (!hasSinger) missing.push("Singer");
+    if (recognitionTiers.length === 0) missing.push("Familiarity");
+    if (activeStyles.length === 0) missing.push("Style");
+    if (periods.length === 0) missing.push("Era");
+    if (missing.length === 0) return null;
+    return `Select ${missing.join(", ")}`;
+  };
+
+  // Play area component (reused in both layouts)
+  const PlayArea = () => (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 3,
+        height: "100%",
+      }}
+    >
+      <Typography variant="body2" sx={{ color: "var(--foreground)", opacity: 0.6, textAlign: "center" }}>
+        Learn mode - no scoring!
+      </Typography>
+      <PlayButton onClick={handlePlayClick} disabled={!canPlay} />
+      {!canPlay && (
+        <Typography variant="caption" sx={{ color: "#FF9800", textAlign: "center" }}>
+          {getValidationMessage()}
+        </Typography>
+      )}
+      <Box sx={{ display: "flex", gap: 3, alignItems: "center" }}>
+        <PulsingArrow gameId="singer-learn" />
+        <HelpButton
+          title="Mastering Singers"
+          description="Learn mode for singers - no scoring! Clips start in vocal sections. Singer name displayed prominently. Filter by orchestra or specific singers."
+        />
+        <ResetButton onClick={resetAll} />
+      </Box>
+    </Box>
+  );
+
   return (
     <Box
       className={styles.container}
@@ -108,52 +164,129 @@ export default function SingerLearnPage() {
             p: 2,
           }}
         >
-          <PlayTab
-            songs={songs}
-            config={config}
-            onCancel={handleClosePlayTab}
-          />
+          <PlayTab songs={songs} config={config} onCancel={handleClosePlayTab} />
         </Box>
       )}
 
-      {/* Header - Title + Play Button (compact) */}
+      {/* Header: Back button + Title */}
       <Box
         sx={{
           display: "flex",
-          flexDirection: "column",
           alignItems: "center",
-          px: 2,
+          justifyContent: "center",
+          position: "relative",
           pt: 1,
-          mb: 0,
+          mb: 1,
         }}
       >
-        {/* Game Title - Centered */}
+        <Box sx={{ position: "absolute", left: 8 }}>
+          <BackButton />
+        </Box>
         <Typography
           variant="h6"
           sx={{
             fontWeight: "bold",
             color: "var(--foreground)",
             textAlign: "center",
-            mb: 0.5,
           }}
         >
           Mastering Singers
         </Typography>
-
-        {/* Play Button (centered) + Help Button (left) */}
-        <Box sx={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
-          <Box sx={{ position: "absolute", left: -50 }}>
-            <HelpButton
-              title="Mastering Singers"
-              description="Learn mode for singers - no scoring! Clips start in vocal sections. Singer name displayed prominently. Filter by orchestra or specific singers."
-            />
-          </Box>
-          <PlayButton onClick={handlePlayClick} />
-        </Box>
       </Box>
 
-      {/* Configuration Tab */}
-      <ConfigTab />
+      {isLandscape ? (
+        // LANDSCAPE LAYOUT: Two columns
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "stretch",
+            height: "calc(100vh - 60px)",
+            px: 2,
+          }}
+        >
+          {/* Left: Config */}
+          <Box
+            sx={{
+              flex: 1,
+              overflowY: "auto",
+              pr: 2,
+            }}
+          >
+            <ConfigTab onConfigValid={setConfigValid} showFilters={showFilters} setShowFilters={setShowFilters} isLandscape={isLandscape} />
+          </Box>
+
+          {/* Divider */}
+          <Divider
+            orientation="vertical"
+            flexItem
+            sx={{ borderColor: "rgba(255,255,255,0.2)", mx: 1 }}
+          />
+
+          {/* Right: Play Area */}
+          <Box
+            sx={{
+              flex: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              pl: 2,
+              height: "100%",
+            }}
+          >
+            <PlayArea />
+          </Box>
+        </Box>
+      ) : (
+        // PORTRAIT LAYOUT: Vertical stack with justified spacing
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "space-evenly",
+            minHeight: "calc(100vh - 60px)",
+            px: 2,
+          }}
+        >
+          {/* Play Button area */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Box sx={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+              <Box sx={{ position: "absolute", left: -65, display: "flex", alignItems: "center" }}>
+                <PulsingArrow gameId="singer-learn" />
+                <HelpButton
+                  title="Mastering Singers"
+                  description="Learn mode for singers - no scoring! Clips start in vocal sections. Singer name displayed prominently. Filter by orchestra or specific singers."
+                />
+              </Box>
+              <PlayButton onClick={handlePlayClick} disabled={!canPlay} />
+              <Box sx={{ position: "absolute", right: -65, display: "flex", alignItems: "center" }}>
+                <ResetButton onClick={resetAll} />
+              </Box>
+            </Box>
+            {!canPlay && (
+              <Typography variant="caption" sx={{ color: "#FF9800", textAlign: "center", mt: 1 }}>
+                {getValidationMessage()}
+              </Typography>
+            )}
+          </Box>
+
+          <Divider sx={{ width: "60%", borderColor: "rgba(255,255,255,0.1)" }} />
+
+          {/* Configuration Tab */}
+          <Box sx={{ width: "100%" }}>
+            <ConfigTab onConfigValid={setConfigValid} showFilters={showFilters} setShowFilters={setShowFilters} isLandscape={isLandscape} />
+          </Box>
+
+          <Divider sx={{ width: "60%", borderColor: "rgba(255,255,255,0.1)" }} />
+        </Box>
+      )}
     </Box>
   );
 }

@@ -110,7 +110,7 @@ export async function fetchFilteredSongs(
     // DNP filter - exclude doNotPlay songs from gameplay
     filtered = filtered.filter((song) => !song.doNotPlay);
 
-    // RequireOrchestra filter - only for orchestra-based games (artist-quiz, artist-learn, clip-orchestra)
+    // RequireOrchestra filter - only for orchestra-based games (orchestra-quiz, orchestra-learn, clip-orchestra)
     // ~1,305 songs are missing ArtistMaster but may have Singer data for singer games
     if (requireOrchestra) {
       filtered = filtered.filter(

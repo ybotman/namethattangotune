@@ -49,11 +49,11 @@ export default function PeriodsSelector({
           display: "block",
           textAlign: "center",
           color: "var(--foreground)",
-          opacity: 0.6,
           mb: 0.5,
           textTransform: "uppercase",
-          letterSpacing: 1,
-          fontSize: "0.65rem",
+          letterSpacing: 2,
+          fontSize: "0.75rem",
+          fontWeight: 700,
         }}
       >
         {label}

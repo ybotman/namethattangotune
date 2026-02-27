@@ -4,9 +4,10 @@
 //
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { Box, Typography } from "@mui/material";
+import { motion, useAnimation } from "motion/react";
 import {
   getDifficultyMultiplier,
   getSingerMultiplier,
@@ -61,17 +62,31 @@ export default function ScorePotential({ config }) {
 
   const intensity = getIntensityLevel(scoring.maxPerSong);
 
+  // Pulse animation on score change
+  const controls = useAnimation();
+  const prevScoreRef = useRef(scoring.maxPerSong);
+
+  useEffect(() => {
+    if (prevScoreRef.current !== scoring.maxPerSong) {
+      prevScoreRef.current = scoring.maxPerSong;
+      controls.start({
+        scale: [1, 1.15, 1],
+        transition: { duration: 0.3, ease: "easeOut" },
+      });
+    }
+  }, [scoring.maxPerSong, controls]);
+
   return (
-    <Box
-      sx={{
+    <motion.div
+      animate={controls}
+      style={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        py: 1,
-        px: 2,
+        padding: "8px 16px",
         backgroundColor: "rgba(255,255,255,0.05)",
-        borderRadius: 2,
-        mb: 2,
+        borderRadius: "8px",
+        marginBottom: "16px",
       }}
     >
       {/* Max Score Display */}
@@ -106,7 +121,7 @@ export default function ScorePotential({ config }) {
           {intensity.label}
         </Typography>
       </Box>
-    </Box>
+    </motion.div>
   );
 }
 

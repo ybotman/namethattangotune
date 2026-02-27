@@ -1,5 +1,5 @@
 //--------------------------------------------------------------
-// src/app/games/artist-learn/PlayTab.js (Refactored)
+// src/app/games/orchestra-learn/PlayTab.js (Refactored)
 //--------------------------------------------------------------
 "use client";
 

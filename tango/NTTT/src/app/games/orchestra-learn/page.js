@@ -1,6 +1,7 @@
-//--------
-//src/app/games/singer-quiz/page.js
-//--------
+//-----------------------------------------------------------------------------
+//src/app/games/orchestra-learn/page.js
+// Mastering Orchestras - Learn mode with orchestra selection
+//-----------------------------------------------------------------------------
 
 "use client";
 
@@ -12,7 +13,6 @@ import PlayButton from "@/components/ui/PlayButton";
 import HelpButton from "@/components/ui/HelpButton";
 import PulsingArrow from "@/components/ui/PulsingArrow";
 import ResetButton from "@/components/ui/ResetButton";
-import ScorePotential from "@/components/ui/ScorePotential";
 import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
@@ -20,9 +20,10 @@ import { trackGameSetup, trackGameStart } from "@/utils/analytics";
 import { enterGameMode, exitGameMode } from "@/hooks/useFullscreen";
 import styles from "../styles.module.css";
 
-export default function SingerQuizPage() {
+export default function ArtistLearnPage() {
   const [songs, setSongs] = useState([]);
   const [showPlayTab, setShowPlayTab] = useState(false);
+  const [configValid, setConfigValid] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
 
   // Detect landscape mode (min-width 768px AND landscape orientation)
@@ -30,51 +31,54 @@ export default function SingerQuizPage() {
 
   const { config, resetAll } = useGameContext();
 
-  // Validation: need at least 1 familiarity, 1 style, 1 era
-  const recognitionTiers = config.recognitionTiers || [1];
-  const activeStyles = Object.keys(config.styles || {}).filter((key) => config.styles[key]);
-  const periods = config.periods || [];
-
-  const canPlay = recognitionTiers.length >= 1 && activeStyles.length >= 1 && periods.length >= 1;
-
   const handlePlayClick = useCallback(async () => {
-    if (!canPlay) {
-      alert("Please select at least 1 Familiarity level and 1 Era to play.");
+    if (!config.selectedOrchestra) {
+      alert("Please select an orchestra first");
       return;
     }
 
-    console.log("Singer Quiz config:", config);
-
     const numSongs = config.numSongs ?? 10;
-    const chosenArtists = (config.artists || []).map((a) => a.value);
-    const chosenSingers = config.singers || [];
+    const selectedStyle = config.selectedStyle || "Tango";
+    const selectedEra = config.selectedEra || "Golden Age";
+    const selectedOrchestra = config.selectedOrchestra;
 
-    // Fetch songs with singers (requireSinger = true)
     const { songs: fetchedSongs } = await fetchFilteredSongs(
-      chosenArtists,
-      [], // artistLevels - legacy, no longer used
-      [], // composers
-      [], // styles - not used for singer quiz
-      "", // candombe
-      "", // alternative
-      "", // cancion
+      [selectedOrchestra], // Single orchestra
+      [],
+      [],
+      [selectedStyle], // Single style
+      "",
+      "",
+      "",
       numSongs,
-      { requireSinger: true, singers: chosenSingers, recognitionTiers, periods },
+      {
+        includeSinger: false, // Instrumental only
+        periods: [selectedEra],
+        requireOrchestra: true,
+      },
     );
 
     if (!fetchedSongs || fetchedSongs.length === 0) {
-      alert(
-        "No songs with singers found for this configuration. Try different settings or wait for vocal analysis to complete.",
-      );
+      alert("No songs found for this configuration. Try a different orchestra.");
       return;
     }
 
+    // Sort by year if option is enabled
+    let finalSongs = fetchedSongs;
+    if (config.sortByYear) {
+      finalSongs = [...fetchedSongs].sort((a, b) => {
+        const yearA = parseInt(a.Year, 10) || 0;
+        const yearB = parseInt(b.Year, 10) || 0;
+        return yearA - yearB;
+      });
+    }
+
     // Track game setup and start
-    trackGameSetup("singer-quiz", config);
-    trackGameStart("singer-quiz", config);
+    trackGameSetup("orchestra-learn", config);
+    trackGameStart("orchestra-learn", config);
     enterGameMode();
 
-    setSongs(fetchedSongs);
+    setSongs(finalSongs);
     setShowPlayTab(true);
   }, [config]);
 
@@ -83,40 +87,43 @@ export default function SingerQuizPage() {
     setShowPlayTab(false);
   };
 
-  // Build validation message
-  const getValidationMessage = () => {
-    const missing = [];
-    if (recognitionTiers.length === 0) missing.push("Familiarity");
-    if (activeStyles.length === 0) missing.push("Style");
-    if (periods.length === 0) missing.push("Era");
-    if (missing.length === 0) return null;
-    return `Select at least 1 ${missing.join(", 1 ")}`;
-  };
-
   // Play area component (reused in both layouts)
-  const PlayArea = ({ showScore = false }) => (
+  const PlayArea = () => (
     <Box
       sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        gap: 3,
+        gap: 2,
         height: "100%",
       }}
     >
-      {showScore && <ScorePotential config={config} />}
-      <PlayButton onClick={handlePlayClick} disabled={!canPlay || (!isLandscape && showFilters)} />
-      {!canPlay && (
+      <Typography variant="body2" sx={{ color: "var(--foreground)", opacity: 0.6, textAlign: "center" }}>
+        Learn mode - no scoring!
+      </Typography>
+      <PlayButton onClick={handlePlayClick} disabled={!configValid} />
+      {config.selectedOrchestra ? (
+        <Typography
+          variant="h6"
+          sx={{
+            color: "var(--accent)",
+            textAlign: "center",
+            fontWeight: "bold",
+          }}
+        >
+          Selected: {config.selectedOrchestra}
+        </Typography>
+      ) : (
         <Typography variant="caption" sx={{ color: "#FF9800", textAlign: "center" }}>
-          {getValidationMessage()}
+          Select an Orchestra in Filters
         </Typography>
       )}
       <Box sx={{ display: "flex", gap: 3, alignItems: "center" }}>
-        <PulsingArrow gameId="singer-quiz" />
+        <PulsingArrow gameId="orchestra-learn" />
         <HelpButton
-          title="Singer Quiz"
-          description="Identify the singer from a vocal clip. Filter by orchestra or specific singers. Clips start in vocal sections. Faster = more points."
+          title="Mastering Orchestras"
+          description="Learn mode - no scoring! Select ONE orchestra to focus on. Listen to their songs with title and year displayed. Use style/era filters to narrow down."
         />
         <ResetButton onClick={resetAll} />
       </Box>
@@ -172,7 +179,7 @@ export default function SingerQuizPage() {
             textAlign: "center",
           }}
         >
-          Singer Quiz
+          Mastering Orchestras
         </Typography>
       </Box>
 
@@ -187,7 +194,7 @@ export default function SingerQuizPage() {
             px: 2,
           }}
         >
-          {/* Left: Config (all filters visible) */}
+          {/* Left: Config */}
           <Box
             sx={{
               flex: 1,
@@ -195,7 +202,7 @@ export default function SingerQuizPage() {
               pr: 2,
             }}
           >
-            <ConfigTab showFilters={true} setShowFilters={() => {}} isLandscape={true} />
+            <ConfigTab onConfigValid={setConfigValid} showFilters={showFilters} setShowFilters={setShowFilters} isLandscape={isLandscape} />
           </Box>
 
           {/* Divider */}
@@ -205,7 +212,7 @@ export default function SingerQuizPage() {
             sx={{ borderColor: "rgba(255,255,255,0.2)", mx: 1 }}
           />
 
-          {/* Right: Play Area with Score */}
+          {/* Right: Play Area */}
           <Box
             sx={{
               flex: 1,
@@ -216,7 +223,7 @@ export default function SingerQuizPage() {
               height: "100%",
             }}
           >
-            <PlayArea showScore={true} />
+            <PlayArea />
           </Box>
         </Box>
       ) : (
@@ -241,29 +248,41 @@ export default function SingerQuizPage() {
           >
             <Box sx={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
               <Box sx={{ position: "absolute", left: -65, display: "flex", alignItems: "center" }}>
-                <PulsingArrow gameId="singer-quiz" />
+                <PulsingArrow gameId="orchestra-learn" />
                 <HelpButton
-                  title="Singer Quiz"
-                  description="Identify the singer from a vocal clip. Filter by orchestra or specific singers. Clips start in vocal sections. Faster = more points."
+                  title="Mastering Orchestras"
+                  description="Learn mode - no scoring! Select ONE orchestra to focus on. Listen to their songs with title and year displayed. Use style/era filters to narrow down."
                 />
               </Box>
-              <PlayButton onClick={handlePlayClick} disabled={!canPlay || showFilters} />
+              <PlayButton onClick={handlePlayClick} disabled={!configValid} />
               <Box sx={{ position: "absolute", right: -65, display: "flex", alignItems: "center" }}>
                 <ResetButton onClick={resetAll} />
               </Box>
             </Box>
-            {!canPlay && (
+            {config.selectedOrchestra ? (
+              <Typography
+                variant="h6"
+                sx={{
+                  color: "var(--accent)",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  mt: 1,
+                }}
+              >
+                Selected: {config.selectedOrchestra}
+              </Typography>
+            ) : (
               <Typography variant="caption" sx={{ color: "#FF9800", textAlign: "center", mt: 1 }}>
-                {getValidationMessage()}
+                Select an Orchestra in Filters
               </Typography>
             )}
           </Box>
 
           <Divider sx={{ width: "60%", borderColor: "rgba(255,255,255,0.1)" }} />
 
-          {/* Config with animated Levels toggle */}
+          {/* Configuration Tab */}
           <Box sx={{ width: "100%" }}>
-            <ConfigTab showFilters={showFilters} setShowFilters={setShowFilters} isLandscape={false} />
+            <ConfigTab onConfigValid={setConfigValid} showFilters={showFilters} setShowFilters={setShowFilters} isLandscape={isLandscape} />
           </Box>
 
           <Divider sx={{ width: "60%", borderColor: "rgba(255,255,255,0.1)" }} />

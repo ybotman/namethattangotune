@@ -1,5 +1,5 @@
 //
-// src/app/games/artist-quiz/PlayTab.js
+// src/app/games/orchestra-quiz/PlayTab.js
 //
 "use client";
 
@@ -108,12 +108,12 @@ export default function PlayTab({ songs, config, onCancel }) {
 
       // Track guess with song details
       const correctAns = currentSong?.ArtistMaster || "";
-      trackGuess("artist-quiz", correct, ans, correctAns, currentSong?.AudioUrl);
+      trackGuess("orchestra-quiz", correct, ans, correctAns, currentSong?.AudioUrl);
 
       if (!correct && currentSong) {
-        trackWrongAnswer("artist-quiz", currentSong.AudioUrl, currentSong.Title, correctAns, ans, currentSong.ArtistMaster, currentSong.Year);
+        trackWrongAnswer("orchestra-quiz", currentSong.AudioUrl, currentSong.Title, correctAns, ans, currentSong.ArtistMaster, currentSong.Year);
       } else if (correct && currentSong) {
-        trackCorrectAnswer("artist-quiz", currentSong.AudioUrl, roundScore, timeLimit - timeElapsed);
+        trackCorrectAnswer("orchestra-quiz", currentSong.AudioUrl, roundScore, timeLimit - timeElapsed);
       }
 
       if (roundEnded) {
@@ -146,15 +146,15 @@ export default function PlayTab({ songs, config, onCancel }) {
 
   // 6b) handleCancel => track abandonment and close
   const handleCancel = useCallback(() => {
-    trackGameAbandon("artist-quiz", currentIndex + 1, numSongs);
-    trackGameCancel("artist-quiz", currentIndex + 1, numSongs, config);
+    trackGameAbandon("orchestra-quiz", currentIndex + 1, numSongs);
+    trackGameCancel("orchestra-quiz", currentIndex + 1, numSongs, config);
     onCancel();
   }, [currentIndex, numSongs, config, onCancel]);
 
   // 7) clickPlaySong => waveSurfer snippet
   const clickPlaySong = useCallback(() => {
     console.log("PlayTab-> clickPlaySong");
-    trackPlayClick("artist-quiz");
+    trackPlayClick("orchestra-quiz");
     if (!currentSong) return;
     if (lastSongRef.current === currentSong.AudioUrl) return;
     lastSongRef.current = currentSong.AudioUrl;

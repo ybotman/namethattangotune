@@ -1,5 +1,7 @@
 //------------------------------------------------------------
 // src/app/layout.js
+// v2.1.1 - Removed global GameHub/Fullscreen buttons
+//          Navigation now handled per-page
 //------------------------------------------------------------
 "use client";
 
@@ -13,13 +15,10 @@ import { ThemeProvider } from "@/hooks/useTheme";
 import { initErrorTracking } from "@/utils/analytics";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
-import { CssBaseline, Box } from "@mui/material";
+import { CssBaseline } from "@mui/material";
 import { Inter } from "next/font/google";
 
 const GA_MEASUREMENT_ID = "G-GSRFSWE79N";
-
-import GameHubButton from "@/components/ui/GameHubRoute";
-import FullscreenButton from "@/components/ui/FullscreenButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,28 +28,7 @@ function LayoutContent({ children }) {
     initErrorTracking();
   }, []);
 
-  return (
-    <>
-      {/* Top right icons: GameHub on top, Fullscreen below */}
-      <Box
-        sx={{
-          position: "fixed",
-          top: "0.5rem",
-          right: "0.5rem",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 0.5,
-          zIndex: 1000,
-        }}
-      >
-        <GameHubButton />
-        <FullscreenButton />
-      </Box>
-
-      {children}
-    </>
-  );
+  return <>{children}</>;
 }
 
 LayoutContent.propTypes = {

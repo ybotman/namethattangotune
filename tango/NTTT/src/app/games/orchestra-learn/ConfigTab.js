@@ -1,72 +1,131 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Box, ToggleButton, ToggleButtonGroup, Typography, Autocomplete, TextField, Button, Divider } from "@mui/material";
+import { Box, Typography, Autocomplete, TextField, ToggleButton, ToggleButtonGroup, Button, Divider } from "@mui/material";
 import TuneIcon from "@mui/icons-material/Tune";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { motion, AnimatePresence } from "motion/react";
 import styles from "../styles.module.css";
 
 import GameSetupDials from "@/components/ui/GameSetupDials";
-import RecognitionSelector from "@/components/ui/RecognitionSelector";
-import StylesSelector from "@/components/ui/StylesSelector";
 import PeriodsSelector from "@/components/ui/PeriodsSelector";
-import useSingerLearn from "@/hooks/useSingerLearn";
+import StylesSelector from "@/components/ui/StylesSelector";
 import { useGameContext } from "@/contexts/GameContext";
 import PropTypes from "prop-types";
 
 export default function ConfigTab({ onConfigValid, showFilters, setShowFilters, isLandscape = false }) {
-  const {
-    primaryStyles,
-    validationMessage,
-    handleNumSongsChange,
-    handleTimeLimitChange,
-    handleStylesChange,
-  } = useSingerLearn();
-
   const { config, updateConfig } = useGameContext();
 
-  const [isConfigValid, setIsConfigValid] = useState(true);
-  const [availableCount, setAvailableCount] = useState(null);
-  const [singerOptions, setSingerOptions] = useState([]);
-  const [selectedSinger, setSelectedSinger] = useState(null);
-  const [loadingSingers, setLoadingSingers] = useState(true);
+  // Local state for orchestra selector
+  const [selectedOrchestra, setSelectedOrchestra] = useState(null);
+  const [orchestraOptions, setOrchestraOptions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [initialized, setInitialized] = useState(false);
 
-  const numSongs = config.numSongs ?? 10;
-  const hasEnoughSongs = availableCount === null || availableCount >= numSongs;
-
-  // Load singers on mount
+  // Initialize defaults for this game (Golden Age only, Tango only, D'Arienzo default)
   useEffect(() => {
-    (async () => {
-      try {
-        const singerData = await fetch("/songData/SingerMaster.json").then((r) => r.json());
-        const opts = singerData
-          .map((s) => ({ label: s.singer, value: s.singer }))
-          .sort((a, b) => a.label.localeCompare(b.label));
-        setSingerOptions(opts);
-      } catch (err) {
-        console.error("Error loading singers:", err);
-      }
-      setLoadingSingers(false);
-    })();
-  }, []);
-
-  // Update config when singer changes
-  useEffect(() => {
-    updateConfig("singers", selectedSinger ? [selectedSinger] : []);
-  }, [selectedSinger, updateConfig]);
-
-  // Notify parent about validation state
-  useEffect(() => {
-    const valid = !validationMessage && hasEnoughSongs && !!selectedSinger;
-    setIsConfigValid(valid);
-    if (onConfigValid) {
-      onConfigValid(valid);
+    if (!initialized) {
+      updateConfig("periods", ["Golden Age"]);
+      updateConfig("styles", { Tango: true });
+      setInitialized(true);
     }
-  }, [validationMessage, hasEnoughSongs, selectedSinger, onConfigValid]);
+  }, [initialized, updateConfig]);
 
-  // Singer selector component (reused in both layouts)
-  const SingerSelector = () => (
+  // Set default orchestra to D'Arienzo once options are loaded
+  useEffect(() => {
+    if (!loading && orchestraOptions.length > 0 && !selectedOrchestra) {
+      const darienzo = orchestraOptions.find(o => o.name === "Juan D'Arienzo");
+      if (darienzo) {
+        setSelectedOrchestra(darienzo);
+      }
+    }
+  }, [loading, orchestraOptions, selectedOrchestra]);
+
+  // Get selected era and style from config
+  const selectedEra = (config.periods || ["Golden Age"])[0] || "Golden Age";
+  const selectedStyle = Object.keys(config.styles || { Tango: true }).find(k => config.styles[k]) || "Tango";
+
+  // Fetch orchestras filtered by era and style
+  useEffect(() => {
+    const fetchFilteredOrchestras = async () => {
+      setLoading(true);
+      try {
+        const [songsData, periodsData] = await Promise.all([
+          fetch("/songData/djSongsWeighted.json").then((r) => r.json()),
+          fetch("/songData/TangoPeriods.json").then((r) => r.json()),
+        ]);
+
+        // Get year range for selected era
+        const era = periodsData.find((p) => p.period === selectedEra);
+        const [startYear, endYear] = era ? [era.start_year, era.end_year] : [1935, 1955];
+
+        // Filter songs by era, style, and instrumental only
+        const filteredSongs = songsData.songs.filter((song) => {
+          if (song.doNotPlay) return false;
+          const year = parseInt(song.Year, 10);
+          if (isNaN(year) || year < startYear || year > endYear) return false;
+          if (song.Style?.toLowerCase() !== selectedStyle.toLowerCase()) return false;
+          // Instrumental only - exclude songs with singers
+          if (song.Singer && song.Singer.trim() !== "") return false;
+          if (!song.ArtistMaster || song.ArtistMaster.trim() === "") return false;
+          return true;
+        });
+
+        // Get unique orchestras with song counts
+        const orchestraCounts = {};
+        filteredSongs.forEach((song) => {
+          const orch = song.ArtistMaster.trim();
+          orchestraCounts[orch] = (orchestraCounts[orch] || 0) + 1;
+        });
+
+        // Convert to array and sort by count (most songs first)
+        const orchestras = Object.entries(orchestraCounts)
+          .map(([name, count]) => ({ name, count }))
+          .sort((a, b) => b.count - a.count);
+
+        setOrchestraOptions(orchestras);
+
+        // Clear selection if current orchestra not in new list
+        if (selectedOrchestra && !orchestras.find((o) => o.name === selectedOrchestra.name)) {
+          setSelectedOrchestra(null);
+        }
+      } catch (err) {
+        console.error("Error fetching orchestras:", err);
+      }
+      setLoading(false);
+    };
+
+    fetchFilteredOrchestras();
+  }, [selectedEra, selectedStyle]);
+
+  // Update config when orchestra changes
+  useEffect(() => {
+    updateConfig("selectedOrchestra", selectedOrchestra?.name || null);
+    updateConfig("includeSinger", false); // Always instrumental
+
+    // Notify parent if config is valid
+    if (onConfigValid) {
+      onConfigValid(!!selectedOrchestra);
+    }
+  }, [selectedOrchestra, updateConfig, onConfigValid]);
+
+  const handleNumSongsChange = (value) => updateConfig("numSongs", value);
+  const handleTimeLimitChange = (value) => updateConfig("timeLimit", value);
+
+  const handlePeriodsChange = (periods) => {
+    updateConfig("periods", periods);
+    // Clear orchestra when era changes
+    setSelectedOrchestra(null);
+  };
+
+  const handleStylesChange = (styles) => {
+    updateConfig("styles", styles);
+    // Clear orchestra when style changes
+    setSelectedOrchestra(null);
+  };
+
+  // Orchestra selector component (reused in both layouts)
+  const OrchestraSelector = () => (
     <Box sx={{ mb: 2, px: 2 }}>
       <Typography
         variant="caption"
@@ -79,30 +138,29 @@ export default function ConfigTab({ onConfigValid, showFilters, setShowFilters, 
           textTransform: "uppercase",
           letterSpacing: 1,
           fontSize: "0.65rem",
-          fontWeight: 700,
         }}
       >
-        Singer (required)
+        Orchestra (required)
       </Typography>
       <Autocomplete
-        options={singerOptions}
-        getOptionLabel={(option) => option.label || ""}
-        value={selectedSinger}
-        onChange={(e, newValue) => setSelectedSinger(newValue)}
-        loading={loadingSingers}
-        isOptionEqualToValue={(option, value) => option.value === value?.value}
+        options={orchestraOptions}
+        getOptionLabel={(option) => `${option.name} (${option.count} songs)`}
+        value={selectedOrchestra}
+        onChange={(e, newValue) => setSelectedOrchestra(newValue)}
+        loading={loading}
+        isOptionEqualToValue={(option, value) => option.name === value?.name}
         renderInput={(params) => (
           <TextField
             {...params}
-            placeholder={loadingSingers ? "Loading..." : "Select a singer..."}
+            placeholder={loading ? "Loading..." : "Type to search orchestras..."}
             size="small"
             sx={{
               "& .MuiOutlinedInput-root": {
                 color: "var(--foreground)",
                 backgroundColor: "var(--input-bg)",
                 "& fieldset": {
-                  borderColor: selectedSinger ? "var(--accent)" : "#666",
-                  borderWidth: selectedSinger ? 2 : 1,
+                  borderColor: selectedOrchestra ? "var(--accent)" : "#666",
+                  borderWidth: selectedOrchestra ? 2 : 1,
                 },
                 "&:hover fieldset": { borderColor: "var(--accent)" },
                 "&.Mui-focused fieldset": { borderColor: "var(--accent)" },
@@ -111,6 +169,14 @@ export default function ConfigTab({ onConfigValid, showFilters, setShowFilters, 
             }}
           />
         )}
+        renderOption={(props, option) => (
+          <li {...props} key={option.name}>
+            <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+              <Typography>{option.name}</Typography>
+              <Typography sx={{ color: "gray", ml: 2 }}>{option.count} songs</Typography>
+            </Box>
+          </li>
+        )}
         sx={{
           "& .MuiAutocomplete-paper": {
             backgroundColor: "var(--background)",
@@ -118,16 +184,16 @@ export default function ConfigTab({ onConfigValid, showFilters, setShowFilters, 
           },
         }}
       />
-      {!selectedSinger && (
+      {!selectedOrchestra && (
         <Typography variant="caption" sx={{ color: "#FF9800", display: "block", textAlign: "center", mt: 0.5 }}>
-          Select a singer to start
+          Select an orchestra to start
         </Typography>
       )}
     </Box>
   );
 
-  // Singer Type Toggle component
-  const SingerTypeToggle = () => (
+  // Sort Order Toggle component
+  const SortOrderToggle = () => (
     <Box sx={{ mb: 2 }}>
       <Typography
         variant="caption"
@@ -142,13 +208,13 @@ export default function ConfigTab({ onConfigValid, showFilters, setShowFilters, 
           fontSize: "0.65rem",
         }}
       >
-        Singer Type
+        Song Order
       </Typography>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <ToggleButtonGroup
-          value={config.duetFilter || "solo"}
+          value={config.sortByYear ? "year" : "random"}
           exclusive
-          onChange={(e, val) => val && updateConfig("duetFilter", val)}
+          onChange={(e, val) => val && updateConfig("sortByYear", val === "year")}
           size="small"
           sx={{
             "& .MuiToggleButton-root": {
@@ -175,9 +241,8 @@ export default function ConfigTab({ onConfigValid, showFilters, setShowFilters, 
             },
           }}
         >
-          <ToggleButton value="solo">Solo</ToggleButton>
-          <ToggleButton value="duetsOnly">Duets+</ToggleButton>
-          <ToggleButton value="all">Both</ToggleButton>
+          <ToggleButton value="random">Random</ToggleButton>
+          <ToggleButton value="year">By Year</ToggleButton>
         </ToggleButtonGroup>
       </Box>
     </Box>
@@ -198,10 +263,6 @@ export default function ConfigTab({ onConfigValid, showFilters, setShowFilters, 
           py: 2,
         }}
       >
-        <SingerSelector />
-
-        <Divider sx={dividerStyle} />
-
         <GameSetupDials
           numSongs={config.numSongs ?? 10}
           onNumSongsChange={handleNumSongsChange}
@@ -212,37 +273,36 @@ export default function ConfigTab({ onConfigValid, showFilters, setShowFilters, 
 
         <Divider sx={dividerStyle} />
 
-        <SingerTypeToggle />
-
-        <Divider sx={dividerStyle} />
-
-        <RecognitionSelector
-          selectedTiers={config.recognitionTiers || [1]}
-          onChange={(tiers) => updateConfig("recognitionTiers", tiers)}
-          compact
+        <PeriodsSelector
+          selectedPeriods={config.periods || ["Golden Age"]}
+          onChange={handlePeriodsChange}
+          singleSelect={true}
+          label="Era (select one)"
         />
 
         <Divider sx={dividerStyle} />
 
         <StylesSelector
-          availableStyles={primaryStyles}
-          selectedStyles={config.styles || {}}
+          selectedStyles={config.styles || { Tango: true }}
           onChange={handleStylesChange}
+          singleSelect={true}
+          showVocals={false}
         />
 
         <Divider sx={dividerStyle} />
 
-        <PeriodsSelector
-          selectedPeriods={config.periods || []}
-          onChange={(val) => updateConfig("periods", val)}
-        />
+        <OrchestraSelector />
 
-        {/* Validation Message */}
-        {!isConfigValid && validationMessage && (
-          <Box sx={{ color: "red", mt: 2, textAlign: "center", fontSize: "0.85rem" }}>
-            {validationMessage}
-          </Box>
-        )}
+        <Divider sx={dividerStyle} />
+
+        <SortOrderToggle />
+
+        {/* Info */}
+        <Box sx={{ px: 2 }}>
+          <Typography variant="caption" sx={{ color: "gray", textAlign: "center", display: "block" }}>
+            Instrumental only
+          </Typography>
+        </Box>
       </Box>
     );
   }
@@ -250,11 +310,6 @@ export default function ConfigTab({ onConfigValid, showFilters, setShowFilters, 
   // PORTRAIT: Animated toggle between quick and filters
   return (
     <Box className={styles.configurationContainer} sx={{ overflow: "hidden", py: 1 }}>
-      {/* Singer selector always visible */}
-      <SingerSelector />
-
-      <Divider sx={{ borderColor: "rgba(255,255,255,0.1)", my: 1 }} />
-
       <AnimatePresence mode="wait">
         {!showFilters ? (
           <motion.div
@@ -322,37 +377,36 @@ export default function ConfigTab({ onConfigValid, showFilters, setShowFilters, 
               </Button>
             </Box>
 
-            <SingerTypeToggle />
+            <OrchestraSelector />
 
             <Divider sx={{ borderColor: "rgba(255,255,255,0.1)", my: 1.5 }} />
 
-            <RecognitionSelector
-              selectedTiers={config.recognitionTiers || [1]}
-              onChange={(tiers) => updateConfig("recognitionTiers", tiers)}
-              compact
+            <PeriodsSelector
+              selectedPeriods={config.periods || ["Golden Age"]}
+              onChange={handlePeriodsChange}
+              singleSelect={true}
+              label="Era (select one)"
             />
 
             <Divider sx={{ borderColor: "rgba(255,255,255,0.1)", my: 1.5 }} />
 
             <StylesSelector
-              availableStyles={primaryStyles}
-              selectedStyles={config.styles || {}}
+              selectedStyles={config.styles || { Tango: true }}
               onChange={handleStylesChange}
+              singleSelect={true}
+              showVocals={false}
             />
 
             <Divider sx={{ borderColor: "rgba(255,255,255,0.1)", my: 1.5 }} />
 
-            <PeriodsSelector
-              selectedPeriods={config.periods || []}
-              onChange={(val) => updateConfig("periods", val)}
-            />
+            <SortOrderToggle />
 
-            {/* Validation Message */}
-            {!isConfigValid && validationMessage && (
-              <Box sx={{ color: "red", mt: 2, textAlign: "center", fontSize: "0.85rem" }}>
-                {validationMessage}
-              </Box>
-            )}
+            {/* Info */}
+            <Box sx={{ mt: 1, px: 2 }}>
+              <Typography variant="caption" sx={{ color: "gray", textAlign: "center", display: "block" }}>
+                Instrumental only • {orchestraOptions.length} orchestras available
+              </Typography>
+            </Box>
           </motion.div>
         )}
       </AnimatePresence>

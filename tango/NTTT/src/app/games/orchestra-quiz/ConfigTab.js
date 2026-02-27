@@ -12,7 +12,7 @@ import RecognitionSelector from "@/components/ui/RecognitionSelector";
 import StylesSelector from "@/components/ui/StylesSelector";
 import PeriodsSelector from "@/components/ui/PeriodsSelector";
 import ScorePotential from "@/components/ui/ScorePotential";
-import useSongQuiz from "@/hooks/useSongQuiz";
+import useArtistQuiz from "@/hooks/useArtistQuiz";
 import { useGameContext } from "@/contexts/GameContext";
 import PropTypes from "prop-types";
 
@@ -22,9 +22,10 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
     validationMessage,
     handleNumSongsChange,
     handleTimeLimitChange,
+    handleLevelsChange,
     handleStylesChange,
     handleIncludeSingerChange,
-  } = useSongQuiz();
+  } = useArtistQuiz();
 
   const { config, updateConfig } = useGameContext();
 
@@ -39,6 +40,7 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
   }, [validationMessage, hasEnoughSongs]);
 
   // LANDSCAPE: Show everything, no animation, evenly distributed
+  // ScorePotential is shown on right side (Play area) in landscape
   if (isLandscape) {
     const dividerStyle = { borderColor: "rgba(255,255,255,0.15)", my: 1 };
 
@@ -53,6 +55,7 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
           py: 2,
         }}
       >
+
         <GameSetupDials
           numSongs={config.numSongs ?? 10}
           onNumSongsChange={handleNumSongsChange}
@@ -65,7 +68,7 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
 
         <RecognitionSelector
           selectedTiers={config.recognitionTiers || [1]}
-          onChange={(tiers) => updateConfig("recognitionTiers", tiers)}
+          onChange={handleLevelsChange}
           compact
         />
 
@@ -76,7 +79,7 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
           selectedStyles={config.styles || {}}
           onChange={handleStylesChange}
           showVocals={true}
-          includeSinger={config.includeSinger ?? true}
+          includeSinger={config.includeSinger ?? false}
           onVocalsChange={handleIncludeSingerChange}
         />
 
@@ -172,7 +175,7 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
 
             <RecognitionSelector
               selectedTiers={config.recognitionTiers || [1]}
-              onChange={(tiers) => updateConfig("recognitionTiers", tiers)}
+              onChange={handleLevelsChange}
               compact
             />
 
@@ -183,7 +186,7 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
               selectedStyles={config.styles || {}}
               onChange={handleStylesChange}
               showVocals={true}
-              includeSinger={config.includeSinger ?? true}
+              includeSinger={config.includeSinger ?? false}
               onVocalsChange={handleIncludeSingerChange}
             />
 

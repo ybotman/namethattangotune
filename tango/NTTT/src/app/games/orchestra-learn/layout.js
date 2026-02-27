@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// src/app/games/artist-learn/layout.js
+// src/app/games/orchestra-learn/layout.js
 //--------------------------------------------
 
 "use client";

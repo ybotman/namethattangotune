@@ -1,10 +1,13 @@
 "use client";
 
 import React, { useState, useCallback } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Divider, useMediaQuery } from "@mui/material";
 import ConfigTab from "./ConfigTab";
+import BackButton from "@/components/ui/BackButton";
 import PlayButton from "@/components/ui/PlayButton";
 import HelpButton from "@/components/ui/HelpButton";
+import PulsingArrow from "@/components/ui/PulsingArrow";
+import ResetButton from "@/components/ui/ResetButton";
 import QuizTab from "./QuizTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs, shuffleArray } from "@/utils/dataFetching";
@@ -15,16 +18,26 @@ import styles from "../styles.module.css";
 export default function YearLearnPage() {
   const [songs, setSongs] = useState([]);
   const [showPlayTab, setShowPlayTab] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
 
-  const { config } = useGameContext();
+  // Detect landscape mode (min-width 768px AND landscape orientation)
+  const isLandscape = useMediaQuery("(min-width: 768px) and (orientation: landscape)", { noSsr: true });
+
+  const { config, resetAll } = useGameContext();
+
+  // Validation: need at least 1 familiarity and 1 style (no era - that would be cheating!)
+  const recognitionTiers = config.recognitionTiers || [1];
+  const activeStyles = Object.keys(config.styles || {}).filter((key) => config.styles[key]);
+
+  const canPlay = recognitionTiers.length >= 1 && activeStyles.length >= 1;
 
   const handlePlayClick = useCallback(async () => {
-    const numSongs = config.numSongs ?? 10;
-    const activeStyles = Object.keys(config.styles || {}).filter(
-      (key) => config.styles[key],
-    );
+    if (!canPlay) {
+      alert("Please select at least 1 Familiarity level and 1 Style to play.");
+      return;
+    }
 
-    const recognitionTiers = config.recognitionTiers || [1];
+    const numSongs = config.numSongs ?? 10;
 
     const { songs: fetchedSongs } = await fetchFilteredSongs(
       [], // artists
@@ -72,6 +85,47 @@ export default function YearLearnPage() {
     setShowPlayTab(false);
   };
 
+  // Build validation message
+  const getValidationMessage = () => {
+    const missing = [];
+    if (recognitionTiers.length === 0) missing.push("Familiarity");
+    if (activeStyles.length === 0) missing.push("Style");
+    if (missing.length === 0) return null;
+    return `Select at least 1 ${missing.join(", 1 ")}`;
+  };
+
+  // Play area component (reused in both layouts)
+  const PlayArea = () => (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 3,
+        height: "100%",
+      }}
+    >
+      <Typography variant="body2" sx={{ color: "var(--foreground)", opacity: 0.6, textAlign: "center" }}>
+        Guess the year - within 3 years = 1 point
+      </Typography>
+      <PlayButton onClick={handlePlayClick} disabled={!canPlay || (!isLandscape && showFilters)} />
+      {!canPlay && (
+        <Typography variant="caption" sx={{ color: "#FF9800", textAlign: "center" }}>
+          {getValidationMessage()}
+        </Typography>
+      )}
+      <Box sx={{ display: "flex", gap: 3, alignItems: "center" }}>
+        <PulsingArrow gameId="year-learn" />
+        <HelpButton
+          title="Guess the Year"
+          description="Slide to guess the recording year! Uses a timeline slider. Points based on how close you get. Great for learning era characteristics."
+        />
+        <ResetButton onClick={resetAll} />
+      </Box>
+    </Box>
+  );
+
   return (
     <Box
       className={styles.container}
@@ -98,44 +152,125 @@ export default function YearLearnPage() {
         </Box>
       )}
 
-      {/* Header - Title + Play Button (compact) */}
+      {/* Header: Back button + Title */}
       <Box
         sx={{
           display: "flex",
-          flexDirection: "column",
           alignItems: "center",
-          px: 2,
+          justifyContent: "center",
+          position: "relative",
           pt: 1,
-          mb: 0,
+          mb: 1,
         }}
       >
-        {/* Game Title - Centered */}
+        <Box sx={{ position: "absolute", left: 8 }}>
+          <BackButton />
+        </Box>
         <Typography
           variant="h6"
           sx={{
             fontWeight: "bold",
             color: "var(--foreground)",
             textAlign: "center",
-            mb: 0.5,
           }}
         >
           Guess the Year
         </Typography>
-
-        {/* Play Button (centered) + Help Button (left) */}
-        <Box sx={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
-          <Box sx={{ position: "absolute", left: -50 }}>
-            <HelpButton
-              title="Guess the Year"
-              description="Slide to guess the recording year! Uses a timeline slider. Points based on how close you get. Great for learning era characteristics."
-            />
-          </Box>
-          <PlayButton onClick={handlePlayClick} />
-        </Box>
       </Box>
 
-      {/* Configuration */}
-      <ConfigTab />
+      {isLandscape ? (
+        // LANDSCAPE LAYOUT: Two columns
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "stretch",
+            height: "calc(100vh - 60px)",
+            px: 2,
+          }}
+        >
+          {/* Left: Config (all filters visible) */}
+          <Box
+            sx={{
+              flex: 1,
+              overflowY: "auto",
+              pr: 2,
+            }}
+          >
+            <ConfigTab showFilters={true} setShowFilters={() => {}} isLandscape={true} />
+          </Box>
+
+          {/* Divider */}
+          <Divider
+            orientation="vertical"
+            flexItem
+            sx={{ borderColor: "rgba(255,255,255,0.2)", mx: 1 }}
+          />
+
+          {/* Right: Play Area */}
+          <Box
+            sx={{
+              flex: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              pl: 2,
+              height: "100%",
+            }}
+          >
+            <PlayArea />
+          </Box>
+        </Box>
+      ) : (
+        // PORTRAIT LAYOUT: Vertical stack with justified spacing
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "space-evenly",
+            minHeight: "calc(100vh - 60px)",
+            px: 2,
+          }}
+        >
+          {/* Play Button area */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Box sx={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+              <Box sx={{ position: "absolute", left: -65, display: "flex", alignItems: "center" }}>
+                <PulsingArrow gameId="year-learn" />
+                <HelpButton
+                  title="Guess the Year"
+                  description="Slide to guess the recording year! Uses a timeline slider. Points based on how close you get. Great for learning era characteristics."
+                />
+              </Box>
+              <PlayButton onClick={handlePlayClick} disabled={!canPlay || showFilters} />
+              <Box sx={{ position: "absolute", right: -65, display: "flex", alignItems: "center" }}>
+                <ResetButton onClick={resetAll} />
+              </Box>
+            </Box>
+            {!canPlay && (
+              <Typography variant="caption" sx={{ color: "#FF9800", textAlign: "center", mt: 1 }}>
+                {getValidationMessage()}
+              </Typography>
+            )}
+          </Box>
+
+          <Divider sx={{ width: "60%", borderColor: "rgba(255,255,255,0.1)" }} />
+
+          {/* Config with animated Levels toggle */}
+          <Box sx={{ width: "100%" }}>
+            <ConfigTab showFilters={showFilters} setShowFilters={setShowFilters} isLandscape={false} />
+          </Box>
+
+          <Divider sx={{ width: "60%", borderColor: "rgba(255,255,255,0.1)" }} />
+        </Box>
+      )}
     </Box>
   );
 }

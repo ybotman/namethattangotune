@@ -62,11 +62,11 @@ export default function StylesSelector({
           display: "block",
           textAlign: "center",
           color: "var(--foreground)",
-          opacity: 0.6,
           mb: 1,
           textTransform: "uppercase",
-          letterSpacing: 1,
-          fontSize: "0.65rem",
+          letterSpacing: 2,
+          fontSize: "0.75rem",
+          fontWeight: 700,
         }}
       >
         Style
