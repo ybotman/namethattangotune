@@ -122,12 +122,14 @@ export default function ClipOrchestraPage() {
           Clip Quiz: Orchestra
         </Typography>
 
-        {/* Help + Play Buttons */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <HelpButton
-            title="Clip Quiz: Orchestra"
-            description="Short 5-second clips! Identify the orchestra quickly. No time countdown - just fast pattern recognition. Filter by era or style."
-          />
+        {/* Play Button (centered) + Help Button (left) */}
+        <Box sx={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+          <Box sx={{ position: "absolute", left: -50 }}>
+            <HelpButton
+              title="Clip Quiz: Orchestra"
+              description="Short 5-second clips! Identify the orchestra quickly. No time countdown - just fast pattern recognition. Filter by era or style."
+            />
+          </Box>
           <PlayButton onClick={handlePlayClick} />
         </Box>
       </Box>

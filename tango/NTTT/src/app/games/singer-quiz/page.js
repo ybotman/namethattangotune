@@ -120,12 +120,14 @@ export default function SingerQuizPage() {
           Singer Quiz
         </Typography>
 
-        {/* Help + Play Buttons */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <HelpButton
-            title="Singer Quiz"
-            description="Identify the singer from a vocal clip. Filter by orchestra or specific singers. Clips start in vocal sections. Faster = more points."
-          />
+        {/* Play Button (centered) + Help Button (left) */}
+        <Box sx={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+          <Box sx={{ position: "absolute", left: -50 }}>
+            <HelpButton
+              title="Singer Quiz"
+              description="Identify the singer from a vocal clip. Filter by orchestra or specific singers. Clips start in vocal sections. Faster = more points."
+            />
+          </Box>
           <PlayButton onClick={handlePlayClick} />
         </Box>
       </Box>

@@ -126,12 +126,14 @@ export default function ArtistQuizPage() {
           Orchestra Quiz
         </Typography>
 
-        {/* Help + Play Buttons */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <HelpButton
-            title="Orchestra Quiz"
-            description="Listen to a clip and guess which orchestra is playing. Filter by era, style, or specific orchestras. Faster correct answers = higher scores. Wrong guesses reduce points."
-          />
+        {/* Play Button (centered) + Help Button (left) */}
+        <Box sx={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+          <Box sx={{ position: "absolute", left: -50 }}>
+            <HelpButton
+              title="Orchestra Quiz"
+              description="Listen to a clip and guess which orchestra is playing. Filter by era, style, or specific orchestras. Faster correct answers = higher scores. Wrong guesses reduce points."
+            />
+          </Box>
           <PlayButton onClick={handlePlayClick} />
         </Box>
       </Box>

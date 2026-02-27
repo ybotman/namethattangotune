@@ -137,12 +137,14 @@ export default function SameSongPage() {
           Same Song Compare
         </Typography>
 
-        {/* Help + Play Buttons */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <HelpButton
-            title="Same Song Compare"
-            description="Compare different recordings of the same song! Select a song title, then hear how different orchestras interpreted it. Great for understanding orchestral styles."
-          />
+        {/* Play Button (centered) + Help Button (left) */}
+        <Box sx={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+          <Box sx={{ position: "absolute", left: -50 }}>
+            <HelpButton
+              title="Same Song Compare"
+              description="Compare different recordings of the same song! Select a song title, then hear how different orchestras interpreted it. Great for understanding orchestral styles."
+            />
+          </Box>
           <PlayButton onClick={handlePlayClick} disabled={!selectedGroup} />
         </Box>
       </Box>

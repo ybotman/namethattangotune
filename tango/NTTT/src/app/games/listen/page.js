@@ -141,12 +141,14 @@ export default function ListenPage() {
           Listen Mode
         </Typography>
 
-        {/* Help + Play Buttons */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <HelpButton
-            title="Listen Mode"
-            description="Pure listening - no quizzes! Auto-plays through songs with full info displayed. Filter by orchestra, singer, style, or era. Great for passive learning."
-          />
+        {/* Play Button (centered) + Help Button (left) */}
+        <Box sx={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+          <Box sx={{ position: "absolute", left: -50 }}>
+            <HelpButton
+              title="Listen Mode"
+              description="Pure listening - no quizzes! Auto-plays through songs with full info displayed. Filter by orchestra, singer, style, or era. Great for passive learning."
+            />
+          </Box>
           <PlayButton onClick={handlePlayClick} />
         </Box>
       </Box>

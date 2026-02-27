@@ -140,12 +140,14 @@ export default function SingerLearnPage() {
           Mastering Singers
         </Typography>
 
-        {/* Help + Play Buttons */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <HelpButton
-            title="Mastering Singers"
-            description="Learn mode for singers - no scoring! Clips start in vocal sections. Singer name displayed prominently. Filter by orchestra or specific singers."
-          />
+        {/* Play Button (centered) + Help Button (left) */}
+        <Box sx={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+          <Box sx={{ position: "absolute", left: -50 }}>
+            <HelpButton
+              title="Mastering Singers"
+              description="Learn mode for singers - no scoring! Clips start in vocal sections. Singer name displayed prominently. Filter by orchestra or specific singers."
+            />
+          </Box>
           <PlayButton onClick={handlePlayClick} />
         </Box>
       </Box>

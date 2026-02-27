@@ -122,12 +122,14 @@ export default function YearLearnPage() {
           Guess the Year
         </Typography>
 
-        {/* Help + Play Buttons */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <HelpButton
-            title="Guess the Year"
-            description="Slide to guess the recording year! Uses a timeline slider. Points based on how close you get. Great for learning era characteristics."
-          />
+        {/* Play Button (centered) + Help Button (left) */}
+        <Box sx={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+          <Box sx={{ position: "absolute", left: -50 }}>
+            <HelpButton
+              title="Guess the Year"
+              description="Slide to guess the recording year! Uses a timeline slider. Points based on how close you get. Great for learning era characteristics."
+            />
+          </Box>
           <PlayButton onClick={handlePlayClick} />
         </Box>
       </Box>

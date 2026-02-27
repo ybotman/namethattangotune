@@ -119,12 +119,14 @@ export default function ClipSingerPage() {
           Clip Quiz: Singer
         </Typography>
 
-        {/* Help + Play Buttons */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <HelpButton
-            title="Clip Quiz: Singer"
-            description="Short vocal clips! Identify the singer from brief snippets. Great for training your ear on voice recognition."
-          />
+        {/* Play Button (centered) + Help Button (left) */}
+        <Box sx={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+          <Box sx={{ position: "absolute", left: -50 }}>
+            <HelpButton
+              title="Clip Quiz: Singer"
+              description="Short vocal clips! Identify the singer from brief snippets. Great for training your ear on voice recognition."
+            />
+          </Box>
           <PlayButton onClick={handlePlayClick} />
         </Box>
       </Box>

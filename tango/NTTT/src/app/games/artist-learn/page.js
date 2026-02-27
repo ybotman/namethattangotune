@@ -135,12 +135,14 @@ export default function ArtistLearnPage() {
           Mastering Orchestras
         </Typography>
 
-        {/* Help + Play Buttons */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <HelpButton
-            title="Mastering Orchestras"
-            description="Learn mode - no scoring! Select ONE orchestra to focus on. Listen to their songs with title and year displayed. Use style/era filters to narrow down."
-          />
+        {/* Play Button (centered) + Help Button (left) */}
+        <Box sx={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+          <Box sx={{ position: "absolute", left: -50 }}>
+            <HelpButton
+              title="Mastering Orchestras"
+              description="Learn mode - no scoring! Select ONE orchestra to focus on. Listen to their songs with title and year displayed. Use style/era filters to narrow down."
+            />
+          </Box>
           <PlayButton onClick={handlePlayClick} disabled={!configValid} />
         </Box>
       </Box>

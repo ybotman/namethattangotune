@@ -123,12 +123,14 @@ export default function SongQuizPage() {
           Song Title Quiz
         </Typography>
 
-        {/* Help + Play Buttons */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <HelpButton
-            title="Song Title Quiz"
-            description="Guess the song title from a clip. Filter by style, era, or orchestra. Great for learning classic tango repertoire."
-          />
+        {/* Play Button (centered) + Help Button (left) */}
+        <Box sx={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+          <Box sx={{ position: "absolute", left: -50 }}>
+            <HelpButton
+              title="Song Title Quiz"
+              description="Guess the song title from a clip. Filter by style, era, or orchestra. Great for learning classic tango repertoire."
+            />
+          </Box>
           <PlayButton onClick={handlePlayClick} />
         </Box>
       </Box>
