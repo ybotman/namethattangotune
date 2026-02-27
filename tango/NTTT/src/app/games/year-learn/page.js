@@ -4,6 +4,7 @@ import React, { useState, useCallback } from "react";
 import { Box, Typography } from "@mui/material";
 import ConfigTab from "./ConfigTab";
 import PlayButton from "@/components/ui/PlayButton";
+import HelpButton from "@/components/ui/HelpButton";
 import QuizTab from "./QuizTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs, shuffleArray } from "@/utils/dataFetching";
@@ -121,8 +122,14 @@ export default function YearLearnPage() {
           Guess the Year
         </Typography>
 
-        {/* Play Button */}
-        <PlayButton onClick={handlePlayClick} />
+        {/* Help + Play Buttons */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <HelpButton
+            title="Guess the Year"
+            description="Slide to guess the recording year! Uses a timeline slider. Points based on how close you get. Great for learning era characteristics."
+          />
+          <PlayButton onClick={handlePlayClick} />
+        </Box>
       </Box>
 
       {/* Configuration */}

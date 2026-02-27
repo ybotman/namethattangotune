@@ -9,6 +9,7 @@ import React, { useState, useCallback } from "react";
 import { Box, Typography } from "@mui/material";
 import ConfigTab from "./ConfigTab";
 import PlayButton from "@/components/ui/PlayButton";
+import HelpButton from "@/components/ui/HelpButton";
 import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
@@ -122,8 +123,14 @@ export default function SongQuizPage() {
           Song Title Quiz
         </Typography>
 
-        {/* Play Button */}
-        <PlayButton onClick={handlePlayClick} />
+        {/* Help + Play Buttons */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <HelpButton
+            title="Song Title Quiz"
+            description="Guess the song title from a clip. Filter by style, era, or orchestra. Great for learning classic tango repertoire."
+          />
+          <PlayButton onClick={handlePlayClick} />
+        </Box>
       </Box>
 
       {/* Configuration Tab */}

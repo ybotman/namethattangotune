@@ -8,6 +8,7 @@ import React, { useState, useCallback } from "react";
 import { Box, Typography } from "@mui/material";
 import ConfigTab from "./ConfigTab";
 import PlayButton from "@/components/ui/PlayButton";
+import HelpButton from "@/components/ui/HelpButton";
 import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
@@ -119,8 +120,14 @@ export default function SingerQuizPage() {
           Singer Quiz
         </Typography>
 
-        {/* Play Button */}
-        <PlayButton onClick={handlePlayClick} />
+        {/* Help + Play Buttons */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <HelpButton
+            title="Singer Quiz"
+            description="Identify the singer from a vocal clip. Filter by orchestra or specific singers. Clips start in vocal sections. Faster = more points."
+          />
+          <PlayButton onClick={handlePlayClick} />
+        </Box>
       </Box>
 
       {/* Configuration Tab */}

@@ -9,6 +9,7 @@ import React, { useState, useCallback } from "react";
 import { Box, Typography } from "@mui/material";
 import ConfigTab from "./ConfigTab";
 import PlayButton from "@/components/ui/PlayButton";
+import HelpButton from "@/components/ui/HelpButton";
 import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
@@ -134,8 +135,14 @@ export default function ArtistLearnPage() {
           Mastering Orchestras
         </Typography>
 
-        {/* Play Button */}
-        <PlayButton onClick={handlePlayClick} disabled={!configValid} />
+        {/* Help + Play Buttons */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <HelpButton
+            title="Mastering Orchestras"
+            description="Learn mode - no scoring! Select ONE orchestra to focus on. Listen to their songs with title and year displayed. Use style/era filters to narrow down."
+          />
+          <PlayButton onClick={handlePlayClick} disabled={!configValid} />
+        </Box>
       </Box>
 
       {/* Configuration Tab */}

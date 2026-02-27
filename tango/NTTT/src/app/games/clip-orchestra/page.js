@@ -8,6 +8,7 @@ import React, { useState, useCallback } from "react";
 import { Box, Typography } from "@mui/material";
 import ConfigTab from "./ConfigTab";
 import PlayButton from "@/components/ui/PlayButton";
+import HelpButton from "@/components/ui/HelpButton";
 import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
@@ -121,8 +122,14 @@ export default function ClipOrchestraPage() {
           Clip Quiz: Orchestra
         </Typography>
 
-        {/* Play Button */}
-        <PlayButton onClick={handlePlayClick} />
+        {/* Help + Play Buttons */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <HelpButton
+            title="Clip Quiz: Orchestra"
+            description="Short 5-second clips! Identify the orchestra quickly. No time countdown - just fast pattern recognition. Filter by era or style."
+          />
+          <PlayButton onClick={handlePlayClick} />
+        </Box>
       </Box>
 
       <ConfigTab />

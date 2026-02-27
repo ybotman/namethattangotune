@@ -8,6 +8,7 @@ import React, { useState, useCallback } from "react";
 import { Box, Typography } from "@mui/material";
 import ConfigTab from "./ConfigTab";
 import PlayButton from "@/components/ui/PlayButton";
+import HelpButton from "@/components/ui/HelpButton";
 import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
@@ -125,8 +126,14 @@ export default function ArtistQuizPage() {
           Orchestra Quiz
         </Typography>
 
-        {/* Play Button */}
-        <PlayButton onClick={handlePlayClick} />
+        {/* Help + Play Buttons */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <HelpButton
+            title="Orchestra Quiz"
+            description="Listen to a clip and guess which orchestra is playing. Filter by era, style, or specific orchestras. Faster correct answers = higher scores. Wrong guesses reduce points."
+          />
+          <PlayButton onClick={handlePlayClick} />
+        </Box>
       </Box>
 
       {/* Configuration Tab */}

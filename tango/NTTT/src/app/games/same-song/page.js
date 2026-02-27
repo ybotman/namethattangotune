@@ -17,6 +17,7 @@ import {
 import CompareTab from "./CompareTab";
 import ConfigTab from "./ConfigTab";
 import PlayButton from "@/components/ui/PlayButton";
+import HelpButton from "@/components/ui/HelpButton";
 import { fetchSongsGroupedByTitle } from "@/utils/dataFetching";
 import { trackGameSetup, trackGameStart } from "@/utils/analytics";
 import { enterGameMode, exitGameMode } from "@/hooks/useFullscreen";
@@ -136,8 +137,14 @@ export default function SameSongPage() {
           Same Song Compare
         </Typography>
 
-        {/* Play Button */}
-        <PlayButton onClick={handlePlayClick} disabled={!selectedGroup} />
+        {/* Help + Play Buttons */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <HelpButton
+            title="Same Song Compare"
+            description="Compare different recordings of the same song! Select a song title, then hear how different orchestras interpreted it. Great for understanding orchestral styles."
+          />
+          <PlayButton onClick={handlePlayClick} disabled={!selectedGroup} />
+        </Box>
       </Box>
 
       {/* Song Selector */}

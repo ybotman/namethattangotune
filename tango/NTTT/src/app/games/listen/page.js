@@ -4,6 +4,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import ConfigTab from "./ConfigTab";
 import PlayButton from "@/components/ui/PlayButton";
+import HelpButton from "@/components/ui/HelpButton";
 import ListenTab from "./ListenTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs, fetchAllArtists, shuffleArray } from "@/utils/dataFetching";
@@ -140,8 +141,14 @@ export default function ListenPage() {
           Listen Mode
         </Typography>
 
-        {/* Play Button */}
-        <PlayButton onClick={handlePlayClick} />
+        {/* Help + Play Buttons */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <HelpButton
+            title="Listen Mode"
+            description="Pure listening - no quizzes! Auto-plays through songs with full info displayed. Filter by orchestra, singer, style, or era. Great for passive learning."
+          />
+          <PlayButton onClick={handlePlayClick} />
+        </Box>
       </Box>
 
       {/* Configuration */}

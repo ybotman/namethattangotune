@@ -8,6 +8,7 @@ import React, { useState, useCallback } from "react";
 import { Box, Typography } from "@mui/material";
 import ConfigTab from "./ConfigTab";
 import PlayButton from "@/components/ui/PlayButton";
+import HelpButton from "@/components/ui/HelpButton";
 import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
@@ -118,8 +119,14 @@ export default function ClipSingerPage() {
           Clip Quiz: Singer
         </Typography>
 
-        {/* Play Button */}
-        <PlayButton onClick={handlePlayClick} />
+        {/* Help + Play Buttons */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <HelpButton
+            title="Clip Quiz: Singer"
+            description="Short vocal clips! Identify the singer from brief snippets. Great for training your ear on voice recognition."
+          />
+          <PlayButton onClick={handlePlayClick} />
+        </Box>
       </Box>
 
       <ConfigTab />
