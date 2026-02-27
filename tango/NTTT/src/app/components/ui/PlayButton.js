@@ -87,14 +87,24 @@ export default function PlayButton({ onClick, size = 90, disabled = false }) {
         },
       }}
     >
-      {/* Play icon centered with drop shadow for depth */}
-      <PlayArrowIcon
+      {/* Play icon with 3D perspective - looks like it's on curved surface */}
+      <Box
         sx={{
-          fontSize: size * 0.55,
-          color: "white",
-          filter: "drop-shadow(2px 3px 3px rgba(0, 0, 0, 0.4))",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          transform: "perspective(100px) rotateY(-8deg) translateZ(5px)",
+          transformStyle: "preserve-3d",
         }}
-      />
+      >
+        <PlayArrowIcon
+          sx={{
+            fontSize: size * 0.55,
+            color: "white",
+            filter: "drop-shadow(3px 4px 4px rgba(0, 0, 0, 0.5))",
+          }}
+        />
+      </Box>
     </Box>
   );
 }
