@@ -27,6 +27,7 @@ import { trackPlayClick, trackGuess, trackWrongAnswer, trackCorrectAnswer, track
 import RoundProgress from "@/components/ui/RoundProgress";
 import GameHubRoute from "@/components/ui/GameHubRoute";
 import AnimatedButton from "@/components/ui/AnimatedButton";
+import ListenCountdown from "@/components/ui/ListenCountdown";
 
 const BASE_SCORE = 100;
 const REPLAY_PENALTY = 0.03; // 3% reduction per replay
@@ -130,6 +131,12 @@ export default function PlayTab({ songs, config, onCancel }) {
       setIsPlaying(false);
     },
   });
+
+  // Stop playback (for countdown tap)
+  const stopPlayback = useCallback(() => {
+    cleanupWaveSurfer();
+    setIsPlaying(false);
+  }, [cleanupWaveSurfer]);
 
   // Initialize round
   const initRound = useCallback((idx) => {
@@ -515,6 +522,25 @@ export default function PlayTab({ songs, config, onCancel }) {
           )}
         </Box>
       )}
+
+      {/* Listen Countdown - shows while clip is playing */}
+      <Box
+        sx={{
+          position: "fixed",
+          top: "30%",
+          left: 0,
+          right: 0,
+          display: "flex",
+          justifyContent: "center",
+          zIndex: 101,
+        }}
+      >
+        <ListenCountdown
+          duration={clipLength}
+          isPlaying={isPlaying}
+          onStop={stopPlayback}
+        />
+      </Box>
 
       {/* GO!/Replay/Next Button - Floating overlay, doesn't affect layout */}
       <Box
