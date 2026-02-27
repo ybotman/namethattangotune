@@ -26,6 +26,9 @@ export default function ListenCountdown({
     }
   }, [isPlaying, duration]);
 
+  // Check if we're in "GUESS!" mode (last second)
+  const isGuessMode = timeLeft <= 1 && timeLeft > 0;
+
   // Countdown effect
   useEffect(() => {
     if (!isPlaying || timeLeft <= 0) {
@@ -101,7 +104,7 @@ export default function ListenCountdown({
                 cy={size / 2}
                 r={size / 2 - 8}
                 fill="none"
-                stroke="#4CAF50"
+                stroke={isGuessMode ? "#FF9800" : "#4CAF50"}
                 strokeWidth="6"
                 strokeLinecap="round"
                 strokeDasharray={circumference}
@@ -120,38 +123,54 @@ export default function ListenCountdown({
                 zIndex: 1,
               }}
             >
-              <Typography
-                sx={{
-                  fontSize: "0.75rem",
-                  fontWeight: 700,
-                  color: "#4CAF50",
-                  letterSpacing: 2,
-                  textTransform: "uppercase",
-                }}
-              >
-                Listen!
-              </Typography>
-              <Typography
-                sx={{
-                  fontSize: "1.8rem",
-                  fontWeight: 700,
-                  color: "var(--foreground)",
-                  lineHeight: 1,
-                }}
-              >
-                {Math.ceil(timeLeft)}
-              </Typography>
-              {onStop && (
+              {isGuessMode ? (
                 <Typography
                   sx={{
-                    fontSize: "0.6rem",
-                    color: "var(--foreground)",
-                    opacity: 0.5,
-                    mt: 0.5,
+                    fontSize: "1.4rem",
+                    fontWeight: 700,
+                    color: "#FF9800",
+                    letterSpacing: 2,
+                    textTransform: "uppercase",
                   }}
                 >
-                  tap to stop
+                  GUESS!
                 </Typography>
+              ) : (
+                <>
+                  <Typography
+                    sx={{
+                      fontSize: "0.75rem",
+                      fontWeight: 700,
+                      color: "#4CAF50",
+                      letterSpacing: 2,
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Listen!
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "1.8rem",
+                      fontWeight: 700,
+                      color: "var(--foreground)",
+                      lineHeight: 1,
+                    }}
+                  >
+                    {Math.ceil(timeLeft)}
+                  </Typography>
+                  {onStop && (
+                    <Typography
+                      sx={{
+                        fontSize: "0.6rem",
+                        color: "var(--foreground)",
+                        opacity: 0.5,
+                        mt: 0.5,
+                      }}
+                    >
+                      tap to stop
+                    </Typography>
+                  )}
+                </>
               )}
             </Box>
           </Box>
