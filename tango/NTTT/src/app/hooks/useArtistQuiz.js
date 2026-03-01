@@ -42,13 +42,17 @@ export default function useArtistQuiz() {
         return "At least one style must be selected.";
       }
 
-      const hasTiers = (theConfig.recognitionTiers || []).length > 0;
+      // Support both legacy (recognitionTiers) and new (familiarityTiers/orchestraLevels)
+      const hasLegacyTiers = (theConfig.recognitionTiers || []).length > 0;
+      const hasFamiliarityTiers = (theConfig.familiarityTiers || []).length > 0;
+      const hasOrchestraLevels = (theConfig.orchestraLevels || []).length > 0;
+      const hasTiers = hasLegacyTiers || hasFamiliarityTiers || hasOrchestraLevels;
       const hasArtists = (theConfig.artists || []).length > 3;
       if (!hasTiers && !hasArtists) {
-        return "You must select at least 4 Artists or one Recognition Tier.";
+        return "You must select at least 4 Artists or one Tier/Level.";
       }
       if (hasTiers && hasArtists) {
-        return "Cannot select both Artists and Recognition Tiers. Clear one of them.";
+        return "Cannot select both Artists and Tiers. Clear one of them.";
       }
       return "";
     },
@@ -146,7 +150,22 @@ export default function useArtistQuiz() {
   const handleNumSongsChange = (val) => updateConfig("numSongs", val);
   const handleTimeLimitChange = (val) => updateConfig("timeLimit", val);
 
-  // Now handles recognition tiers instead of levels
+  // NEW v3: Handle familiarity tiers (Iconic, Essential, DJ, Deep)
+  const handleFamiliarityTiersChange = (newTiers) => {
+    updateConfig("familiarityTiers", newTiers);
+  };
+
+  // NEW v3: Handle sub-tier selection (Classics, Standards, DeepCuts)
+  const handleSubTierChange = (subTier) => {
+    updateConfig("subTier", subTier);
+  };
+
+  // NEW v3: Handle orchestra levels (1-4)
+  const handleOrchestraLevelsChange = (levels) => {
+    updateConfig("orchestraLevels", levels);
+  };
+
+  // LEGACY: Handle recognition tiers (1-5 numbers)
   const handleLevelsChange = (newTiers) => {
     updateConfig("recognitionTiers", newTiers);
   };
@@ -178,7 +197,10 @@ export default function useArtistQuiz() {
     // Config update handlers
     handleNumSongsChange,
     handleTimeLimitChange,
-    handleLevelsChange,
+    handleLevelsChange, // Legacy
+    handleFamiliarityTiersChange, // NEW v3
+    handleSubTierChange, // NEW v3
+    handleOrchestraLevelsChange, // NEW v3
     handleStylesChange,
     handleArtistsChange,
     handleIncludeSingerChange,

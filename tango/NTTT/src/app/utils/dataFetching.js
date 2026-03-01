@@ -168,8 +168,10 @@ export async function fetchFilteredSongs(
     const iconicIds = new Set(iconicData.iconicSongs.map(s => s.songId));
 
     // Build singer duet lookup map: { singerNameLower: isDuetPlus }
+    // SingerMaster.json v1 has { singers: [...] } structure
     const singerDuetMap = {};
-    singerData.forEach((s) => {
+    const singerArray = singerData.singers || singerData; // Handle both old and new format
+    singerArray.forEach((s) => {
       if (s.singer) {
         singerDuetMap[s.singer.toLowerCase()] = s.isDuetPlus === true;
       }
@@ -448,8 +450,10 @@ export async function getFilteredSongCount(options = {}) {
     const iconicIds = new Set(iconicData.iconicSongs.map(s => s.songId));
 
     // Build lookup maps
+    // SingerMaster.json v1 has { singers: [...] } structure
     const singerDuetMap = {};
-    singerData.forEach((s) => {
+    const singerArray = singerData.singers || singerData;
+    singerArray.forEach((s) => {
       if (s.singer) singerDuetMap[s.singer.toLowerCase()] = s.isDuetPlus === true;
     });
 

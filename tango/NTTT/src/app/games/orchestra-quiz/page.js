@@ -31,12 +31,17 @@ export default function ArtistQuizPage() {
 
   const { config, resetAll } = useGameContext();
 
-  // Validation: need at least 1 familiarity, 1 style, 1 era
-  const recognitionTiers = config.recognitionTiers || [1];
+  // Validation: need at least 1 familiarity tier, 1 style, 1 era
+  // Support both new (familiarityTiers) and legacy (recognitionTiers)
+  // Default to ["Iconic"] if nothing selected
+  const familiarityTiers = config.familiarityTiers?.length > 0 ? config.familiarityTiers : ["Iconic"];
+  const recognitionTiers = config.recognitionTiers || [];
+  const hasTiers = familiarityTiers.length >= 1 || recognitionTiers.length >= 1;
   const activeStyles = Object.keys(config.styles || {}).filter((key) => config.styles[key]);
   const periods = config.periods || [];
+  const subTier = config.subTier || null;
 
-  const canPlay = recognitionTiers.length >= 1 && activeStyles.length >= 1 && periods.length >= 1;
+  const canPlay = hasTiers && activeStyles.length >= 1 && periods.length >= 1;
 
   const handlePlayClick = useCallback(async () => {
     if (!canPlay) {
@@ -57,7 +62,16 @@ export default function ArtistQuizPage() {
       "",
       "",
       numSongs,
-      { includeSinger, recognitionTiers, periods, requireOrchestra: true },
+      {
+        includeSinger,
+        // NEW v3: Use familiarityTiers and subTier
+        familiarityTiers,
+        subTier,
+        // LEGACY fallback
+        recognitionTiers,
+        periods,
+        requireOrchestra: true,
+      },
     );
 
     if (!fetchedSongs || fetchedSongs.length === 0) {
@@ -81,7 +95,7 @@ export default function ArtistQuizPage() {
   // Build validation message
   const getValidationMessage = () => {
     const missing = [];
-    if (recognitionTiers.length === 0) missing.push("Familiarity");
+    if (!hasTiers) missing.push("Familiarity");
     if (activeStyles.length === 0) missing.push("Style");
     if (periods.length === 0) missing.push("Era");
     if (missing.length === 0) return null;

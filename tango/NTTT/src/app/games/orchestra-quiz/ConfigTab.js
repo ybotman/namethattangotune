@@ -22,7 +22,8 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
     validationMessage,
     handleNumSongsChange,
     handleTimeLimitChange,
-    handleLevelsChange,
+    handleFamiliarityTiersChange,
+    handleSubTierChange,
     handleStylesChange,
     handleIncludeSingerChange,
   } = useArtistQuiz();
@@ -67,8 +68,11 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
         <Divider sx={dividerStyle} />
 
         <RecognitionSelector
-          selectedTiers={config.recognitionTiers || [1]}
-          onChange={handleLevelsChange}
+          selectedTiers={config.familiarityTiers || ["Iconic"]}
+          onChange={handleFamiliarityTiersChange}
+          selectedSubTier={config.subTier || null}
+          onSubTierChange={handleSubTierChange}
+          showSubTiers={true}
           compact
         />
 
@@ -174,8 +178,11 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
             </Box>
 
             <RecognitionSelector
-              selectedTiers={config.recognitionTiers || [1]}
-              onChange={handleLevelsChange}
+              selectedTiers={config.familiarityTiers || ["Iconic"]}
+              onChange={handleFamiliarityTiersChange}
+              selectedSubTier={config.subTier || null}
+              onSubTierChange={handleSubTierChange}
+              showSubTiers={true}
               compact
             />
 

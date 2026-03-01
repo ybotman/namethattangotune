@@ -1,15 +1,30 @@
 // ------------------------------------------------------------
 // src/components/ui/RecognitionSelector.js
-// Recognition Tier selector - compact 5-block row with alternating labels
+// v3 - Updated for 4-tier familiarity system with discrete sub-tiers
 // ------------------------------------------------------------
 "use client";
 
 import React from "react";
 import PropTypes from "prop-types";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, ToggleButton, ToggleButtonGroup } from "@mui/material";
 
-// Tier configuration - gradient from light teal to deep red
-const TIER_CONFIG = {
+// NEW v3: 4-tier familiarity system (matches songFamiliarity in djSongsWeighted)
+const FAMILIARITY_TIERS = {
+  Iconic: { abbr: "I", vibe: "Every dancer knows", color: "#4DD0E1", order: 1 },
+  Essential: { abbr: "E", vibe: "Milonga staples", color: "#81C784", order: 2 },
+  DJ: { abbr: "D", vibe: "Serious dancers", color: "#FFD54F", order: 3 },
+  Deep: { abbr: "X", vibe: "Specialists only", color: "#E53935", order: 4 },
+};
+
+// Sub-tiers for granular filtering within each tier
+const SUB_TIERS = {
+  Classics: { label: "Classics", vibe: "Top 30%", color: "#4DD0E1" },
+  Standards: { label: "Standards", vibe: "Middle 40%", color: "#FFD54F" },
+  DeepCuts: { label: "Deep Cuts", vibe: "Bottom 30%", color: "#E53935" },
+};
+
+// LEGACY: Old 5-tier config for backward compatibility
+const LEGACY_TIER_CONFIG = {
   1: { name: "Iconic", abbr: "I", vibe: "Everyone knows it", color: "#4DD0E1", pct: "10%" },
   2: { name: "Essential", abbr: "E", vibe: "Milonga staples", color: "#81C784", pct: "20%" },
   3: { name: "Familiar", abbr: "F", vibe: "You've heard it", color: "#FFD54F", pct: "30%" },
@@ -17,26 +32,60 @@ const TIER_CONFIG = {
   5: { name: "Deep Cuts", abbr: "D", vibe: "DJ-level knowledge", color: "#E53935", pct: "15%" },
 };
 
-export { TIER_CONFIG };
+export { FAMILIARITY_TIERS, SUB_TIERS, LEGACY_TIER_CONFIG as TIER_CONFIG };
 
+/**
+ * NEW v3 RecognitionSelector
+ * - 4 familiarity tiers: Iconic, Essential, DJ, Deep
+ * - Optional sub-tier selector: Classics, Standards, DeepCuts
+ * - Props:
+ *   - selectedTiers: string[] (e.g., ['Iconic', 'Essential'])
+ *   - onChange: (tiers: string[]) => void
+ *   - selectedSubTier: string | null (e.g., 'Classics')
+ *   - onSubTierChange: (subTier: string | null) => void
+ *   - showSubTiers: boolean (default false)
+ *   - legacyMode: boolean (use old 1-5 number system)
+ */
 export default function RecognitionSelector({
-  label,
-  selectedTiers,
+  selectedTiers = ["Iconic"],
   onChange,
-  disabled,
-  showVibe = false,
+  selectedSubTier = null,
+  onSubTierChange,
+  showSubTiers = false,
+  disabled = false,
   compact = false,
+  legacyMode = false,
 }) {
-  const toggleTier = (tier) => {
+  // LEGACY MODE: Use old 5-tier number system
+  if (legacyMode) {
+    return (
+      <LegacyRecognitionSelector
+        selectedTiers={selectedTiers}
+        onChange={onChange}
+        disabled={disabled}
+        compact={compact}
+      />
+    );
+  }
+
+  const toggleTier = (tierName) => {
     if (disabled) return;
-    const newSelection = selectedTiers.includes(tier)
-      ? selectedTiers.filter((t) => t !== tier)
-      : [...selectedTiers, tier].sort();
+    const newSelection = selectedTiers.includes(tierName)
+      ? selectedTiers.filter((t) => t !== tierName)
+      : [...selectedTiers, tierName];
+
+    // Ensure at least one tier is selected
+    if (newSelection.length === 0) return;
     onChange(newSelection);
   };
 
-  const blockSize = 40;
-  const gap = 8;
+  const handleSubTierChange = (event, newSubTier) => {
+    if (onSubTierChange) {
+      onSubTierChange(newSubTier);
+    }
+  };
+
+  const blockSize = compact ? 36 : 44;
 
   return (
     <Box sx={{ mb: compact ? 1 : 2 }}>
@@ -50,148 +99,232 @@ export default function RecognitionSelector({
           mb: 0.5,
           textTransform: "uppercase",
           letterSpacing: 2,
-          fontSize: "0.75rem",
+          fontSize: "0.7rem",
           fontWeight: 700,
+          opacity: 0.8,
         }}
       >
         Familiarity
       </Typography>
 
-      {/* Container with fixed height for labels + blocks */}
+      {/* 4 Tier Buttons */}
       <Box
         sx={{
-          position: "relative",
-          height: blockSize + 28, // block + label space above and below
           display: "flex",
           justifyContent: "center",
+          gap: 1,
+          mb: showSubTiers ? 1.5 : 0,
         }}
       >
-        {/* Blocks row - spread out to match other selectors */}
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            maxWidth: "320px",
-            width: "100%",
-            position: "absolute",
-            top: 14, // space for top labels
-            px: 1,
-          }}
-        >
-          {[1, 2, 3, 4, 5].map((tier) => {
-            const config = TIER_CONFIG[tier];
-            const isSelected = selectedTiers.includes(tier);
-            const labelAbove = tier % 2 === 1;
+        {Object.entries(FAMILIARITY_TIERS).map(([tierName, config]) => {
+          const isSelected = selectedTiers.includes(tierName);
 
-            return (
-              <Box
-                key={tier}
-                sx={{
-                  position: "relative",
-                  width: blockSize,
-                  height: blockSize,
-                }}
-              >
-                {/* Label - positioned above or below */}
-                <Typography
-                  sx={{
-                    position: "absolute",
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    ...(labelAbove
-                      ? { bottom: blockSize + 2 }
-                      : { top: blockSize + 2 }),
-                    fontSize: "0.5rem",
-                    color: isSelected ? config.color : "var(--foreground)",
-                    opacity: isSelected ? 1 : 0.4,
-                    fontWeight: isSelected ? 600 : 400,
-                    textTransform: "uppercase",
-                    letterSpacing: 0.3,
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {config.name}
-                </Typography>
-
-                {/* The clickable block */}
-                <Box
-                  onClick={() => toggleTier(tier)}
-                  sx={{
-                    width: blockSize,
-                    height: blockSize,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderRadius: 1,
-                    cursor: disabled ? "default" : "pointer",
-                    opacity: disabled ? 0.5 : 1,
-                    backgroundColor: isSelected ? config.color : "transparent",
-                    border: `2px solid ${config.color}`,
-                    transition: "all 0.15s ease",
-                    "&:hover": disabled
-                      ? {}
-                      : {
-                          backgroundColor: isSelected ? config.color : `${config.color}33`,
-                          transform: "scale(1.08)",
-                        },
-                    "&:active": disabled
-                      ? {}
-                      : {
-                          transform: "scale(0.95)",
-                        },
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      fontSize: "1.1rem",
-                      fontWeight: "bold",
-                      color: isSelected ? "#000" : "var(--foreground)",
-                      lineHeight: 1,
-                    }}
-                  >
-                    {tier}
-                  </Typography>
-                </Box>
-              </Box>
-            );
-          })}
-        </Box>
-      </Box>
-
-      {/* Optional vibe display */}
-      {showVibe && selectedTiers.length > 0 && (
-        <Box sx={{ display: "flex", justifyContent: "center", gap: 1, mt: 0.5, flexWrap: "wrap" }}>
-          {selectedTiers.map((t) => (
-            <Typography
-              key={t}
-              variant="caption"
+          return (
+            <Box
+              key={tierName}
+              onClick={() => toggleTier(tierName)}
               sx={{
-                color: TIER_CONFIG[t].color,
-                fontSize: "0.65rem",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                cursor: disabled ? "default" : "pointer",
+                opacity: disabled ? 0.5 : 1,
               }}
             >
-              {TIER_CONFIG[t].vibe}
-            </Typography>
-          ))}
+              {/* Block */}
+              <Box
+                sx={{
+                  width: blockSize,
+                  height: blockSize,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 1,
+                  backgroundColor: isSelected ? config.color : "transparent",
+                  border: `2px solid ${config.color}`,
+                  transition: "all 0.15s ease",
+                  "&:hover": disabled
+                    ? {}
+                    : {
+                        backgroundColor: isSelected ? config.color : `${config.color}33`,
+                        transform: "scale(1.05)",
+                      },
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: compact ? "0.9rem" : "1.1rem",
+                    fontWeight: "bold",
+                    color: isSelected ? "#000" : "var(--foreground)",
+                  }}
+                >
+                  {config.abbr}
+                </Typography>
+              </Box>
+
+              {/* Label */}
+              <Typography
+                sx={{
+                  fontSize: "0.55rem",
+                  mt: 0.3,
+                  color: isSelected ? config.color : "var(--foreground)",
+                  opacity: isSelected ? 1 : 0.5,
+                  fontWeight: isSelected ? 600 : 400,
+                  textTransform: "uppercase",
+                  letterSpacing: 0.3,
+                }}
+              >
+                {tierName}
+              </Typography>
+            </Box>
+          );
+        })}
+      </Box>
+
+      {/* Sub-Tier Selector (optional) */}
+      {showSubTiers && (
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <ToggleButtonGroup
+            value={selectedSubTier}
+            exclusive
+            onChange={handleSubTierChange}
+            size="small"
+            sx={{
+              "& .MuiToggleButton-root": {
+                color: "var(--foreground)",
+                borderColor: "rgba(255,255,255,0.3)",
+                fontSize: "0.65rem",
+                py: 0.3,
+                px: 1.5,
+                textTransform: "none",
+                "&.Mui-selected": {
+                  backgroundColor: "var(--accent)",
+                  color: "#000",
+                  "&:hover": {
+                    backgroundColor: "var(--accent)",
+                  },
+                },
+              },
+            }}
+          >
+            <ToggleButton value="Classics">Classics</ToggleButton>
+            <ToggleButton value="Standards">Standards</ToggleButton>
+            <ToggleButton value="DeepCuts">Deep Cuts</ToggleButton>
+          </ToggleButtonGroup>
         </Box>
       )}
     </Box>
   );
 }
 
-RecognitionSelector.propTypes = {
-  label: PropTypes.string,
-  selectedTiers: PropTypes.arrayOf(PropTypes.number),
-  onChange: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
-  showVibe: PropTypes.bool,
-  compact: PropTypes.bool,
-};
+/**
+ * Legacy 5-tier selector for backward compatibility
+ */
+function LegacyRecognitionSelector({ selectedTiers, onChange, disabled, compact }) {
+  const toggleTier = (tier) => {
+    if (disabled) return;
+    const newSelection = selectedTiers.includes(tier)
+      ? selectedTiers.filter((t) => t !== tier)
+      : [...selectedTiers, tier].sort();
+    if (newSelection.length === 0) return;
+    onChange(newSelection);
+  };
 
-RecognitionSelector.defaultProps = {
-  label: "Recognition Tier:",
-  selectedTiers: [1],
-  disabled: false,
-  showVibe: false,
-  compact: false,
+  const blockSize = compact ? 36 : 40;
+
+  return (
+    <Box sx={{ mb: compact ? 1 : 2 }}>
+      <Typography
+        variant="caption"
+        sx={{
+          display: "block",
+          textAlign: "center",
+          color: "var(--foreground)",
+          mb: 0.5,
+          textTransform: "uppercase",
+          letterSpacing: 2,
+          fontSize: "0.7rem",
+          fontWeight: 700,
+          opacity: 0.8,
+        }}
+      >
+        Familiarity
+      </Typography>
+
+      <Box sx={{ display: "flex", justifyContent: "center", gap: 0.8 }}>
+        {[1, 2, 3, 4, 5].map((tier) => {
+          const config = LEGACY_TIER_CONFIG[tier];
+          const isSelected = selectedTiers.includes(tier);
+
+          return (
+            <Box
+              key={tier}
+              onClick={() => toggleTier(tier)}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                cursor: disabled ? "default" : "pointer",
+              }}
+            >
+              <Box
+                sx={{
+                  width: blockSize,
+                  height: blockSize,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 1,
+                  backgroundColor: isSelected ? config.color : "transparent",
+                  border: `2px solid ${config.color}`,
+                  transition: "all 0.15s ease",
+                  "&:hover": disabled
+                    ? {}
+                    : {
+                        backgroundColor: isSelected ? config.color : `${config.color}33`,
+                        transform: "scale(1.05)",
+                      },
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: compact ? "0.9rem" : "1rem",
+                    fontWeight: "bold",
+                    color: isSelected ? "#000" : "var(--foreground)",
+                  }}
+                >
+                  {tier}
+                </Typography>
+              </Box>
+              <Typography
+                sx={{
+                  fontSize: "0.5rem",
+                  mt: 0.2,
+                  color: isSelected ? config.color : "var(--foreground)",
+                  opacity: isSelected ? 1 : 0.4,
+                  textTransform: "uppercase",
+                }}
+              >
+                {config.name}
+              </Typography>
+            </Box>
+          );
+        })}
+      </Box>
+    </Box>
+  );
+}
+
+RecognitionSelector.propTypes = {
+  selectedTiers: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string), // New: ['Iconic', 'Essential']
+    PropTypes.arrayOf(PropTypes.number), // Legacy: [1, 2]
+  ]),
+  onChange: PropTypes.func.isRequired,
+  selectedSubTier: PropTypes.string,
+  onSubTierChange: PropTypes.func,
+  showSubTiers: PropTypes.bool,
+  disabled: PropTypes.bool,
+  compact: PropTypes.bool,
+  legacyMode: PropTypes.bool,
 };
