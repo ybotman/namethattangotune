@@ -1,6 +1,74 @@
 //------------------------------------------------------------
 // src/utils/dataFetching.js
+// v3 - Added 4-tier familiarity system with discrete sub-tiers
 //------------------------------------------------------------
+
+/**
+ * SUB-TIER DEFINITIONS (discrete, not continuous)
+ * Within each tier/level selection, songs are divided by songFamiliarity:
+ *   - Classics (A): Top 30% familiarity within pool
+ *   - Standards (B): Middle 40% familiarity within pool
+ *   - DeepCuts (C): Bottom 30% familiarity within pool
+ */
+const SUB_TIER_RANGES = {
+  Classics: { min: 0.7, max: 1.0 },    // Top 30%
+  Standards: { min: 0.3, max: 0.7 },   // Middle 40%
+  DeepCuts: { min: 0.0, max: 0.3 },    // Bottom 30%
+};
+
+/**
+ * FAMILIARITY TIER DEFINITIONS (maps to discrete tiers)
+ * Based on songFamiliarity field in djSongsWeighted.json
+ */
+const FAMILIARITY_TIERS = {
+  Iconic: { min: 0.8, max: 1.0 },      // ~664 songs
+  Essential: { min: 0.6, max: 0.8 },   // ~1,328 songs
+  DJ: { min: 0.4, max: 0.6 },          // ~2,125 songs
+  Deep: { min: 0.0, max: 0.4 },        // ~616 songs
+};
+
+/**
+ * Apply sub-tier filter to a pool of songs based on their songFamiliarity
+ * relative to the pool (percentile-based within the filtered set)
+ *
+ * @param {Array} songs - Pool of songs to filter
+ * @param {string} subTier - 'Classics', 'Standards', or 'DeepCuts'
+ * @returns {Array} - Filtered songs
+ */
+function applySubTierFilter(songs, subTier) {
+  if (!subTier || !SUB_TIER_RANGES[subTier]) return songs;
+  if (songs.length === 0) return songs;
+
+  // Sort by songFamiliarity descending
+  const sorted = [...songs].sort((a, b) => (b.songFamiliarity || 0) - (a.songFamiliarity || 0));
+
+  // Calculate percentile boundaries
+  const { min, max } = SUB_TIER_RANGES[subTier];
+  const startIdx = Math.floor(sorted.length * (1 - max)); // top = low index
+  const endIdx = Math.floor(sorted.length * (1 - min));   // bottom = high index
+
+  return sorted.slice(startIdx, endIdx);
+}
+
+/**
+ * Apply familiarity tier filter based on songFamiliarity field
+ *
+ * @param {Array} songs - Pool of songs to filter
+ * @param {string[]} familiarityTiers - Array of tier names: 'Iconic', 'Essential', 'DJ', 'Deep'
+ * @returns {Array} - Filtered songs
+ */
+function applyFamiliarityTierFilter(songs, familiarityTiers) {
+  if (!familiarityTiers || familiarityTiers.length === 0) return songs;
+
+  return songs.filter(song => {
+    const familiarity = song.songFamiliarity || 0;
+    return familiarityTiers.some(tier => {
+      const range = FAMILIARITY_TIERS[tier];
+      if (!range) return false;
+      return familiarity >= range.min && familiarity < range.max;
+    });
+  });
+}
 
 /**
  * Fetch the entire ArtistMaster.json array directly.
@@ -49,8 +117,13 @@ export async function fetchAllArtists() {
  * @param {string[]} options.singers - Filter by specific singer names
  * @param {number[]} options.yearRange - [startYear, endYear] to filter by recording year
  * @param {string} options.duetFilter - 'all' (default) | 'solo' | 'duetsOnly' - filter by duet status
- * @param {number[]} options.recognitionTiers - Filter by recognition tier (1-5: Iconic, Essential, Familiar, Challenging, Deep Cuts)
+ * @param {number[]} options.recognitionTiers - Filter by recognition tier (1-5: Iconic, Essential, Familiar, Challenging, Deep Cuts) [LEGACY]
  * @param {string[]} options.periods - Filter by period names (e.g., "Golden Age", "New Guard") - converts to year ranges
+ * @param {string[]} options.familiarityTiers - NEW: Filter by familiarity tier names ('Iconic', 'Essential', 'DJ', 'Deep')
+ * @param {string} options.subTier - NEW: Filter by sub-tier ('Classics', 'Standards', 'DeepCuts') - applies percentile filter within pool
+ * @param {number[]} options.orchestraLevels - NEW: Filter by orchestra level (1-5) - same as artistLevels but clearer name
+ * @param {number[]} options.singerLevels - NEW: Filter by singer level (1-3 from SingerMaster)
+ * @param {string[]} options.singerEras - NEW: Filter by singer era ('golden', 'later')
  */
 export async function fetchFilteredSongs(
   artistMasters = [],
@@ -63,17 +136,36 @@ export async function fetchFilteredSongs(
   qty = "",
   options = {},
 ) {
-  const { includeSinger = false, requireSinger = false, requireOrchestra = false, singers = [], yearRange = null, duetFilter = 'solo', recognitionTiers = [], periods = [] } = options;
+  const {
+    includeSinger = false,
+    requireSinger = false,
+    requireOrchestra = false,
+    singers = [],
+    yearRange = null,
+    duetFilter = 'solo',
+    recognitionTiers = [],
+    periods = [],
+    // NEW v3 options
+    familiarityTiers = [],
+    subTier = null,
+    orchestraLevels = [],
+    singerLevels = [],
+    singerEras = [],
+  } = options;
 
   try {
     // Use weighted songs (3-5 stars, prioritized by play count)
-    const [djSongsData, artistData, singerData, vocalData, periodsData] = await Promise.all([
+    const [djSongsData, artistData, singerData, vocalData, periodsData, iconicData] = await Promise.all([
       fetch(`/songData/djSongsWeighted.json`).then((r) => r.json()),
       fetch(`/songData/ArtistMaster.json`).then((r) => r.json()),
       fetch(`/songData/SingerMaster.json`).then((r) => r.json()),
       fetch(`/api/vocal-data`).then((r) => r.json()).catch(() => ({})),
       fetch(`/songData/TangoPeriods.json`).then((r) => r.json()).catch(() => []),
+      fetch(`/songData/IconicLists.json`).then((r) => r.json()).catch(() => ({ iconicSongs: [] })),
     ]);
+
+    // Build iconic song ID set for Tier 1 bypass (note: IconicLists uses 'songId', djSongs uses 'SongID')
+    const iconicIds = new Set(iconicData.iconicSongs.map(s => s.songId));
 
     // Build singer duet lookup map: { singerNameLower: isDuetPlus }
     const singerDuetMap = {};
@@ -139,12 +231,54 @@ export async function fetchFilteredSongs(
       );
     }
 
-    // Recognition Tier filter (new - song-based tiers from djSongsWeighted.json)
+    // Recognition Tier filter (LEGACY - song-based tiers from djSongsWeighted.json)
     const validRecognitionTiers = recognitionTiers.filter((t) => typeof t === "number");
     if (validRecognitionTiers.length > 0) {
+      if (validRecognitionTiers.length === 1 && validRecognitionTiers[0] === 1) {
+        // Iconic mode — use curated list, bypass algorithmic tiers
+        filtered = filtered.filter((song) => iconicIds.has(song.SongID));
+      } else {
+        // All other modes — existing tier filter unchanged
+        filtered = filtered.filter(
+          (song) => song.recognitionTier && validRecognitionTiers.includes(song.recognitionTier),
+        );
+      }
+    }
+
+    // NEW v3: Orchestra Level filter (clearer name than artistLevels)
+    const validOrchestraLevels = orchestraLevels.filter((l) => typeof l === "number");
+    if (validOrchestraLevels.length > 0) {
       filtered = filtered.filter(
-        (song) => song.recognitionTier && validRecognitionTiers.includes(song.recognitionTier),
+        (song) => song.orchestraLevel && validOrchestraLevels.includes(song.orchestraLevel),
       );
+    }
+
+    // NEW v3: Singer Level filter
+    const validSingerLevels = singerLevels.filter((l) => typeof l === "number");
+    if (validSingerLevels.length > 0) {
+      filtered = filtered.filter(
+        (song) => song.singerLevel && validSingerLevels.includes(song.singerLevel),
+      );
+    }
+
+    // NEW v3: Singer Era filter
+    const validSingerEras = singerEras.filter((e) => e && e.trim() !== "");
+    if (validSingerEras.length > 0) {
+      const erasLower = validSingerEras.map((e) => e.toLowerCase());
+      filtered = filtered.filter(
+        (song) => song.singerEra && erasLower.includes(song.singerEra.toLowerCase()),
+      );
+    }
+
+    // NEW v3: Familiarity Tier filter (Iconic/Essential/DJ/Deep)
+    if (familiarityTiers.length > 0) {
+      filtered = applyFamiliarityTierFilter(filtered, familiarityTiers);
+    }
+
+    // NEW v3: Sub-Tier filter (Classics/Standards/DeepCuts) - applied AFTER other filters
+    // This filters by percentile within the current pool
+    if (subTier) {
+      filtered = applySubTierFilter(filtered, subTier);
     }
 
     // Composer filter
@@ -293,15 +427,25 @@ export async function getFilteredSongCount(options = {}) {
     singers = [],
     yearRange = null,
     duetFilter = 'solo',
+    // NEW v3 options
+    familiarityTiers = [],
+    subTier = null,
+    orchestraLevels = [],
+    singerLevels = [],
+    singerEras = [],
   } = options;
 
   try {
-    const [djSongsData, artistData, singerData, periodsData] = await Promise.all([
+    const [djSongsData, artistData, singerData, periodsData, iconicData] = await Promise.all([
       fetch(`/songData/djSongsWeighted.json`).then((r) => r.json()),
       fetch(`/songData/ArtistMaster.json`).then((r) => r.json()),
       fetch(`/songData/SingerMaster.json`).then((r) => r.json()),
       fetch(`/songData/TangoPeriods.json`).then((r) => r.json()).catch(() => []),
+      fetch(`/songData/IconicLists.json`).then((r) => r.json()).catch(() => ({ iconicSongs: [] })),
     ]);
+
+    // Build iconic song ID set for Tier 1 bypass
+    const iconicIds = new Set(iconicData.iconicSongs.map(s => s.songId));
 
     // Build lookup maps
     const singerDuetMap = {};
@@ -340,12 +484,52 @@ export async function getFilteredSongCount(options = {}) {
       );
     }
 
-    // Recognition Tier filter
+    // Recognition Tier filter (LEGACY)
     const validTiers = recognitionTiers.filter((t) => typeof t === "number");
     if (validTiers.length > 0) {
-      filtered = filtered.filter((song) =>
-        song.recognitionTier && validTiers.includes(song.recognitionTier)
+      if (validTiers.length === 1 && validTiers[0] === 1) {
+        // Iconic mode — use curated list, bypass algorithmic tiers
+        filtered = filtered.filter((song) => iconicIds.has(song.SongID));
+      } else {
+        filtered = filtered.filter((song) =>
+          song.recognitionTier && validTiers.includes(song.recognitionTier)
+        );
+      }
+    }
+
+    // NEW v3: Orchestra Level filter
+    const validOrchestraLevels = orchestraLevels.filter((l) => typeof l === "number");
+    if (validOrchestraLevels.length > 0) {
+      filtered = filtered.filter(
+        (song) => song.orchestraLevel && validOrchestraLevels.includes(song.orchestraLevel),
       );
+    }
+
+    // NEW v3: Singer Level filter
+    const validSingerLevels = singerLevels.filter((l) => typeof l === "number");
+    if (validSingerLevels.length > 0) {
+      filtered = filtered.filter(
+        (song) => song.singerLevel && validSingerLevels.includes(song.singerLevel),
+      );
+    }
+
+    // NEW v3: Singer Era filter
+    const validSingerEras = singerEras.filter((e) => e && e.trim() !== "");
+    if (validSingerEras.length > 0) {
+      const erasLower = validSingerEras.map((e) => e.toLowerCase());
+      filtered = filtered.filter(
+        (song) => song.singerEra && erasLower.includes(song.singerEra.toLowerCase()),
+      );
+    }
+
+    // NEW v3: Familiarity Tier filter (Iconic/Essential/DJ/Deep)
+    if (familiarityTiers.length > 0) {
+      filtered = applyFamiliarityTierFilter(filtered, familiarityTiers);
+    }
+
+    // NEW v3: Sub-Tier filter (Classics/Standards/DeepCuts)
+    if (subTier) {
+      filtered = applySubTierFilter(filtered, subTier);
     }
 
     // Year range filter
