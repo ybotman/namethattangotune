@@ -167,11 +167,38 @@ const tools = [
   { name: "Data Quality", path: "/games/data-quality" },
 ];
 
+// Page Banner Component
+function PageBanner({ src, alt, contain = false }) {
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        maxWidth: 400,
+        position: "relative",
+        height: contain ? (isMobile ? 120 : 160) : (isMobile ? 100 : 140),
+        mb: 2,
+        borderRadius: contain ? 0 : 2,
+        overflow: "hidden",
+      }}
+    >
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="100vw"
+        style={{ objectFit: contain ? "contain" : "cover" }}
+        priority
+      />
+    </Box>
+  );
+}
+
 // Welcome Page Content (first swipe)
 function WelcomePage({ onQuickStart }) {
   const [visitCount, setVisitCount] = useState(0);
   const [lastVisit, setLastVisit] = useState(null);
-  const isMobile = useMediaQuery("(max-width: 600px)");
 
   useEffect(() => {
     setVisitCount(getVisitCount());
@@ -202,25 +229,8 @@ function WelcomePage({ onQuickStart }) {
         gap: 2,
       }}
     >
-      {/* Banner */}
-      <Box
-        sx={{
-          width: "100%",
-          maxWidth: 400,
-          position: "relative",
-          height: isMobile ? 70 : 90,
-          mb: 1,
-        }}
-      >
-        <Image
-          src="/NTTTBanner3.png"
-          alt="Name That Tango Tune"
-          fill
-          sizes="100vw"
-          style={{ objectFit: "contain" }}
-          priority
-        />
-      </Box>
+      {/* Banner - full image */}
+      <PageBanner src="/Banner/Type1__NTTT.png" alt="Name That Tango Tune" contain />
 
       {/* Visit Stats */}
       <Paper
@@ -335,16 +345,7 @@ function OrchestraPage() {
         gap: 1.5,
       }}
     >
-      <Typography
-        sx={{
-          fontSize: "0.75rem",
-          color: "var(--foreground)",
-          opacity: 0.7,
-          mb: 1,
-        }}
-      >
-        Learn to identify orchestras by their sound
-      </Typography>
+      <PageBanner src="/Banner/Type1__ORCHESTRA.png" alt="Orchestra Games" />
 
       <GameRow
         title="Orchestra Quiz"
@@ -394,16 +395,7 @@ function SingerPage() {
         gap: 1.5,
       }}
     >
-      <Typography
-        sx={{
-          fontSize: "0.75rem",
-          color: "var(--foreground)",
-          opacity: 0.7,
-          mb: 1,
-        }}
-      >
-        Recognize tango singers by their voice
-      </Typography>
+      <PageBanner src="/Banner/Type1__SINGER.png" alt="Singer Games" />
 
       <GameRow
         title="Singer Quiz"
@@ -436,17 +428,8 @@ function SingerPage() {
 // Contest Page Content (Coming Soon)
 function ContestPage() {
   return (
-    <Box sx={{ width: "100%", textAlign: "center" }}>
-      <Typography
-        sx={{
-          fontSize: "0.75rem",
-          color: "var(--foreground)",
-          opacity: 0.7,
-          mb: 3,
-        }}
-      >
-        Compete on predefined levels with global leaderboards
-      </Typography>
+    <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <PageBanner src="/Banner/Type1__CONTEST.png" alt="Contest Mode" />
 
       <Paper
         elevation={0}
@@ -526,7 +509,41 @@ function ContestPage() {
   );
 }
 
-// Listen/Other Page Content
+// Songs Page Content
+function SongsPage() {
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 1.5,
+      }}
+    >
+      <PageBanner src="/Banner/Type1__SONGS.png" alt="Song Games" />
+
+      <GameRow
+        title="Song Quiz"
+        subtitle="Know your classics? Hear a clip, guess the song title from 4 choices."
+        mode="song"
+        path="/games/song-quiz"
+        helpTitle="Song Title Quiz"
+        helpDescription="Listen to a clip and identify the song title from 4 choices. Tests your knowledge of tango classics and lesser-known gems."
+      />
+      <GameRow
+        title="Same Song Compare"
+        subtitle="Hear how different orchestras interpret the same classic. Side by side comparison."
+        mode="compare"
+        path="/games/same-song"
+        helpTitle="Same Song Compare"
+        helpDescription="Compare different recordings of the SAME song by different orchestras. Hear how each orchestra interprets classics like La Cumparsita differently."
+      />
+    </Box>
+  );
+}
+
+// Listen Page Content
 function ListenPage() {
   return (
     <Box
@@ -538,16 +555,7 @@ function ListenPage() {
         gap: 1.5,
       }}
     >
-      <Typography
-        sx={{
-          fontSize: "0.75rem",
-          color: "var(--foreground)",
-          opacity: 0.7,
-          mb: 1,
-        }}
-      >
-        Free listening, comparisons, and more
-      </Typography>
+      <PageBanner src="/Banner/Type1__LISTEN.png" alt="Listen Mode" />
 
       <GameRow
         title="Listen Mode"
@@ -557,22 +565,48 @@ function ListenPage() {
         helpTitle="Listen Mode"
         helpDescription="Browse and play songs freely. Filter by orchestra, era, style, or singer. No quiz, no scoring - just explore the music at your own pace."
       />
-      <GameRow
-        title="Same Song Compare"
-        subtitle="Hear how different orchestras interpret the same classic. Side by side comparison."
-        mode="compare"
-        path="/games/same-song"
-        helpTitle="Same Song Compare"
-        helpDescription="Compare different recordings of the SAME song by different orchestras. Hear how each orchestra interprets classics like La Cumparsita differently."
-      />
-      <GameRow
-        title="Song Quiz"
-        subtitle="Know your classics? Hear a clip, guess the song title from 4 choices."
-        mode="song"
-        path="/games/song-quiz"
-        helpTitle="Song Title Quiz"
-        helpDescription="Listen to a clip and identify the song title from 4 choices. Tests your knowledge of tango classics and lesser-known gems."
-      />
+    </Box>
+  );
+}
+
+// Daily Page Content (Coming Soon)
+function DailyPage() {
+  return (
+    <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <PageBanner src="/Banner/Type1__DAILY.png" alt="Daily Challenge" />
+
+      <Paper
+        elevation={0}
+        sx={{
+          p: 3,
+          backgroundColor: "rgba(76, 175, 80, 0.1)",
+          border: "1px solid rgba(76, 175, 80, 0.3)",
+          borderRadius: 2,
+          maxWidth: 300,
+          textAlign: "center",
+        }}
+      >
+        <Typography sx={{ fontSize: "2rem", mb: 1 }}>📅</Typography>
+        <Typography
+          sx={{
+            fontSize: "1rem",
+            fontWeight: 600,
+            color: "#4CAF50",
+            mb: 1,
+          }}
+        >
+          Coming Soon
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: "0.75rem",
+            color: "var(--foreground)",
+            opacity: 0.7,
+          }}
+        >
+          Daily challenges with fixed song sets. Compare your scores with friends!
+        </Typography>
+      </Paper>
     </Box>
   );
 }
@@ -603,7 +637,8 @@ function SetupPage() {
   };
 
   return (
-    <Box sx={{ width: "100%", maxWidth: 350 }}>
+    <Box sx={{ width: "100%", maxWidth: 350, display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <PageBanner src="/Banner/Type1__SETUP.png" alt="Setup" />
       {/* Reports */}
       <Paper
         elevation={0}
@@ -810,14 +845,24 @@ export default function GameHubPage() {
       content: <SingerPage />,
     },
     {
-      title: "Contest",
-      label: "Contest",
-      content: <ContestPage />,
+      title: "Songs",
+      label: "Songs",
+      content: <SongsPage />,
     },
     {
       title: "Listen",
       label: "Listen",
       content: <ListenPage />,
+    },
+    {
+      title: "Daily",
+      label: "Daily",
+      content: <DailyPage />,
+    },
+    {
+      title: "Contest",
+      label: "Contest",
+      content: <ContestPage />,
     },
     {
       title: "Setup",
