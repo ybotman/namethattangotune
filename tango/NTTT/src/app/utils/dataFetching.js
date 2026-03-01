@@ -709,13 +709,34 @@ export async function getDistractors(
     }
   });
 
-  // 3) Gather the final set of levels (from config.recognitionTiers + config.artists)
-  // Map recognitionTiers to orchestra levels: tier 1-2 = level 1-2, tier 3 = level 1-3, tier 4 = level 1-4
+  // 3) Gather the final set of orchestra levels for distractors
   const finalLevels = new Set();
 
-  // Map recognition tiers to orchestra levels for distractors
+  // NEW v3: Map familiarityTiers to orchestra levels
+  // Iconic = Level 1 only (Big 4), Essential = Level 1-2, DJ = Level 1-3, Deep = Level 1-4
+  const familiarityTiers = config.familiarityTiers || [];
+  if (familiarityTiers.length > 0) {
+    const tierToMaxLevel = {
+      'Iconic': 1,      // Big 4 only
+      'Essential': 2,   // + Biagi, Fresedo, Tanturi, etc.
+      'DJ': 3,          // + deeper orchestras
+      'Deep': 4,        // + specialist orchestras
+    };
+    // Find the highest level needed based on selected tiers
+    let maxLevel = 1;
+    familiarityTiers.forEach(tier => {
+      const lvl = tierToMaxLevel[tier] || 1;
+      if (lvl > maxLevel) maxLevel = lvl;
+    });
+    // Add all levels up to maxLevel
+    for (let lvl = 1; lvl <= maxLevel; lvl++) {
+      finalLevels.add(lvl);
+    }
+  }
+
+  // LEGACY: Map recognitionTiers (1-5) to orchestra levels
   const recognitionTiers = config.recognitionTiers || [];
-  if (recognitionTiers.length > 0) {
+  if (recognitionTiers.length > 0 && familiarityTiers.length === 0) {
     const maxTier = Math.max(...recognitionTiers);
     // Include orchestra levels up to the max tier selected
     for (let lvl = 1; lvl <= Math.min(maxTier + 1, 5); lvl++) {
@@ -725,6 +746,11 @@ export async function getDistractors(
 
   // Also support legacy config.levels if present
   (config.levels || []).forEach((lvl) => {
+    finalLevels.add(Number(lvl));
+  });
+
+  // NEW v3: Support orchestraLevels directly
+  (config.orchestraLevels || []).forEach((lvl) => {
     finalLevels.add(Number(lvl));
   });
 
@@ -986,15 +1012,33 @@ export function getDistractorsByConfig(
     console.log("selectedArtistLevels => added:", lvl, selectedArtistLevels);
   });
 
-  // 3) Merge with config.recognitionTiers (mapped to orchestra levels)
+  // 3) NEW v3: Map familiarityTiers to orchestra levels for distractors
+  const familiarityTiers = config.familiarityTiers || [];
+  if (familiarityTiers.length > 0) {
+    const tierToMaxLevel = { 'Iconic': 1, 'Essential': 2, 'DJ': 3, 'Deep': 4 };
+    let maxLevel = 1;
+    familiarityTiers.forEach(tier => {
+      const lvl = tierToMaxLevel[tier] || 1;
+      if (lvl > maxLevel) maxLevel = lvl;
+    });
+    for (let lvl = 1; lvl <= maxLevel; lvl++) {
+      selectedArtistLevels.add(lvl);
+    }
+  }
+
+  // LEGACY: Merge with config.recognitionTiers (mapped to orchestra levels)
   const recognitionTiers = config.recognitionTiers || [];
-  if (recognitionTiers.length > 0) {
+  if (recognitionTiers.length > 0 && familiarityTiers.length === 0) {
     const maxTier = Math.max(...recognitionTiers);
-    // Include orchestra levels up to the max tier selected
     for (let lvl = 1; lvl <= Math.min(maxTier + 1, 5); lvl++) {
       selectedArtistLevels.add(lvl);
     }
   }
+
+  // NEW v3: Support orchestraLevels directly
+  (config.orchestraLevels || []).forEach((lvl) => {
+    selectedArtistLevels.add(Number(lvl));
+  });
 
   // Also support legacy config.levels if present
   (config.levels || []).forEach((lvl) => {
