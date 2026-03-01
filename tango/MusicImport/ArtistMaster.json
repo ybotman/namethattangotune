@@ -8,8 +8,9 @@
   {
     "artist": "Anibal Troilo",
     "active": "true",
-    "level": "2",
-    "grouped": []
+    "level": "1",
+    "grouped": [],
+    "notes": "Big 4 - promoted from L2 per community consensus"
   },
   {
     "artist": "Astor Piazzolla",
@@ -50,8 +51,9 @@
   {
     "artist": "Ricardo Tanturi",
     "active": "true",
-    "level": "3",
-    "grouped": []
+    "level": "2",
+    "grouped": [],
+    "notes": "Promoted from L3 - 7.4% of BA tandas, Tanturi-Castillo beloved"
   },
   {
     "artist": "Roberto Firpo",
@@ -68,8 +70,9 @@
   {
     "artist": "Angel D'Agostino",
     "active": "true",
-    "level": "3",
-    "grouped": []
+    "level": "2",
+    "grouped": [],
+    "notes": "Promoted from L3 - D'Agostino/Vargas 'Two Angels' essential"
   },
   {
     "artist": "Bajofondo",
@@ -110,8 +113,9 @@
   {
     "artist": "Lucio Demare",
     "active": "true",
-    "level": "3",
-    "grouped": []
+    "level": "2",
+    "grouped": [],
+    "notes": "Promoted from L3 - Essential per strategic analysis"
   },
   {
     "artist": "Disarliana",
@@ -152,20 +156,23 @@
   {
     "artist": "Miguel Calo",
     "active": "true",
-    "level": "5",
-    "grouped": []
+    "level": "2",
+    "grouped": [],
+    "notes": "Promoted from L5 - Essential orchestra per all sources"
   },
   {
     "artist": "Rodolfo Biagi",
     "active": "true",
-    "level": "1",
-    "grouped": []
+    "level": "2",
+    "grouped": [],
+    "notes": "Demoted from L1 - not Big 4, top of L2"
   },
   {
     "artist": "Osvaldo Fresedo",
     "active": "true",
-    "level": "1",
-    "grouped": []
+    "level": "2",
+    "grouped": [],
+    "notes": "Demoted from L1 - historical importance but limited modern play"
   },
   {
     "artist": "Pedro Laurenz",
@@ -183,7 +190,7 @@
     "artist": "Orquesta Típica Victor",
     "active": "true",
     "level": "2",
-    "grouped": ["Orquesta Tipica Victor", "Orquesta Típica Víctor"]
+    "grouped": ["Orquesta Tipica Victor", "Orquesta Típica Víctor", "OTV"]
   },
   {
     "artist": "Quinteto Pirincho",
@@ -310,5 +317,54 @@
     "active": "true",
     "level": "4",
     "grouped": ["Chino Laborde and Solo Tango Orquesta"]
+  },
+  {
+    "artist": "Carlos Gardel",
+    "active": "true",
+    "level": "2",
+    "grouped": [],
+    "notes": "Solo vocalist, Cancion=true"
+  },
+  {
+    "artist": "Angel Villoldo",
+    "active": "true",
+    "level": "4",
+    "grouped": [],
+    "notes": "Primitivo era (1895-1910)"
+  },
+  {
+    "artist": "Vicente Greco",
+    "active": "true",
+    "level": "4",
+    "grouped": [],
+    "notes": "Guardia Vieja (1910-1920)"
+  },
+  {
+    "artist": "Eduardo Arolas",
+    "active": "true",
+    "level": "4",
+    "grouped": [],
+    "notes": "El Tigre del Bandoneón, Guardia Vieja"
+  },
+  {
+    "artist": "Raul Garello",
+    "active": "true",
+    "level": "3",
+    "grouped": [],
+    "notes": "Modern era"
+  },
+  {
+    "artist": "Armando Pontier",
+    "active": "true",
+    "level": "3",
+    "grouped": [],
+    "notes": "Canción era"
+  },
+  {
+    "artist": "Raul Lavie",
+    "active": "true",
+    "level": "3",
+    "grouped": [],
+    "notes": "Solo vocalist, Cancion=true"
   }
 ]
