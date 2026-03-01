@@ -6,14 +6,35 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import { Box, Typography, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Box, Typography, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
 
-// NEW v3: 4-tier familiarity system (matches songFamiliarity in djSongsWeighted)
+// NEW v3: 4-tier familiarity system with 🎵 icons
+// More notes = deeper cuts = harder to recognize
 const FAMILIARITY_TIERS = {
-  Iconic: { abbr: "I", vibe: "Every dancer knows", color: "#4DD0E1", order: 1 },
-  Essential: { abbr: "E", vibe: "Milonga staples", color: "#81C784", order: 2 },
-  DJ: { abbr: "D", vibe: "Serious dancers", color: "#FFD54F", order: 3 },
-  Deep: { abbr: "X", vibe: "Specialists only", color: "#E53935", order: 4 },
+  Iconic: {
+    icon: "🎵",
+    color: "#4DD0E1",
+    order: 1,
+    tooltip: "Iconic: Every tango dancer knows these"
+  },
+  Essential: {
+    icon: "🎵🎵",
+    color: "#81C784",
+    order: 2,
+    tooltip: "Essential: Milonga staples"
+  },
+  DJ: {
+    icon: "🎵🎵🎵",
+    color: "#FFD54F",
+    order: 3,
+    tooltip: "DJ: For serious dancers"
+  },
+  Deep: {
+    icon: "🎵🎵🎵🎵",
+    color: "#E53935",
+    order: 4,
+    tooltip: "Deep: Specialists only"
+  },
 };
 
 // Sub-tiers for granular filtering within each tier
@@ -107,12 +128,12 @@ export default function RecognitionSelector({
         Familiarity
       </Typography>
 
-      {/* 4 Tier Buttons */}
+      {/* 4 Tier Buttons with 🎵 icons */}
       <Box
         sx={{
           display: "flex",
           justifyContent: "center",
-          gap: 1,
+          gap: 1.5,
           mb: showSubTiers ? 1.5 : 0,
         }}
       >
@@ -120,63 +141,64 @@ export default function RecognitionSelector({
           const isSelected = selectedTiers.includes(tierName);
 
           return (
-            <Box
-              key={tierName}
-              onClick={() => toggleTier(tierName)}
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                cursor: disabled ? "default" : "pointer",
-                opacity: disabled ? 0.5 : 1,
-              }}
-            >
-              {/* Block */}
+            <Tooltip key={tierName} title={config.tooltip} arrow placement="top">
               <Box
+                onClick={() => toggleTier(tierName)}
                 sx={{
-                  width: blockSize,
-                  height: blockSize,
                   display: "flex",
+                  flexDirection: "column",
                   alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 1,
-                  backgroundColor: isSelected ? config.color : "transparent",
-                  border: `2px solid ${config.color}`,
-                  transition: "all 0.15s ease",
-                  "&:hover": disabled
-                    ? {}
-                    : {
-                        backgroundColor: isSelected ? config.color : `${config.color}33`,
-                        transform: "scale(1.05)",
-                      },
+                  cursor: disabled ? "default" : "pointer",
+                  opacity: disabled ? 0.5 : 1,
                 }}
               >
-                <Typography
+                {/* Block with note icon */}
+                <Box
                   sx={{
-                    fontSize: compact ? "0.9rem" : "1.1rem",
-                    fontWeight: "bold",
-                    color: isSelected ? "#000" : "var(--foreground)",
+                    minWidth: blockSize,
+                    height: blockSize,
+                    px: 0.5,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: 1,
+                    backgroundColor: isSelected ? config.color : "transparent",
+                    border: `2px solid ${config.color}`,
+                    transition: "all 0.15s ease",
+                    "&:hover": disabled
+                      ? {}
+                      : {
+                          backgroundColor: isSelected ? config.color : `${config.color}33`,
+                          transform: "scale(1.05)",
+                        },
                   }}
                 >
-                  {config.abbr}
+                  <Typography
+                    sx={{
+                      fontSize: compact ? "0.8rem" : "1rem",
+                      filter: isSelected ? "none" : "grayscale(50%)",
+                    }}
+                  >
+                    {config.icon}
+                  </Typography>
+                </Box>
+
+                {/* Label */}
+                <Typography
+                  sx={{
+                    fontSize: "0.55rem",
+                    mt: 0.3,
+                    color: isSelected ? config.color : "var(--foreground)",
+                    opacity: isSelected ? 1 : 0.5,
+                    fontWeight: isSelected ? 600 : 400,
+                    textTransform: "uppercase",
+                    letterSpacing: 0.3,
+                  }}
+                >
+                  {tierName}
                 </Typography>
               </Box>
-
-              {/* Label */}
-              <Typography
-                sx={{
-                  fontSize: "0.55rem",
-                  mt: 0.3,
-                  color: isSelected ? config.color : "var(--foreground)",
-                  opacity: isSelected ? 1 : 0.5,
-                  fontWeight: isSelected ? 600 : 400,
-                  textTransform: "uppercase",
-                  letterSpacing: 0.3,
-                }}
-              >
-                {tierName}
-              </Typography>
-            </Box>
+            </Tooltip>
           );
         })}
       </Box>

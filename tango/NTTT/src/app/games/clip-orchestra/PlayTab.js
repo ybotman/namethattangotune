@@ -105,9 +105,15 @@ export default function PlayTab({ songs, config, onCancel }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [roundScorePercents, setRoundScorePercents] = useState([]);
   const [usedNewClip, setUsedNewClip] = useState(false); // Can only get new clip once
+  const [allArtists, setAllArtists] = useState([]); // ArtistMaster data for distractors
 
   const clipStartRef = useRef(null);
   const waveSurferRef = useRef(null);
+
+  // Fetch ArtistMaster for distractor generation
+  useEffect(() => {
+    fetchAllArtists().then(setAllArtists).catch(console.error);
+  }, []);
 
   const { initWaveSurfer, cleanupWaveSurfer, playSnippet, wavesurfer } = useWaveSurfer({
     onSongEnd: () => {
@@ -138,20 +144,35 @@ export default function PlayTab({ songs, config, onCancel }) {
     clipStartRef.current = null;
   }, [songs]);
 
-  // Build answers from artists in the filtered songs pool
+  // Build answers from ArtistMaster filtered by selected orchestra levels
+  // Distractors come ONLY from the same tier(s) selected - no bleeding across tiers
   useEffect(() => {
-    if (!currentSong) return;
+    if (!currentSong || allArtists.length === 0) return;
     const correctArtist = currentSong.ArtistMaster || "";
 
-    // Get unique artists from the songs list as distractors
-    const allArtists = [...new Set(songs.map((s) => s.ArtistMaster).filter(Boolean))];
+    // Get selected orchestra tiers and convert to ArtistMaster levels
+    const orchestraTiers = config.orchestraTiers || ["Big4"];
+    const selectedLevels = tiersToLevels(orchestraTiers);
+
+    // Filter ArtistMaster to only include orchestras at the selected levels
+    // Exclude soloists (e.g., Gardel) from orchestra distractors
+    const validArtists = allArtists
+      .filter(a => a.active === "true")
+      .filter(a => a.type === "orchestra")
+      .filter(a => {
+        const level = parseInt(a.level, 10);
+        return selectedLevels.includes(level);
+      })
+      .map(a => a.artist);
+
+    // Pick 3 distractors from valid artists (excluding correct answer)
     const distractors = shuffleArray(
-      allArtists.filter((a) => a !== correctArtist)
+      validArtists.filter((a) => a !== correctArtist)
     ).slice(0, 3);
 
     const finalAnswers = shuffleArray([correctArtist, ...distractors]);
     setAnswers(finalAnswers);
-  }, [currentSong, songs]);
+  }, [currentSong, allArtists, config.orchestraTiers]);
 
   // Play the clip
   const playClip = useCallback(() => {
