@@ -42,11 +42,11 @@ export default function useArtistQuiz() {
         return "At least one style must be selected.";
       }
 
-      // Support both legacy (recognitionTiers) and new (familiarityTiers/orchestraLevels)
+      // Support both legacy (recognitionTiers) and new (familiarityTiers/orchestraTiers)
       const hasLegacyTiers = (theConfig.recognitionTiers || []).length > 0;
       const hasFamiliarityTiers = (theConfig.familiarityTiers || []).length > 0;
-      const hasOrchestraLevels = (theConfig.orchestraLevels || []).length > 0;
-      const hasTiers = hasLegacyTiers || hasFamiliarityTiers || hasOrchestraLevels;
+      const hasOrchestraTiers = (theConfig.orchestraTiers || []).length > 0;
+      const hasTiers = hasLegacyTiers || hasFamiliarityTiers || hasOrchestraTiers;
       const hasArtists = (theConfig.artists || []).length > 3;
       if (!hasTiers && !hasArtists) {
         return "You must select at least 4 Artists or one Tier/Level.";
@@ -160,9 +160,10 @@ export default function useArtistQuiz() {
     updateConfig("subTier", subTier);
   };
 
-  // NEW v3: Handle orchestra levels (1-4)
-  const handleOrchestraLevelsChange = (levels) => {
-    updateConfig("orchestraLevels", levels);
+  // NEW v3: Handle orchestra tiers (Big4, Essential, Deep)
+  // These are UI tier names that map to ArtistMaster levels
+  const handleOrchestraTiersChange = (tiers) => {
+    updateConfig("orchestraTiers", tiers);
   };
 
   // LEGACY: Handle recognition tiers (1-5 numbers)
@@ -200,7 +201,7 @@ export default function useArtistQuiz() {
     handleLevelsChange, // Legacy
     handleFamiliarityTiersChange, // NEW v3
     handleSubTierChange, // NEW v3
-    handleOrchestraLevelsChange, // NEW v3
+    handleOrchestraTiersChange, // NEW v3 - Orchestra mode UI tiers
     handleStylesChange,
     handleArtistsChange,
     handleIncludeSingerChange,

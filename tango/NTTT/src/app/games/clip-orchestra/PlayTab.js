@@ -22,7 +22,8 @@ import ShuffleIcon from "@mui/icons-material/Shuffle";
 import { motion, AnimatePresence } from "motion/react";
 
 import useWaveSurfer from "@/hooks/useWaveSurfer";
-import { shuffleArray } from "@/utils/dataFetching";
+import { shuffleArray, fetchAllArtists } from "@/utils/dataFetching";
+import { tiersToLevels } from "@/components/ui/OrchestraLevelSelector";
 import { trackPlayClick, trackGuess, trackWrongAnswer, trackCorrectAnswer, trackGameComplete, trackGameCancel, trackGameAbandon } from "@/utils/analytics";
 import RoundProgress from "@/components/ui/RoundProgress";
 import GameHubRoute from "@/components/ui/GameHubRoute";

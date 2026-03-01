@@ -16,6 +16,7 @@ import ScorePotential from "@/components/ui/ScorePotential";
 import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
+import { tiersToLevels } from "@/components/ui/OrchestraLevelSelector";
 import { trackGameSetup, trackGameStart } from "@/utils/analytics";
 import { enterGameMode, exitGameMode } from "@/hooks/useFullscreen";
 import styles from "./styles.module.css";
@@ -31,12 +32,11 @@ export default function ArtistQuizPage() {
 
   const { config, resetAll } = useGameContext();
 
-  // Validation: need at least 1 familiarity tier, 1 style, 1 era
-  // Support both new (familiarityTiers) and legacy (recognitionTiers)
-  // Default to ["Iconic"] if nothing selected
-  const familiarityTiers = config.familiarityTiers?.length > 0 ? config.familiarityTiers : ["Iconic"];
-  const recognitionTiers = config.recognitionTiers || [];
-  const hasTiers = familiarityTiers.length >= 1 || recognitionTiers.length >= 1;
+  // Validation: need at least 1 orchestra tier, 1 style, 1 era
+  // Orchestra mode uses orchestraTiers (Big4/Classic/Deep) which map to ArtistMaster levels
+  const orchestraTiers = config.orchestraTiers?.length > 0 ? config.orchestraTiers : ["Big4"];
+  const orchestraLevels = tiersToLevels(orchestraTiers); // Convert UI tiers to ArtistMaster levels
+  const hasTiers = orchestraTiers.length >= 1;
   const activeStyles = Object.keys(config.styles || {}).filter((key) => config.styles[key]);
   const periods = config.periods || [];
   const subTier = config.subTier || null;
@@ -45,7 +45,7 @@ export default function ArtistQuizPage() {
 
   const handlePlayClick = useCallback(async () => {
     if (!canPlay) {
-      alert("Please select at least 1 Familiarity level, 1 Style, and 1 Era to play.");
+      alert("Please select at least 1 Orchestra Level, 1 Style, and 1 Era to play.");
       return;
     }
 
@@ -64,11 +64,9 @@ export default function ArtistQuizPage() {
       numSongs,
       {
         includeSinger,
-        // NEW v3: Use familiarityTiers and subTier
-        familiarityTiers,
+        // Orchestra mode: filter by ArtistMaster levels
+        orchestraLevels,
         subTier,
-        // LEGACY fallback
-        recognitionTiers,
         periods,
         requireOrchestra: true,
       },
@@ -95,7 +93,7 @@ export default function ArtistQuizPage() {
   // Build validation message
   const getValidationMessage = () => {
     const missing = [];
-    if (!hasTiers) missing.push("Familiarity");
+    if (!hasTiers) missing.push("Orchestra Level");
     if (activeStyles.length === 0) missing.push("Style");
     if (periods.length === 0) missing.push("Era");
     if (missing.length === 0) return null;

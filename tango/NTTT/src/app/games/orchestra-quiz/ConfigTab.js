@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "motion/react";
 import styles from "../styles.module.css";
 
 import GameSetupDials from "@/components/ui/GameSetupDials";
-import RecognitionSelector from "@/components/ui/RecognitionSelector";
+import OrchestraLevelSelector from "@/components/ui/OrchestraLevelSelector";
 import StylesSelector from "@/components/ui/StylesSelector";
 import PeriodsSelector from "@/components/ui/PeriodsSelector";
 import ScorePotential from "@/components/ui/ScorePotential";
@@ -22,7 +22,7 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
     validationMessage,
     handleNumSongsChange,
     handleTimeLimitChange,
-    handleFamiliarityTiersChange,
+    handleOrchestraTiersChange,
     handleSubTierChange,
     handleStylesChange,
     handleIncludeSingerChange,
@@ -67,9 +67,9 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
 
         <Divider sx={dividerStyle} />
 
-        <RecognitionSelector
-          selectedTiers={config.familiarityTiers || ["Iconic"]}
-          onChange={handleFamiliarityTiersChange}
+        <OrchestraLevelSelector
+          selectedTiers={config.orchestraTiers || ["Big4"]}
+          onChange={handleOrchestraTiersChange}
           selectedSubTier={config.subTier || null}
           onSubTierChange={handleSubTierChange}
           showSubTiers={true}
@@ -177,9 +177,9 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
               </Button>
             </Box>
 
-            <RecognitionSelector
-              selectedTiers={config.familiarityTiers || ["Iconic"]}
-              onChange={handleFamiliarityTiersChange}
+            <OrchestraLevelSelector
+              selectedTiers={config.orchestraTiers || ["Big4"]}
+              onChange={handleOrchestraTiersChange}
               selectedSubTier={config.subTier || null}
               onSubTierChange={handleSubTierChange}
               showSubTiers={true}

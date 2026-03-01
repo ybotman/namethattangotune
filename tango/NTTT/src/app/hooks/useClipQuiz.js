@@ -110,9 +110,14 @@ export default function useClipQuiz() {
   const handleNumSongsChange = (val) => updateConfig("numSongs", val);
   const handleClipLengthChange = (val) => updateConfig("clipLength", val);
 
-  // Now handles recognition tiers instead of levels
+  // Legacy: recognition tiers (1-5 numbers)
   const handleLevelsChange = (newTiers) => {
     updateConfig("recognitionTiers", newTiers);
+  };
+
+  // NEW: Orchestra tiers (Big4/Classic/Deep)
+  const handleOrchestraTiersChange = (tiers) => {
+    updateConfig("orchestraTiers", tiers);
   };
 
   const handleStylesChange = (updated) => {
@@ -135,6 +140,7 @@ export default function useClipQuiz() {
     handleNumSongsChange,
     handleClipLengthChange,
     handleLevelsChange,
+    handleOrchestraTiersChange,
     handleStylesChange,
     handleArtistsChange,
     handleIncludeSingerChange,

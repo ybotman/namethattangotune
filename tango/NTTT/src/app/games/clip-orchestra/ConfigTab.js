@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "motion/react";
 import styles from "../styles.module.css";
 
 import GameSetupDials from "@/components/ui/GameSetupDials";
-import RecognitionSelector from "@/components/ui/RecognitionSelector";
+import OrchestraLevelSelector from "@/components/ui/OrchestraLevelSelector";
 import StylesSelector from "@/components/ui/StylesSelector";
 import PeriodsSelector from "@/components/ui/PeriodsSelector";
 import ClipScorePotential from "@/components/ui/ClipScorePotential";
@@ -22,7 +22,7 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
     validationMessage,
     handleNumSongsChange,
     handleClipLengthChange,
-    handleLevelsChange,
+    handleOrchestraTiersChange,
     handleStylesChange,
     handleIncludeSingerChange,
   } = useClipQuiz();
@@ -65,9 +65,9 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
 
         <Divider sx={dividerStyle} />
 
-        <RecognitionSelector
-          selectedTiers={config.recognitionTiers || [1]}
-          onChange={handleLevelsChange}
+        <OrchestraLevelSelector
+          selectedTiers={config.orchestraTiers || ["Big4"]}
+          onChange={handleOrchestraTiersChange}
           compact
         />
 
@@ -173,9 +173,9 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
               </Button>
             </Box>
 
-            <RecognitionSelector
-              selectedTiers={config.recognitionTiers || [1]}
-              onChange={handleLevelsChange}
+            <OrchestraLevelSelector
+              selectedTiers={config.orchestraTiers || ["Big4"]}
+              onChange={handleOrchestraTiersChange}
               compact
             />
 

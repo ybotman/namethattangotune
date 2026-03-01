@@ -16,6 +16,7 @@ import ClipScorePotential from "@/components/ui/ClipScorePotential";
 import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
+import { tiersToLevels } from "@/components/ui/OrchestraLevelSelector";
 import { trackGameSetup, trackGameStart } from "@/utils/analytics";
 import { enterGameMode, exitGameMode } from "@/hooks/useFullscreen";
 import styles from "../styles.module.css";
@@ -30,16 +31,17 @@ export default function ClipOrchestraPage() {
 
   const { config, resetAll } = useGameContext();
 
-  // Validation: need at least 1 familiarity, 1 style, 1 era
-  const recognitionTiers = config.recognitionTiers || [1];
+  // Validation: need at least 1 orchestra level, 1 style, 1 era
+  const orchestraTiers = config.orchestraTiers?.length > 0 ? config.orchestraTiers : ["Big4"];
+  const orchestraLevels = tiersToLevels(orchestraTiers);
   const activeStyles = Object.keys(config.styles || {}).filter((key) => config.styles[key]);
   const periods = config.periods || [];
 
-  const canPlay = recognitionTiers.length >= 1 && activeStyles.length >= 1 && periods.length >= 1;
+  const canPlay = orchestraTiers.length >= 1 && activeStyles.length >= 1 && periods.length >= 1;
 
   const handlePlayClick = useCallback(async () => {
     if (!canPlay) {
-      alert("Please select at least 1 Familiarity level, 1 Style, and 1 Era to play.");
+      alert("Please select at least 1 Orchestra Level, 1 Style, and 1 Era to play.");
       return;
     }
 
@@ -58,7 +60,7 @@ export default function ClipOrchestraPage() {
       "", // alternative - empty = no filter
       "", // cancion - empty = no filter
       numSongs,
-      { includeSinger, recognitionTiers, periods, requireOrchestra: true },
+      { includeSinger, orchestraLevels, periods, requireOrchestra: true },
     );
 
     if (!fetchedSongs || fetchedSongs.length === 0) {
@@ -85,7 +87,7 @@ export default function ClipOrchestraPage() {
   // Build validation message
   const getValidationMessage = () => {
     const missing = [];
-    if (recognitionTiers.length === 0) missing.push("Familiarity");
+    if (orchestraTiers.length === 0) missing.push("Orchestra Level");
     if (activeStyles.length === 0) missing.push("Style");
     if (periods.length === 0) missing.push("Era");
     if (missing.length === 0) return null;
