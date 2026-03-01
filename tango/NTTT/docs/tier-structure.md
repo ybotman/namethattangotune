@@ -161,15 +161,62 @@ songFamiliarity =
 
 ## Implementation Stages
 
-| Stage | Status | Description |
-|-------|--------|-------------|
-| 1. Data Corrections | ✅ Complete | ArtistMaster, IconicMaster fixed |
-| 2. SingerMaster | ⬜ Pending | Create with level + era |
-| 3. Familiarity Score | ⬜ Pending | Enrich djSongsWeighted |
-| 4. dataFetching.js | ⬜ Pending | Discrete sub-tiers |
-| 5. Title Mode | ⬜ Phase 2 | Version mapping |
-| 6. Singer Mode | ⬜ Phase 3 | Full implementation |
+| Stage | Status | Commit | Description |
+|-------|--------|--------|-------------|
+| 1. Data Corrections | ✅ Complete | `deb518cf` | ArtistMaster, IconicMaster fixed |
+| 2. SingerMaster | ✅ Complete | `fd4303ee` | 210 singers with level + era |
+| 3. Familiarity Score | ✅ Complete | `f26e9ec4` | songFamiliarity on all 4,733 songs |
+| 4. dataFetching.js | ✅ Complete | `6c5dc57f` | Discrete sub-tiers + new filters |
+| 5. UI Migration | 🟡 In Progress | `b0feafb8` | Orchestra Quiz done, 10 games remaining |
+| 6. Title Mode | ⬜ Phase 2 | - | Version mapping |
+| 7. Singer Mode | ⬜ Phase 3 | - | Era selector UI |
 
 ---
 
-*Compás - NTTT Tier System v3*
+## UI Migration Status
+
+### Games Updated ✅
+
+| Game | Status | Notes |
+|------|--------|-------|
+| orchestra-quiz | ✅ Complete | 4-tier + sub-tier selector |
+
+### Games Pending
+
+| Game | Priority | Migration Notes |
+|------|----------|-----------------|
+| orchestra-learn | HIGH | Same pattern as quiz |
+| singer-quiz | HIGH | Add singerLevels + singerEras |
+| singer-learn | HIGH | Add singerLevels + singerEras |
+| clip-orchestra | MEDIUM | |
+| clip-singer | MEDIUM | |
+| title-quiz | MEDIUM | Phase 2 - needs titleFamiliarity |
+| same-song | LOW | |
+| mystery-clip | LOW | |
+| quick-play | LOW | |
+| practice | LOW | |
+
+### UI Component Updates
+
+| Component | Change |
+|-----------|--------|
+| RecognitionSelector.js | 4-tier (I/E/D/X) + sub-tier toggle |
+| (new) EraSelector.js | Golden / Later toggle for singer games |
+| (new) OrchestraLevelSelector.js | 1-4 level checkboxes |
+
+---
+
+## Data Field Reference
+
+| UI Selection | JSON Field | Values |
+|--------------|------------|--------|
+| Familiarity tier | `songFamiliarity` | 0.0-1.0 |
+| Sub-tier | percentile of `songFamiliarity` | Classics/Standards/DeepCuts |
+| Orchestra level | `orchestraLevel` | 1-5 |
+| Singer level | `singerLevel` | 1-3 |
+| Singer era | `singerEra` | golden / later |
+| Iconic flag | `isIconic` | boolean |
+
+---
+
+*Compás - NTTT Tier System v3 - Updated 2026-03-01*
