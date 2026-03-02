@@ -611,6 +611,281 @@ function DailyPage() {
   );
 }
 
+// About Page Content
+function AboutPage() {
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        maxWidth: 400,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 2,
+      }}
+    >
+      {/* About Toby - Main Focus */}
+      <Paper
+        elevation={0}
+        sx={{
+          p: 2.5,
+          backgroundColor: "var(--input-bg)",
+          border: "1px solid var(--accent)",
+          borderRadius: 2,
+          width: "100%",
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: "0.7rem",
+            color: "var(--accent)",
+            fontWeight: 600,
+            textTransform: "uppercase",
+            letterSpacing: 1,
+            mb: 1,
+          }}
+        >
+          About Toby
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: "0.85rem",
+            color: "var(--foreground)",
+            lineHeight: 1.6,
+            mb: 1.5,
+          }}
+        >
+          <strong>Toby Balsley</strong> is a Boston-based tango enthusiast and tech guy who builds tools
+          for the tango community. Dancing since 2015, he travels internationally with his wife Wailing
+          and runs the Boston Tango Lab musicality classes.
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: "0.8rem",
+            color: "var(--foreground)",
+            fontStyle: "italic",
+            opacity: 0.8,
+            mb: 1.5,
+            borderLeft: "2px solid var(--accent)",
+            pl: 1.5,
+          }}
+        >
+          &quot;My mission is to help make the US tango community more musically aware by inspiring dancers
+          to embrace the deep connection between music and partnered movement.&quot;
+        </Typography>
+        <Typography
+          component="a"
+          href="https://www.tobytango.com/about"
+          target="_blank"
+          rel="noopener noreferrer"
+          sx={{
+            fontSize: "0.75rem",
+            color: "var(--accent)",
+            textDecoration: "underline",
+            "&:hover": { opacity: 0.8 },
+          }}
+        >
+          tobytango.com →
+        </Typography>
+      </Paper>
+
+      {/* Toby's Tango Projects */}
+      <Paper
+        elevation={0}
+        sx={{
+          p: 2.5,
+          backgroundColor: "var(--input-bg)",
+          border: "1px solid var(--border-color)",
+          borderRadius: 2,
+          width: "100%",
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: "0.7rem",
+            color: "var(--accent)",
+            fontWeight: 600,
+            textTransform: "uppercase",
+            letterSpacing: 1,
+            mb: 1.5,
+          }}
+        >
+          Tango Projects
+        </Typography>
+
+        {/* Project List */}
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
+          <Box>
+            <Typography
+              component="a"
+              href="https://www.tangotiempo.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{
+                fontSize: "0.85rem",
+                color: "var(--accent)",
+                fontWeight: 600,
+                textDecoration: "none",
+                "&:hover": { textDecoration: "underline" },
+              }}
+            >
+              Tango Tiempo
+            </Typography>
+            <Typography sx={{ fontSize: "0.75rem", color: "var(--foreground)", opacity: 0.8 }}>
+              National tango event calendar — uniting the U.S. tango community
+            </Typography>
+          </Box>
+
+          <Box>
+            <Typography
+              component="a"
+              href="https://www.bostontangocalendar.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{
+                fontSize: "0.85rem",
+                color: "var(--accent)",
+                fontWeight: 600,
+                textDecoration: "none",
+                "&:hover": { textDecoration: "underline" },
+              }}
+            >
+              Boston Tango Calendar
+            </Typography>
+            <Typography sx={{ fontSize: "0.75rem", color: "var(--foreground)", opacity: 0.8 }}>
+              Local Boston area milongas, practicas, and workshops
+            </Typography>
+          </Box>
+
+          <Box>
+            <Typography
+              sx={{
+                fontSize: "0.85rem",
+                color: "var(--foreground)",
+                fontWeight: 600,
+              }}
+            >
+              NTTT (This App)
+            </Typography>
+            <Typography sx={{ fontSize: "0.75rem", color: "var(--foreground)", opacity: 0.8 }}>
+              Learn to identify orchestras, singers, and songs by ear
+            </Typography>
+          </Box>
+
+          <Box>
+            <Typography
+              component="a"
+              href="https://www.tobytango.com/tango-history"
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{
+                fontSize: "0.85rem",
+                color: "var(--accent)",
+                fontWeight: 600,
+                textDecoration: "none",
+                "&:hover": { textDecoration: "underline" },
+              }}
+            >
+              Tango History Timeline
+            </Typography>
+            <Typography sx={{ fontSize: "0.75rem", color: "var(--foreground)", opacity: 0.8 }}>
+              Interactive timeline from La Guardia Vieja to today (POC for tangology.org)
+            </Typography>
+          </Box>
+        </Box>
+      </Paper>
+
+      {/* Mission */}
+      <Paper
+        elevation={0}
+        sx={{
+          p: 2.5,
+          backgroundColor: "var(--input-bg)",
+          border: "1px solid var(--border-color)",
+          borderRadius: 2,
+          width: "100%",
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: "0.7rem",
+            color: "var(--accent)",
+            fontWeight: 600,
+            textTransform: "uppercase",
+            letterSpacing: 1,
+            mb: 1,
+          }}
+        >
+          Our Mission
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: "0.85rem",
+            color: "var(--foreground)",
+            lineHeight: 1.6,
+          }}
+        >
+          To unite and strengthen the U.S. tango community by providing comprehensive, accessible,
+          and free tools for discovering events and learning the music. From small practicas to
+          national encuentros, we support connection through dance.
+        </Typography>
+      </Paper>
+
+      {/* Built By HDTS */}
+      <Paper
+        elevation={0}
+        sx={{
+          p: 2,
+          backgroundColor: "rgba(100, 100, 100, 0.1)",
+          border: "1px solid var(--border-color)",
+          borderRadius: 2,
+          width: "100%",
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: "0.7rem",
+            color: "var(--foreground)",
+            opacity: 0.7,
+            textAlign: "center",
+            mb: 0.5,
+          }}
+        >
+          Built by
+        </Typography>
+        <Typography
+          component="a"
+          href="https://www.hdtsllc.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          sx={{
+            display: "block",
+            fontSize: "0.8rem",
+            color: "var(--foreground)",
+            fontWeight: 600,
+            textAlign: "center",
+            textDecoration: "none",
+            "&:hover": { color: "var(--accent)" },
+          }}
+        >
+          Half Way Down the Stairs, LLC
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: "0.65rem",
+            color: "var(--foreground)",
+            opacity: 0.5,
+            textAlign: "center",
+            mt: 0.5,
+          }}
+        >
+          AI-powered apps for communities
+        </Typography>
+      </Paper>
+    </Box>
+  );
+}
+
 // Setup Page Content
 function SetupPage() {
   const [toolsUnlocked, setToolsUnlocked] = useState(false);
@@ -868,6 +1143,11 @@ export default function GameHubPage() {
       title: "Setup",
       label: "Setup",
       content: <SetupPage />,
+    },
+    {
+      title: "About",
+      label: "About",
+      content: <AboutPage />,
     },
   ];
 
