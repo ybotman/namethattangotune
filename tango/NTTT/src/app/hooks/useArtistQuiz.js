@@ -103,6 +103,11 @@ export default function useArtistQuiz() {
         if (!config.styles || Object.keys(config.styles).length === 0) {
           updateConfig("styles", { Tango: true });
         }
+
+        // Default subTier to "Classics" if not set (for orchestra-quiz)
+        if (!config.subTier) {
+          updateConfig("subTier", "Classics");
+        }
       } catch (err) {
         console.error("Error fetching StyleMaster:", err);
       }

@@ -46,7 +46,30 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
   }, [updateConfig]);
 
   // Fetch pool count when config changes
+  // Check if all required filters are selected for counting
+  const canCount = primaryFilterMode === "level"
+    ? config.subTier !== null && config.subTier !== undefined
+    : (config.periods || []).length > 0;
+
+  // Build validation message for PoolCount
+  const getPoolMessage = () => {
+    if (primaryFilterMode === "level" && !config.subTier) {
+      return "Select Song Obscurity";
+    }
+    if (primaryFilterMode === "era" && (config.periods || []).length === 0) {
+      return "Select Era";
+    }
+    return null;
+  };
+
   useEffect(() => {
+    // Don't fetch if required filters aren't selected
+    if (!canCount) {
+      setPoolCount(0);
+      setPoolLoading(false);
+      return;
+    }
+
     const fetchCount = async () => {
       setPoolLoading(true);
       try {
@@ -62,6 +85,7 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
         if (primaryFilterMode === "level") {
           const orchestraTiers = config.orchestraTiers || ["Big4"];
           options.orchestraLevels = tiersToLevels(orchestraTiers);
+          options.subTier = config.subTier;
         }
 
         // Add period filters only in era mode
@@ -79,7 +103,7 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
     };
 
     fetchCount();
-  }, [config.orchestraTiers, config.periods, config.styles, config.includeSinger, primaryFilterMode]);
+  }, [config.orchestraTiers, config.periods, config.styles, config.includeSinger, config.subTier, primaryFilterMode, canCount]);
 
   // LANDSCAPE: Show everything, no animation, evenly distributed
   if (isLandscape) {
@@ -144,7 +168,7 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
 
         <Divider sx={dividerStyle} />
 
-        <PoolCount count={poolCount ?? 0} loading={poolLoading} />
+        <PoolCount count={poolCount ?? 0} loading={poolLoading} message={getPoolMessage()} />
 
         {!hasEnoughSongs && (
           <Box sx={{ color: "#FF9800", textAlign: "center", fontSize: "0.75rem" }}>
@@ -179,7 +203,7 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
               secondsLabel="Time"
             />
 
-            <PoolCount count={poolCount ?? 0} loading={poolLoading} />
+            <PoolCount count={poolCount ?? 0} loading={poolLoading} message={getPoolMessage()} />
 
             <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
               <Button
@@ -269,7 +293,7 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
 
             <Divider sx={{ borderColor: "rgba(255,255,255,0.1)", my: 1.5 }} />
 
-            <PoolCount count={poolCount ?? 0} loading={poolLoading} />
+            <PoolCount count={poolCount ?? 0} loading={poolLoading} message={getPoolMessage()} />
 
             {!hasEnoughSongs && (
               <Box sx={{ color: "#FF9800", textAlign: "center", fontSize: "0.75rem", mt: 1 }}>

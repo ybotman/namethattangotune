@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Box, Button, Divider } from "@mui/material";
 import TuneIcon from "@mui/icons-material/Tune";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -11,9 +11,12 @@ import GameSetupDials from "@/components/ui/GameSetupDials";
 import RecognitionSelector from "@/components/ui/RecognitionSelector";
 import StylesSelector from "@/components/ui/StylesSelector";
 import PeriodsSelector from "@/components/ui/PeriodsSelector";
+import FilterModeToggle from "@/components/ui/FilterModeToggle";
+import PoolCount, { MIN_POOL_SIZE } from "@/components/ui/PoolCount";
 import ClipScorePotential from "@/components/ui/ClipScorePotential";
 import useSingerQuiz from "@/hooks/useSingerQuiz";
 import { useGameContext } from "@/contexts/GameContext";
+import { getFilteredSongCount } from "@/utils/dataFetching";
 import PropTypes from "prop-types";
 
 const PRIMARY_STYLES = [
@@ -31,19 +34,55 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
 
   const { config, updateConfig } = useGameContext();
 
-  const [isConfigValid, setIsConfigValid] = useState(true);
-  const [availableCount, setAvailableCount] = useState(null);
+  const [poolCount, setPoolCount] = useState(null);
+  const [poolLoading, setPoolLoading] = useState(false);
 
   const numSongs = config.numSongs ?? 10;
-  const hasEnoughSongs = availableCount === null || availableCount >= numSongs;
-
-  useEffect(() => {
-    setIsConfigValid(!validationMessage && hasEnoughSongs);
-  }, [validationMessage, hasEnoughSongs]);
+  const primaryFilterMode = config.primaryFilterMode || "level";
+  const hasEnoughSongs = poolCount === null || poolCount >= MIN_POOL_SIZE;
 
   const handleClipLengthChange = (val) => {
     updateConfig("clipLength", val);
   };
+
+  // Handle filter mode change
+  const handleFilterModeChange = useCallback((mode) => {
+    updateConfig("primaryFilterMode", mode);
+  }, [updateConfig]);
+
+  // Fetch pool count when config changes
+  useEffect(() => {
+    const fetchCount = async () => {
+      setPoolLoading(true);
+      try {
+        // Build filter options based on current mode
+        const options = {
+          requireSinger: true,
+          primaryFilterMode,
+          styles: Object.keys(config.styles || {}).filter(s => config.styles[s]),
+        };
+
+        // Add recognition filters only in level mode
+        if (primaryFilterMode === "level") {
+          options.recognitionTiers = config.recognitionTiers || [1];
+        }
+
+        // Add period filters only in era mode
+        if (primaryFilterMode === "era") {
+          options.periods = config.periods || [];
+        }
+
+        const count = await getFilteredSongCount(options);
+        setPoolCount(count);
+      } catch (err) {
+        console.error("Error fetching pool count:", err);
+        setPoolCount(0);
+      }
+      setPoolLoading(false);
+    };
+
+    fetchCount();
+  }, [config.recognitionTiers, config.periods, config.styles, primaryFilterMode]);
 
   // LANDSCAPE: Show everything, no animation, evenly distributed
   if (isLandscape) {
@@ -71,11 +110,27 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
 
         <Divider sx={dividerStyle} />
 
-        <RecognitionSelector
-          selectedTiers={config.recognitionTiers || [1]}
-          onChange={handleLevelsChange}
-          compact
+        {/* SWAP not STACK: Filter mode toggle */}
+        <FilterModeToggle
+          mode={primaryFilterMode}
+          onChange={handleFilterModeChange}
+          levelLabel="Familiarity"
+          levelIcon="🎵"
         />
+
+        {/* Conditional: Familiarity OR Era */}
+        {primaryFilterMode === "level" ? (
+          <RecognitionSelector
+            selectedTiers={config.recognitionTiers || [1]}
+            onChange={handleLevelsChange}
+            compact
+          />
+        ) : (
+          <PeriodsSelector
+            selectedPeriods={config.periods || []}
+            onChange={(val) => updateConfig("periods", val)}
+          />
+        )}
 
         <Divider sx={dividerStyle} />
 
@@ -87,14 +142,11 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
 
         <Divider sx={dividerStyle} />
 
-        <PeriodsSelector
-          selectedPeriods={config.periods || []}
-          onChange={(val) => updateConfig("periods", val)}
-        />
+        <PoolCount count={poolCount ?? 0} loading={poolLoading} />
 
-        {!isConfigValid && (
-          <Box sx={{ color: "red", mt: 2, textAlign: "center", fontSize: "0.85rem" }}>
-            {validationMessage || `Not enough songs (need ${numSongs}, have ${availableCount})`}
+        {!hasEnoughSongs && (
+          <Box sx={{ color: "#FF9800", textAlign: "center", fontSize: "0.75rem" }}>
+            Need {MIN_POOL_SIZE} songs to play
           </Box>
         )}
       </Box>
@@ -126,6 +178,8 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
               onClipLengthChange={handleClipLengthChange}
             />
 
+            <PoolCount count={poolCount ?? 0} loading={poolLoading} />
+
             <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
               <Button
                 variant="outlined"
@@ -143,7 +197,7 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
                   },
                 }}
               >
-                Levels
+                Filters
               </Button>
             </Box>
           </motion.div>
@@ -176,11 +230,27 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
               </Button>
             </Box>
 
-            <RecognitionSelector
-              selectedTiers={config.recognitionTiers || [1]}
-              onChange={handleLevelsChange}
-              compact
+            {/* SWAP not STACK: Filter mode toggle */}
+            <FilterModeToggle
+              mode={primaryFilterMode}
+              onChange={handleFilterModeChange}
+              levelLabel="Familiarity"
+              levelIcon="🎵"
             />
+
+            {/* Conditional: Familiarity OR Era */}
+            {primaryFilterMode === "level" ? (
+              <RecognitionSelector
+                selectedTiers={config.recognitionTiers || [1]}
+                onChange={handleLevelsChange}
+                compact
+              />
+            ) : (
+              <PeriodsSelector
+                selectedPeriods={config.periods || []}
+                onChange={(val) => updateConfig("periods", val)}
+              />
+            )}
 
             <Divider sx={{ borderColor: "rgba(255,255,255,0.1)", my: 1.5 }} />
 
@@ -192,14 +262,11 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
 
             <Divider sx={{ borderColor: "rgba(255,255,255,0.1)", my: 1.5 }} />
 
-            <PeriodsSelector
-              selectedPeriods={config.periods || []}
-              onChange={(val) => updateConfig("periods", val)}
-            />
+            <PoolCount count={poolCount ?? 0} loading={poolLoading} />
 
-            {!isConfigValid && (
-              <Box sx={{ color: "red", mt: 2, textAlign: "center", fontSize: "0.85rem" }}>
-                {validationMessage || `Not enough songs (need ${numSongs}, have ${availableCount})`}
+            {!hasEnoughSongs && (
+              <Box sx={{ color: "#FF9800", textAlign: "center", fontSize: "0.75rem", mt: 1 }}>
+                Need {MIN_POOL_SIZE} songs to play
               </Box>
             )}
           </motion.div>

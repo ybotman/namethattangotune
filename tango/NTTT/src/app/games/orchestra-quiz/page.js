@@ -41,15 +41,24 @@ export default function ArtistQuizPage() {
   const subTier = config.subTier || null;
 
   // Validation depends on filter mode
+  // Level mode requires: Orchestra Level + Song Obscurity (subTier) + Style
+  // Era mode requires: Era + Style
   const hasPrimaryFilter = primaryFilterMode === "level"
-    ? orchestraTiers.length >= 1
+    ? orchestraTiers.length >= 1 && subTier !== null
     : periods.length >= 1;
   const canPlay = hasPrimaryFilter && activeStyles.length >= 1;
 
   const handlePlayClick = useCallback(async () => {
     if (!canPlay) {
-      const filterType = primaryFilterMode === "level" ? "Orchestra Level" : "Era";
-      alert(`Please select at least 1 ${filterType} and 1 Style to play.`);
+      if (primaryFilterMode === "level") {
+        const missing = [];
+        if (orchestraTiers.length === 0) missing.push("Orchestra Level");
+        if (!subTier) missing.push("Song Obscurity");
+        if (activeStyles.length === 0) missing.push("Style");
+        alert(`Please select: ${missing.join(", ")}`);
+      } else {
+        alert("Please select at least 1 Era and 1 Style to play.");
+      }
       return;
     }
 
@@ -98,8 +107,11 @@ export default function ArtistQuizPage() {
   // Build validation message based on filter mode
   const getValidationMessage = () => {
     const missing = [];
-    if (!hasPrimaryFilter) {
-      missing.push(primaryFilterMode === "level" ? "Orchestra Level" : "Era");
+    if (primaryFilterMode === "level") {
+      if (orchestraTiers.length === 0) missing.push("Orchestra Level");
+      if (!subTier) missing.push("Song Obscurity");
+    } else {
+      if (periods.length === 0) missing.push("Era");
     }
     if (activeStyles.length === 0) missing.push("Style");
     if (missing.length === 0) return null;

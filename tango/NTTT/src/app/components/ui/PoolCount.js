@@ -10,11 +10,13 @@ import { Box, Typography } from "@mui/material";
 
 const MIN_POOL_SIZE = 20;
 
-export default function PoolCount({ count, loading = false }) {
+export default function PoolCount({ count, loading = false, message = null }) {
   const isValid = count >= MIN_POOL_SIZE;
   const isEmpty = count === 0;
+  const hasCustomMessage = message !== null;
 
   const getColor = () => {
+    if (hasCustomMessage) return "#FF9800"; // Warning color for custom message
     if (loading) return "var(--foreground)";
     if (isEmpty) return "#f44336";
     if (!isValid) return "#FF9800";
@@ -22,6 +24,7 @@ export default function PoolCount({ count, loading = false }) {
   };
 
   const getMessage = () => {
+    if (hasCustomMessage) return message;
     if (loading) return "Counting...";
     if (isEmpty) return "No songs match";
     if (!isValid) return `Only ${count} songs (need ${MIN_POOL_SIZE})`;
@@ -67,6 +70,7 @@ export default function PoolCount({ count, loading = false }) {
 PoolCount.propTypes = {
   count: PropTypes.number.isRequired,
   loading: PropTypes.bool,
+  message: PropTypes.string,
 };
 
 // Export constant for use in other components

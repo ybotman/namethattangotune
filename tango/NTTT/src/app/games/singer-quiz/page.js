@@ -30,16 +30,22 @@ export default function SingerQuizPage() {
 
   const { config, resetAll } = useGameContext();
 
-  // Validation: need at least 1 familiarity, 1 style, 1 era
+  // SWAP not STACK: Use primaryFilterMode to determine which filter is active
+  const primaryFilterMode = config.primaryFilterMode || "level";
   const recognitionTiers = config.recognitionTiers || [1];
   const activeStyles = Object.keys(config.styles || {}).filter((key) => config.styles[key]);
   const periods = config.periods || [];
 
-  const canPlay = recognitionTiers.length >= 1 && activeStyles.length >= 1 && periods.length >= 1;
+  // Validation depends on filter mode
+  const hasPrimaryFilter = primaryFilterMode === "level"
+    ? recognitionTiers.length >= 1
+    : periods.length >= 1;
+  const canPlay = hasPrimaryFilter && activeStyles.length >= 1;
 
   const handlePlayClick = useCallback(async () => {
     if (!canPlay) {
-      alert("Please select at least 1 Familiarity level and 1 Era to play.");
+      const filterType = primaryFilterMode === "level" ? "Familiarity level" : "Era";
+      alert(`Please select at least 1 ${filterType} and 1 Style to play.`);
       return;
     }
 
@@ -54,12 +60,19 @@ export default function SingerQuizPage() {
       chosenArtists,
       [], // artistLevels - legacy, no longer used
       [], // composers
-      [], // styles - not used for singer quiz
+      activeStyles,
       "", // candombe
       "", // alternative
       "", // cancion
       numSongs,
-      { requireSinger: true, singers: chosenSingers, recognitionTiers, periods },
+      {
+        requireSinger: true,
+        singers: chosenSingers,
+        // SWAP not STACK: Pass filter mode and appropriate filters
+        primaryFilterMode,
+        recognitionTiers: primaryFilterMode === "level" ? recognitionTiers : [],
+        periods: primaryFilterMode === "era" ? periods : [],
+      },
     );
 
     if (!fetchedSongs || fetchedSongs.length === 0) {
@@ -83,12 +96,13 @@ export default function SingerQuizPage() {
     setShowPlayTab(false);
   };
 
-  // Build validation message
+  // Build validation message based on filter mode
   const getValidationMessage = () => {
     const missing = [];
-    if (recognitionTiers.length === 0) missing.push("Familiarity");
+    if (!hasPrimaryFilter) {
+      missing.push(primaryFilterMode === "level" ? "Familiarity" : "Era");
+    }
     if (activeStyles.length === 0) missing.push("Style");
-    if (periods.length === 0) missing.push("Era");
     if (missing.length === 0) return null;
     return `Select at least 1 ${missing.join(", 1 ")}`;
   };
