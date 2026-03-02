@@ -1,29 +1,32 @@
 "use client";
 
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
+import { AuthContext } from "./AuthContext";
+import {
+  initializeUserDoc,
+  fetchUserStats,
+  updateUserPreferences,
+  computeGameStatsSummary,
+} from "@/utils/userStatsService";
 
 /**
- * UserContext - Stub for future user data sync with Firestore
+ * UserContext - Syncs user data with Firestore
  *
- * This context will eventually sync with Firestore to persist:
- * - Login stats (last login, login count)
- * - Game history (recent games, total played)
+ * Provides:
+ * - User profile (from Firestore)
  * - User preferences (theme, defaults)
- * - High scores per game
- * - Unread messages/notifications
- *
- * For now, it provides default values only.
+ * - Game stats per game type
+ * - Methods to update preferences and refresh stats
  */
 
 const defaultUserState = {
-  // Login stats
-  lastLoginAt: null,
-  loginCount: 0,
+  // Loading state
+  loading: true,
+  error: null,
 
-  // Game history
-  recentGames: [],
-  totalGamesPlayed: 0,
+  // User profile from Firestore
+  profile: null,
 
   // Preferences
   preferences: {
@@ -32,19 +35,16 @@ const defaultUserState = {
     defaultTimeLimit: 15,
   },
 
-  // High scores per game
-  highScores: {
-    // e.g., "orchestra-quiz": { score: 1000, date: "2024-01-15" }
-  },
+  // Game stats (keyed by game type)
+  gameStats: {},
 
-  // Messages/notifications
-  unreadMessages: [],
+  // Computed summaries (with averages calculated)
+  gameSummaries: {},
 
-  // Methods (stubs for now)
-  updatePreferences: () => {},
-  recordGamePlayed: () => {},
-  updateHighScore: () => {},
-  markMessageRead: () => {},
+  // Methods
+  refreshStats: async () => {},
+  updatePreferences: async () => {},
+  getGameSummary: () => null,
 };
 
 export const UserContext = createContext(defaultUserState);
@@ -54,10 +54,112 @@ export function useUserContext() {
 }
 
 export function UserProvider({ children }) {
-  // For now, just provide default values
-  // Future: sync with Firestore based on AuthContext user
+  const { user } = useContext(AuthContext);
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const [gameSummaries, setGameSummaries] = useState({});
+
+  // Initialize user doc and fetch stats when user changes
+  useEffect(() => {
+    async function initAndFetch() {
+      if (!user) {
+        // User logged out
+        setUserData(null);
+        setGameSummaries({});
+        setLoading(false);
+        setError(null);
+        return;
+      }
+
+      setLoading(true);
+      setError(null);
+
+      try {
+        // Initialize user doc (creates if first login, updates lastLoginAt)
+        await initializeUserDoc(user);
+
+        // Fetch user stats
+        const stats = await fetchUserStats(user.uid);
+        setUserData(stats);
+
+        // Compute summaries for each game type
+        if (stats?.gameStats) {
+          const summaries = {};
+          for (const [gameType, gameData] of Object.entries(stats.gameStats)) {
+            summaries[gameType] = computeGameStatsSummary(gameData);
+          }
+          setGameSummaries(summaries);
+        }
+      } catch (err) {
+        console.error("Error loading user data:", err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    initAndFetch();
+  }, [user]);
+
+  // Refresh stats from Firestore
+  const refreshStats = useCallback(async () => {
+    if (!user) return;
+
+    try {
+      const stats = await fetchUserStats(user.uid);
+      setUserData(stats);
+
+      if (stats?.gameStats) {
+        const summaries = {};
+        for (const [gameType, gameData] of Object.entries(stats.gameStats)) {
+          summaries[gameType] = computeGameStatsSummary(gameData);
+        }
+        setGameSummaries(summaries);
+      }
+    } catch (err) {
+      console.error("Error refreshing stats:", err);
+    }
+  }, [user]);
+
+  // Update user preferences
+  const handleUpdatePreferences = useCallback(
+    async (newPreferences) => {
+      if (!user) return;
+
+      try {
+        await updateUserPreferences(user.uid, newPreferences);
+        setUserData((prev) => ({
+          ...prev,
+          preferences: { ...prev?.preferences, ...newPreferences },
+        }));
+      } catch (err) {
+        console.error("Error updating preferences:", err);
+        throw err;
+      }
+    },
+    [user]
+  );
+
+  // Get computed summary for a game type
+  const getGameSummary = useCallback(
+    (gameType) => {
+      return gameSummaries[gameType] || null;
+    },
+    [gameSummaries]
+  );
+
   const value = {
-    ...defaultUserState,
+    loading,
+    error,
+    profile: userData?.profile || null,
+    preferences: userData?.preferences || defaultUserState.preferences,
+    gameStats: userData?.gameStats || {},
+    gameSummaries,
+    refreshStats,
+    updatePreferences: handleUpdatePreferences,
+    getGameSummary,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

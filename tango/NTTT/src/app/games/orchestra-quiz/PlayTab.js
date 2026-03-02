@@ -22,6 +22,7 @@ import useWaveSurfer from "@/hooks/useWaveSurfer";
 import useArtistQuiz from "@/hooks/useArtistQuiz";
 import usePlay from "@/hooks/usePlay";
 import useArtistQuizScoring from "@/hooks/useArtistQuizScoring";
+import useSessionTracking from "@/hooks/useSessionTracking";
 import { shuffleArray, fetchAllArtists } from "@/utils/dataFetching";
 import { tiersToLevels } from "@/components/ui/OrchestraLevelSelector";
 import { trackPlayClick, trackGuess, trackWrongAnswer, trackCorrectAnswer, trackGameComplete, trackGameCancel, trackRoundStart, trackRoundComplete, trackGameAbandon } from "@/utils/analytics";
@@ -148,10 +149,20 @@ export default function PlayTab({ songs, config, onCancel }) {
       setRoundScorePercents(prev => [...prev, 0]); // Record 0% for timeout
       setRoundOver(true);
       setLastCorrect(false); // Show correct answer when time runs out
+      // Note: roundStats timeout recording is handled internally by the hook
       stopAudio();
     },
     songs,
     config, // Pass config for difficulty multipliers
+  });
+
+  // Session tracking - saves to Firestore when session completes
+  useSessionTracking({
+    gameType: "orchestra-quiz",
+    config,
+    showFinalSummary,
+    roundStats,
+    sessionScore,
   });
 
   // 4) Stop audio & intervals

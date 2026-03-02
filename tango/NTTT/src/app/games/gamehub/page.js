@@ -4,15 +4,19 @@
 //------------------------------------------------------------
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Box, Typography, Paper, Button, useMediaQuery, Modal, IconButton } from "@mui/material";
+import { Box, Typography, Paper, Button, useMediaQuery, Modal, IconButton, Avatar, CircularProgress } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import CloseIcon from "@mui/icons-material/Close";
+import PersonIcon from "@mui/icons-material/Person";
+import BarChartIcon from "@mui/icons-material/BarChart";
 import SwipeMenu from "@/components/ui/SwipeMenu";
 import GameRow from "@/components/ui/GameRow";
+import { AuthContext } from "@/contexts/AuthContext";
+import { UserContext } from "@/contexts/UserContext";
 
 // Visit tracking
 const getVisitCount = () => {
@@ -196,7 +200,9 @@ function PageBanner({ src, alt, contain = false }) {
 }
 
 // Welcome Page Content (first swipe)
-function WelcomePage({ onQuickStart }) {
+function WelcomePage({ onQuickStart, onViewStats }) {
+  const { user, loading: authLoading } = useContext(AuthContext);
+  const { loading: userLoading, gameSummaries } = useContext(UserContext);
   const [visitCount, setVisitCount] = useState(0);
   const [lastVisit, setLastVisit] = useState(null);
 
@@ -218,6 +224,26 @@ function WelcomePage({ onQuickStart }) {
     if (diffDays < 7) return `${diffDays} days ago`;
     return date.toLocaleDateString();
   };
+
+  // Calculate quick stats from gameSummaries
+  const getQuickStats = () => {
+    let totalPlayed = 0;
+    let totalCorrect = 0;
+    let bestScore = 0;
+
+    Object.values(gameSummaries || {}).forEach((game) => {
+      totalPlayed += game.totalPlayed || 0;
+      totalCorrect += game.totalCorrect || 0;
+      if (game.bestSessionScore > bestScore) {
+        bestScore = game.bestSessionScore;
+      }
+    });
+
+    const accuracy = totalPlayed > 0 ? Math.round((totalCorrect / totalPlayed) * 100) : 0;
+    return { totalPlayed, accuracy, bestScore };
+  };
+
+  const stats = getQuickStats();
 
   return (
     <Box
@@ -269,31 +295,201 @@ function WelcomePage({ onQuickStart }) {
         </Typography>
       </Paper>
 
-      {/* Login Section (placeholder) */}
-      <Paper
-        elevation={0}
-        sx={{
-          p: 2,
-          backgroundColor: "var(--input-bg)",
-          border: "1px solid var(--border-color)",
-          borderRadius: 2,
-          width: "100%",
-          maxWidth: 320,
-          opacity: 0.6,
-        }}
-      >
-        <Typography
+      {/* Login / User Section */}
+      {authLoading ? (
+        <Paper
+          elevation={0}
           sx={{
-            fontSize: "0.75rem",
-            color: "var(--foreground)",
-            textAlign: "center",
+            p: 2,
+            backgroundColor: "var(--input-bg)",
+            border: "1px solid var(--border-color)",
+            borderRadius: 2,
+            width: "100%",
+            maxWidth: 320,
+            display: "flex",
+            justifyContent: "center",
           }}
         >
-          Login coming soon - sync scores across devices
-        </Typography>
-      </Paper>
+          <CircularProgress size={24} sx={{ color: "var(--accent)" }} />
+        </Paper>
+      ) : user ? (
+        /* Logged In - Show User Info & Stats */
+        <Paper
+          elevation={0}
+          sx={{
+            p: 2,
+            backgroundColor: "var(--input-bg)",
+            border: "1px solid var(--accent)",
+            borderRadius: 2,
+            width: "100%",
+            maxWidth: 320,
+          }}
+        >
+          {/* User Header */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 2 }}>
+            <Avatar
+              src={user.photoURL}
+              sx={{
+                width: 40,
+                height: 40,
+                bgcolor: "var(--accent)",
+              }}
+            >
+              {user.displayName?.[0] || <PersonIcon />}
+            </Avatar>
+            <Box sx={{ flex: 1 }}>
+              <Typography
+                sx={{
+                  fontSize: "0.9rem",
+                  fontWeight: 600,
+                  color: "var(--foreground)",
+                }}
+              >
+                {user.displayName || "Tanguero"}
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: "0.7rem",
+                  color: "var(--foreground)",
+                  opacity: 0.6,
+                }}
+              >
+                {user.email}
+              </Typography>
+            </Box>
+          </Box>
 
-      {/* Messages Section (placeholder) */}
+          {/* Quick Stats */}
+          {userLoading ? (
+            <Box sx={{ display: "flex", justifyContent: "center", py: 1 }}>
+              <CircularProgress size={20} sx={{ color: "var(--accent)" }} />
+            </Box>
+          ) : stats.totalPlayed > 0 ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-around",
+                mb: 2,
+                py: 1,
+                backgroundColor: "rgba(0,0,0,0.2)",
+                borderRadius: 1,
+              }}
+            >
+              <Box sx={{ textAlign: "center" }}>
+                <Typography sx={{ fontSize: "1.1rem", fontWeight: 700, color: "var(--accent)" }}>
+                  {stats.totalPlayed}
+                </Typography>
+                <Typography sx={{ fontSize: "0.6rem", color: "var(--foreground)", opacity: 0.7 }}>
+                  Played
+                </Typography>
+              </Box>
+              <Box sx={{ textAlign: "center" }}>
+                <Typography sx={{ fontSize: "1.1rem", fontWeight: 700, color: "#4CAF50" }}>
+                  {stats.accuracy}%
+                </Typography>
+                <Typography sx={{ fontSize: "0.6rem", color: "var(--foreground)", opacity: 0.7 }}>
+                  Accuracy
+                </Typography>
+              </Box>
+              <Box sx={{ textAlign: "center" }}>
+                <Typography sx={{ fontSize: "1.1rem", fontWeight: 700, color: "#FFD700" }}>
+                  {stats.bestScore}
+                </Typography>
+                <Typography sx={{ fontSize: "0.6rem", color: "var(--foreground)", opacity: 0.7 }}>
+                  Best
+                </Typography>
+              </Box>
+            </Box>
+          ) : (
+            <Typography
+              sx={{
+                fontSize: "0.75rem",
+                color: "var(--foreground)",
+                opacity: 0.7,
+                textAlign: "center",
+                mb: 2,
+              }}
+            >
+              Play some games to see your stats!
+            </Typography>
+          )}
+
+          {/* View Stats Button */}
+          <Button
+            variant="outlined"
+            size="small"
+            startIcon={<BarChartIcon />}
+            onClick={onViewStats}
+            sx={{
+              width: "100%",
+              borderColor: "var(--accent)",
+              color: "var(--accent)",
+              textTransform: "none",
+              fontSize: "0.8rem",
+            }}
+          >
+            View Full Stats
+          </Button>
+        </Paper>
+      ) : (
+        /* Not Logged In - Show Login Buttons */
+        <Paper
+          elevation={0}
+          sx={{
+            p: 2,
+            backgroundColor: "var(--input-bg)",
+            border: "1px solid var(--border-color)",
+            borderRadius: 2,
+            width: "100%",
+            maxWidth: 320,
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: "0.8rem",
+              color: "var(--foreground)",
+              textAlign: "center",
+              mb: 2,
+            }}
+          >
+            Sign in to track your progress across devices
+          </Typography>
+          <Box sx={{ display: "flex", gap: 1, justifyContent: "center" }}>
+            <Link href="/auth/login" style={{ textDecoration: "none" }}>
+              <Button
+                variant="contained"
+                size="small"
+                sx={{
+                  backgroundColor: "var(--accent)",
+                  color: "#fff",
+                  textTransform: "none",
+                  fontSize: "0.8rem",
+                  px: 3,
+                }}
+              >
+                Sign In
+              </Button>
+            </Link>
+            <Link href="/auth/signup" style={{ textDecoration: "none" }}>
+              <Button
+                variant="outlined"
+                size="small"
+                sx={{
+                  borderColor: "var(--accent)",
+                  color: "var(--accent)",
+                  textTransform: "none",
+                  fontSize: "0.8rem",
+                  px: 2,
+                }}
+              >
+                Create Account
+              </Button>
+            </Link>
+          </Box>
+        </Paper>
+      )}
+
+      {/* Messages Section */}
       <Paper
         elevation={0}
         sx={{
@@ -324,8 +520,8 @@ function WelcomePage({ onQuickStart }) {
             opacity: 0.8,
           }}
         >
-          v2.1: Swipeable menu, orchestra-first design, back buttons on all games.
-          Coming soon: Competition mode & leaderboards!
+          v2.2: User accounts & stats tracking! Sign in to save your progress.
+          Coming soon: Status page with detailed stats & leaderboards!
         </Typography>
       </Paper>
 
@@ -565,6 +761,253 @@ function ListenPage() {
         helpTitle="Listen Mode"
         helpDescription="Browse and play songs freely. Filter by orchestra, era, style, or singer. No quiz, no scoring - just explore the music at your own pace."
       />
+    </Box>
+  );
+}
+
+// Status Page Content - User Stats
+function StatusPage() {
+  const { user } = useContext(AuthContext);
+  const { loading, gameSummaries } = useContext(UserContext);
+
+  if (!user) {
+    return (
+      <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <PageBanner src="/Banner/Type1__NTTT.png" alt="Your Stats" />
+        <Paper
+          elevation={0}
+          sx={{
+            p: 3,
+            backgroundColor: "var(--input-bg)",
+            border: "1px solid var(--border-color)",
+            borderRadius: 2,
+            maxWidth: 300,
+            textAlign: "center",
+          }}
+        >
+          <PersonIcon sx={{ fontSize: 40, color: "var(--accent)", mb: 1 }} />
+          <Typography sx={{ fontSize: "0.9rem", color: "var(--foreground)", mb: 2 }}>
+            Sign in to track your progress
+          </Typography>
+          <Link href="/auth/login" style={{ textDecoration: "none" }}>
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: "var(--accent)",
+                color: "#fff",
+                textTransform: "none",
+              }}
+            >
+              Sign In
+            </Button>
+          </Link>
+        </Paper>
+      </Box>
+    );
+  }
+
+  if (loading) {
+    return (
+      <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <PageBanner src="/Banner/Type1__NTTT.png" alt="Your Stats" />
+        <CircularProgress sx={{ color: "var(--accent)", mt: 4 }} />
+      </Box>
+    );
+  }
+
+  const orchestraStats = gameSummaries["orchestra-quiz"] || null;
+  const singerStats = gameSummaries["singer-quiz"] || null;
+
+  // Helper to render a 3x3 stats grid
+  const renderStatsGrid = (stats, gridKeys, title) => {
+    if (!stats || Object.keys(stats.cells || {}).length === 0) {
+      return (
+        <Paper
+          elevation={0}
+          sx={{
+            p: 2,
+            backgroundColor: "var(--input-bg)",
+            border: "1px solid var(--border-color)",
+            borderRadius: 2,
+            width: "100%",
+            maxWidth: 320,
+            mb: 2,
+          }}
+        >
+          <Typography sx={{ fontSize: "0.8rem", fontWeight: 600, color: "var(--accent)", mb: 1 }}>
+            {title}
+          </Typography>
+          <Typography sx={{ fontSize: "0.75rem", color: "var(--foreground)", opacity: 0.7 }}>
+            No games played yet. Start playing to see your stats!
+          </Typography>
+        </Paper>
+      );
+    }
+
+    return (
+      <Paper
+        elevation={0}
+        sx={{
+          p: 2,
+          backgroundColor: "var(--input-bg)",
+          border: "1px solid var(--border-color)",
+          borderRadius: 2,
+          width: "100%",
+          maxWidth: 320,
+          mb: 2,
+        }}
+      >
+        <Typography sx={{ fontSize: "0.8rem", fontWeight: 600, color: "var(--accent)", mb: 1 }}>
+          {title}
+        </Typography>
+
+        {/* Summary Stats */}
+        <Box sx={{ display: "flex", justifyContent: "space-around", mb: 2, py: 1 }}>
+          <Box sx={{ textAlign: "center" }}>
+            <Typography sx={{ fontSize: "1rem", fontWeight: 700, color: "var(--foreground)" }}>
+              {stats.totalPlayed || 0}
+            </Typography>
+            <Typography sx={{ fontSize: "0.6rem", color: "var(--foreground)", opacity: 0.6 }}>
+              Played
+            </Typography>
+          </Box>
+          <Box sx={{ textAlign: "center" }}>
+            <Typography sx={{ fontSize: "1rem", fontWeight: 700, color: "#4CAF50" }}>
+              {stats.accuracy || 0}%
+            </Typography>
+            <Typography sx={{ fontSize: "0.6rem", color: "var(--foreground)", opacity: 0.6 }}>
+              Accuracy
+            </Typography>
+          </Box>
+          <Box sx={{ textAlign: "center" }}>
+            <Typography sx={{ fontSize: "1rem", fontWeight: 700, color: "#FFD700" }}>
+              {stats.bestSessionScore || 0}
+            </Typography>
+            <Typography sx={{ fontSize: "0.6rem", color: "var(--foreground)", opacity: 0.6 }}>
+              Best
+            </Typography>
+          </Box>
+        </Box>
+
+        {/* 3x3 Grid */}
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: 0.5,
+          }}
+        >
+          {Object.entries(gridKeys).map(([cellNum, cellKey]) => {
+            const cellStats = stats.cells?.[cellKey];
+            const accuracy = cellStats?.accuracy || 0;
+            const played = cellStats?.played || 0;
+
+            // Color based on accuracy
+            let bgColor = "rgba(100, 100, 100, 0.2)"; // Not played
+            if (played > 0) {
+              if (accuracy >= 80) bgColor = "rgba(76, 175, 80, 0.3)"; // Green
+              else if (accuracy >= 60) bgColor = "rgba(255, 193, 7, 0.3)"; // Yellow
+              else if (accuracy >= 40) bgColor = "rgba(255, 152, 0, 0.3)"; // Orange
+              else bgColor = "rgba(244, 67, 54, 0.3)"; // Red
+            }
+
+            return (
+              <Box
+                key={cellNum}
+                sx={{
+                  p: 1,
+                  backgroundColor: bgColor,
+                  borderRadius: 1,
+                  textAlign: "center",
+                  minHeight: 50,
+                }}
+              >
+                {played > 0 ? (
+                  <>
+                    <Typography sx={{ fontSize: "0.9rem", fontWeight: 700, color: "var(--foreground)" }}>
+                      {accuracy}%
+                    </Typography>
+                    <Typography sx={{ fontSize: "0.55rem", color: "var(--foreground)", opacity: 0.6 }}>
+                      {played} played
+                    </Typography>
+                  </>
+                ) : (
+                  <Typography sx={{ fontSize: "0.6rem", color: "var(--foreground)", opacity: 0.4, mt: 1 }}>
+                    -
+                  </Typography>
+                )}
+              </Box>
+            );
+          })}
+        </Box>
+
+        {/* Grid Labels */}
+        <Box sx={{ display: "flex", justifyContent: "space-between", mt: 0.5, px: 0.5 }}>
+          <Typography sx={{ fontSize: "0.5rem", color: "var(--foreground)", opacity: 0.5 }}>
+            Famous
+          </Typography>
+          <Typography sx={{ fontSize: "0.5rem", color: "var(--foreground)", opacity: 0.5 }}>
+            Regular
+          </Typography>
+          <Typography sx={{ fontSize: "0.5rem", color: "var(--foreground)", opacity: 0.5 }}>
+            Obscure
+          </Typography>
+        </Box>
+      </Paper>
+    );
+  };
+
+  // Grid key mappings
+  const orchestraGridKeys = {
+    1: "Big4-Famous", 2: "Big4-Regular", 3: "Big4-Obscure",
+    4: "Classic-Famous", 5: "Classic-Regular", 6: "Classic-Obscure",
+    7: "Deep-Famous", 8: "Deep-Regular", 9: "Deep-Obscure",
+  };
+
+  const singerGridKeys = {
+    1: "Iconic-Famous", 2: "Iconic-Common", 3: "Iconic-Obscure",
+    4: "Essential-Famous", 5: "Essential-Common", 6: "Essential-Obscure",
+    7: "Standard-Famous", 8: "Standard-Common", 9: "Standard-Obscure",
+  };
+
+  return (
+    <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <PageBanner src="/Banner/Type1__NTTT.png" alt="Your Stats" />
+
+      <Typography
+        sx={{
+          fontSize: "0.65rem",
+          color: "var(--accent)",
+          fontWeight: 600,
+          textTransform: "uppercase",
+          letterSpacing: 1,
+          mb: 2,
+        }}
+      >
+        Your Progress
+      </Typography>
+
+      {renderStatsGrid(orchestraStats, orchestraGridKeys, "Orchestra Quiz")}
+      {renderStatsGrid(singerStats, singerGridKeys, "Singer Quiz")}
+
+      <Paper
+        elevation={0}
+        sx={{
+          p: 2,
+          backgroundColor: "rgba(76, 175, 80, 0.1)",
+          border: "1px solid rgba(76, 175, 80, 0.3)",
+          borderRadius: 2,
+          maxWidth: 320,
+          textAlign: "center",
+        }}
+      >
+        <Typography sx={{ fontSize: "0.75rem", color: "#4CAF50", fontWeight: 600 }}>
+          More Coming Soon
+        </Typography>
+        <Typography sx={{ fontSize: "0.7rem", color: "var(--foreground)", opacity: 0.7 }}>
+          Detailed per-orchestra stats, leaderboards, and weekly challenges
+        </Typography>
+      </Paper>
     </Box>
   );
 }
@@ -1102,12 +1545,16 @@ export default function GameHubPage() {
     router.push("/games/orchestra-quiz");
   };
 
+  const handleViewStats = () => {
+    setTargetPage(5); // Navigate to Status page (index 5)
+  };
+
   // Define swipeable pages - Welcome is first
   const pages = [
     {
       title: "Welcome",
       label: "Home",
-      content: <WelcomePage onQuickStart={handleQuickStart} />,
+      content: <WelcomePage onQuickStart={handleQuickStart} onViewStats={handleViewStats} />,
     },
     {
       title: "Orchestra",
@@ -1128,6 +1575,11 @@ export default function GameHubPage() {
       title: "Listen",
       label: "Listen",
       content: <ListenPage />,
+    },
+    {
+      title: "Stats",
+      label: "Stats",
+      content: <StatusPage />,
     },
     {
       title: "Daily",

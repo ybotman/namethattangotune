@@ -10,6 +10,7 @@ import Script from "next/script";
 import "./globals.css";
 import PropTypes from "prop-types";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { UserProvider } from "@/contexts/UserContext";
 import { ScoreProvider } from "@/contexts/ScoreContext";
 import { ThemeProvider } from "@/hooks/useTheme";
 import { initErrorTracking } from "@/utils/analytics";
@@ -58,11 +59,13 @@ export default function RootLayout({ children }) {
         <CssBaseline />
         <ErrorBoundary>
           <AuthProvider>
-            <ScoreProvider>
-              <ThemeProvider>
-                <LayoutContent>{children}</LayoutContent>
-              </ThemeProvider>
-            </ScoreProvider>
+            <UserProvider>
+              <ScoreProvider>
+                <ThemeProvider>
+                  <LayoutContent>{children}</LayoutContent>
+                </ThemeProvider>
+              </ScoreProvider>
+            </UserProvider>
           </AuthProvider>
         </ErrorBoundary>
       </body>

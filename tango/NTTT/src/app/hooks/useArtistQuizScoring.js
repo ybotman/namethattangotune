@@ -104,7 +104,13 @@ export default function useArtistQuizScoring({
       setSessionScore((old) => old + multipliedScore);
       setRoundStats((old) => [
         ...old,
-        { timeUsed: timeElapsed, distractorsUsed: wrongAnswers.length, score: multipliedScore },
+        {
+          songId: currentSong.SongID || null,
+          correct: true,
+          timeUsed: timeElapsed,
+          distractorsUsed: wrongAnswers.length,
+          score: multipliedScore,
+        },
       ]);
       return { roundEnded: true, correct: true };
     } else {
@@ -121,6 +127,14 @@ export default function useArtistQuizScoring({
     }
   }, [currentSong, isPlaying, isLockedOut, roundScore, config, stopAllIntervals, timeElapsed, wrongAnswers.length]);
 
+  // Ref to track current song for timeout recording (avoids stale closure)
+  const currentSongRef = useRef(null);
+  const wrongAnswersRef = useRef([]);
+
+  // Keep refs in sync with state
+  currentSongRef.current = currentSong;
+  wrongAnswersRef.current = wrongAnswers;
+
   // startIntervals => time & score countdown
   const startIntervals = useCallback(() => {
     decrementIntervalRef.current = setInterval(() => {
@@ -135,6 +149,19 @@ export default function useArtistQuizScoring({
         const nextVal = old + 0.1;
         if (nextVal >= timeLimit) {
           stopAllIntervals();
+          // Record timeout result internally before calling external handler
+          if (currentSongRef.current) {
+            setRoundStats((prev) => [
+              ...prev,
+              {
+                songId: currentSongRef.current.SongID || null,
+                correct: false,
+                timeUsed: timeLimit,
+                distractorsUsed: wrongAnswersRef.current.length,
+                score: 0,
+              },
+            ]);
+          }
           if (onTimesUp) onTimesUp();
         }
         return nextVal;
