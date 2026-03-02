@@ -123,32 +123,32 @@ export default function DifficultyGrid({
       {/* Top axis label: ORCHESTRA */}
       <Typography
         sx={{
-          fontSize: "0.5rem",
-          fontWeight: 700,
-          color: "var(--foreground)",
-          opacity: 0.5,
+          fontSize: "0.6rem",
+          fontWeight: 800,
+          color: "#4DD0E1",
           textTransform: "uppercase",
           letterSpacing: 2,
           mb: 0.5,
-          ml: compact ? 5 : 6,
+          ml: compact ? 4.5 : 5.5,
         }}
       >
         ORCHESTRA
       </Typography>
 
       {/* Column headers (Orchestra levels) */}
-      <Box sx={{ display: "flex", ml: compact ? 5 : 6 }}>
+      <Box sx={{ display: "flex", ml: compact ? 4.5 : 5.5, mb: 0.5 }}>
         {orchestraKeys.map(orch => (
           <Typography
             key={orch}
             sx={{
               width: cellSize,
               textAlign: "center",
-              fontSize: "0.6rem",
-              fontWeight: 600,
+              fontSize: "0.55rem",
+              fontWeight: 700,
               color: ORCHESTRA_LEVELS[orch].color,
               textTransform: "uppercase",
               letterSpacing: 0.5,
+              mx: 0.25,
             }}
           >
             {ORCHESTRA_LEVELS[orch].label}
@@ -158,23 +158,44 @@ export default function DifficultyGrid({
 
       {/* Main grid area with vertical label */}
       <Box sx={{ display: "flex", alignItems: "center" }}>
-        {/* Left axis label: SONG RECOGNITION (vertical) */}
-        <Typography
+        {/* Left axis label: SONG FAMILIARITY (vertical, two lines) */}
+        <Box
           sx={{
-            fontSize: "0.5rem",
-            fontWeight: 700,
-            color: "var(--foreground)",
-            opacity: 0.5,
-            textTransform: "uppercase",
-            letterSpacing: 2,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            mr: 0.5,
             writingMode: "vertical-rl",
             textOrientation: "mixed",
             transform: "rotate(180deg)",
-            mr: 0.5,
           }}
         >
-          SONG
-        </Typography>
+          <Typography
+            sx={{
+              fontSize: "0.55rem",
+              fontWeight: 800,
+              color: "#CE93D8",
+              textTransform: "uppercase",
+              letterSpacing: 1,
+              lineHeight: 1.3,
+            }}
+          >
+            SONG
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: "0.55rem",
+              fontWeight: 800,
+              color: "#CE93D8",
+              textTransform: "uppercase",
+              letterSpacing: 1,
+              lineHeight: 1.3,
+            }}
+          >
+            FAMILIARITY
+          </Typography>
+        </Box>
 
         {/* Grid rows (Song Familiarity) */}
         <Box>
