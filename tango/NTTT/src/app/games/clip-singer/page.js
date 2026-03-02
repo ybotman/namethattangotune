@@ -1,18 +1,18 @@
-//--------
-//src/app/games/clip-singer/page.js
-//--------
+// ------------------------------------------------------------
+// src/app/games/clip-singer/page.js
+// Swipeable config layout for clip singer quiz
+// Layout: Banner → Play → SwipeConfig
+// ------------------------------------------------------------
 
 "use client";
 
 import React, { useState, useCallback } from "react";
-import { Box, Typography, Divider, useMediaQuery } from "@mui/material";
+import { Box, Divider, useMediaQuery } from "@mui/material";
 import ConfigTab from "./ConfigTab";
 import BackButton from "@/components/ui/BackButton";
 import PlayButton from "@/components/ui/PlayButton";
 import HelpButton from "@/components/ui/HelpButton";
-import PulsingArrow from "@/components/ui/PulsingArrow";
 import ResetButton from "@/components/ui/ResetButton";
-import ClipScorePotential from "@/components/ui/ClipScorePotential";
 import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
@@ -23,20 +23,18 @@ import styles from "../styles.module.css";
 export default function ClipSingerPage() {
   const [songs, setSongs] = useState([]);
   const [showPlayTab, setShowPlayTab] = useState(false);
-  const [showFilters, setShowFilters] = useState(false);
 
-  // Detect landscape mode (min-width 768px AND landscape orientation)
   const isLandscape = useMediaQuery("(min-width: 768px) and (orientation: landscape)", { noSsr: true });
 
   const { config, resetAll } = useGameContext();
 
-  // SWAP not STACK: Use primaryFilterMode to determine which filter is active
+  // Get current filter settings
   const primaryFilterMode = config.primaryFilterMode || "level";
   const recognitionTiers = config.recognitionTiers || [1];
   const activeStyles = Object.keys(config.styles || {}).filter((key) => config.styles[key]);
   const periods = config.periods || [];
 
-  // Validation depends on filter mode
+  // Validation
   const hasPrimaryFilter = primaryFilterMode === "level"
     ? recognitionTiers.length >= 1
     : periods.length >= 1;
@@ -44,30 +42,29 @@ export default function ClipSingerPage() {
 
   const handlePlayClick = useCallback(async () => {
     if (!canPlay) {
-      const filterType = primaryFilterMode === "level" ? "Familiarity level" : "Era";
-      alert(`Please select at least 1 ${filterType} and 1 Style to play.`);
+      const missing = [];
+      if (primaryFilterMode === "level" && recognitionTiers.length === 0) missing.push("Familiarity level");
+      if (primaryFilterMode === "era" && periods.length === 0) missing.push("Era");
+      if (activeStyles.length === 0) missing.push("Style");
+      alert(`Please select: ${missing.join(", ")}`);
       return;
     }
 
-    console.log("Clip Singer config:", config);
-
     const numSongs = config.numSongs ?? 10;
-    const chosenArtists = (config.artists || []).map((a) => a.value);
     const chosenSingers = config.singers || [];
 
     const { songs: fetchedSongs } = await fetchFilteredSongs(
-      chosenArtists,
-      [], // artistLevels - legacy, no longer used
-      [],
+      [], // artistMasters
+      [], // artistLevels
+      [], // composers
       activeStyles,
-      "",
-      "",
-      "",
+      "", // candombe
+      "", // alternative
+      "", // cancion
       numSongs,
       {
         requireSinger: true,
         singers: chosenSingers,
-        // SWAP not STACK: Pass filter mode and appropriate filters
         primaryFilterMode,
         recognitionTiers: primaryFilterMode === "level" ? recognitionTiers : [],
         periods: primaryFilterMode === "era" ? periods : [],
@@ -75,66 +72,22 @@ export default function ClipSingerPage() {
     );
 
     if (!fetchedSongs || fetchedSongs.length === 0) {
-      alert(
-        "No songs with singers found. Wait for vocal analysis to complete or try different settings.",
-      );
+      alert("No songs with singers found. Try different settings.");
       return;
     }
 
-    // Track game setup and start
     trackGameSetup("clip-singer", config);
     trackGameStart("clip-singer", config);
     enterGameMode();
 
     setSongs(fetchedSongs);
     setShowPlayTab(true);
-  }, [config]);
+  }, [config, canPlay, primaryFilterMode, recognitionTiers, periods, activeStyles]);
 
   const handleClosePlayTab = () => {
     exitGameMode();
     setShowPlayTab(false);
   };
-
-  // Build validation message based on filter mode
-  const getValidationMessage = () => {
-    const missing = [];
-    if (!hasPrimaryFilter) {
-      missing.push(primaryFilterMode === "level" ? "Familiarity" : "Era");
-    }
-    if (activeStyles.length === 0) missing.push("Style");
-    if (missing.length === 0) return null;
-    return `Select at least 1 ${missing.join(", 1 ")}`;
-  };
-
-  // Play area component (reused in both layouts)
-  const PlayArea = ({ showScore = false }) => (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 3,
-        height: "100%",
-      }}
-    >
-      {showScore && <ClipScorePotential config={config} />}
-      <PlayButton onClick={handlePlayClick} disabled={!canPlay || (!isLandscape && showFilters)} />
-      {!canPlay && (
-        <Typography variant="caption" sx={{ color: "#FF9800", textAlign: "center" }}>
-          {getValidationMessage()}
-        </Typography>
-      )}
-      <Box sx={{ display: "flex", gap: 3, alignItems: "center" }}>
-        <PulsingArrow gameId="clip-singer" />
-        <HelpButton
-          title="Clip Quiz: Singer"
-          description="Short vocal clips! Identify the singer from brief snippets. Great for training your ear on voice recognition."
-        />
-        <ResetButton onClick={resetAll} />
-      </Box>
-    </Box>
-  );
 
   return (
     <Box
@@ -145,6 +98,7 @@ export default function ClipSingerPage() {
         minHeight: "100vh",
       }}
     >
+      {/* PlayTab Overlay */}
       {showPlayTab && (
         <Box
           sx={{
@@ -163,125 +117,78 @@ export default function ClipSingerPage() {
         </Box>
       )}
 
-      {/* Header: Back button + Title */}
+      {/* Banner Image */}
       <Box
         sx={{
+          width: "100%",
           display: "flex",
-          alignItems: "center",
           justifyContent: "center",
           position: "relative",
           pt: 1,
-          mb: 1,
         }}
       >
-        <Box sx={{ position: "absolute", left: 8 }}>
+        <Box sx={{ position: "absolute", top: 8, left: 8, zIndex: 10 }}>
           <BackButton href="/games/gamehub?page=2" />
         </Box>
-        <Typography
-          variant="h6"
-          sx={{
-            fontWeight: "bold",
-            color: "var(--foreground)",
-            textAlign: "center",
+        <img
+          src="/Banner/Type1__SINGER.png"
+          alt="Clip Singer Quiz"
+          style={{
+            width: "60%",
+            maxWidth: 280,
+            height: "auto",
+            display: "block",
+            borderRadius: 8,
           }}
-        >
-          Clip Quiz: Singer
-        </Typography>
+        />
       </Box>
 
-      {isLandscape ? (
-        // LANDSCAPE LAYOUT: Two columns
+      {/* Main Layout */}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          px: 2,
+          pb: 2,
+        }}
+      >
+        {/* Play Button Area */}
         <Box
           sx={{
             display: "flex",
-            flexDirection: "row",
-            alignItems: "stretch",
-            height: "calc(100vh - 60px)",
-            px: 2,
-          }}
-        >
-          {/* Left: Config (all filters visible) */}
-          <Box
-            sx={{
-              flex: 1,
-              overflowY: "auto",
-              pr: 2,
-            }}
-          >
-            <ConfigTab showFilters={true} setShowFilters={() => {}} isLandscape={true} />
-          </Box>
-
-          {/* Divider */}
-          <Divider
-            orientation="vertical"
-            flexItem
-            sx={{ borderColor: "rgba(255,255,255,0.2)", mx: 1 }}
-          />
-
-          {/* Right: Play Area with Score */}
-          <Box
-            sx={{
-              flex: 1,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              pl: 2,
-              height: "100%",
-            }}
-          >
-            <PlayArea showScore={true} />
-          </Box>
-        </Box>
-      ) : (
-        // PORTRAIT LAYOUT: Vertical stack with justified spacing
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
             alignItems: "center",
-            justifyContent: "space-evenly",
-            minHeight: "calc(100vh - 60px)",
-            px: 2,
+            justifyContent: "center",
+            gap: 2,
+            my: 2,
           }}
         >
-          {/* Play Button area */}
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Box sx={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
-              <Box sx={{ position: "absolute", left: -65, display: "flex", alignItems: "center" }}>
-                <PulsingArrow gameId="clip-singer" />
-                <HelpButton
-                  title="Clip Quiz: Singer"
-                  description="Short vocal clips! Identify the singer from brief snippets. Great for training your ear on voice recognition."
-                />
-              </Box>
-              <PlayButton onClick={handlePlayClick} disabled={!canPlay || showFilters} />
-              <Box sx={{ position: "absolute", right: -65, display: "flex", alignItems: "center" }}>
-                <ResetButton onClick={resetAll} />
-              </Box>
-            </Box>
-            {!canPlay && (
-              <Typography variant="caption" sx={{ color: "#FF9800", textAlign: "center", mt: 1 }}>
-                {getValidationMessage()}
-              </Typography>
-            )}
-          </Box>
-
-          <Divider sx={{ width: "60%", borderColor: "rgba(255,255,255,0.1)" }} />
-
-          {/* Config with animated Levels toggle */}
-          <Box sx={{ width: "100%" }}>
-            <ConfigTab showFilters={showFilters} setShowFilters={setShowFilters} isLandscape={false} />
-          </Box>
-
-          <Divider sx={{ width: "60%", borderColor: "rgba(255,255,255,0.1)" }} />
+          <HelpButton
+            title="Clip Quiz: Singer"
+            description="Short vocal clips! Identify the singer from brief snippets. No time countdown - replay as needed. Great for training your ear on voice recognition."
+          />
+          <PlayButton onClick={handlePlayClick} disabled={!canPlay} />
+          <ResetButton onClick={resetAll} />
         </Box>
-      )}
+
+        <Divider sx={{ width: "80%", borderColor: "rgba(255,255,255,0.1)", mb: 2 }} />
+
+        {/* Config Area */}
+        <Box sx={{ width: "100%", maxWidth: 400 }}>
+          <ConfigTab isLandscape={isLandscape} />
+        </Box>
+
+        {/* Footer dash */}
+        <Box
+          sx={{
+            width: 40,
+            height: 4,
+            borderRadius: 2,
+            backgroundColor: "rgba(255,255,255,0.2)",
+            mt: 3,
+          }}
+        />
+      </Box>
     </Box>
   );
 }

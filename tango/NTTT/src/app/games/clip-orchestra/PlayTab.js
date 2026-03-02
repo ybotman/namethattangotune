@@ -29,6 +29,46 @@ import RoundProgress from "@/components/ui/RoundProgress";
 import GameHubRoute from "@/components/ui/GameHubRoute";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 import ListenCountdown from "@/components/ui/ListenCountdown";
+import { gridToFilters } from "@/components/ui/DifficultyGrid";
+
+/**
+ * Find a random instrumental (non-vocal) start position for a song.
+ * Returns null if no suitable gap found, allowing fallback to random.
+ */
+function findInstrumentalStart(song, minGap = 15, maxStart = 90) {
+  const segments = song.vocalSegments || [];
+  if (segments.length === 0) return null;
+
+  const gaps = [];
+  let prevEnd = 0;
+  const sorted = [...segments].sort((a, b) => a.start - b.start);
+
+  for (const seg of sorted) {
+    const gapStart = prevEnd;
+    const gapEnd = seg.start;
+    const gapLength = gapEnd - gapStart;
+
+    if (gapLength >= minGap && gapStart < maxStart) {
+      gaps.push({ start: gapStart, end: Math.min(gapEnd, maxStart), length: gapLength });
+    }
+    prevEnd = seg.end;
+  }
+
+  if (gaps.length === 0) return null;
+
+  const totalLength = gaps.reduce((sum, g) => sum + g.length, 0);
+  let pick = Math.random() * totalLength;
+  for (const gap of gaps) {
+    pick -= gap.length;
+    if (pick <= 0) {
+      const safeEnd = gap.end - minGap;
+      if (safeEnd <= gap.start) return gap.start;
+      return gap.start + Math.random() * (safeEnd - gap.start);
+    }
+  }
+
+  return gaps[0].start;
+}
 
 const BASE_SCORE = 100;
 const REPLAY_PENALTY = 0.03; // 3% reduction per replay
@@ -150,9 +190,19 @@ export default function PlayTab({ songs, config, onCancel }) {
     if (!currentSong || allArtists.length === 0) return;
     const correctArtist = currentSong.ArtistMaster || "";
 
-    // Get selected orchestra tiers and convert to ArtistMaster levels
-    const orchestraTiers = config.orchestraTiers || ["Big4"];
-    const selectedLevels = tiersToLevels(orchestraTiers);
+    // Get selected orchestra levels from gridCells or orchestraTiers
+    const gridCells = config.gridCells || [];
+    let selectedLevels;
+
+    if (gridCells.length > 0) {
+      // Use DifficultyGrid levels
+      const { orchestraLevels } = gridToFilters(gridCells);
+      selectedLevels = orchestraLevels;
+    } else {
+      // Fallback to orchestraTiers for compatibility
+      const orchestraTiers = config.orchestraTiers || ["Big4"];
+      selectedLevels = tiersToLevels(orchestraTiers);
+    }
 
     // Filter ArtistMaster to only include orchestras at the selected levels
     // Exclude soloists (e.g., Gardel) from orchestra distractors
@@ -172,7 +222,7 @@ export default function PlayTab({ songs, config, onCancel }) {
 
     const finalAnswers = shuffleArray([correctArtist, ...distractors]);
     setAnswers(finalAnswers);
-  }, [currentSong, allArtists, config.orchestraTiers]);
+  }, [currentSong, allArtists, config.orchestraTiers, config.gridCells]);
 
   // Play the clip
   const playClip = useCallback(() => {
@@ -181,8 +231,21 @@ export default function PlayTab({ songs, config, onCancel }) {
 
     // Generate random start on first play
     if (clipStartRef.current === null) {
+      const avoidVocals = config.avoidVocals ?? true;
       const maxStart = Math.max(0, 90 - clipLength);
-      clipStartRef.current = Math.random() * maxStart;
+
+      // Try to avoid vocal sections if enabled
+      if (avoidVocals && currentSong.hasSinger && currentSong.vocalSegments?.length > 0) {
+        const instrumentalStart = findInstrumentalStart(currentSong, clipLength + 5, maxStart);
+        if (instrumentalStart !== null) {
+          clipStartRef.current = instrumentalStart;
+          console.log(`Avoiding vocals - starting at ${instrumentalStart.toFixed(1)}s`);
+        } else {
+          clipStartRef.current = Math.random() * maxStart;
+        }
+      } else {
+        clipStartRef.current = Math.random() * maxStart;
+      }
     }
 
     // If replaying, penalize score
@@ -213,7 +276,7 @@ export default function PlayTab({ songs, config, onCancel }) {
       cleanupWaveSurfer();
       setIsPlaying(false);
     }, totalPlayTime);
-  }, [currentSong, clipLength, hasPlayed, initWaveSurfer, playSnippet, cleanupWaveSurfer]);
+  }, [currentSong, clipLength, hasPlayed, initWaveSurfer, playSnippet, cleanupWaveSurfer, config.avoidVocals]);
 
   // Get a different clip (10% penalty, can only do once)
   const getNewClip = useCallback(() => {

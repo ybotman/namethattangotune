@@ -1,28 +1,28 @@
+// ------------------------------------------------------------
+// src/app/games/song-quiz/ConfigTab.js
+// Swipeable config UI for song title quiz
+// Layout: ScorePotential → Mode Toggle → PoolCount → SwipeCards
+// ------------------------------------------------------------
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
-import { Box, Button, Divider } from "@mui/material";
-import TuneIcon from "@mui/icons-material/Tune";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { motion, AnimatePresence } from "motion/react";
-import styles from "../styles.module.css";
+import React, { useState, useEffect } from "react";
+import { Box, Typography, Divider } from "@mui/material";
 
-import GameSetupDials from "@/components/ui/GameSetupDials";
-import RecognitionSelector from "@/components/ui/RecognitionSelector";
-import StylesSelector from "@/components/ui/StylesSelector";
-import PeriodsSelector from "@/components/ui/PeriodsSelector";
-import FilterModeToggle from "@/components/ui/FilterModeToggle";
-import PoolCount, { MIN_POOL_SIZE } from "@/components/ui/PoolCount";
+import SwipeConfig from "@/components/ui/SwipeConfig";
 import ScorePotential from "@/components/ui/ScorePotential";
+import PoolCount from "@/components/ui/PoolCount";
+import GameSetupDials from "@/components/ui/GameSetupDials";
+import StylesSelector from "@/components/ui/StylesSelector";
+import RecognitionSelector from "@/components/ui/RecognitionSelector";
+import PeriodsSelector from "@/components/ui/PeriodsSelector";
 import useSongQuiz from "@/hooks/useSongQuiz";
 import { useGameContext } from "@/contexts/GameContext";
 import { getFilteredSongCount } from "@/utils/dataFetching";
 import PropTypes from "prop-types";
 
-export default function ConfigTab({ showFilters, setShowFilters, isLandscape = false }) {
+export default function ConfigTab({ isLandscape = false }) {
   const {
     primaryStyles,
-    validationMessage,
     handleNumSongsChange,
     handleTimeLimitChange,
     handleStylesChange,
@@ -31,37 +31,34 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
 
   const { config, updateConfig } = useGameContext();
 
-  const [poolCount, setPoolCount] = useState(null);
+  const [poolCount, setPoolCount] = useState(0);
   const [poolLoading, setPoolLoading] = useState(false);
 
-  const numSongs = config.numSongs ?? 10;
   const primaryFilterMode = config.primaryFilterMode || "level";
-  const hasEnoughSongs = poolCount === null || poolCount >= MIN_POOL_SIZE;
+  const recognitionTiers = config.recognitionTiers || [1];
 
-  // Handle filter mode change
-  const handleFilterModeChange = useCallback((mode) => {
-    updateConfig("primaryFilterMode", mode);
-  }, [updateConfig]);
+  // Get active styles
+  const activeStyles = Object.keys(config.styles || {}).filter(s => config.styles[s]);
+
+  // Handle recognition tiers change
+  const handleRecognitionChange = (tiers) => {
+    updateConfig("recognitionTiers", tiers);
+  };
 
   // Fetch pool count when config changes
   useEffect(() => {
     const fetchCount = async () => {
       setPoolLoading(true);
       try {
-        // Build filter options based on current mode
         const options = {
           primaryFilterMode,
-          styles: Object.keys(config.styles || {}).filter(s => config.styles[s]),
+          styles: activeStyles,
           includeSinger: config.includeSinger ?? true,
         };
 
-        // Add recognition filters only in level mode
         if (primaryFilterMode === "level") {
-          options.recognitionTiers = config.recognitionTiers || [1];
-        }
-
-        // Add period filters only in era mode
-        if (primaryFilterMode === "era") {
+          options.recognitionTiers = recognitionTiers;
+        } else {
           options.periods = config.periods || [];
         }
 
@@ -75,206 +72,205 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
     };
 
     fetchCount();
-  }, [config.recognitionTiers, config.periods, config.styles, config.includeSinger, primaryFilterMode]);
+  }, [recognitionTiers, config.periods, config.styles, config.includeSinger, primaryFilterMode, activeStyles]);
 
-  // LANDSCAPE: Show everything, no animation, evenly distributed
-  if (isLandscape) {
-    const dividerStyle = { borderColor: "rgba(255,255,255,0.15)", my: 1 };
+  // ─────────────────────────────────────────────────────────────
+  // SWIPE CARDS
+  // ─────────────────────────────────────────────────────────────
 
-    return (
+  // Card 1: Recognition Selector (Familiarity) or Periods (Era)
+  const Card1 = primaryFilterMode === "level" ? (
+    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", py: 2 }}>
+      <RecognitionSelector
+        selectedTiers={recognitionTiers}
+        onChange={handleRecognitionChange}
+        compact={!isLandscape}
+      />
+    </Box>
+  ) : (
+    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", py: 2 }}>
+      <PeriodsSelector
+        selectedPeriods={config.periods || []}
+        onChange={(val) => updateConfig("periods", val)}
+        label=""
+        compact={true}
+      />
+    </Box>
+  );
+
+  // Card 2: Styles + Singers toggle
+  const Card2 = (
+    <Box sx={{ py: 1, width: "100%", display: "flex", flexDirection: "column", gap: 2 }}>
+      {/* Row 1: Style buttons */}
+      <StylesSelector
+        availableStyles={primaryStyles}
+        selectedStyles={config.styles || {}}
+        onChange={handleStylesChange}
+        showVocals={false}
+      />
+
+      {/* Row 2: Include songs with Singers */}
       <Box
-        className={styles.configurationContainer}
         sx={{
           display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-evenly",
-          height: "100%",
-          py: 2,
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 1.5,
+          py: 1,
+          px: 2,
+          borderRadius: 2,
+          backgroundColor: "rgba(255,255,255,0.05)",
         }}
       >
-        <GameSetupDials
-          numSongs={config.numSongs ?? 10}
-          onNumSongsChange={handleNumSongsChange}
-          timeLimit={config.timeLimit ?? 15}
-          onTimeLimitChange={handleTimeLimitChange}
-          secondsLabel="Time"
-        />
-
-        <Divider sx={dividerStyle} />
-
-        {/* SWAP not STACK: Filter mode toggle */}
-        <FilterModeToggle
-          mode={primaryFilterMode}
-          onChange={handleFilterModeChange}
-          levelLabel="Familiarity"
-          levelIcon="🎵"
-        />
-
-        {/* Conditional: Familiarity OR Era */}
-        {primaryFilterMode === "level" ? (
-          <RecognitionSelector
-            selectedTiers={config.recognitionTiers || [1]}
-            onChange={(tiers) => updateConfig("recognitionTiers", tiers)}
-            compact
-          />
-        ) : (
-          <PeriodsSelector
-            selectedPeriods={config.periods || []}
-            onChange={(val) => updateConfig("periods", val)}
-          />
-        )}
-
-        <Divider sx={dividerStyle} />
-
-        <StylesSelector
-          availableStyles={primaryStyles}
-          selectedStyles={config.styles || {}}
-          onChange={handleStylesChange}
-          showVocals={true}
-          includeSinger={config.includeSinger ?? true}
-          onVocalsChange={handleIncludeSingerChange}
-        />
-
-        <Divider sx={dividerStyle} />
-
-        <PoolCount count={poolCount ?? 0} loading={poolLoading} />
-
-        {!hasEnoughSongs && (
-          <Box sx={{ color: "#FF9800", textAlign: "center", fontSize: "0.75rem" }}>
-            Need {MIN_POOL_SIZE} songs to play
-          </Box>
-        )}
+        <Typography sx={{ fontSize: "0.75rem", color: "var(--foreground)", opacity: 0.8 }}>
+          Include songs with
+        </Typography>
+        <Box
+          onClick={() => handleIncludeSingerChange(!(config.includeSinger ?? true))}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 0.5,
+            px: 1.5,
+            py: 0.5,
+            borderRadius: 1,
+            border: `2px solid ${(config.includeSinger ?? true) ? "#CE93D8" : "rgba(255,255,255,0.3)"}`,
+            backgroundColor: (config.includeSinger ?? true) ? "#CE93D8" : "transparent",
+            cursor: "pointer",
+            transition: "all 0.2s",
+            "&:hover": {
+              borderColor: "#CE93D8",
+              backgroundColor: (config.includeSinger ?? true) ? "#CE93D8" : "rgba(206,147,216,0.2)",
+            },
+          }}
+        >
+          <Typography sx={{ fontSize: "1rem" }}>🎤</Typography>
+          <Typography
+            sx={{
+              fontSize: "0.75rem",
+              fontWeight: 600,
+              color: (config.includeSinger ?? true) ? "#000" : "var(--foreground)",
+            }}
+          >
+            Singers
+          </Typography>
+        </Box>
       </Box>
-    );
-  }
+    </Box>
+  );
 
-  // PORTRAIT: Animated toggle between quick and levels
+  // Card 3: Dials (numSongs + timeLimit)
+  const Card3 = (
+    <Box sx={{ py: 1 }}>
+      <GameSetupDials
+        numSongs={config.numSongs ?? 10}
+        onNumSongsChange={handleNumSongsChange}
+        timeLimit={config.timeLimit ?? 15}
+        onTimeLimitChange={handleTimeLimitChange}
+        secondsLabel="Time"
+      />
+    </Box>
+  );
+
+  const cards = [Card1, Card2, Card3];
+  const cardLabels = [
+    primaryFilterMode === "level" ? "FAME" : "ERA",
+    "STYLE",
+    "QTY"
+  ];
+
+  // ─────────────────────────────────────────────────────────────
+  // RENDER
+  // ─────────────────────────────────────────────────────────────
+
   return (
-    <Box className={styles.configurationContainer} sx={{ overflow: "hidden", py: 1 }}>
+    <Box sx={{ width: "100%" }}>
+      {/* Score Potential */}
       <ScorePotential config={config} />
+
+      {/* Mode Toggle: Sliding Switch */}
+      <Box sx={{ display: "flex", justifyContent: "center", mb: 1 }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            backgroundColor: "rgba(255,255,255,0.1)",
+            borderRadius: 3,
+            p: 0.5,
+            position: "relative",
+            width: 160,
+          }}
+        >
+          {/* Sliding background */}
+          <Box
+            sx={{
+              position: "absolute",
+              width: "50%",
+              height: "calc(100% - 8px)",
+              backgroundColor: primaryFilterMode === "level" ? "#81C784" : "#4DD0E1",
+              borderRadius: 2.5,
+              transition: "transform 0.2s ease, background-color 0.2s ease",
+              transform: primaryFilterMode === "level" ? "translateX(4px)" : "translateX(calc(100% - 4px))",
+            }}
+          />
+          {/* FAME option */}
+          <Box
+            onClick={() => updateConfig("primaryFilterMode", "level")}
+            sx={{
+              flex: 1,
+              textAlign: "center",
+              py: 0.75,
+              cursor: "pointer",
+              zIndex: 1,
+            }}
+          >
+            <Typography
+              sx={{
+                fontSize: "0.7rem",
+                fontWeight: 700,
+                color: primaryFilterMode === "level" ? "#000" : "var(--foreground)",
+                transition: "color 0.2s ease",
+              }}
+            >
+              FAME
+            </Typography>
+          </Box>
+          {/* ERA option */}
+          <Box
+            onClick={() => updateConfig("primaryFilterMode", "era")}
+            sx={{
+              flex: 1,
+              textAlign: "center",
+              py: 0.75,
+              cursor: "pointer",
+              zIndex: 1,
+            }}
+          >
+            <Typography
+              sx={{
+                fontSize: "0.7rem",
+                fontWeight: 700,
+                color: primaryFilterMode === "era" ? "#000" : "var(--foreground)",
+                transition: "color 0.2s ease",
+              }}
+            >
+              ERA
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
+
+      {/* Pool Count */}
+      <PoolCount count={poolCount} loading={poolLoading} />
 
       <Divider sx={{ borderColor: "rgba(255,255,255,0.1)", my: 1 }} />
 
-      <AnimatePresence mode="wait">
-        {!showFilters ? (
-          <motion.div
-            key="quick"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -100 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-          >
-            <GameSetupDials
-              numSongs={config.numSongs ?? 10}
-              onNumSongsChange={handleNumSongsChange}
-              timeLimit={config.timeLimit ?? 15}
-              onTimeLimitChange={handleTimeLimitChange}
-              secondsLabel="Time"
-            />
-
-            <PoolCount count={poolCount ?? 0} loading={poolLoading} />
-
-            <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
-              <Button
-                variant="outlined"
-                startIcon={<TuneIcon />}
-                onClick={() => setShowFilters(true)}
-                sx={{
-                  borderColor: "var(--accent)",
-                  color: "var(--foreground)",
-                  textTransform: "none",
-                  borderRadius: 2,
-                  px: 3,
-                  "&:hover": {
-                    borderColor: "var(--accent)",
-                    backgroundColor: "rgba(255,255,255,0.1)",
-                  },
-                }}
-              >
-                Filters
-              </Button>
-            </Box>
-          </motion.div>
-        ) : (
-          <motion.div
-            key="filters"
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 100 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-          >
-            <Box sx={{ display: "flex", justifyContent: "center", mb: 1 }}>
-              <Button
-                variant="contained"
-                endIcon={<KeyboardArrowDownIcon />}
-                onClick={() => setShowFilters(false)}
-                sx={{
-                  backgroundColor: "var(--accent)",
-                  color: "#000",
-                  textTransform: "none",
-                  borderRadius: 2,
-                  px: 3,
-                  "&:hover": {
-                    backgroundColor: "var(--accent)",
-                    filter: "brightness(1.1)",
-                  },
-                }}
-              >
-                Ready
-              </Button>
-            </Box>
-
-            {/* SWAP not STACK: Filter mode toggle */}
-            <FilterModeToggle
-              mode={primaryFilterMode}
-              onChange={handleFilterModeChange}
-              levelLabel="Familiarity"
-              levelIcon="🎵"
-            />
-
-            {/* Conditional: Familiarity OR Era */}
-            {primaryFilterMode === "level" ? (
-              <RecognitionSelector
-                selectedTiers={config.recognitionTiers || [1]}
-                onChange={(tiers) => updateConfig("recognitionTiers", tiers)}
-                compact
-              />
-            ) : (
-              <PeriodsSelector
-                selectedPeriods={config.periods || []}
-                onChange={(val) => updateConfig("periods", val)}
-              />
-            )}
-
-            <Divider sx={{ borderColor: "rgba(255,255,255,0.1)", my: 1.5 }} />
-
-            <StylesSelector
-              availableStyles={primaryStyles}
-              selectedStyles={config.styles || {}}
-              onChange={handleStylesChange}
-              showVocals={true}
-              includeSinger={config.includeSinger ?? true}
-              onVocalsChange={handleIncludeSingerChange}
-            />
-
-            <Divider sx={{ borderColor: "rgba(255,255,255,0.1)", my: 1.5 }} />
-
-            <PoolCount count={poolCount ?? 0} loading={poolLoading} />
-
-            {!hasEnoughSongs && (
-              <Box sx={{ color: "#FF9800", textAlign: "center", fontSize: "0.75rem", mt: 1 }}>
-                Need {MIN_POOL_SIZE} songs to play
-              </Box>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Swipeable Cards */}
+      <SwipeConfig cards={cards} labels={cardLabels} />
     </Box>
   );
 }
 
 ConfigTab.propTypes = {
-  showFilters: PropTypes.bool.isRequired,
-  setShowFilters: PropTypes.func.isRequired,
   isLandscape: PropTypes.bool,
 };
