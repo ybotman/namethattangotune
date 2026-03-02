@@ -129,14 +129,14 @@ export default function DifficultyGrid({
           textTransform: "uppercase",
           letterSpacing: 2,
           mb: 0.5,
-          ml: compact ? 4.5 : 5.5,
+          ml: compact ? 3.5 : 4.5,
         }}
       >
         ORCHESTRA
       </Typography>
 
       {/* Column headers (Orchestra levels) */}
-      <Box sx={{ display: "flex", ml: compact ? 4.5 : 5.5, mb: 0.5 }}>
+      <Box sx={{ display: "flex", ml: compact ? 3.5 : 4.5, mb: 0.5 }}>
         {orchestraKeys.map(orch => (
           <Typography
             key={orch}
@@ -156,47 +156,8 @@ export default function DifficultyGrid({
         ))}
       </Box>
 
-      {/* Main grid area with vertical label */}
+      {/* Main grid area */}
       <Box sx={{ display: "flex", alignItems: "center" }}>
-        {/* Left axis label: SONG FAMILIARITY (vertical, two lines) */}
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            mr: 0.5,
-            writingMode: "vertical-rl",
-            textOrientation: "mixed",
-            transform: "rotate(180deg)",
-          }}
-        >
-          <Typography
-            sx={{
-              fontSize: "0.55rem",
-              fontWeight: 800,
-              color: "#CE93D8",
-              textTransform: "uppercase",
-              letterSpacing: 1,
-              lineHeight: 1.3,
-            }}
-          >
-            SONG
-          </Typography>
-          <Typography
-            sx={{
-              fontSize: "0.55rem",
-              fontWeight: 800,
-              color: "#CE93D8",
-              textTransform: "uppercase",
-              letterSpacing: 1,
-              lineHeight: 1.3,
-            }}
-          >
-            FAMILIARITY
-          </Typography>
-        </Box>
-
         {/* Grid rows (Song Familiarity) */}
         <Box>
           {familiarityKeys.map(fam => (
@@ -204,13 +165,13 @@ export default function DifficultyGrid({
               {/* Row label */}
               <Typography
                 sx={{
-                  width: compact ? 36 : 44,
-                  fontSize: "0.6rem",
+                  width: compact ? 50 : 56,
+                  fontSize: "0.55rem",
                   fontWeight: 600,
                   color: "var(--foreground)",
-                  opacity: 0.7,
+                  opacity: 0.8,
                   textAlign: "right",
-                  pr: 1,
+                  pr: 1.5,
                   textTransform: "uppercase",
                   letterSpacing: 0.5,
                 }}
