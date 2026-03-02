@@ -6,7 +6,7 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import DialControl from "./DialControl";
 
 export default function GameSetupDials({
@@ -24,12 +24,17 @@ export default function GameSetupDials({
   onClipLengthChange,
   showClipLength = false,
 }) {
+  // Responsive dial size: smaller on narrow screens (< 380px)
+  const isNarrow = useMediaQuery("(max-width: 379px)");
+  const dialSize = isNarrow ? 70 : 90;
+  const dialGap = isNarrow ? 2 : 3;
+
   return (
     <Box
       sx={{
         display: "flex",
         justifyContent: "center",
-        gap: 3,
+        gap: dialGap,
         mx: "auto",
         mb: 1,
         mt: 1,
@@ -42,7 +47,7 @@ export default function GameSetupDials({
         min={songsMin}
         max={songsMax}
         onChange={onNumSongsChange}
-        size={90}
+        size={dialSize}
         color="#4CAF50"
       />
 
@@ -54,7 +59,7 @@ export default function GameSetupDials({
           min={secondsMin}
           max={secondsMax}
           onChange={onTimeLimitChange}
-          size={90}
+          size={dialSize}
           color="#2196F3"
           unit="sec"
         />
@@ -68,7 +73,7 @@ export default function GameSetupDials({
           min={1}
           max={15}
           onChange={onClipLengthChange}
-          size={90}
+          size={dialSize}
           color="#FF9800"
           unit="sec"
         />
