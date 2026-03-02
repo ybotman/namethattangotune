@@ -13,6 +13,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { ScoreProvider } from "@/contexts/ScoreContext";
 import { ThemeProvider } from "@/hooks/useTheme";
 import { initErrorTracking } from "@/utils/analytics";
+import { preloadSongData } from "@/utils/dataFetching";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
 import { CssBaseline } from "@mui/material";
@@ -23,9 +24,10 @@ const GA_MEASUREMENT_ID = "G-GSRFSWE79N";
 const inter = Inter({ subsets: ["latin"] });
 
 function LayoutContent({ children }) {
-  // Init error tracking on first load
+  // Init error tracking and preload song data on first load
   useEffect(() => {
     initErrorTracking();
+    preloadSongData(); // Cache song data early so games load instantly
   }, []);
 
   return <>{children}</>;

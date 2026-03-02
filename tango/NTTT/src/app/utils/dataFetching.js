@@ -1,7 +1,89 @@
 //------------------------------------------------------------
 // src/utils/dataFetching.js
 // v4 - SWAP not STACK: primaryFilterMode toggles between level and era
+// v4.1 - Add client-side data caching to avoid repeated fetches
 //------------------------------------------------------------
+
+// ============================================================
+// DATA CACHE - Fetch JSON files once, reuse for subsequent calls
+// ============================================================
+let cachedData = null;
+let cachePromise = null;
+
+/**
+ * Fetch and cache all song data files.
+ * Subsequent calls return the cached data immediately.
+ */
+/**
+ * Preload song data at app startup.
+ * Call this early (e.g., in root layout) so data is ready when games load.
+ */
+export function preloadSongData() {
+  // Fire and forget - just triggers the cache population
+  getCachedData().catch(err => {
+    console.warn("Preload failed, will retry on first use:", err);
+  });
+}
+
+async function getCachedData() {
+  // If already cached, return immediately
+  if (cachedData) return cachedData;
+
+  // If fetch is in progress, wait for it
+  if (cachePromise) return cachePromise;
+
+  // Start the fetch
+  cachePromise = (async () => {
+    const [djSongsData, artistData, singerData, vocalData, periodsData, iconicData] = await Promise.all([
+      fetch(`/songData/djSongsWeighted.json`).then((r) => r.json()),
+      fetch(`/songData/ArtistMaster.json`).then((r) => r.json()),
+      fetch(`/songData/SingerMaster.json`).then((r) => r.json()),
+      fetch(`/api/vocal-data`).then((r) => r.json()).catch(() => ({})),
+      fetch(`/songData/TangoPeriods.json`).then((r) => r.json()).catch(() => []),
+      fetch(`/songData/IconicLists.json`).then((r) => r.json()).catch(() => ({ iconicSongs: [] })),
+    ]);
+
+    // Build lookup maps once
+    const iconicIds = new Set(iconicData.iconicSongs.map(s => s.songId));
+
+    const singerDuetMap = {};
+    const singerArray = singerData.singers || singerData;
+    singerArray.forEach((s) => {
+      if (s.singer) {
+        singerDuetMap[s.singer.toLowerCase()] = s.isDuetPlus === true;
+      }
+    });
+
+    const artistLevelMap = {};
+    artistData.forEach((artist) => {
+      if (artist.active === "true") {
+        artistLevelMap[artist.artist.toLowerCase()] = parseInt(artist.level, 10);
+      }
+    });
+
+    // Enrich songs with level once
+    const enrichedSongs = djSongsData.songs.map((song) => {
+      const artistName = song.ArtistMaster?.trim().toLowerCase();
+      const songLevel = artistName && artistLevelMap[artistName] ? artistLevelMap[artistName] : null;
+      return { ...song, level: songLevel };
+    });
+
+    cachedData = {
+      songs: enrichedSongs,
+      artistData,
+      singerData,
+      vocalData,
+      periodsData,
+      iconicIds,
+      singerDuetMap,
+      artistLevelMap,
+    };
+
+    return cachedData;
+  })();
+
+  return cachePromise;
+}
 
 /**
  * SUB-TIER DEFINITIONS (discrete, not continuous)
@@ -32,22 +114,37 @@ const FAMILIARITY_TIERS = {
  * relative to the pool (percentile-based within the filtered set)
  *
  * @param {Array} songs - Pool of songs to filter
- * @param {string} subTier - 'Classics', 'Standards', or 'DeepCuts'
+ * @param {string|string[]} subTiers - 'Classics', 'Standards', 'DeepCuts' or array of them
  * @returns {Array} - Filtered songs
  */
-function applySubTierFilter(songs, subTier) {
-  if (!subTier || !SUB_TIER_RANGES[subTier]) return songs;
+function applySubTierFilter(songs, subTiers) {
+  if (!subTiers) return songs;
   if (songs.length === 0) return songs;
+
+  // Normalize to array
+  const tierArray = Array.isArray(subTiers) ? subTiers : [subTiers];
+  const validTiers = tierArray.filter(t => SUB_TIER_RANGES[t]);
+  if (validTiers.length === 0) return songs;
 
   // Sort by songFamiliarity descending
   const sorted = [...songs].sort((a, b) => (b.songFamiliarity || 0) - (a.songFamiliarity || 0));
 
-  // Calculate percentile boundaries
-  const { min, max } = SUB_TIER_RANGES[subTier];
-  const startIdx = Math.floor(sorted.length * (1 - max)); // top = low index
-  const endIdx = Math.floor(sorted.length * (1 - min));   // bottom = high index
+  // Collect songs from all selected tiers
+  const result = [];
+  for (const tier of validTiers) {
+    const { min, max } = SUB_TIER_RANGES[tier];
+    const startIdx = Math.floor(sorted.length * (1 - max)); // top = low index
+    const endIdx = Math.floor(sorted.length * (1 - min));   // bottom = high index
+    result.push(...sorted.slice(startIdx, endIdx));
+  }
 
-  return sorted.slice(startIdx, endIdx);
+  // Remove duplicates (in case tiers overlap)
+  const seen = new Set();
+  return result.filter(song => {
+    if (seen.has(song.SongID)) return false;
+    seen.add(song.SongID);
+    return true;
+  });
 }
 
 /**
@@ -426,7 +523,7 @@ export async function fetchFilteredSongs(
 /**
  * Lightweight function to count available songs based on filters.
  * Use this for live UI updates without fetching full song data.
- * Same filtering logic as fetchFilteredSongs but returns only the count.
+ * Uses cached data to avoid repeated network requests.
  */
 export async function getFilteredSongCount(options = {}) {
   const {
@@ -442,7 +539,8 @@ export async function getFilteredSongCount(options = {}) {
     duetFilter = 'solo',
     // NEW v3 options
     familiarityTiers = [],
-    subTier = null,
+    subTier = null,       // Legacy single subTier
+    subTiers = [],        // Array of subTiers for multi-cell grid
     orchestraLevels = [],
     singerLevels = [],
     singerEras = [],
@@ -455,38 +553,11 @@ export async function getFilteredSongCount(options = {}) {
   const shouldApplyPeriods = primaryFilterMode !== 'level';
 
   try {
-    const [djSongsData, artistData, singerData, periodsData, iconicData] = await Promise.all([
-      fetch(`/songData/djSongsWeighted.json`).then((r) => r.json()),
-      fetch(`/songData/ArtistMaster.json`).then((r) => r.json()),
-      fetch(`/songData/SingerMaster.json`).then((r) => r.json()),
-      fetch(`/songData/TangoPeriods.json`).then((r) => r.json()).catch(() => []),
-      fetch(`/songData/IconicLists.json`).then((r) => r.json()).catch(() => ({ iconicSongs: [] })),
-    ]);
+    // Use cached data instead of fetching every time
+    const data = await getCachedData();
+    const { songs: enrichedSongs, periodsData, iconicIds, singerDuetMap } = data;
 
-    // Build iconic song ID set for Tier 1 bypass
-    const iconicIds = new Set(iconicData.iconicSongs.map(s => s.songId));
-
-    // Build lookup maps
-    // SingerMaster.json v1 has { singers: [...] } structure
-    const singerDuetMap = {};
-    const singerArray = singerData.singers || singerData;
-    singerArray.forEach((s) => {
-      if (s.singer) singerDuetMap[s.singer.toLowerCase()] = s.isDuetPlus === true;
-    });
-
-    const artistLevelMap = {};
-    artistData.forEach((artist) => {
-      if (artist.active === "true") {
-        artistLevelMap[artist.artist.toLowerCase()] = parseInt(artist.level, 10);
-      }
-    });
-
-    // Enrich songs with level
-    let filtered = djSongsData.songs.map((song) => {
-      const artistName = song.ArtistMaster?.trim().toLowerCase();
-      const songLevel = artistName && artistLevelMap[artistName] ? artistLevelMap[artistName] : null;
-      return { ...song, level: songLevel };
-    });
+    let filtered = [...enrichedSongs];
 
     // DNP filter - exclude doNotPlay songs
     filtered = filtered.filter((song) => !song.doNotPlay);
@@ -554,8 +625,10 @@ export async function getFilteredSongCount(options = {}) {
 
     // NEW v3: Sub-Tier filter (Classics/Standards/DeepCuts)
     // SWAP not STACK: Skip when mode === 'era'
-    if (shouldApplyLevels && subTier) {
-      filtered = applySubTierFilter(filtered, subTier);
+    // Support both legacy single subTier and new subTiers array
+    const effectiveSubTiers = subTiers.length > 0 ? subTiers : (subTier ? [subTier] : []);
+    if (shouldApplyLevels && effectiveSubTiers.length > 0) {
+      filtered = applySubTierFilter(filtered, effectiveSubTiers);
     }
 
     // Year range filter
