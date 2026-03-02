@@ -1,7 +1,8 @@
 // ------------------------------------------------------------
 // src/components/ui/DifficultyGrid.js
-// 3x3 grid for selecting Orchestra Level x Song Familiarity
-// Replaces separate OrchestraLevelSelector + SubTier selector
+// 3x3 grid for selecting Song Familiarity x Orchestra Level
+// Rows: Song Recognition (Famous/Known/Obscure)
+// Cols: Orchestra (Icons/Core/Niche)
 // ------------------------------------------------------------
 "use client";
 
@@ -9,14 +10,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Box, Typography } from "@mui/material";
 
-// Orchestra Level (rows) - maps to ArtistMaster levels
+// Orchestra Level (columns) - maps to ArtistMaster levels
 const ORCHESTRA_LEVELS = {
   Icons: { levels: [1], label: "Icons", color: "#4DD0E1" },
   Core: { levels: [2], label: "Core", color: "#81C784" },
   Niche: { levels: [3, 4, 5], label: "Niche", color: "#FFD54F" },
 };
 
-// Song Familiarity (columns) - percentile within pool
+// Song Familiarity (rows) - percentile within pool
 const SONG_FAMILIARITY = {
   Famous: { min: 0.7, max: 1.0, label: "Famous" },
   Known: { min: 0.3, max: 0.7, label: "Known" },
@@ -86,6 +87,8 @@ export function gridToFilters(selectedCells) {
 
 /**
  * DifficultyGrid - 3x3 clickable grid for Level mode
+ * Rows: Song Familiarity (Famous/Known/Obscure)
+ * Cols: Orchestra Level (Icons/Core/Niche)
  */
 export default function DifficultyGrid({
   selectedCells = ["Icons-Famous"],
@@ -117,7 +120,7 @@ export default function DifficultyGrid({
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-      {/* Top axis label: SONG RECOGNITION */}
+      {/* Top axis label: ORCHESTRA */}
       <Typography
         sx={{
           fontSize: "0.5rem",
@@ -130,33 +133,32 @@ export default function DifficultyGrid({
           ml: compact ? 5 : 6,
         }}
       >
-        SONG RECOGNITION
+        ORCHESTRA
       </Typography>
 
-      {/* Column headers */}
+      {/* Column headers (Orchestra levels) */}
       <Box sx={{ display: "flex", ml: compact ? 5 : 6 }}>
-        {familiarityKeys.map(fam => (
+        {orchestraKeys.map(orch => (
           <Typography
-            key={fam}
+            key={orch}
             sx={{
               width: cellSize,
               textAlign: "center",
               fontSize: "0.6rem",
               fontWeight: 600,
-              color: "var(--foreground)",
-              opacity: 0.7,
+              color: ORCHESTRA_LEVELS[orch].color,
               textTransform: "uppercase",
               letterSpacing: 0.5,
             }}
           >
-            {SONG_FAMILIARITY[fam].label}
+            {ORCHESTRA_LEVELS[orch].label}
           </Typography>
         ))}
       </Box>
 
       {/* Main grid area with vertical label */}
       <Box sx={{ display: "flex", alignItems: "center" }}>
-        {/* Left axis label: ORCHESTRA (vertical) */}
+        {/* Left axis label: SONG RECOGNITION (vertical) */}
         <Typography
           sx={{
             fontSize: "0.5rem",
@@ -171,67 +173,69 @@ export default function DifficultyGrid({
             mr: 0.5,
           }}
         >
-          ORCHESTRA
+          SONG
         </Typography>
 
-        {/* Grid rows */}
+        {/* Grid rows (Song Familiarity) */}
         <Box>
-          {orchestraKeys.map(orch => (
-            <Box key={orch} sx={{ display: "flex", alignItems: "center", mb: 0.5 }}>
+          {familiarityKeys.map(fam => (
+            <Box key={fam} sx={{ display: "flex", alignItems: "center", mb: 0.5 }}>
               {/* Row label */}
               <Typography
                 sx={{
                   width: compact ? 36 : 44,
                   fontSize: "0.6rem",
                   fontWeight: 600,
-                  color: ORCHESTRA_LEVELS[orch].color,
+                  color: "var(--foreground)",
+                  opacity: 0.7,
                   textAlign: "right",
                   pr: 1,
                   textTransform: "uppercase",
                   letterSpacing: 0.5,
                 }}
               >
-                {ORCHESTRA_LEVELS[orch].label}
+                {SONG_FAMILIARITY[fam].label}
               </Typography>
 
-          {/* Cells */}
-          {familiarityKeys.map(fam => {
-            const cellKey = `${orch}-${fam}`;
-            const isSelected = selectedCells.includes(cellKey);
-            const bgColor = DIFFICULTY_COLORS[cellKey];
-            const glowEffect = GLOW_COLORS[cellKey];
+              {/* Cells (Orchestra columns) */}
+              {orchestraKeys.map(orch => {
+                // Cell key format stays Orchestra-Familiarity for filter compatibility
+                const cellKey = `${orch}-${fam}`;
+                const isSelected = selectedCells.includes(cellKey);
+                const bgColor = DIFFICULTY_COLORS[cellKey];
+                const glowEffect = GLOW_COLORS[cellKey];
 
-            return (
-              <Box
-                key={cellKey}
-                onClick={() => toggleCell(cellKey)}
-                sx={{
-                  width: cellSize,
-                  height: cellSize,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 1.5,
-                  border: `2px solid ${isSelected ? bgColor : `${bgColor}66`}`,
-                  backgroundColor: isSelected ? bgColor : `${bgColor}15`,
-                  boxShadow: isSelected ? glowEffect : "none",
-                  cursor: disabled ? "default" : "pointer",
-                  opacity: disabled ? 0.5 : 1,
-                  transition: "all 0.2s ease",
-                  mx: 0.25,
-                  "&:hover": disabled ? {} : {
-                    backgroundColor: isSelected ? bgColor : `${bgColor}40`,
-                    transform: "scale(1.08)",
-                    boxShadow: glowEffect,
-                  },
-                }}
-              >
-                {isSelected && (
-                  <Typography sx={{ fontSize: "1rem", color: "#000", fontWeight: 700 }}>✓</Typography>
-                )}
-              </Box>
-            );
-          })}
+                return (
+                  <Box
+                    key={cellKey}
+                    onClick={() => toggleCell(cellKey)}
+                    sx={{
+                      width: cellSize,
+                      height: cellSize,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: 1.5,
+                      border: `2px solid ${isSelected ? bgColor : `${bgColor}66`}`,
+                      backgroundColor: isSelected ? bgColor : `${bgColor}15`,
+                      boxShadow: isSelected ? glowEffect : "none",
+                      cursor: disabled ? "default" : "pointer",
+                      opacity: disabled ? 0.5 : 1,
+                      transition: "all 0.2s ease",
+                      mx: 0.25,
+                      "&:hover": disabled ? {} : {
+                        backgroundColor: isSelected ? bgColor : `${bgColor}40`,
+                        transform: "scale(1.08)",
+                        boxShadow: glowEffect,
+                      },
+                    }}
+                  >
+                    {isSelected && (
+                      <Typography sx={{ fontSize: "1rem", color: "#000", fontWeight: 700 }}>✓</Typography>
+                    )}
+                  </Box>
+                );
+              })}
             </Box>
           ))}
         </Box>
