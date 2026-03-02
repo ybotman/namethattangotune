@@ -259,6 +259,8 @@ export default function ConfigTabNew({ isLandscape = false }) {
       {/* Score Potential */}
       <ScorePotential config={config} />
 
+      <Divider sx={{ borderColor: "rgba(255,255,255,0.1)", my: 1 }} />
+
       {/* Mode Toggle: Sliding Switch */}
       <Box sx={{ display: "flex", justifyContent: "center", mb: 1 }}>
         <Box

@@ -174,8 +174,6 @@ export default function ClipSingerPage() {
           <ResetButton onClick={resetAll} />
         </Box>
 
-        <Divider sx={{ width: "80%", borderColor: "rgba(255,255,255,0.1)", mb: 2 }} />
-
         {/* Config Area */}
         <Box sx={{ width: "100%", maxWidth: 400 }}>
           <ConfigTab isLandscape={isLandscape} />
