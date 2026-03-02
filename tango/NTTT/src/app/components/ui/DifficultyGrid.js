@@ -129,14 +129,14 @@ export default function DifficultyGrid({
           textTransform: "uppercase",
           letterSpacing: 2,
           mb: 0.5,
-          ml: compact ? 3.5 : 4.5,
+          ml: compact ? 6 : 7,
         }}
       >
         ORCHESTRA
       </Typography>
 
       {/* Column headers (Orchestra levels) */}
-      <Box sx={{ display: "flex", ml: compact ? 3.5 : 4.5, mb: 0.5 }}>
+      <Box sx={{ display: "flex", ml: compact ? 6 : 7, mb: 0.5 }}>
         {orchestraKeys.map(orch => (
           <Typography
             key={orch}
