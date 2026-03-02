@@ -24,10 +24,16 @@ import styles from "../styles.module.css";
 export default function ClipOrchestraPage() {
   const [songs, setSongs] = useState([]);
   const [showPlayTab, setShowPlayTab] = useState(false);
+  const [poolCount, setPoolCount] = useState(0);
 
   const isLandscape = useMediaQuery("(min-width: 768px) and (orientation: landscape)", { noSsr: true });
 
   const { config, resetAll } = useGameContext();
+
+  // Callback for ConfigTab to report pool count
+  const handlePoolCountChange = useCallback((count) => {
+    setPoolCount(count);
+  }, []);
 
   // Get current filter settings
   const primaryFilterMode = config.primaryFilterMode || "level";
@@ -39,7 +45,9 @@ export default function ClipOrchestraPage() {
   const hasPrimaryFilter = primaryFilterMode === "level"
     ? gridCells.length >= 1
     : periods.length >= 1;
-  const canPlay = hasPrimaryFilter && activeStyles.length >= 1;
+  const numSongs = config.numSongs ?? 10;
+  const hasEnoughSongs = poolCount >= numSongs;
+  const canPlay = hasPrimaryFilter && activeStyles.length >= 1 && hasEnoughSongs;
 
   const handlePlayClick = useCallback(async () => {
     if (!canPlay) {
@@ -47,11 +55,11 @@ export default function ClipOrchestraPage() {
       if (primaryFilterMode === "level" && gridCells.length === 0) missing.push("Difficulty cell");
       if (primaryFilterMode === "era" && periods.length === 0) missing.push("Era");
       if (activeStyles.length === 0) missing.push("Style");
+      if (!hasEnoughSongs) missing.push(`${numSongs} songs (only ${poolCount} available)`);
       alert(`Please select: ${missing.join(", ")}`);
       return;
     }
 
-    const numSongs = config.numSongs ?? 10;
     const includeSinger = config.includeSinger ?? false;
 
     // Build filter options
@@ -92,7 +100,7 @@ export default function ClipOrchestraPage() {
 
     setSongs(fetchedSongs);
     setShowPlayTab(true);
-  }, [config, canPlay, primaryFilterMode, gridCells, periods, activeStyles]);
+  }, [config, canPlay, primaryFilterMode, gridCells, periods, activeStyles, hasEnoughSongs, numSongs, poolCount]);
 
   const handleClosePlayTab = () => {
     exitGameMode();
@@ -186,7 +194,7 @@ export default function ClipOrchestraPage() {
 
         {/* Config Area */}
         <Box sx={{ width: "100%", maxWidth: 400 }}>
-          <ConfigTab isLandscape={isLandscape} />
+          <ConfigTab isLandscape={isLandscape} onPoolCountChange={handlePoolCountChange} />
         </Box>
 
         {/* Footer dash */}

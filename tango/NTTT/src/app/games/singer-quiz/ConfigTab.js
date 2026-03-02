@@ -26,7 +26,7 @@ const PRIMARY_STYLES = [
   { style: "Milonga" },
 ];
 
-export default function ConfigTab({ isLandscape = false }) {
+export default function ConfigTab({ isLandscape = false, onPoolCountChange = null }) {
   const {
     handleNumSongsChange,
     handleTimeLimitChange,
@@ -63,15 +63,17 @@ export default function ConfigTab({ isLandscape = false }) {
 
         const count = await getFilteredSongCount(options);
         setPoolCount(count);
+        if (onPoolCountChange) onPoolCountChange(count);
       } catch (err) {
         console.error("Error fetching pool count:", err);
         setPoolCount(0);
+        if (onPoolCountChange) onPoolCountChange(0);
       }
       setPoolLoading(false);
     };
 
     fetchCount();
-  }, [recognitionTiers, config.periods, config.styles, primaryFilterMode, activeStyles]);
+  }, [recognitionTiers, config.periods, config.styles, primaryFilterMode, activeStyles, onPoolCountChange]);
 
   // ─────────────────────────────────────────────────────────────
   // SWIPE CARDS
@@ -225,4 +227,5 @@ export default function ConfigTab({ isLandscape = false }) {
 
 ConfigTab.propTypes = {
   isLandscape: PropTypes.bool,
+  onPoolCountChange: PropTypes.func,
 };

@@ -22,7 +22,7 @@ import { getFilteredSongCount } from "@/utils/dataFetching";
 import { tiersToLevels } from "@/components/ui/OrchestraLevelSelector";
 import PropTypes from "prop-types";
 
-export default function ConfigTabNew({ isLandscape = false }) {
+export default function ConfigTabNew({ isLandscape = false, onPoolCountChange = null }) {
   const {
     primaryStyles,
     handleNumSongsChange,
@@ -75,24 +75,30 @@ export default function ConfigTabNew({ isLandscape = false }) {
         if (primaryFilterMode === "level") {
           const { orchestraLevels, subTiers } = gridToFilters(gridCells);
           options.orchestraLevels = orchestraLevels;
-          // For count, we need to handle multiple subTiers
-          // For now, use first one (TODO: support multi-subTier counting)
-          options.subTier = subTiers[0] || null;
+          // Pass all subTiers for accurate multi-cell counting
+          options.subTiers = subTiers;
         } else {
           options.periods = config.periods || [];
         }
 
         const count = await getFilteredSongCount(options);
         setPoolCount(count);
+        // Notify parent of pool count change
+        if (onPoolCountChange) {
+          onPoolCountChange(count);
+        }
       } catch (err) {
         console.error("Error fetching pool count:", err);
         setPoolCount(0);
+        if (onPoolCountChange) {
+          onPoolCountChange(0);
+        }
       }
       setPoolLoading(false);
     };
 
     fetchCount();
-  }, [gridCells, config.periods, config.styles, config.includeSinger, primaryFilterMode, activeStyles]);
+  }, [gridCells, config.periods, config.styles, config.includeSinger, primaryFilterMode, activeStyles, onPoolCountChange]);
 
   // ─────────────────────────────────────────────────────────────
   // SWIPE CARDS
@@ -346,4 +352,5 @@ export default function ConfigTabNew({ isLandscape = false }) {
 
 ConfigTabNew.propTypes = {
   isLandscape: PropTypes.bool,
+  onPoolCountChange: PropTypes.func,
 };

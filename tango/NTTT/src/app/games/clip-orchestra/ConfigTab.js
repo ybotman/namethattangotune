@@ -20,7 +20,7 @@ import { useGameContext } from "@/contexts/GameContext";
 import { getFilteredSongCount } from "@/utils/dataFetching";
 import PropTypes from "prop-types";
 
-export default function ConfigTab({ isLandscape = false }) {
+export default function ConfigTab({ isLandscape = false, onPoolCountChange = null }) {
   const {
     primaryStyles,
     handleNumSongsChange,
@@ -73,22 +73,25 @@ export default function ConfigTab({ isLandscape = false }) {
         if (primaryFilterMode === "level") {
           const { orchestraLevels, subTiers } = gridToFilters(gridCells);
           options.orchestraLevels = orchestraLevels;
-          options.subTier = subTiers[0] || null;
+          // Pass all subTiers for accurate multi-cell counting
+          options.subTiers = subTiers;
         } else {
           options.periods = config.periods || [];
         }
 
         const count = await getFilteredSongCount(options);
         setPoolCount(count);
+        if (onPoolCountChange) onPoolCountChange(count);
       } catch (err) {
         console.error("Error fetching pool count:", err);
         setPoolCount(0);
+        if (onPoolCountChange) onPoolCountChange(0);
       }
       setPoolLoading(false);
     };
 
     fetchCount();
-  }, [gridCells, config.periods, config.styles, config.includeSinger, primaryFilterMode, activeStyles]);
+  }, [gridCells, config.periods, config.styles, config.includeSinger, primaryFilterMode, activeStyles, onPoolCountChange]);
 
   // ─────────────────────────────────────────────────────────────
   // SWIPE CARDS
@@ -343,4 +346,5 @@ export default function ConfigTab({ isLandscape = false }) {
 
 ConfigTab.propTypes = {
   isLandscape: PropTypes.bool,
+  onPoolCountChange: PropTypes.func,
 };
