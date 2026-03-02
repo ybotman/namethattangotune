@@ -162,22 +162,40 @@ export default function DifficultyGrid({
         <Box>
           {familiarityKeys.map(fam => (
             <Box key={fam} sx={{ display: "flex", alignItems: "center", mb: 0.5 }}>
-              {/* Row label */}
-              <Typography
+              {/* Row label - 2 lines */}
+              <Box
                 sx={{
                   width: compact ? 50 : 56,
-                  fontSize: "0.55rem",
-                  fontWeight: 600,
-                  color: "var(--foreground)",
-                  opacity: 0.8,
                   textAlign: "right",
                   pr: 1.5,
-                  textTransform: "uppercase",
-                  letterSpacing: 0.5,
                 }}
               >
-                {SONG_FAMILIARITY[fam].label}
-              </Typography>
+                <Typography
+                  sx={{
+                    fontSize: "0.55rem",
+                    fontWeight: 700,
+                    color: "var(--foreground)",
+                    textTransform: "uppercase",
+                    letterSpacing: 0.5,
+                    lineHeight: 1.2,
+                  }}
+                >
+                  {SONG_FAMILIARITY[fam].label}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: "0.5rem",
+                    fontWeight: 500,
+                    color: "var(--foreground)",
+                    opacity: 0.6,
+                    textTransform: "uppercase",
+                    letterSpacing: 0.5,
+                    lineHeight: 1.2,
+                  }}
+                >
+                  Songs
+                </Typography>
+              </Box>
 
               {/* Cells (Orchestra columns) */}
               {orchestraKeys.map(orch => {
