@@ -23,7 +23,7 @@ import useWaveSurfer from "@/hooks/useWaveSurfer";
 import useSingerQuiz from "@/hooks/useSingerQuiz";
 import usePlay from "@/hooks/usePlay";
 import useSingerQuizScoring from "@/hooks/useSingerQuizScoring";
-import { shuffleArray } from "@/utils/dataFetching";
+import { shuffleArray, fetchAllSingers } from "@/utils/dataFetching";
 import { trackPlayClick, trackGuess, trackWrongAnswer, trackCorrectAnswer, trackGameComplete, trackGameCancel, trackGameAbandon } from "@/utils/analytics";
 import RoundProgress from "@/components/ui/RoundProgress";
 import GameHubRoute from "@/components/ui/GameHubRoute";
@@ -75,8 +75,14 @@ export default function PlayTab({ songs, config, onCancel }) {
   const [roundOver, setRoundOver] = useState(false);
   const [roundScorePercents, setRoundScorePercents] = useState([]);
   const [audioReady, setAudioReady] = useState(false); // Gate answers until audio starts
+  const [allSingers, setAllSingers] = useState([]); // SingerMaster data for distractors
   const lastSongRef = useRef(null);
   const numSongs = config.numSongs ?? 10;
+
+  // Fetch SingerMaster for distractor generation
+  useEffect(() => {
+    fetchAllSingers().then(setAllSingers).catch(console.error);
+  }, []);
 
   const { initWaveSurfer, cleanupWaveSurfer, playSnippet } = useWaveSurfer({
     onSongEnd: null,
@@ -213,20 +219,34 @@ export default function PlayTab({ songs, config, onCancel }) {
     return () => stopAudio();
   }, [currentIndex, initRound, stopAudio]);
 
-  // Build answers from singer names
+  // Build answers from SingerMaster filtered by selected singer levels
   useEffect(() => {
-    if (!currentSong) return;
+    if (!currentSong || allSingers.length === 0) return;
     const correctSinger = currentSong.Singer || "Unknown Singer";
 
-    // Get unique singers from the songs list as distractors
-    const allSingers = [...new Set(songs.map((s) => s.Singer).filter(Boolean))];
+    // Get selected singer levels from config grid cells
+    const singerGridCells = config.singerGridCells || ["Iconic-Famous"];
+    const selectedLevels = new Set();
+    singerGridCells.forEach(cell => {
+      const [singerTier] = cell.split("-");
+      if (singerTier === "Iconic") selectedLevels.add(1);
+      else if (singerTier === "Essential") selectedLevels.add(2);
+      else if (singerTier === "Standard") selectedLevels.add(3);
+    });
+
+    // Filter singers by selected levels for distractors
+    const validSingers = allSingers
+      .filter(s => selectedLevels.has(s.level))
+      .map(s => s.singer);
+
+    // Pick 3 distractors (excluding correct answer)
     const distractors = shuffleArray(
-      allSingers.filter((s) => s !== correctSinger)
+      validSingers.filter((s) => s !== correctSinger)
     ).slice(0, 3);
 
     const finalAnswers = shuffleArray([correctSinger, ...distractors]);
     setAnswers(finalAnswers);
-  }, [currentSong, songs, setAnswers]);
+  }, [currentSong, allSingers, config.singerGridCells, setAnswers]);
 
   const timePercent = (timeElapsed / timeLimit) * 100;
 

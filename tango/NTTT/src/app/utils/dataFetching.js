@@ -190,6 +190,55 @@ export async function fetchAllArtists() {
 }
 
 /**
+ * Fetch all singers from SingerMaster.json
+ * Returns array of { singer, level, era, songCount, orchestra }
+ */
+export async function fetchAllSingers() {
+  try {
+    const singerData = await fetch("/songData/SingerMaster.json").then((r) =>
+      r.json(),
+    );
+    return singerData.singers || singerData;
+  } catch (error) {
+    console.error("Error fetching SingerMaster data:", error);
+    return [];
+  }
+}
+
+/**
+ * Fetch song titles for distractor generation.
+ * Returns array of unique titles matching the filter criteria.
+ * @param {Object} options - Filter options
+ * @param {number} limit - Max titles to return (default 100)
+ */
+export async function fetchSongTitlesForDistractors(options = {}, limit = 100) {
+  try {
+    const data = await getCachedData();
+    let filtered = [...data.songs];
+
+    const { styles = [] } = options;
+
+    // Style filter - keep distractors from same style pool
+    if (styles.length > 0) {
+      const stylesLower = styles.map(s => s.toLowerCase());
+      filtered = filtered.filter(song => {
+        const songStyle = song.Style?.toLowerCase();
+        return songStyle && stylesLower.includes(songStyle);
+      });
+    }
+
+    // Get unique titles
+    const titles = [...new Set(filtered.map(s => s.Title).filter(Boolean))];
+
+    // Shuffle and limit
+    return shuffleArray(titles).slice(0, limit);
+  } catch (error) {
+    console.error("Error fetching song titles for distractors:", error);
+    return [];
+  }
+}
+
+/**
  * Fetch songs and artists data, enrich with artist levels, and filter them.
  *
  * IMPORTANT: Data Quality Notes

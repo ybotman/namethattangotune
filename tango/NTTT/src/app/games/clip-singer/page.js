@@ -16,6 +16,7 @@ import ResetButton from "@/components/ui/ResetButton";
 import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
+import { singerGridToFilters } from "@/components/ui/SingerDifficultyGrid";
 import { trackGameSetup, trackGameStart } from "@/utils/analytics";
 import { enterGameMode, exitGameMode } from "@/hooks/useFullscreen";
 import styles from "../styles.module.css";
@@ -36,13 +37,13 @@ export default function ClipSingerPage() {
 
   // Get current filter settings
   const primaryFilterMode = config.primaryFilterMode || "level";
-  const recognitionTiers = config.recognitionTiers || [1];
+  const singerGridCells = config.singerGridCells || ["Iconic-Famous"];
   const activeStyles = Object.keys(config.styles || {}).filter((key) => config.styles[key]);
   const periods = config.periods || [];
 
   // Validation
   const hasPrimaryFilter = primaryFilterMode === "level"
-    ? recognitionTiers.length >= 1
+    ? singerGridCells.length >= 1
     : periods.length >= 1;
   const numSongs = config.numSongs ?? 10;
   const hasEnoughSongs = poolCount >= numSongs;
@@ -51,7 +52,7 @@ export default function ClipSingerPage() {
   const handlePlayClick = useCallback(async () => {
     if (!canPlay) {
       const missing = [];
-      if (primaryFilterMode === "level" && recognitionTiers.length === 0) missing.push("Familiarity level");
+      if (primaryFilterMode === "level" && singerGridCells.length === 0) missing.push("Difficulty cell");
       if (primaryFilterMode === "era" && periods.length === 0) missing.push("Era");
       if (activeStyles.length === 0) missing.push("Style");
       if (!hasEnoughSongs) missing.push(`${numSongs} songs (only ${poolCount} available)`);
@@ -60,6 +61,21 @@ export default function ClipSingerPage() {
     }
 
     const chosenSingers = config.singers || [];
+
+    // Build filter options
+    const options = {
+      requireSinger: true,
+      singers: chosenSingers,
+      primaryFilterMode,
+    };
+
+    if (primaryFilterMode === "level") {
+      const { singerLevels, subTiers } = singerGridToFilters(singerGridCells);
+      options.singerLevels = singerLevels;
+      options.subTier = subTiers[0] || "Classics";
+    } else {
+      options.periods = periods;
+    }
 
     const { songs: fetchedSongs } = await fetchFilteredSongs(
       [], // artistMasters
@@ -70,13 +86,7 @@ export default function ClipSingerPage() {
       "", // alternative
       "", // cancion
       numSongs,
-      {
-        requireSinger: true,
-        singers: chosenSingers,
-        primaryFilterMode,
-        recognitionTiers: primaryFilterMode === "level" ? recognitionTiers : [],
-        periods: primaryFilterMode === "era" ? periods : [],
-      },
+      options,
     );
 
     if (!fetchedSongs || fetchedSongs.length === 0) {
@@ -90,7 +100,7 @@ export default function ClipSingerPage() {
 
     setSongs(fetchedSongs);
     setShowPlayTab(true);
-  }, [config, canPlay, primaryFilterMode, recognitionTiers, periods, activeStyles, hasEnoughSongs, numSongs, poolCount]);
+  }, [config, canPlay, primaryFilterMode, singerGridCells, periods, activeStyles, hasEnoughSongs, numSongs, poolCount]);
 
   const handleClosePlayTab = () => {
     exitGameMode();

@@ -13,7 +13,7 @@ import ClipScorePotential from "@/components/ui/ClipScorePotential";
 import PoolCount from "@/components/ui/PoolCount";
 import GameSetupDials from "@/components/ui/GameSetupDials";
 import StylesSelector from "@/components/ui/StylesSelector";
-import RecognitionSelector from "@/components/ui/RecognitionSelector";
+import SingerDifficultyGrid, { singerGridToFilters } from "@/components/ui/SingerDifficultyGrid";
 import PeriodsSelector from "@/components/ui/PeriodsSelector";
 import useSingerQuiz from "@/hooks/useSingerQuiz";
 import { useGameContext } from "@/contexts/GameContext";
@@ -29,7 +29,6 @@ const PRIMARY_STYLES = [
 export default function ConfigTab({ isLandscape = false, onPoolCountChange = null }) {
   const {
     handleNumSongsChange,
-    handleLevelsChange,
   } = useSingerQuiz();
 
   const { config, updateConfig } = useGameContext();
@@ -38,7 +37,9 @@ export default function ConfigTab({ isLandscape = false, onPoolCountChange = nul
   const [poolLoading, setPoolLoading] = useState(false);
 
   const primaryFilterMode = config.primaryFilterMode || "level";
-  const recognitionTiers = config.recognitionTiers || [1];
+
+  // Grid selections for level mode
+  const singerGridCells = config.singerGridCells || ["Iconic-Famous"];
 
   // Get active styles
   const activeStyles = Object.keys(config.styles || {}).filter(s => config.styles[s]);
@@ -46,6 +47,11 @@ export default function ConfigTab({ isLandscape = false, onPoolCountChange = nul
   // Handle clip length change
   const handleClipLengthChange = (val) => {
     updateConfig("clipLength", val);
+  };
+
+  // Handle grid cell changes
+  const handleGridChange = (newCells) => {
+    updateConfig("singerGridCells", newCells);
   };
 
   // Fetch pool count when config changes
@@ -60,7 +66,9 @@ export default function ConfigTab({ isLandscape = false, onPoolCountChange = nul
         };
 
         if (primaryFilterMode === "level") {
-          options.recognitionTiers = recognitionTiers;
+          const { singerLevels, subTiers } = singerGridToFilters(singerGridCells);
+          options.singerLevels = singerLevels;
+          options.subTiers = subTiers;
         } else {
           options.periods = config.periods || [];
         }
@@ -77,18 +85,18 @@ export default function ConfigTab({ isLandscape = false, onPoolCountChange = nul
     };
 
     fetchCount();
-  }, [recognitionTiers, config.periods, config.styles, primaryFilterMode, activeStyles, onPoolCountChange]);
+  }, [singerGridCells, config.periods, config.styles, primaryFilterMode, activeStyles, onPoolCountChange]);
 
   // ─────────────────────────────────────────────────────────────
   // SWIPE CARDS
   // ─────────────────────────────────────────────────────────────
 
-  // Card 1: Recognition Selector (Familiarity) or Periods (Era)
+  // Card 1: Singer Grid (Level mode) or Periods (Era mode)
   const Card1 = primaryFilterMode === "level" ? (
-    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", py: 2 }}>
-      <RecognitionSelector
-        selectedTiers={recognitionTiers}
-        onChange={handleLevelsChange}
+    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", py: 1 }}>
+      <SingerDifficultyGrid
+        selectedCells={singerGridCells}
+        onChange={handleGridChange}
         compact={!isLandscape}
       />
     </Box>
@@ -131,7 +139,7 @@ export default function ConfigTab({ isLandscape = false, onPoolCountChange = nul
 
   const cards = [Card1, Card2, Card3];
   const cardLabels = [
-    primaryFilterMode === "level" ? "FAME" : "ERA",
+    primaryFilterMode === "level" ? "GRID" : "ERA",
     "STYLE",
     "QTY"
   ];
@@ -172,7 +180,7 @@ export default function ConfigTab({ isLandscape = false, onPoolCountChange = nul
               transform: primaryFilterMode === "level" ? "translateX(4px)" : "translateX(calc(100% - 4px))",
             }}
           />
-          {/* FAME option */}
+          {/* LEVEL option */}
           <Box
             onClick={() => updateConfig("primaryFilterMode", "level")}
             sx={{
@@ -191,7 +199,7 @@ export default function ConfigTab({ isLandscape = false, onPoolCountChange = nul
                 transition: "color 0.2s ease",
               }}
             >
-              FAME
+              LEVEL
             </Typography>
           </Box>
           {/* ERA option */}
