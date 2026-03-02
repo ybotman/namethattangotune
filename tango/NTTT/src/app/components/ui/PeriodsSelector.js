@@ -23,6 +23,7 @@ export default function PeriodsSelector({
   disabled,
   singleSelect = false,
   label = "Era",
+  compact = false,
 }) {
   const togglePeriod = (periodName) => {
     if (disabled) return;
@@ -38,7 +39,7 @@ export default function PeriodsSelector({
     }
   };
 
-  const blockSize = 40;
+  const blockSize = compact ? 36 : 40;
 
   return (
     <Box sx={{ mb: 1 }}>
@@ -72,11 +73,12 @@ export default function PeriodsSelector({
         <Box
           sx={{
             display: "flex",
-            justifyContent: "space-between",
-            maxWidth: "320px",
+            justifyContent: "center",
+            gap: compact ? 0.5 : 1,
+            maxWidth: compact ? "280px" : "320px",
             width: "100%",
             position: "absolute",
-            top: 14,
+            top: label ? 14 : 0,
             px: 1,
           }}
         >
@@ -168,6 +170,7 @@ PeriodsSelector.propTypes = {
   disabled: PropTypes.bool,
   singleSelect: PropTypes.bool,
   label: PropTypes.string,
+  compact: PropTypes.bool,
 };
 
 PeriodsSelector.defaultProps = {
@@ -175,4 +178,5 @@ PeriodsSelector.defaultProps = {
   disabled: false,
   singleSelect: false,
   label: "Era",
+  compact: false,
 };

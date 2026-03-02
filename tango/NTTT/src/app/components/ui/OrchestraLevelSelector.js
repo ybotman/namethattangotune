@@ -87,6 +87,8 @@ export default function OrchestraLevelSelector({
   };
 
   const handleSubTierChange = (event, newSubTier) => {
+    // Ensure at least one sub-tier is selected (prevent deselect to null)
+    if (newSubTier === null) return;
     if (onSubTierChange) {
       onSubTierChange(newSubTier);
     }

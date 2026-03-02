@@ -28,6 +28,57 @@ import { trackPlayClick, trackGuess, trackWrongAnswer, trackCorrectAnswer, track
 import RoundProgress from "@/components/ui/RoundProgress";
 import GameHubRoute from "@/components/ui/GameHubRoute";
 import Celebration from "@/components/ui/Celebration";
+
+/**
+ * Find a random instrumental (non-vocal) start position for a song.
+ * Returns null if no suitable gap found, allowing fallback to random.
+ * @param {Object} song - Song with vocalSegments array
+ * @param {number} minGap - Minimum gap length in seconds (default 15)
+ * @param {number} maxStart - Maximum start position (default 90)
+ * @returns {number|null} - Start position in seconds, or null
+ */
+function findInstrumentalStart(song, minGap = 15, maxStart = 90) {
+  const segments = song.vocalSegments || [];
+  if (segments.length === 0) return null; // No vocal data, use random
+
+  // Build list of instrumental gaps
+  const gaps = [];
+  let prevEnd = 0;
+
+  // Sort segments by start time
+  const sorted = [...segments].sort((a, b) => a.start - b.start);
+
+  for (const seg of sorted) {
+    const gapStart = prevEnd;
+    const gapEnd = seg.start;
+    const gapLength = gapEnd - gapStart;
+
+    if (gapLength >= minGap && gapStart < maxStart) {
+      gaps.push({ start: gapStart, end: Math.min(gapEnd, maxStart), length: gapLength });
+    }
+    prevEnd = seg.end;
+  }
+
+  // Also check gap after last vocal segment (if song continues instrumentally)
+  // We'd need totalDuration for this, but for safety just use what we have
+
+  if (gaps.length === 0) return null;
+
+  // Pick a random gap, weighted by length
+  const totalLength = gaps.reduce((sum, g) => sum + g.length, 0);
+  let pick = Math.random() * totalLength;
+  for (const gap of gaps) {
+    pick -= gap.length;
+    if (pick <= 0) {
+      // Pick random position within this gap (leaving room for clip)
+      const safeEnd = gap.end - minGap;
+      if (safeEnd <= gap.start) return gap.start;
+      return gap.start + Math.random() * (safeEnd - gap.start);
+    }
+  }
+
+  return gaps[0].start; // Fallback
+}
 import AnimatedScore from "@/components/ui/AnimatedScore";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 
@@ -94,6 +145,7 @@ export default function PlayTab({ songs, config, onCancel }) {
       setRoundScore(0);
       setRoundScorePercents(prev => [...prev, 0]); // Record 0% for timeout
       setRoundOver(true);
+      setLastCorrect(false); // Show correct answer when time runs out
       stopAudio();
     },
     songs,
@@ -169,8 +221,19 @@ export default function PlayTab({ songs, config, onCancel }) {
     // Hide GO button immediately
     setIsPlaying(true);
 
+    // Determine start position - avoid vocals if enabled
+    let snippetStart = null;
+    const avoidVocals = config.avoidVocals ?? true;
+    if (avoidVocals && currentSong.hasSinger && currentSong.vocalSegments?.length > 0) {
+      snippetStart = findInstrumentalStart(currentSong, 15, 90);
+      if (snippetStart !== null) {
+        console.log(`Avoiding vocals - starting at ${snippetStart.toFixed(1)}s`);
+      }
+    }
+
     initWaveSurfer();
     playSnippet(currentSong.AudioUrl, {
+      snippetStart,
       snippetMaxStart: 90,
       fadeDurationSec: 1.0,
       onPlaySuccess: () => {
@@ -184,6 +247,7 @@ export default function PlayTab({ songs, config, onCancel }) {
     });
   }, [
     currentSong,
+    config.avoidVocals,
     initWaveSurfer,
     playSnippet,
     setIsPlaying,
@@ -230,14 +294,47 @@ export default function PlayTab({ songs, config, onCancel }) {
   // A) timePercent for progress
   const timePercent = (timeElapsed / timeLimit) * 100;
 
-  // B) Helper => performance text
+  // B) Helper => performance text with variety (includes tango-centric phrases)
   const getPerformanceMessage = () => {
     const pct = (roundScore / maxScore) * 100;
-    if (pct >= 80) return "Excellent job!";
-    if (pct >= 50) return "Great work!";
-    if (pct >= 20) return "Not bad!";
-    if (pct > 1) return "Just Barely.";
-    return "You'll get the next one!";
+    const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+    if (pct >= 90) return pick([
+      "Perfect!", "Nailed it!", "Lightning fast!", "Incredible!",
+      "Masterful!", "Flawless!", "On fire!", "Brilliant!",
+      "Unstoppable!", "Pro level!", "Tango master!",
+      "Pure compás!", "Milonguero approved!", "D'Arienzo would be proud!"
+    ]);
+    if (pct >= 70) return pick([
+      "Excellent!", "Great job!", "Well done!", "Impressive!",
+      "Nice work!", "Sharp ears!", "You know your stuff!", "Solid!",
+      "Smooth!", "Right on!", "You've got this!",
+      "Muy bien!", "Good oído!", "Finding the compás!"
+    ]);
+    if (pct >= 50) return pick([
+      "Good one!", "Not bad!", "Pretty good!", "Nice!",
+      "Getting there!", "Decent!", "Respectable!", "Fair enough!",
+      "Steady!", "On track!", "Keep it up!",
+      "Building your oído!", "Learning the orquestas!", "Tanda by tanda!"
+    ]);
+    if (pct >= 20) return pick([
+      "Close enough!", "Just made it!", "Squeaked by!", "Phew!",
+      "That was tight!", "Barely!", "By a whisker!", "Cutting it close!",
+      "Narrow escape!", "Photo finish!", "Down to the wire!",
+      "Saved by the bandoneón!", "Last cabeceo!", "Cortina was close!"
+    ]);
+    if (pct > 1) return pick([
+      "Just barely.", "Scraped through.", "That was rough.",
+      "Tough one.", "Hard-fought.", "A point is a point!",
+      "Hung in there.", "Never gave up.", "Gritty!",
+      "Even Troilo had off nights.", "The milonga continues.", "Stay in the ronda!"
+    ]);
+    return pick([
+      "You'll get the next one!", "Tricky one!", "Keep going!",
+      "Don't give up!", "Next time!", "Shake it off!", "Stay focused!",
+      "Learning curve!", "Part of the journey!", "Onward!",
+      "Every milonguero starts somewhere!", "Back to the práctica!", "Feel the music!"
+    ]);
   };
 
   // C) If final => summary with celebration
@@ -347,6 +444,8 @@ export default function PlayTab({ songs, config, onCancel }) {
         minHeight: "100vh",
         background: "var(--background)",
         color: "var(--foreground)",
+        display: "flex",
+        flexDirection: "column",
         p: 2,
       }}
     >
@@ -359,7 +458,7 @@ export default function PlayTab({ songs, config, onCancel }) {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          mb: 1,
+          mb: 2,
         }}
       >
         {/* Title */}
@@ -453,8 +552,11 @@ export default function PlayTab({ songs, config, onCancel }) {
         )}
       </Box>
 
+      {/* Spacer to push answers down */}
+      <Box sx={{ flex: 1, minHeight: 20 }} />
+
       {/* Answers */}
-      <List sx={{ mb: 2, maxWidth: 400, margin: "auto" }}>
+      <List sx={{ maxWidth: 400, mx: "auto", width: "100%" }}>
         <AnimatePresence>
           {answers.map((ans, idx) => {
             const isWrong = wrongAnswers.includes(ans);
@@ -565,17 +667,16 @@ export default function PlayTab({ songs, config, onCancel }) {
         )}
       </AnimatePresence>
 
-      {/* GO!/Next Button - Floating overlay, doesn't affect layout */}
+      {/* Spacer after answers */}
+      <Box sx={{ flex: 1, minHeight: 20 }} />
+
+      {/* GO!/Next Button - centered in remaining space */}
       <Box
         sx={{
-          position: "fixed",
-          bottom: "15%",
-          left: 0,
-          right: 0,
           display: "flex",
           justifyContent: "center",
-          zIndex: 100,
-          pointerEvents: "none",
+          alignItems: "center",
+          py: 3,
         }}
       >
         <AnimatePresence>

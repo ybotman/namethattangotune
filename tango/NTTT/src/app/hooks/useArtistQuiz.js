@@ -99,14 +99,34 @@ export default function useArtistQuiz() {
         );
         setPrimaryStyles(styleData.primaryStyles || []);
 
-        // if no styles set in config, default "Tango: true"
+        // Default styles to Tango only
         if (!config.styles || Object.keys(config.styles).length === 0) {
           updateConfig("styles", { Tango: true });
         }
 
-        // Default subTier to "Classics" if not set (for orchestra-quiz)
+        // Default to LEVEL mode (not ERA)
+        if (!config.primaryFilterMode) {
+          updateConfig("primaryFilterMode", "level");
+        }
+
+        // Default grid selection to Icons-Famous (easiest)
+        if (!config.gridCells || config.gridCells.length === 0) {
+          updateConfig("gridCells", ["Icons-Famous"]);
+        }
+
+        // Default subTier to "Classics" (for legacy compatibility)
         if (!config.subTier) {
           updateConfig("subTier", "Classics");
+        }
+
+        // Default singers OFF (instrumental only)
+        if (config.includeSinger === undefined) {
+          updateConfig("includeSinger", false);
+        }
+
+        // Default avoidVocals ON (skip singing sections when playing singer songs)
+        if (config.avoidVocals === undefined) {
+          updateConfig("avoidVocals", true);
         }
       } catch (err) {
         console.error("Error fetching StyleMaster:", err);

@@ -1,6 +1,8 @@
-//--------
-//src/app/games/orchestra-quiz/page.js
-//--------
+// ------------------------------------------------------------
+// src/app/games/orchestra-quiz/page.js
+// Swipeable config layout for orchestra quiz
+// Layout: Title → Play → Mode → Summary → SwipeCards → Dots
+// ------------------------------------------------------------
 
 "use client";
 
@@ -10,80 +12,75 @@ import ConfigTab from "./ConfigTab";
 import BackButton from "@/components/ui/BackButton";
 import PlayButton from "@/components/ui/PlayButton";
 import HelpButton from "@/components/ui/HelpButton";
-import PulsingArrow from "@/components/ui/PulsingArrow";
 import ResetButton from "@/components/ui/ResetButton";
-import ScorePotential from "@/components/ui/ScorePotential";
 import PlayTab from "./PlayTab";
 import { useGameContext } from "@/contexts/GameContext";
 import { fetchFilteredSongs } from "@/utils/dataFetching";
-import { tiersToLevels } from "@/components/ui/OrchestraLevelSelector";
+import { gridToFilters } from "@/components/ui/DifficultyGrid";
 import { trackGameSetup, trackGameStart } from "@/utils/analytics";
 import { enterGameMode, exitGameMode } from "@/hooks/useFullscreen";
 import styles from "./styles.module.css";
 
-export default function ArtistQuizPage() {
+const MIN_POOL_SIZE = 20;
+
+export default function OrchestraQuizPage() {
   const [songs, setSongs] = useState([]);
   const [showPlayTab, setShowPlayTab] = useState(false);
-  const [showFilters, setShowFilters] = useState(false);
 
-  // Detect landscape mode (min-width 768px AND landscape orientation)
-  // noSsr: true ensures it updates dynamically without needing refresh
   const isLandscape = useMediaQuery("(min-width: 768px) and (orientation: landscape)", { noSsr: true });
 
   const { config, resetAll } = useGameContext();
 
-  // SWAP not STACK: Use primaryFilterMode to determine which filter is active
+  // Get current filter settings
   const primaryFilterMode = config.primaryFilterMode || "level";
-  const orchestraTiers = config.orchestraTiers?.length > 0 ? config.orchestraTiers : ["Big4"];
-  const orchestraLevels = tiersToLevels(orchestraTiers);
+  const gridCells = config.gridCells || ["Icons-Famous"];
   const activeStyles = Object.keys(config.styles || {}).filter((key) => config.styles[key]);
   const periods = config.periods || [];
-  const subTier = config.subTier || null;
 
-  // Validation depends on filter mode
-  // Level mode requires: Orchestra Level + Song Obscurity (subTier) + Style
-  // Era mode requires: Era + Style
+  // Validation
   const hasPrimaryFilter = primaryFilterMode === "level"
-    ? orchestraTiers.length >= 1 && subTier !== null
+    ? gridCells.length >= 1
     : periods.length >= 1;
   const canPlay = hasPrimaryFilter && activeStyles.length >= 1;
 
   const handlePlayClick = useCallback(async () => {
     if (!canPlay) {
-      if (primaryFilterMode === "level") {
-        const missing = [];
-        if (orchestraTiers.length === 0) missing.push("Orchestra Level");
-        if (!subTier) missing.push("Song Obscurity");
-        if (activeStyles.length === 0) missing.push("Style");
-        alert(`Please select: ${missing.join(", ")}`);
-      } else {
-        alert("Please select at least 1 Era and 1 Style to play.");
-      }
+      const missing = [];
+      if (primaryFilterMode === "level" && gridCells.length === 0) missing.push("Difficulty cell");
+      if (primaryFilterMode === "era" && periods.length === 0) missing.push("Era");
+      if (activeStyles.length === 0) missing.push("Style");
+      alert(`Please select: ${missing.join(", ")}`);
       return;
     }
 
     const numSongs = config.numSongs ?? 10;
-    const chosenArtists = (config.artists || []).map((a) => a.value);
     const includeSinger = config.includeSinger ?? false;
 
+    // Build filter options
+    const options = {
+      includeSinger,
+      requireOrchestra: true,
+      primaryFilterMode,
+    };
+
+    if (primaryFilterMode === "level") {
+      const { orchestraLevels, subTiers } = gridToFilters(gridCells);
+      options.orchestraLevels = orchestraLevels;
+      options.subTier = subTiers[0] || "Classics";
+    } else {
+      options.periods = periods;
+    }
+
     const { songs: fetchedSongs } = await fetchFilteredSongs(
-      chosenArtists,
-      [],
-      [],
+      [], // artistMasters
+      [], // artistLevels
+      [], // composers
       activeStyles,
-      "",
-      "",
-      "",
+      "", // candombe
+      "", // alternative
+      "", // cancion
       numSongs,
-      {
-        includeSinger,
-        requireOrchestra: true,
-        // SWAP not STACK: Pass filter mode and appropriate filters
-        primaryFilterMode,
-        orchestraLevels: primaryFilterMode === "level" ? orchestraLevels : [],
-        subTier: primaryFilterMode === "level" ? subTier : null,
-        periods: primaryFilterMode === "era" ? periods : [],
-      },
+      options,
     );
 
     if (!fetchedSongs || fetchedSongs.length === 0) {
@@ -97,56 +94,12 @@ export default function ArtistQuizPage() {
 
     setSongs(fetchedSongs);
     setShowPlayTab(true);
-  }, [config]);
+  }, [config, canPlay, primaryFilterMode, gridCells, periods, activeStyles]);
 
   const handleClosePlayTab = () => {
     exitGameMode();
     setShowPlayTab(false);
   };
-
-  // Build validation message based on filter mode
-  const getValidationMessage = () => {
-    const missing = [];
-    if (primaryFilterMode === "level") {
-      if (orchestraTiers.length === 0) missing.push("Orchestra Level");
-      if (!subTier) missing.push("Song Obscurity");
-    } else {
-      if (periods.length === 0) missing.push("Era");
-    }
-    if (activeStyles.length === 0) missing.push("Style");
-    if (missing.length === 0) return null;
-    return `Select at least 1 ${missing.join(", 1 ")}`;
-  };
-
-  // Play area component (reused in both layouts)
-  const PlayArea = ({ showScore = false }) => (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 3,
-        height: "100%",
-      }}
-    >
-      {showScore && <ScorePotential config={config} />}
-      <PlayButton onClick={handlePlayClick} disabled={!canPlay || (!isLandscape && showFilters)} />
-      {!canPlay && (
-        <Typography variant="caption" sx={{ color: "#FF9800", textAlign: "center" }}>
-          {getValidationMessage()}
-        </Typography>
-      )}
-      <Box sx={{ display: "flex", gap: 3, alignItems: "center" }}>
-        <PulsingArrow gameId="orchestra-quiz" />
-        <HelpButton
-          title="Orchestra Quiz"
-          description="Listen to a clip and guess which orchestra is playing. Filter by era, style, or specific orchestras. Faster correct answers = higher scores. Wrong guesses reduce points."
-        />
-        <ResetButton onClick={resetAll} />
-      </Box>
-    </Box>
-  );
 
   return (
     <Box
@@ -157,6 +110,7 @@ export default function ArtistQuizPage() {
         minHeight: "100vh",
       }}
     >
+      {/* PlayTab Overlay */}
       {showPlayTab && (
         <Box
           sx={{
@@ -175,125 +129,78 @@ export default function ArtistQuizPage() {
         </Box>
       )}
 
-      {/* Header: Back button + Title */}
+      {/* Banner Image - Smaller, centered, back button overlaid */}
       <Box
         sx={{
+          width: "100%",
           display: "flex",
-          alignItems: "center",
           justifyContent: "center",
           position: "relative",
           pt: 1,
-          mb: 1,
         }}
       >
-        <Box sx={{ position: "absolute", left: 8 }}>
+        <Box sx={{ position: "absolute", top: 8, left: 8, zIndex: 10 }}>
           <BackButton />
         </Box>
-        <Typography
-          variant="h6"
-          sx={{
-            fontWeight: "bold",
-            color: "var(--foreground)",
-            textAlign: "center",
+        <img
+          src="/Banner/Type1__ORCHESTRA.png"
+          alt="Orchestra Quiz"
+          style={{
+            width: "60%",
+            maxWidth: 280,
+            height: "auto",
+            display: "block",
+            borderRadius: 8,
           }}
-        >
-          Orchestra Quiz
-        </Typography>
+        />
       </Box>
 
-      {isLandscape ? (
-        // LANDSCAPE LAYOUT: Two columns
+      {/* Main Layout */}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          px: 2,
+          pb: 2,
+        }}
+      >
+        {/* Play Button Area */}
         <Box
           sx={{
             display: "flex",
-            flexDirection: "row",
-            alignItems: "stretch",
-            height: "calc(100vh - 60px)",
-            px: 2,
-          }}
-        >
-          {/* Left: Config (all filters visible) */}
-          <Box
-            sx={{
-              flex: 1,
-              overflowY: "auto",
-              pr: 2,
-            }}
-          >
-            <ConfigTab showFilters={true} setShowFilters={() => {}} isLandscape={true} />
-          </Box>
-
-          {/* Divider */}
-          <Divider
-            orientation="vertical"
-            flexItem
-            sx={{ borderColor: "rgba(255,255,255,0.2)", mx: 1 }}
-          />
-
-          {/* Right: Play Area with Score */}
-          <Box
-            sx={{
-              flex: 1,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              pl: 2,
-              height: "100%",
-            }}
-          >
-            <PlayArea showScore={true} />
-          </Box>
-        </Box>
-      ) : (
-        // PORTRAIT LAYOUT: Vertical stack with justified spacing
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
             alignItems: "center",
-            justifyContent: "space-evenly",
-            minHeight: "calc(100vh - 60px)",
-            px: 2,
+            justifyContent: "center",
+            gap: 2,
+            my: 2,
           }}
         >
-          {/* Play Button area */}
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Box sx={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
-              <Box sx={{ position: "absolute", left: -65, display: "flex", alignItems: "center" }}>
-                <PulsingArrow gameId="orchestra-quiz" />
-                <HelpButton
-                  title="Orchestra Quiz"
-                  description="Listen to a clip and guess which orchestra is playing. Filter by era, style, or specific orchestras. Faster correct answers = higher scores. Wrong guesses reduce points."
-                />
-              </Box>
-              <PlayButton onClick={handlePlayClick} disabled={!canPlay || showFilters} />
-              <Box sx={{ position: "absolute", right: -65, display: "flex", alignItems: "center" }}>
-                <ResetButton onClick={resetAll} />
-              </Box>
-            </Box>
-            {!canPlay && (
-              <Typography variant="caption" sx={{ color: "#FF9800", textAlign: "center", mt: 1 }}>
-                {getValidationMessage()}
-              </Typography>
-            )}
-          </Box>
-
-          <Divider sx={{ width: "60%", borderColor: "rgba(255,255,255,0.1)" }} />
-
-          {/* Config with animated Levels toggle */}
-          <Box sx={{ width: "100%" }}>
-            <ConfigTab showFilters={showFilters} setShowFilters={setShowFilters} isLandscape={false} />
-          </Box>
-
-          <Divider sx={{ width: "60%", borderColor: "rgba(255,255,255,0.1)" }} />
+          <HelpButton
+            title="Orchestra Quiz"
+            description="Listen to a clip and guess which orchestra is playing. Select difficulty cells to control which orchestras and songs appear. Faster correct answers = higher scores."
+          />
+          <PlayButton onClick={handlePlayClick} disabled={!canPlay} />
+          <ResetButton onClick={resetAll} />
         </Box>
-      )}
+
+        <Divider sx={{ width: "80%", borderColor: "rgba(255,255,255,0.1)", mb: 2 }} />
+
+        {/* Config Area */}
+        <Box sx={{ width: "100%", maxWidth: 400 }}>
+          <ConfigTab isLandscape={isLandscape} />
+        </Box>
+
+        {/* Footer dash */}
+        <Box
+          sx={{
+            width: 40,
+            height: 4,
+            borderRadius: 2,
+            backgroundColor: "rgba(255,255,255,0.2)",
+            mt: 3,
+          }}
+        />
+      </Box>
     </Box>
   );
 }
