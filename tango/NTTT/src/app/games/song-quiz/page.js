@@ -130,7 +130,7 @@ export default function SongQuizPage() {
           <BackButton />
         </Box>
         <img
-          src="/Banner/Type1__SONGS.png"
+          src="/Banner/Type2__SONGS.png"
           alt="Song Title Quiz"
           style={{
             width: "60%",

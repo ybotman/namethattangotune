@@ -141,7 +141,7 @@ export default function ClipOrchestraPage() {
           <BackButton href="/games/gamehub?page=1" />
         </Box>
         <img
-          src="/Banner/Type1__ORCHESTRA.png"
+          src="/Banner/Type2__ORCHESTRA.png"
           alt="Clip Orchestra Quiz"
           style={{
             width: "60%",

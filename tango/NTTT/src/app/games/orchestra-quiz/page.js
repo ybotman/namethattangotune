@@ -143,7 +143,7 @@ export default function OrchestraQuizPage() {
           <BackButton />
         </Box>
         <img
-          src="/Banner/Type1__ORCHESTRA.png"
+          src="/Banner/Type2__ORCHESTRA.png"
           alt="Orchestra Quiz"
           style={{
             width: "60%",
