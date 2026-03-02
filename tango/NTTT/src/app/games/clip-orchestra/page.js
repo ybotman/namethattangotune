@@ -144,11 +144,14 @@ export default function ClipOrchestraPage() {
           src="/Banner/Type2__ORCHESTRA.png"
           alt="Clip Orchestra Quiz"
           style={{
-            width: "60%",
-            maxWidth: 280,
+            width: "70%",
+            maxWidth: 320,
             height: "auto",
             display: "block",
-            borderRadius: 8,
+            maskImage: "linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)",
+            maskComposite: "intersect",
+            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)",
+            WebkitMaskComposite: "source-in",
           }}
         />
       </Box>
