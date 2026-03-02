@@ -29,6 +29,7 @@ import { trackPlayClick, trackGuess, trackWrongAnswer, trackCorrectAnswer, track
 import RoundProgress from "@/components/ui/RoundProgress";
 import GameHubRoute from "@/components/ui/GameHubRoute";
 import AnimatedButton from "@/components/ui/AnimatedButton";
+import SongFeedback from "@/components/ui/SongFeedback";
 
 export default function PlayTab({ songs, config, onCancel }) {
   const { calculateMaxScore, INTERVAL_MS } = useSongQuiz();
@@ -37,6 +38,7 @@ export default function PlayTab({ songs, config, onCancel }) {
 
   const [roundOver, setRoundOver] = useState(false);
   const [roundScorePercents, setRoundScorePercents] = useState([]);
+  const [audioReady, setAudioReady] = useState(false); // Gate answers until audio starts
   const lastSongRef = useRef(null);
   const numSongs = config.numSongs ?? 10;
 
@@ -126,19 +128,22 @@ export default function PlayTab({ songs, config, onCancel }) {
     if (lastSongRef.current === currentSong.AudioUrl) return;
     lastSongRef.current = currentSong.AudioUrl;
 
-    // Hide GO button immediately
+    // Hide GO button immediately, but keep answers disabled until audio ready
     setIsPlaying(true);
+    setAudioReady(false);
 
     initWaveSurfer();
     playSnippet(currentSong.AudioUrl, {
       snippetMaxStart: 90,
       fadeDurationSec: 1.0,
       onPlaySuccess: () => {
+        setAudioReady(true);
         startIntervals();
       },
       onPlayError: (err) => {
         console.error("Snippet play error:", err);
         setIsPlaying(false);
+        setAudioReady(false);
         doNextSong();
       },
     });
@@ -153,6 +158,7 @@ export default function PlayTab({ songs, config, onCancel }) {
 
   // Init round on mount or index change
   useEffect(() => {
+    setAudioReady(false); // Reset audio ready state for new round
     initRound(currentIndex);
     return () => stopAudio();
   }, [currentIndex, initRound, stopAudio]);
@@ -379,9 +385,9 @@ export default function PlayTab({ songs, config, onCancel }) {
             bgColor = "rgba(128, 128, 128, 0.1)";
           }
 
-          // disable if roundOver or not playing or isWrong or correct or locked out
+          // disable if roundOver or audio not ready or isWrong or correct or locked out
           const disabled =
-            roundOver || !isPlaying || isWrong || isChosenCorrect || isLockedOut;
+            roundOver || !audioReady || isWrong || isChosenCorrect || isLockedOut;
 
           return (
             <ListItem
@@ -435,6 +441,20 @@ export default function PlayTab({ songs, config, onCancel }) {
               </Typography>
             </>
           )}
+          {/* Feedback button */}
+          <Box sx={{ mt: 2, display: "flex", justifyContent: "center" }}>
+            <SongFeedback
+              song={currentSong}
+              gameType="song-quiz"
+              config={config}
+              answers={answers}
+              selectedAnswer={selectedAnswer}
+              correctAnswer={currentSong?.Title}
+              wasCorrect={roundScore > 0}
+              roundScore={roundScore}
+              sessionScore={sessionScore}
+            />
+          </Box>
         </Box>
       )}
 

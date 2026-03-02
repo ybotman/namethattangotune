@@ -81,6 +81,7 @@ function findInstrumentalStart(song, minGap = 15, maxStart = 90) {
 }
 import AnimatedScore from "@/components/ui/AnimatedScore";
 import AnimatedButton from "@/components/ui/AnimatedButton";
+import SongFeedback from "@/components/ui/SongFeedback";
 
 export default function PlayTab({ songs, config, onCancel }) {
   // 2) Quiz config
@@ -93,6 +94,7 @@ export default function PlayTab({ songs, config, onCancel }) {
   const [lastCorrect, setLastCorrect] = useState(false);
   const [roundScorePercents, setRoundScorePercents] = useState([]); // Track score % per round
   const [allArtists, setAllArtists] = useState([]); // ArtistMaster data for distractors
+  const [audioReady, setAudioReady] = useState(false); // Gate answers until audio starts
   const lastSongRef = useRef(null);
   const celebrationRef = useRef(null);
   const numSongs = config.numSongs ?? 10;
@@ -218,8 +220,9 @@ export default function PlayTab({ songs, config, onCancel }) {
     if (lastSongRef.current === currentSong.AudioUrl) return;
     lastSongRef.current = currentSong.AudioUrl;
 
-    // Hide GO button immediately
+    // Hide GO button immediately, but keep answers disabled until audio ready
     setIsPlaying(true);
+    setAudioReady(false);
 
     // Determine start position - avoid vocals if enabled
     let snippetStart = null;
@@ -237,6 +240,7 @@ export default function PlayTab({ songs, config, onCancel }) {
       snippetMaxStart: 90,
       fadeDurationSec: 1.0,
       onPlaySuccess: () => {
+        setAudioReady(true);
         startIntervals();
       },
       onPlayError: (err) => {
@@ -257,6 +261,7 @@ export default function PlayTab({ songs, config, onCancel }) {
 
   // 8) Init round on mount or index change
   useEffect(() => {
+    setAudioReady(false); // Reset audio ready state for new round
     initRound(currentIndex);
     return () => stopAudio();
   }, [currentIndex, initRound, stopAudio]);
@@ -580,9 +585,9 @@ export default function PlayTab({ songs, config, onCancel }) {
               bgColor = "rgba(128, 128, 128, 0.1)";
             }
 
-            // disable if roundOver or not playing or isWrong or correct or locked out
+            // disable if roundOver or audio not ready or isWrong or correct or locked out
             const disabled =
-              roundOver || !isPlaying || isWrong || isChosenCorrect || isLockedOut;
+              roundOver || !audioReady || isWrong || isChosenCorrect || isLockedOut;
 
             return (
               <motion.div
@@ -662,6 +667,20 @@ export default function PlayTab({ songs, config, onCancel }) {
                   </Typography>
                 </Box>
               )}
+              {/* Feedback button - subtle, appears after answer */}
+              <Box sx={{ mt: 2, display: "flex", justifyContent: "center" }}>
+                <SongFeedback
+                  song={currentSong}
+                  gameType="orchestra-quiz"
+                  config={config}
+                  answers={answers}
+                  selectedAnswer={selectedAnswer}
+                  correctAnswer={currentSong?.ArtistMaster}
+                  wasCorrect={lastCorrect}
+                  roundScore={roundScore}
+                  sessionScore={sessionScore}
+                />
+              </Box>
             </Box>
           </motion.div>
         )}
