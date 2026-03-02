@@ -20,7 +20,7 @@ const ORCHESTRA_LEVELS = {
 // Song Familiarity (rows) - percentile within pool
 const SONG_FAMILIARITY = {
   Famous: { min: 0.7, max: 1.0, label: "Famous" },
-  Known: { min: 0.3, max: 0.7, label: "Known" },
+  Known: { min: 0.3, max: 0.7, label: "Common" },
   Obscure: { min: 0.0, max: 0.3, label: "Obscure" },
 };
 
