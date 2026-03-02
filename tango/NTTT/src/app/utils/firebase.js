@@ -1,5 +1,7 @@
 // utils/firebase.js
 // Firebase initialization for NTTT
+// Auth: tangotiempo (shared users across tango apps)
+// Data: nttttest/ntttprod (NTTT-specific data)
 
 import { initializeApp } from 'firebase/app';
 import {
@@ -10,18 +12,30 @@ import {
 } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
+// Helper to decode base64 (works in browser and Node)
+const decodeBase64 = (str) => {
+  if (typeof window !== 'undefined') {
+    return atob(str);
+  }
+  return Buffer.from(str, 'base64').toString('utf-8');
+};
+
+// === AUTH CONFIG (tangotiempo - shared users) ===
 // Decode the Base64 encoded JSON string from the environment variable
-// Set NEXT_PUBLIC_FIREBASE_JSON in .env.local as Base64 encoded config
-let firebaseConfig;
+let authConfig;
 
 if (process.env.NEXT_PUBLIC_FIREBASE_JSON) {
-  firebaseConfig = JSON.parse(
-    Buffer.from(process.env.NEXT_PUBLIC_FIREBASE_JSON, 'base64').toString('utf-8')
-  );
-} else {
-  // Fallback for development - you'll need to set these
-  console.warn('NEXT_PUBLIC_FIREBASE_JSON not set, using placeholder config');
-  firebaseConfig = {
+  try {
+    authConfig = JSON.parse(decodeBase64(process.env.NEXT_PUBLIC_FIREBASE_JSON));
+  } catch (e) {
+    console.error('Failed to parse NEXT_PUBLIC_FIREBASE_JSON:', e);
+    authConfig = null;
+  }
+}
+
+if (!authConfig) {
+  console.warn('NEXT_PUBLIC_FIREBASE_JSON not set or invalid, using placeholder config');
+  authConfig = {
     apiKey: "YOUR_API_KEY",
     authDomain: "YOUR_DOMAIN.firebaseapp.com",
     projectId: "YOUR_PROJECT_ID",
@@ -31,14 +45,37 @@ if (process.env.NEXT_PUBLIC_FIREBASE_JSON) {
   };
 }
 
-// Initialize Firebase app
-const app = initializeApp(firebaseConfig);
+// === DATA CONFIG (nttttest/ntttprod - NTTT data) ===
+let dataConfig;
 
-// Initialize Firebase Auth
-const auth = getAuth(app);
+if (process.env.NEXT_PUBLIC_NTTT_FIREBASE_JSON) {
+  try {
+    dataConfig = JSON.parse(decodeBase64(process.env.NEXT_PUBLIC_NTTT_FIREBASE_JSON));
+  } catch (e) {
+    console.error('Failed to parse NEXT_PUBLIC_NTTT_FIREBASE_JSON:', e);
+    dataConfig = null;
+  }
+}
 
-// Initialize Firestore for user data/scores
-const db = getFirestore(app);
+if (!dataConfig) {
+  // Fallback: use auth config for data too (single project mode)
+  console.warn('NEXT_PUBLIC_NTTT_FIREBASE_JSON not set, using auth config for data');
+  dataConfig = authConfig;
+}
+
+// Initialize Firebase apps
+const authApp = initializeApp(authConfig);
+
+// Only create second app if configs are different
+const dataApp = dataConfig.projectId !== authConfig.projectId
+  ? initializeApp(dataConfig, 'nttt-data')
+  : authApp;
+
+// Initialize Firebase Auth (from auth project)
+const auth = getAuth(authApp);
+
+// Initialize Firestore (from data project)
+const db = getFirestore(dataApp);
 
 // Initialize Auth Providers
 const googleProvider = new GoogleAuthProvider();

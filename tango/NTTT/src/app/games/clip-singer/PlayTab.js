@@ -28,6 +28,7 @@ import RoundProgress from "@/components/ui/RoundProgress";
 import GameHubRoute from "@/components/ui/GameHubRoute";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 import ListenCountdown from "@/components/ui/ListenCountdown";
+import SongFeedback from "@/components/ui/SongFeedback";
 
 const BASE_SCORE = 100;
 const REPLAY_PENALTY = 0.03; // 3% reduction per replay
@@ -517,6 +518,20 @@ export default function PlayTab({ songs, config, onCancel }) {
               </Typography>
             </>
           )}
+          {/* Feedback button */}
+          <Box sx={{ mt: 2, display: "flex", justifyContent: "center" }}>
+            <SongFeedback
+              song={currentSong}
+              gameType="clip-singer"
+              config={config}
+              answers={answers}
+              selectedAnswer={selectedAnswer}
+              correctAnswer={currentSong?.Singer}
+              wasCorrect={roundScore > 0}
+              roundScore={roundScore}
+              sessionScore={sessionScore}
+            />
+          </Box>
         </Box>
       )}
 

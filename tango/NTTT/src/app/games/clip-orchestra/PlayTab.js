@@ -28,6 +28,7 @@ import { trackPlayClick, trackGuess, trackWrongAnswer, trackCorrectAnswer, track
 import RoundProgress from "@/components/ui/RoundProgress";
 import GameHubRoute from "@/components/ui/GameHubRoute";
 import AnimatedButton from "@/components/ui/AnimatedButton";
+import SongFeedback from "@/components/ui/SongFeedback";
 import ListenCountdown from "@/components/ui/ListenCountdown";
 import { gridToFilters } from "@/components/ui/DifficultyGrid";
 
@@ -573,6 +574,20 @@ export default function PlayTab({ songs, config, onCancel }) {
               </Typography>
             </>
           )}
+          {/* Feedback button */}
+          <Box sx={{ mt: 2, display: "flex", justifyContent: "center" }}>
+            <SongFeedback
+              song={currentSong}
+              gameType="clip-orchestra"
+              config={config}
+              answers={answers}
+              selectedAnswer={selectedAnswer}
+              correctAnswer={currentSong?.ArtistMaster}
+              wasCorrect={roundScore > 0}
+              roundScore={roundScore}
+              sessionScore={sessionScore}
+            />
+          </Box>
         </Box>
       )}
 
