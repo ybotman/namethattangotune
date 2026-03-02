@@ -1,6 +1,6 @@
 //------------------------------------------------------------
 // src/utils/dataFetching.js
-// v3 - Added 4-tier familiarity system with discrete sub-tiers
+// v4 - SWAP not STACK: primaryFilterMode toggles between level and era
 //------------------------------------------------------------
 
 /**
@@ -124,6 +124,7 @@ export async function fetchAllArtists() {
  * @param {number[]} options.orchestraLevels - NEW: Filter by orchestra level (1-5) - same as artistLevels but clearer name
  * @param {number[]} options.singerLevels - NEW: Filter by singer level (1-3 from SingerMaster)
  * @param {string[]} options.singerEras - NEW: Filter by singer era ('golden', 'later')
+ * @param {string} options.primaryFilterMode - NEW v4: 'level' or 'era' - SWAP not STACK
  */
 export async function fetchFilteredSongs(
   artistMasters = [],
@@ -151,6 +152,8 @@ export async function fetchFilteredSongs(
     orchestraLevels = [],
     singerLevels = [],
     singerEras = [],
+    // NEW v4: SWAP not STACK
+    primaryFilterMode = null, // 'level' | 'era' | null (null = legacy stacking behavior)
   } = options;
 
   try {
@@ -226,16 +229,19 @@ export async function fetchFilteredSongs(
     }
 
     // ArtistLevel filter (legacy - orchestra-based levels)
+    // SWAP not STACK: Skip level filters when primaryFilterMode === 'era'
+    const shouldApplyLevels = primaryFilterMode !== 'era';
     const validArtistLevels = artistLevels.filter((l) => typeof l === "number");
-    if (validArtistLevels.length > 0) {
+    if (shouldApplyLevels && validArtistLevels.length > 0) {
       filtered = filtered.filter(
         (song) => song.level && validArtistLevels.includes(song.level),
       );
     }
 
     // Recognition Tier filter (LEGACY - song-based tiers from djSongsWeighted.json)
+    // SWAP not STACK: Skip when primaryFilterMode === 'era'
     const validRecognitionTiers = recognitionTiers.filter((t) => typeof t === "number");
-    if (validRecognitionTiers.length > 0) {
+    if (shouldApplyLevels && validRecognitionTiers.length > 0) {
       if (validRecognitionTiers.length === 1 && validRecognitionTiers[0] === 1) {
         // Iconic mode — use curated list, bypass algorithmic tiers
         filtered = filtered.filter((song) => iconicIds.has(song.SongID));
@@ -248,8 +254,9 @@ export async function fetchFilteredSongs(
     }
 
     // NEW v3: Orchestra Level filter (clearer name than artistLevels)
+    // SWAP not STACK: Skip when primaryFilterMode === 'era'
     const validOrchestraLevels = orchestraLevels.filter((l) => typeof l === "number");
-    if (validOrchestraLevels.length > 0) {
+    if (shouldApplyLevels && validOrchestraLevels.length > 0) {
       filtered = filtered.filter(
         (song) => song.orchestraLevel && validOrchestraLevels.includes(song.orchestraLevel),
       );
@@ -273,13 +280,15 @@ export async function fetchFilteredSongs(
     }
 
     // NEW v3: Familiarity Tier filter (Iconic/Essential/DJ/Deep)
-    if (familiarityTiers.length > 0) {
+    // SWAP not STACK: Skip when primaryFilterMode === 'era'
+    if (shouldApplyLevels && familiarityTiers.length > 0) {
       filtered = applyFamiliarityTierFilter(filtered, familiarityTiers);
     }
 
     // NEW v3: Sub-Tier filter (Classics/Standards/DeepCuts) - applied AFTER other filters
     // This filters by percentile within the current pool
-    if (subTier) {
+    // SWAP not STACK: Skip when primaryFilterMode === 'era'
+    if (shouldApplyLevels && subTier) {
       filtered = applySubTierFilter(filtered, subTier);
     }
 
@@ -304,7 +313,9 @@ export async function fetchFilteredSongs(
     }
 
     // Period filter - converts period names to year ranges
-    if (periods && periods.length > 0) {
+    // SWAP not STACK: Skip periods when primaryFilterMode === 'level'
+    const shouldApplyPeriods = primaryFilterMode !== 'level';
+    if (shouldApplyPeriods && periods && periods.length > 0) {
       // Build list of year ranges from selected periods
       const periodRanges = periods
         .map((periodName) => periodsData.find((p) => p.period === periodName))
@@ -435,7 +446,13 @@ export async function getFilteredSongCount(options = {}) {
     orchestraLevels = [],
     singerLevels = [],
     singerEras = [],
+    // NEW v4: SWAP not STACK
+    primaryFilterMode = null, // 'level' | 'era' | null
   } = options;
+
+  // SWAP not STACK: Determine which filters to apply
+  const shouldApplyLevels = primaryFilterMode !== 'era';
+  const shouldApplyPeriods = primaryFilterMode !== 'level';
 
   try {
     const [djSongsData, artistData, singerData, periodsData, iconicData] = await Promise.all([
@@ -489,8 +506,9 @@ export async function getFilteredSongCount(options = {}) {
     }
 
     // Recognition Tier filter (LEGACY)
+    // SWAP not STACK: Skip when mode === 'era'
     const validTiers = recognitionTiers.filter((t) => typeof t === "number");
-    if (validTiers.length > 0) {
+    if (shouldApplyLevels && validTiers.length > 0) {
       if (validTiers.length === 1 && validTiers[0] === 1) {
         // Iconic mode — use curated list, bypass algorithmic tiers
         filtered = filtered.filter((song) => iconicIds.has(song.SongID));
@@ -502,16 +520,18 @@ export async function getFilteredSongCount(options = {}) {
     }
 
     // NEW v3: Orchestra Level filter
+    // SWAP not STACK: Skip when mode === 'era'
     const validOrchestraLevels = orchestraLevels.filter((l) => typeof l === "number");
-    if (validOrchestraLevels.length > 0) {
+    if (shouldApplyLevels && validOrchestraLevels.length > 0) {
       filtered = filtered.filter(
         (song) => song.orchestraLevel && validOrchestraLevels.includes(song.orchestraLevel),
       );
     }
 
     // NEW v3: Singer Level filter
+    // SWAP not STACK: Skip when mode === 'era'
     const validSingerLevels = singerLevels.filter((l) => typeof l === "number");
-    if (validSingerLevels.length > 0) {
+    if (shouldApplyLevels && validSingerLevels.length > 0) {
       filtered = filtered.filter(
         (song) => song.singerLevel && validSingerLevels.includes(song.singerLevel),
       );
@@ -527,12 +547,14 @@ export async function getFilteredSongCount(options = {}) {
     }
 
     // NEW v3: Familiarity Tier filter (Iconic/Essential/DJ/Deep)
-    if (familiarityTiers.length > 0) {
+    // SWAP not STACK: Skip when mode === 'era'
+    if (shouldApplyLevels && familiarityTiers.length > 0) {
       filtered = applyFamiliarityTierFilter(filtered, familiarityTiers);
     }
 
     // NEW v3: Sub-Tier filter (Classics/Standards/DeepCuts)
-    if (subTier) {
+    // SWAP not STACK: Skip when mode === 'era'
+    if (shouldApplyLevels && subTier) {
       filtered = applySubTierFilter(filtered, subTier);
     }
 
@@ -546,7 +568,8 @@ export async function getFilteredSongCount(options = {}) {
     }
 
     // Period filter
-    if (periods && periods.length > 0) {
+    // SWAP not STACK: Skip when mode === 'level'
+    if (shouldApplyPeriods && periods && periods.length > 0) {
       const periodRanges = periods
         .map((periodName) => periodsData.find((p) => p.period === periodName))
         .filter((p) => p != null)

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Box, Button, Divider } from "@mui/material";
 import TuneIcon from "@mui/icons-material/Tune";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -8,12 +8,15 @@ import { motion, AnimatePresence } from "motion/react";
 import styles from "../styles.module.css";
 
 import GameSetupDials from "@/components/ui/GameSetupDials";
-import OrchestraLevelSelector from "@/components/ui/OrchestraLevelSelector";
+import OrchestraLevelSelector, { tiersToLevels } from "@/components/ui/OrchestraLevelSelector";
 import StylesSelector from "@/components/ui/StylesSelector";
 import PeriodsSelector from "@/components/ui/PeriodsSelector";
+import FilterModeToggle from "@/components/ui/FilterModeToggle";
+import PoolCount, { MIN_POOL_SIZE } from "@/components/ui/PoolCount";
 import ScorePotential from "@/components/ui/ScorePotential";
 import useArtistQuiz from "@/hooks/useArtistQuiz";
 import { useGameContext } from "@/contexts/GameContext";
+import { getFilteredSongCount } from "@/utils/dataFetching";
 import PropTypes from "prop-types";
 
 export default function ConfigTab({ showFilters, setShowFilters, isLandscape = false }) {
@@ -30,18 +33,55 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
 
   const { config, updateConfig } = useGameContext();
 
-  const [isConfigValid, setIsConfigValid] = useState(true);
-  const [availableCount, setAvailableCount] = useState(null);
+  const [poolCount, setPoolCount] = useState(null);
+  const [poolLoading, setPoolLoading] = useState(false);
 
   const numSongs = config.numSongs ?? 10;
-  const hasEnoughSongs = availableCount === null || availableCount >= numSongs;
+  const primaryFilterMode = config.primaryFilterMode || "level";
+  const hasEnoughSongs = poolCount === null || poolCount >= MIN_POOL_SIZE;
 
+  // Handle filter mode change
+  const handleFilterModeChange = useCallback((mode) => {
+    updateConfig("primaryFilterMode", mode);
+  }, [updateConfig]);
+
+  // Fetch pool count when config changes
   useEffect(() => {
-    setIsConfigValid(!validationMessage && hasEnoughSongs);
-  }, [validationMessage, hasEnoughSongs]);
+    const fetchCount = async () => {
+      setPoolLoading(true);
+      try {
+        // Build filter options based on current mode
+        const options = {
+          requireOrchestra: true,
+          primaryFilterMode,
+          styles: Object.keys(config.styles || {}).filter(s => config.styles[s]),
+          includeSinger: config.includeSinger ?? false,
+        };
+
+        // Add level filters only in level mode
+        if (primaryFilterMode === "level") {
+          const orchestraTiers = config.orchestraTiers || ["Big4"];
+          options.orchestraLevels = tiersToLevels(orchestraTiers);
+        }
+
+        // Add period filters only in era mode
+        if (primaryFilterMode === "era") {
+          options.periods = config.periods || [];
+        }
+
+        const count = await getFilteredSongCount(options);
+        setPoolCount(count);
+      } catch (err) {
+        console.error("Error fetching pool count:", err);
+        setPoolCount(0);
+      }
+      setPoolLoading(false);
+    };
+
+    fetchCount();
+  }, [config.orchestraTiers, config.periods, config.styles, config.includeSinger, primaryFilterMode]);
 
   // LANDSCAPE: Show everything, no animation, evenly distributed
-  // ScorePotential is shown on right side (Play area) in landscape
   if (isLandscape) {
     const dividerStyle = { borderColor: "rgba(255,255,255,0.15)", my: 1 };
 
@@ -56,7 +96,6 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
           py: 2,
         }}
       >
-
         <GameSetupDials
           numSongs={config.numSongs ?? 10}
           onNumSongsChange={handleNumSongsChange}
@@ -67,14 +106,30 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
 
         <Divider sx={dividerStyle} />
 
-        <OrchestraLevelSelector
-          selectedTiers={config.orchestraTiers || ["Big4"]}
-          onChange={handleOrchestraTiersChange}
-          selectedSubTier={config.subTier || null}
-          onSubTierChange={handleSubTierChange}
-          showSubTiers={true}
-          compact
+        {/* SWAP not STACK: Filter mode toggle */}
+        <FilterModeToggle
+          mode={primaryFilterMode}
+          onChange={handleFilterModeChange}
+          levelLabel="Level"
+          levelIcon="🌶"
         />
+
+        {/* Conditional: Level OR Era */}
+        {primaryFilterMode === "level" ? (
+          <OrchestraLevelSelector
+            selectedTiers={config.orchestraTiers || ["Big4"]}
+            onChange={handleOrchestraTiersChange}
+            selectedSubTier={config.subTier || null}
+            onSubTierChange={handleSubTierChange}
+            showSubTiers={true}
+            compact
+          />
+        ) : (
+          <PeriodsSelector
+            selectedPeriods={config.periods || []}
+            onChange={(val) => updateConfig("periods", val)}
+          />
+        )}
 
         <Divider sx={dividerStyle} />
 
@@ -89,14 +144,11 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
 
         <Divider sx={dividerStyle} />
 
-        <PeriodsSelector
-          selectedPeriods={config.periods || []}
-          onChange={(val) => updateConfig("periods", val)}
-        />
+        <PoolCount count={poolCount ?? 0} loading={poolLoading} />
 
-        {!isConfigValid && (
-          <Box sx={{ color: "red", mt: 2, textAlign: "center", fontSize: "0.85rem" }}>
-            {validationMessage || `Not enough songs (need ${numSongs}, have ${availableCount})`}
+        {!hasEnoughSongs && (
+          <Box sx={{ color: "#FF9800", textAlign: "center", fontSize: "0.75rem" }}>
+            Need {MIN_POOL_SIZE} songs to play
           </Box>
         )}
       </Box>
@@ -127,6 +179,8 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
               secondsLabel="Time"
             />
 
+            <PoolCount count={poolCount ?? 0} loading={poolLoading} />
+
             <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
               <Button
                 variant="outlined"
@@ -144,7 +198,7 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
                   },
                 }}
               >
-                Levels
+                Filters
               </Button>
             </Box>
           </motion.div>
@@ -177,14 +231,30 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
               </Button>
             </Box>
 
-            <OrchestraLevelSelector
-              selectedTiers={config.orchestraTiers || ["Big4"]}
-              onChange={handleOrchestraTiersChange}
-              selectedSubTier={config.subTier || null}
-              onSubTierChange={handleSubTierChange}
-              showSubTiers={true}
-              compact
+            {/* SWAP not STACK: Filter mode toggle */}
+            <FilterModeToggle
+              mode={primaryFilterMode}
+              onChange={handleFilterModeChange}
+              levelLabel="Level"
+              levelIcon="🌶"
             />
+
+            {/* Conditional: Level OR Era */}
+            {primaryFilterMode === "level" ? (
+              <OrchestraLevelSelector
+                selectedTiers={config.orchestraTiers || ["Big4"]}
+                onChange={handleOrchestraTiersChange}
+                selectedSubTier={config.subTier || null}
+                onSubTierChange={handleSubTierChange}
+                showSubTiers={true}
+                compact
+              />
+            ) : (
+              <PeriodsSelector
+                selectedPeriods={config.periods || []}
+                onChange={(val) => updateConfig("periods", val)}
+              />
+            )}
 
             <Divider sx={{ borderColor: "rgba(255,255,255,0.1)", my: 1.5 }} />
 
@@ -199,14 +269,11 @@ export default function ConfigTab({ showFilters, setShowFilters, isLandscape = f
 
             <Divider sx={{ borderColor: "rgba(255,255,255,0.1)", my: 1.5 }} />
 
-            <PeriodsSelector
-              selectedPeriods={config.periods || []}
-              onChange={(val) => updateConfig("periods", val)}
-            />
+            <PoolCount count={poolCount ?? 0} loading={poolLoading} />
 
-            {!isConfigValid && (
-              <Box sx={{ color: "red", mt: 2, textAlign: "center", fontSize: "0.85rem" }}>
-                {validationMessage || `Not enough songs (need ${numSongs}, have ${availableCount})`}
+            {!hasEnoughSongs && (
+              <Box sx={{ color: "#FF9800", textAlign: "center", fontSize: "0.75rem", mt: 1 }}>
+                Need {MIN_POOL_SIZE} songs to play
               </Box>
             )}
           </motion.div>
