@@ -199,7 +199,7 @@ export default function DialControl({
         </Box>
       </Box>
 
-      {/* +/- Buttons */}
+      {/* +/- Buttons - min 40px touch targets */}
       <Box
         sx={{
           display: "flex",
@@ -210,10 +210,9 @@ export default function DialControl({
         <IconButton
           onClick={handleDecrement}
           disabled={value <= min}
-          size="small"
           sx={{
-            width: 32,
-            height: 32,
+            width: 40,
+            height: 40,
             backgroundColor: "var(--input-bg)",
             border: `1px solid ${color}40`,
             color: "var(--foreground)",
@@ -230,10 +229,9 @@ export default function DialControl({
         <IconButton
           onClick={handleIncrement}
           disabled={value >= max}
-          size="small"
           sx={{
-            width: 32,
-            height: 32,
+            width: 40,
+            height: 40,
             backgroundColor: "var(--input-bg)",
             border: `1px solid ${color}40`,
             color: "var(--foreground)",

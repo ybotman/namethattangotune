@@ -300,7 +300,7 @@ export default function PlayTab({ songs, config, onCancel }) {
       )}
 
       {/* Score Display with color-coded bar - always rendered to prevent layout shift */}
-      <Box sx={{ mx: "auto", mb: 1, maxWidth: 400, minHeight: 28 }}>
+      <Box sx={{ mx: "auto", mb: 1, maxWidth: "min(100%, 400px)", minHeight: 28 }}>
         {isPlaying ? (
           <>
             <Box sx={{ display: "flex", justifyContent: "space-between", mb: 0.5 }}>
@@ -362,7 +362,7 @@ export default function PlayTab({ songs, config, onCancel }) {
       </Box>
 
       {/* Answers */}
-      <List sx={{ mb: 2, maxWidth: 400, margin: "auto" }}>
+      <List sx={{ mb: 2, maxWidth: "min(100%, 400px)", margin: "auto" }}>
         {answers.map((ans) => {
           const isWrong = wrongAnswers.includes(ans);
           const isChosenCorrect =

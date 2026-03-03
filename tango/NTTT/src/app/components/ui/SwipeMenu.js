@@ -104,6 +104,11 @@ export default function SwipeMenu({ pages, initialPage = 0, onPageChange, extern
             cursor: currentPage > 0 ? "pointer" : "default",
             userSelect: "none",
             px: 1,
+            minWidth: 44,
+            minHeight: 44,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           &lt;
@@ -124,24 +129,17 @@ export default function SwipeMenu({ pages, initialPage = 0, onPageChange, extern
         <Typography
           onClick={() => currentPage < pages.length - 1 && goToPage(currentPage + 1)}
           sx={{
-            fontSize: "2rem",
+            fontSize: "1.5rem",
             fontWeight: "bold",
             color: currentPage < pages.length - 1 ? "var(--accent)" : "var(--border-color)",
             cursor: currentPage < pages.length - 1 ? "pointer" : "default",
             userSelect: "none",
             px: 1,
-            // Pulse animation when there's a next page
-            animation: currentPage < pages.length - 1 ? "arrowPulse 1.5s ease-in-out infinite" : "none",
-            "@keyframes arrowPulse": {
-              "0%, 100%": {
-                transform: "translateX(0) scale(1)",
-                opacity: 1,
-              },
-              "50%": {
-                transform: "translateX(5px) scale(1.2)",
-                opacity: 0.7,
-              },
-            },
+            minWidth: 44,
+            minHeight: 44,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           &gt;
@@ -205,13 +203,13 @@ export default function SwipeMenu({ pages, initialPage = 0, onPageChange, extern
           borderTop: "1px solid var(--border-color)",
         }}
       >
-        {/* Dots */}
+        {/* Dots - smaller for 10+ pages */}
         <Box
           sx={{
             display: "flex",
             justifyContent: "center",
-            gap: 1,
-            mb: 1,
+            gap: 0.5,
+            mb: 0.5,
           }}
         >
           {pages.map((p, i) => (
@@ -219,9 +217,9 @@ export default function SwipeMenu({ pages, initialPage = 0, onPageChange, extern
               key={i}
               onClick={() => goToPage(i)}
               sx={{
-                width: i === currentPage ? 24 : 8,
-                height: 8,
-                borderRadius: 4,
+                width: i === currentPage ? 16 : 6,
+                height: 6,
+                borderRadius: 3,
                 backgroundColor: i === currentPage ? "var(--accent)" : "var(--border-color)",
                 cursor: "pointer",
                 transition: "all 0.2s ease",
@@ -230,13 +228,17 @@ export default function SwipeMenu({ pages, initialPage = 0, onPageChange, extern
           ))}
         </Box>
 
-        {/* Labels */}
+        {/* Labels - horizontal scroll for many pages */}
         <Box
           sx={{
             display: "flex",
-            justifyContent: "center",
-            gap: 2,
-            flexWrap: "wrap",
+            justifyContent: "flex-start",
+            gap: 1.5,
+            overflowX: "auto",
+            px: 2,
+            pb: 0.5,
+            scrollbarWidth: "none",
+            "&::-webkit-scrollbar": { display: "none" },
           }}
         >
           {pages.map((p, i) => (
@@ -244,14 +246,19 @@ export default function SwipeMenu({ pages, initialPage = 0, onPageChange, extern
               key={i}
               onClick={() => goToPage(i)}
               sx={{
-                fontSize: "0.65rem",
+                fontSize: "0.6rem",
                 color: i === currentPage ? "var(--accent)" : "var(--foreground)",
                 opacity: i === currentPage ? 1 : 0.5,
                 fontWeight: i === currentPage ? 600 : 400,
                 textTransform: "uppercase",
-                letterSpacing: 1,
+                letterSpacing: 0.5,
                 cursor: "pointer",
                 transition: "all 0.2s ease",
+                whiteSpace: "nowrap",
+                flexShrink: 0,
+                minWidth: 44,
+                textAlign: "center",
+                py: 0.5,
               }}
             >
               {p.label || p.title}

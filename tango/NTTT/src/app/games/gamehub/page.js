@@ -65,9 +65,9 @@ function WelcomeModal({ open, onClose, onStart }) {
     >
       <Paper
         sx={{
-          maxWidth: 400,
+          maxWidth: "min(90vw, 320px)",
           mx: 2,
-          p: 4,
+          p: 3,
           backgroundColor: "var(--background)",
           border: "2px solid var(--accent)",
           borderRadius: 3,
@@ -79,8 +79,8 @@ function WelcomeModal({ open, onClose, onStart }) {
           onClick={onClose}
           sx={{
             position: "absolute",
-            top: 8,
-            right: 8,
+            top: 4,
+            right: 4,
             color: "var(--foreground)",
             opacity: 0.6,
           }}
@@ -89,11 +89,11 @@ function WelcomeModal({ open, onClose, onStart }) {
         </IconButton>
 
         <Typography
-          variant="h5"
+          variant="h6"
           sx={{
             color: "var(--accent)",
             fontWeight: "bold",
-            mb: 2,
+            mb: 1.5,
           }}
         >
           Welcome to NTTT!
@@ -102,40 +102,27 @@ function WelcomeModal({ open, onClose, onStart }) {
         <Typography
           sx={{
             color: "var(--foreground)",
-            mb: 3,
-            fontSize: "1rem",
-            lineHeight: 1.6,
-          }}
-        >
-          For <strong>tango dancers</strong> who want to learn the music.
-          Identify orchestras, singers, and songs by ear.
-        </Typography>
-
-        <Typography
-          sx={{
-            color: "var(--foreground)",
-            opacity: 0.8,
-            mb: 3,
+            mb: 2,
             fontSize: "0.9rem",
+            lineHeight: 1.5,
           }}
         >
-          <strong>Start with:</strong> Mastering Orchestras - learn how each orchestra sounds with no pressure.
+          Learn tango music by ear. Identify orchestras, singers, and songs.
         </Typography>
 
         <Typography
           sx={{
             color: "var(--foreground)",
             opacity: 0.6,
-            mb: 3,
-            fontSize: "0.8rem",
+            mb: 2,
+            fontSize: "0.75rem",
           }}
         >
-          Swipe left/right to explore different game categories.
+          Swipe to explore game categories.
         </Typography>
 
         <Button
           variant="contained"
-          size="large"
           startIcon={<PlayArrowIcon />}
           onClick={onStart}
           sx={{
@@ -144,9 +131,10 @@ function WelcomeModal({ open, onClose, onStart }) {
             fontWeight: 700,
             py: 1.5,
             px: 4,
-            fontSize: "1.1rem",
+            fontSize: "1rem",
             borderRadius: 2,
             textTransform: "none",
+            minHeight: 48,
             "&:hover": {
               backgroundColor: "#388E3C",
             },
@@ -454,17 +442,18 @@ function WelcomePage({ onQuickStart, onViewStats }) {
           >
             Sign in to track your progress across devices
           </Typography>
-          <Box sx={{ display: "flex", gap: 1, justifyContent: "center" }}>
+          <Box sx={{ display: "flex", gap: 1.5, justifyContent: "center" }}>
             <Link href="/auth/login" style={{ textDecoration: "none" }}>
               <Button
                 variant="contained"
-                size="small"
                 sx={{
                   backgroundColor: "var(--accent)",
                   color: "#fff",
                   textTransform: "none",
-                  fontSize: "0.8rem",
+                  fontSize: "0.85rem",
                   px: 3,
+                  py: 1,
+                  minHeight: 44,
                 }}
               >
                 Sign In
@@ -473,16 +462,17 @@ function WelcomePage({ onQuickStart, onViewStats }) {
             <Link href="/auth/signup" style={{ textDecoration: "none" }}>
               <Button
                 variant="outlined"
-                size="small"
                 sx={{
                   borderColor: "var(--accent)",
                   color: "var(--accent)",
                   textTransform: "none",
-                  fontSize: "0.8rem",
+                  fontSize: "0.85rem",
                   px: 2,
+                  py: 1,
+                  minHeight: 44,
                 }}
               >
-                Create Account
+                Sign Up
               </Button>
             </Link>
           </Box>
@@ -1452,24 +1442,26 @@ function SetupPage() {
                   placeholder="Password"
                   autoFocus
                   style={{
-                    padding: "4px 8px",
+                    padding: "8px 12px",
                     borderRadius: "4px",
                     border: error ? "2px solid #E53935" : "1px solid gray",
                     backgroundColor: "var(--input-bg)",
                     color: "var(--foreground)",
-                    fontSize: "0.75rem",
-                    width: "100px",
+                    fontSize: "0.85rem",
+                    flex: 1,
+                    minWidth: 0,
+                    minHeight: 40,
                   }}
                 />
                 <Button
                   variant="contained"
-                  size="small"
                   onClick={handleToolsUnlock}
                   sx={{
                     backgroundColor: "gray",
-                    fontSize: "0.65rem",
-                    py: 0.5,
-                    minWidth: "auto",
+                    fontSize: "0.8rem",
+                    py: 1,
+                    px: 2,
+                    minHeight: 40,
                   }}
                 >
                   Go

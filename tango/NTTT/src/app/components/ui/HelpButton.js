@@ -72,8 +72,8 @@ export default function HelpButton({ title, description, size = 40 }) {
             backgroundColor: "var(--background)",
             border: "2px solid #FFC107",
             borderRadius: 3,
-            p: 3,
-            maxWidth: 350,
+            p: 2.5,
+            maxWidth: "min(90vw, 320px)",
             position: "relative",
             boxShadow: "0 8px 30px rgba(0, 0, 0, 0.4)",
           }}

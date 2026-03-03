@@ -40,14 +40,14 @@ export default function GameRow({
     <Box
       sx={{
         width: "100%",
-        maxWidth: 360,
+        maxWidth: "min(100%, 360px)",
         p: 1.5,
         backgroundColor: "var(--input-bg)",
         border: `2px solid ${color}`,
         borderRadius: 2,
         display: "flex",
         alignItems: "center",
-        gap: 1.5,
+        gap: 1,
       }}
     >
       {/* Play button */}

@@ -413,7 +413,7 @@ export default function PlayTab({ songs, config, onCancel }) {
       </Box>
 
       {/* Score Display with color-coded bar */}
-      <Box sx={{ mx: "auto", mb: 1, maxWidth: 400 }}>
+      <Box sx={{ mx: "auto", mb: 1, maxWidth: "min(100%, 400px)" }}>
         <Box sx={{ display: "flex", justifyContent: "space-between", mb: 0.5 }}>
           <Typography variant="caption" sx={{ color: "var(--foreground)", opacity: 0.7 }}>
             Points {replayCount > 0 ? `(${replayCount} replays)` : ""}
@@ -446,7 +446,7 @@ export default function PlayTab({ songs, config, onCancel }) {
       </Box>
 
       {/* Answers */}
-      <List sx={{ mb: 2, maxWidth: 400, margin: "auto" }}>
+      <List sx={{ mb: 2, maxWidth: "min(100%, 400px)", margin: "auto" }}>
         {answers.map((ans) => {
           const isWrong = wrongAnswers.includes(ans);
           const correctSinger = currentSong?.Singer || "";

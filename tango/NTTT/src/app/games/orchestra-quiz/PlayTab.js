@@ -505,7 +505,7 @@ export default function PlayTab({ songs, config, onCancel }) {
       </Box>
 
       {/* Score Display with color-coded bar - always rendered to prevent layout shift */}
-      <Box sx={{ mx: "auto", mb: 1, maxWidth: 400, minHeight: 28 }}>
+      <Box sx={{ mx: "auto", mb: 1, maxWidth: "min(100%, 400px)", minHeight: 28 }}>
         {isPlaying ? (
           <>
             {/* Score text */}
@@ -572,7 +572,7 @@ export default function PlayTab({ songs, config, onCancel }) {
       <Box sx={{ flex: 1, minHeight: 20 }} />
 
       {/* Answers */}
-      <List sx={{ maxWidth: 400, mx: "auto", width: "100%" }}>
+      <List sx={{ maxWidth: "min(100%, 400px)", mx: "auto", width: "100%" }}>
         <AnimatePresence>
           {answers.map((ans, idx) => {
             const isWrong = wrongAnswers.includes(ans);
