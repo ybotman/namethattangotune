@@ -5,29 +5,69 @@
 // ------------------------------------------------------------
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Box, Typography, IconButton } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { motion, AnimatePresence } from "motion/react";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
+const STORAGE_KEY = "nttt_swipe_seen";
+
 /**
  * SwipeConfig - Horizontal swipeable cards with dots navigation
- * Shows vertical labels on arrows indicating next/prev card
+ * Shows horizontal labels on arrows indicating next/prev card
+ * Pulses on first session visit to hint at swipeability
  */
 export default function SwipeConfig({ cards, labels = [] }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const [showPulse, setShowPulse] = useState(false);
+
+  // Check if first visit this session
+  useEffect(() => {
+    const seen = sessionStorage.getItem(STORAGE_KEY);
+    if (!seen) {
+      setShowPulse(true);
+      // Stop pulsing after 3 seconds or on first interaction
+      const timer = setTimeout(() => {
+        setShowPulse(false);
+        sessionStorage.setItem(STORAGE_KEY, "1");
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   const goTo = (index) => {
     if (index < 0 || index >= cards.length) return;
     setDirection(index > activeIndex ? 1 : -1);
     setActiveIndex(index);
+    // Stop pulsing on first interaction
+    if (showPulse) {
+      setShowPulse(false);
+      sessionStorage.setItem(STORAGE_KEY, "1");
+    }
   };
 
   const goNext = () => goTo(activeIndex + 1);
   const goPrev = () => goTo(activeIndex - 1);
+
+  // Pulse animation for arrows
+  const pulseVariants = {
+    pulse: {
+      scale: [1, 1.2, 1],
+      opacity: [0.7, 1, 0.7],
+      transition: {
+        duration: 1,
+        repeat: Infinity,
+        ease: "easeInOut",
+      },
+    },
+    static: {
+      scale: 1,
+      opacity: 1,
+    },
+  };
 
   const variants = {
     enter: (dir) => ({
@@ -56,40 +96,39 @@ export default function SwipeConfig({ cards, labels = [] }) {
           minHeight: 200,
         }}
       >
-        {/* Left arrow with vertical label */}
-        <Box
-          onClick={goPrev}
-          sx={{
-            position: "absolute",
-            left: 0,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            cursor: activeIndex === 0 ? "default" : "pointer",
-            opacity: activeIndex === 0 ? 0.2 : 0.7,
-            transition: "opacity 0.2s",
-            "&:hover": { opacity: activeIndex === 0 ? 0.2 : 1 },
-          }}
-        >
-          <ChevronLeftIcon sx={{ color: "var(--foreground)", fontSize: 28 }} />
-          {activeIndex > 0 && labels[activeIndex - 1] && (
-            <Typography
-              sx={{
-                fontSize: "0.5rem",
-                color: "var(--foreground)",
-                writingMode: "vertical-rl",
-                textOrientation: "mixed",
-                transform: "rotate(180deg)",
-                letterSpacing: 1,
-                fontWeight: 600,
-                textTransform: "uppercase",
-                mt: -0.5,
-              }}
-            >
-              {labels[activeIndex - 1]}
-            </Typography>
-          )}
-        </Box>
+        {/* Left arrow with vertical label - hidden on first card */}
+        {activeIndex > 0 && (
+          <motion.div
+            onClick={goPrev}
+            style={{
+              position: "absolute",
+              left: 0,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              cursor: "pointer",
+            }}
+          >
+            <ChevronLeftIcon sx={{ color: "var(--accent)", fontSize: 32 }} />
+            {labels[activeIndex - 1] && (
+              <Typography
+                sx={{
+                  fontSize: "0.75rem",
+                  color: "var(--accent)",
+                  writingMode: "vertical-rl",
+                  textOrientation: "mixed",
+                  transform: "rotate(180deg)",
+                  letterSpacing: 2,
+                  fontWeight: 700,
+                  textTransform: "uppercase",
+                  mt: -0.5,
+                }}
+              >
+                {labels[activeIndex - 1]}
+              </Typography>
+            )}
+          </motion.div>
+        )}
 
         {/* Card content */}
         <Box
@@ -120,52 +159,53 @@ export default function SwipeConfig({ cards, labels = [] }) {
           </AnimatePresence>
         </Box>
 
-        {/* Right arrow with vertical label */}
-        <Box
-          onClick={goNext}
-          sx={{
-            position: "absolute",
-            right: 0,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            cursor: activeIndex === cards.length - 1 ? "default" : "pointer",
-            opacity: activeIndex === cards.length - 1 ? 0.2 : 0.7,
-            transition: "opacity 0.2s",
-            "&:hover": { opacity: activeIndex === cards.length - 1 ? 0.2 : 1 },
-          }}
-        >
-          <ChevronRightIcon sx={{ color: "var(--foreground)", fontSize: 28 }} />
-          {activeIndex < cards.length - 1 && labels[activeIndex + 1] && (
-            <Typography
-              sx={{
-                fontSize: "0.5rem",
-                color: "var(--foreground)",
-                writingMode: "vertical-rl",
-                textOrientation: "mixed",
-                letterSpacing: 1,
-                fontWeight: 600,
-                textTransform: "uppercase",
-                mt: -0.5,
-              }}
-            >
-              {labels[activeIndex + 1]}
-            </Typography>
-          )}
-        </Box>
+        {/* Right arrow with vertical label - hidden on last card */}
+        {activeIndex < cards.length - 1 && (
+          <motion.div
+            onClick={goNext}
+            variants={pulseVariants}
+            animate={showPulse && activeIndex === 0 ? "pulse" : "static"}
+            style={{
+              position: "absolute",
+              right: 0,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              cursor: "pointer",
+            }}
+          >
+            <ChevronRightIcon sx={{ color: "var(--accent)", fontSize: 32 }} />
+            {labels[activeIndex + 1] && (
+              <Typography
+                sx={{
+                  fontSize: "0.75rem",
+                  color: "var(--accent)",
+                  writingMode: "vertical-rl",
+                  textOrientation: "mixed",
+                  letterSpacing: 2,
+                  fontWeight: 700,
+                  textTransform: "uppercase",
+                  mt: -0.5,
+                }}
+              >
+                {labels[activeIndex + 1]}
+              </Typography>
+            )}
+          </motion.div>
+        )}
       </Box>
 
-      {/* Card label */}
+      {/* Card label - current tab indicator */}
       {labels[activeIndex] && (
         <Typography
           sx={{
             textAlign: "center",
-            fontSize: "0.65rem",
-            color: "var(--foreground)",
-            opacity: 0.6,
+            fontSize: "0.85rem",
+            color: "var(--accent)",
+            fontWeight: 700,
             textTransform: "uppercase",
-            letterSpacing: 1,
-            mt: 0.5,
+            letterSpacing: 2,
+            mt: 1,
           }}
         >
           {labels[activeIndex]}

@@ -1,6 +1,8 @@
 // ------------------------------------------------------------
 // src/utils/userStatsService.js
 // Firebase Firestore service for user stats and session tracking
+// Uses collection prefixes for TEST vs PROD separation
+// See: /Users/tobybalsley/MyDocs/AppDev/TANGO-FIREBASE-ARCHITECTURE.md
 // ------------------------------------------------------------
 
 import {
@@ -13,44 +15,58 @@ import {
   increment,
   serverTimestamp,
 } from 'firebase/firestore';
-import { db, auth } from './firebase';
+import { db, auth, collections, getUserDocPath } from './firebase';
 
 /**
  * Grid cell key mapping for orchestra games
- * Maps gridCell number (1-9) to tier-depth key
+ * Row-major order matching DifficultyGrid layout:
+ * Row 1 (Famous): Icons, Core, Niche
+ * Row 2 (Known): Icons, Core, Niche
+ * Row 3 (Obscure): Icons, Core, Niche
  */
 export const ORCHESTRA_GRID_KEYS = {
-  1: 'Big4-Famous',
-  2: 'Big4-Regular',
-  3: 'Big4-Obscure',
-  4: 'Classic-Famous',
-  5: 'Classic-Regular',
-  6: 'Classic-Obscure',
-  7: 'Deep-Famous',
-  8: 'Deep-Regular',
-  9: 'Deep-Obscure',
+  1: 'Icons-Famous',
+  2: 'Core-Famous',
+  3: 'Niche-Famous',
+  4: 'Icons-Known',
+  5: 'Core-Known',
+  6: 'Niche-Known',
+  7: 'Icons-Obscure',
+  8: 'Core-Obscure',
+  9: 'Niche-Obscure',
 };
 
 /**
  * Grid cell key mapping for singer games
- * Maps gridCell number (1-9) to singerLevel-songFamiliarity key
+ * Row-major order matching SingerDifficultyGrid layout:
+ * Row 1 (Famous): Iconic, Essential, Standard
+ * Row 2 (Common): Iconic, Essential, Standard
+ * Row 3 (Obscure): Iconic, Essential, Standard
  */
 export const SINGER_GRID_KEYS = {
   1: 'Iconic-Famous',
-  2: 'Iconic-Common',
-  3: 'Iconic-Obscure',
-  4: 'Essential-Famous',
+  2: 'Essential-Famous',
+  3: 'Standard-Famous',
+  4: 'Iconic-Common',
   5: 'Essential-Common',
-  6: 'Essential-Obscure',
-  7: 'Standard-Famous',
-  8: 'Standard-Common',
+  6: 'Standard-Common',
+  7: 'Iconic-Obscure',
+  8: 'Essential-Obscure',
   9: 'Standard-Obscure',
 };
 
 /**
- * Get grid key for a game type and cell number
+ * Get grid key for a game type and cell
+ * @param {string} gameType - e.g., 'orchestra-quiz', 'singer-quiz'
+ * @param {string|number} gridCell - Cell key string (e.g., "Icons-Famous") or number (1-9)
+ * @returns {string} - Grid key string for stats storage
  */
 export function getGridKey(gameType, gridCell) {
+  // If gridCell is already a string key, use it directly
+  if (typeof gridCell === 'string') {
+    return gridCell;
+  }
+  // If gridCell is a number, look up in the mapping
   if (gameType.includes('singer')) {
     return SINGER_GRID_KEYS[gridCell] || 'Unknown';
   }
@@ -68,7 +84,7 @@ export async function initializeUserDoc(user) {
   if (!user?.uid) return;
 
   try {
-    const userRef = doc(db, 'users', user.uid);
+    const userRef = doc(db, collections.users, user.uid);
     const userSnap = await getDoc(userRef);
 
     if (!userSnap.exists()) {
@@ -110,7 +126,7 @@ export async function fetchUserStats(userId) {
   if (!userId) return null;
 
   try {
-    const userRef = doc(db, 'users', userId);
+    const userRef = doc(db, collections.users, userId);
     const userSnap = await getDoc(userRef);
 
     if (userSnap.exists()) {
@@ -186,7 +202,7 @@ export async function saveSessionResults({
       completedAt: serverTimestamp(),
     };
 
-    const sessionRef = await addDoc(collection(db, 'sessions'), sessionDoc);
+    const sessionRef = await addDoc(collection(db, collections.ntttSessions), sessionDoc);
 
     // 2. Update user aggregate stats
     await updateUserGameStats({
@@ -225,7 +241,7 @@ async function updateUserGameStats({
   correctCount,
   totalQuestions,
 }) {
-  const userRef = doc(db, 'users', userId);
+  const userRef = doc(db, collections.users, userId);
 
   try {
     // First, get current stats to check for best score
@@ -335,7 +351,7 @@ export async function updateUserPreferences(userId, preferences) {
   if (!userId) return;
 
   try {
-    const userRef = doc(db, 'users', userId);
+    const userRef = doc(db, collections.users, userId);
     await updateDoc(userRef, {
       preferences: preferences,
     });

@@ -34,8 +34,9 @@ export default function useSessionTracking({
   const isSavingRef = useRef(false);
 
   // Determine the primary grid cell from config
+  // Returns the cell key string (e.g., "Icons-Famous") which getGridKey will use directly
   const getGridCell = useCallback(() => {
-    // For orchestra games, use gridCells array
+    // For orchestra games, use gridCells array (contains strings like "Icons-Famous")
     if (config?.gridCells?.length > 0) {
       return config.gridCells[0];
     }
@@ -43,19 +44,8 @@ export default function useSessionTracking({
     if (config?.singerGridCells?.length > 0) {
       return config.singerGridCells[0];
     }
-    // Fallback: derive from orchestraTiers and subTier
-    // This handles the current config format
-    const tier = config?.orchestraTiers?.[0] || "Big4";
-    const depth = config?.subTier || "Classics";
-
-    // Map tier to row (1-3) and depth to column (1-3)
-    const tierMap = { Big4: 0, Classic: 3, Deep: 6 };
-    const depthMap = { Classics: 1, Standards: 2, DeepCuts: 3 };
-
-    const row = tierMap[tier] ?? 0;
-    const col = depthMap[depth] ?? 1;
-
-    return row + col; // Results in 1-9
+    // Fallback for old config format
+    return null;
   }, [config]);
 
   // Save session when complete

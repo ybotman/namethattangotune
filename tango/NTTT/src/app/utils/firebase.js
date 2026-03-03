@@ -1,7 +1,9 @@
+// ------------------------------------------------------------
 // utils/firebase.js
 // Firebase initialization for NTTT
-// Auth: tangotiempo (shared users across tango apps)
-// Data: nttttest/ntttprod (NTTT-specific data)
+// Architecture: tangotiempo-257ff for ALL auth and data
+// See: /Users/tobybalsley/MyDocs/AppDev/TANGO-FIREBASE-ARCHITECTURE.md
+// ------------------------------------------------------------
 
 import { initializeApp } from 'firebase/app';
 import {
@@ -10,7 +12,7 @@ import {
   EmailAuthProvider,
   OAuthProvider
 } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore, collection } from 'firebase/firestore';
 
 // Helper to decode base64 (works in browser and Node)
 const decodeBase64 = (str) => {
@@ -20,22 +22,21 @@ const decodeBase64 = (str) => {
   return Buffer.from(str, 'base64').toString('utf-8');
 };
 
-// === AUTH CONFIG (tangotiempo - shared users) ===
-// Decode the Base64 encoded JSON string from the environment variable
-let authConfig;
+// === FIREBASE CONFIG (tangotiempo-257ff - single project for all) ===
+let firebaseConfig;
 
 if (process.env.NEXT_PUBLIC_FIREBASE_JSON) {
   try {
-    authConfig = JSON.parse(decodeBase64(process.env.NEXT_PUBLIC_FIREBASE_JSON));
+    firebaseConfig = JSON.parse(decodeBase64(process.env.NEXT_PUBLIC_FIREBASE_JSON));
   } catch (e) {
     console.error('Failed to parse NEXT_PUBLIC_FIREBASE_JSON:', e);
-    authConfig = null;
+    firebaseConfig = null;
   }
 }
 
-if (!authConfig) {
+if (!firebaseConfig) {
   console.warn('NEXT_PUBLIC_FIREBASE_JSON not set or invalid, using placeholder config');
-  authConfig = {
+  firebaseConfig = {
     apiKey: "YOUR_API_KEY",
     authDomain: "YOUR_DOMAIN.firebaseapp.com",
     projectId: "YOUR_PROJECT_ID",
@@ -45,37 +46,56 @@ if (!authConfig) {
   };
 }
 
-// === DATA CONFIG (nttttest/ntttprod - NTTT data) ===
-let dataConfig;
+// Initialize Firebase app (single app for everything)
+const app = initializeApp(firebaseConfig);
 
-if (process.env.NEXT_PUBLIC_NTTT_FIREBASE_JSON) {
-  try {
-    dataConfig = JSON.parse(decodeBase64(process.env.NEXT_PUBLIC_NTTT_FIREBASE_JSON));
-  } catch (e) {
-    console.error('Failed to parse NEXT_PUBLIC_NTTT_FIREBASE_JSON:', e);
-    dataConfig = null;
+// Initialize Firebase Auth
+const auth = getAuth(app);
+
+// Initialize Firestore
+const db = getFirestore(app);
+
+// === COLLECTION PREFIXES (TEST vs PROD) ===
+// VERCEL_ENV: 'production' | 'preview' | 'development' | undefined
+const isProduction = process.env.VERCEL_ENV === 'production';
+const prefix = isProduction ? '' : 'test_';
+
+/**
+ * Collection paths with environment-based prefixes
+ * Production: users, nttt_sessions, nttt_feedback
+ * Test/Preview: test_users, test_nttt_sessions, test_nttt_feedback
+ */
+export const collections = {
+  users: `${prefix}users`,
+  ntttSessions: `${prefix}nttt_sessions`,
+  ntttFeedback: `${prefix}nttt_feedback`,
+};
+
+/**
+ * Get a Firestore collection reference with proper prefix
+ * @param {keyof collections} name - Collection name from collections object
+ * @returns {CollectionReference} Firestore collection reference
+ */
+export const getCollectionRef = (name) => {
+  const path = collections[name];
+  if (!path) {
+    throw new Error(`Unknown collection: ${name}`);
   }
-}
+  return collection(db, path);
+};
 
-if (!dataConfig) {
-  // Fallback: use auth config for data too (single project mode)
-  console.warn('NEXT_PUBLIC_NTTT_FIREBASE_JSON not set, using auth config for data');
-  dataConfig = authConfig;
-}
+/**
+ * Get the user document path (with prefix)
+ * @param {string} userId - Firebase user ID
+ * @returns {string} Document path like "users/abc123" or "test_users/abc123"
+ */
+export const getUserDocPath = (userId) => `${prefix}users/${userId}`;
 
-// Initialize Firebase apps
-const authApp = initializeApp(authConfig);
-
-// Only create second app if configs are different
-const dataApp = dataConfig.projectId !== authConfig.projectId
-  ? initializeApp(dataConfig, 'nttt-data')
-  : authApp;
-
-// Initialize Firebase Auth (from auth project)
-const auth = getAuth(authApp);
-
-// Initialize Firestore (from data project)
-const db = getFirestore(dataApp);
+/**
+ * Check if running in production
+ * @returns {boolean}
+ */
+export const isProd = () => isProduction;
 
 // Initialize Auth Providers
 const googleProvider = new GoogleAuthProvider();
@@ -88,4 +108,4 @@ const appleProvider = new OAuthProvider('apple.com');
 appleProvider.addScope('email');
 appleProvider.addScope('name');
 
-export { auth, db, googleProvider, emailProvider, appleProvider };
+export { app, auth, db, googleProvider, emailProvider, appleProvider };

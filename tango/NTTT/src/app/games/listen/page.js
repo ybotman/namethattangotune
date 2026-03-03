@@ -38,10 +38,12 @@ export default function ListenPage() {
 
         // Load singers (no active filter - all singers available)
         const singerData = await fetch("/songData/SingerMaster.json").then((r) => r.json());
-        const singerOpts = singerData
-          .map((s) => ({ label: s.singer, value: s.singer }))
-          .sort((a, b) => a.label.localeCompare(b.label));
-        setSingerOptions(singerOpts);
+        if (Array.isArray(singerData)) {
+          const singerOpts = singerData
+            .map((s) => ({ label: s.singer, value: s.singer }))
+            .sort((a, b) => a.label.localeCompare(b.label));
+          setSingerOptions(singerOpts);
+        }
       } catch (err) {
         console.error("Error loading options:", err);
       }

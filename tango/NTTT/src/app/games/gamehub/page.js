@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Box, Typography, Paper, Button, useMediaQuery, Modal, IconButton, Avatar, CircularProgress } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import CloseIcon from "@mui/icons-material/Close";
 import PersonIcon from "@mui/icons-material/Person";
 import BarChartIcon from "@mui/icons-material/BarChart";
@@ -39,6 +40,20 @@ const getLastVisit = () => {
 
 // Tools password
 const TOOLS_PASSWORD = "!El4Gotan";
+
+// App version - uses Vercel commit SHA or fallback
+const APP_VERSION = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA || "dev";
+
+// Version check - prompts refresh if new version detected
+const checkAppVersion = () => {
+  if (typeof window === "undefined") return false;
+  const storedVersion = localStorage.getItem("nttt-app-version");
+  if (storedVersion && storedVersion !== APP_VERSION && APP_VERSION !== "dev") {
+    return true; // New version available
+  }
+  localStorage.setItem("nttt-app-version", APP_VERSION);
+  return false;
+};
 
 // Check if user has seen welcome popup
 const hasSeenWelcome = () => {
@@ -160,8 +175,16 @@ const tools = [
 ];
 
 // Page Banner Component
-function PageBanner({ src, alt, contain = false }) {
+function PageBanner({ src, alt, contain = false, fade = false }) {
   const isMobile = useMediaQuery("(max-width: 600px)");
+
+  // CDD-style edge fading effect
+  const fadeStyles = fade ? {
+    maskImage: "linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)",
+    maskComposite: "intersect",
+    WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)",
+    WebkitMaskComposite: "source-in",
+  } : {};
 
   return (
     <Box
@@ -173,6 +196,7 @@ function PageBanner({ src, alt, contain = false }) {
         mb: 2,
         borderRadius: contain ? 0 : 2,
         overflow: "hidden",
+        ...fadeStyles,
       }}
     >
       <Image
@@ -243,8 +267,8 @@ function WelcomePage({ onQuickStart, onViewStats }) {
         gap: 2,
       }}
     >
-      {/* Banner - full image */}
-      <PageBanner src="/Banner/Type1__NTTT.png" alt="Name That Tango Tune" contain />
+      {/* Banner - full image with CDD edge fading */}
+      <PageBanner src="/Banner/Type1__NTTT.png" alt="Name That Tango Tune" contain fade />
 
       {/* Visit Stats */}
       <Paper
@@ -931,33 +955,35 @@ function StatusPage() {
           })}
         </Box>
 
-        {/* Grid Labels */}
+        {/* Grid Labels - Column headers: Icons/Core/Niche */}
         <Box sx={{ display: "flex", justifyContent: "space-between", mt: 0.5, px: 0.5 }}>
           <Typography sx={{ fontSize: "0.5rem", color: "var(--foreground)", opacity: 0.5 }}>
-            Famous
+            Icons
           </Typography>
           <Typography sx={{ fontSize: "0.5rem", color: "var(--foreground)", opacity: 0.5 }}>
-            Regular
+            Core
           </Typography>
           <Typography sx={{ fontSize: "0.5rem", color: "var(--foreground)", opacity: 0.5 }}>
-            Obscure
+            Niche
           </Typography>
         </Box>
       </Paper>
     );
   };
 
-  // Grid key mappings
+  // Grid key mappings - must match DifficultyGrid naming
+  // Layout: Cols = Icons/Core/Niche, Rows = Famous/Known/Obscure
   const orchestraGridKeys = {
-    1: "Big4-Famous", 2: "Big4-Regular", 3: "Big4-Obscure",
-    4: "Classic-Famous", 5: "Classic-Regular", 6: "Classic-Obscure",
-    7: "Deep-Famous", 8: "Deep-Regular", 9: "Deep-Obscure",
+    1: "Icons-Famous", 2: "Core-Famous", 3: "Niche-Famous",
+    4: "Icons-Known", 5: "Core-Known", 6: "Niche-Known",
+    7: "Icons-Obscure", 8: "Core-Obscure", 9: "Niche-Obscure",
   };
 
+  // Singer grid: Cols = Iconic/Essential/Standard, Rows = Famous/Common/Obscure
   const singerGridKeys = {
-    1: "Iconic-Famous", 2: "Iconic-Common", 3: "Iconic-Obscure",
-    4: "Essential-Famous", 5: "Essential-Common", 6: "Essential-Obscure",
-    7: "Standard-Famous", 8: "Standard-Common", 9: "Standard-Obscure",
+    1: "Iconic-Famous", 2: "Essential-Famous", 3: "Standard-Famous",
+    4: "Iconic-Common", 5: "Essential-Common", 6: "Standard-Common",
+    7: "Iconic-Obscure", 8: "Essential-Obscure", 9: "Standard-Obscure",
   };
 
   return (
@@ -1503,6 +1529,7 @@ export default function GameHubPage() {
   const isMobile = useMediaQuery("(max-width: 600px)");
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [targetPage, setTargetPage] = useState(undefined);
+  const [showUpdateBanner, setShowUpdateBanner] = useState(false);
 
   // Check for page param in URL (e.g., ?page=1 for Orchestra)
   useEffect(() => {
@@ -1515,12 +1542,24 @@ export default function GameHubPage() {
     }
   }, [searchParams]);
 
+  // Check for app updates on mount
+  useEffect(() => {
+    if (checkAppVersion()) {
+      setShowUpdateBanner(true);
+    }
+  }, []);
+
   // Check if first visit on mount
   useEffect(() => {
     if (!hasSeenWelcome()) {
       setShowWelcomeModal(true);
     }
   }, []);
+
+  const handleRefresh = () => {
+    localStorage.setItem("nttt-app-version", APP_VERSION);
+    window.location.reload();
+  };
 
   const handleCloseWelcome = () => {
     markWelcomeSeen();
@@ -1613,33 +1652,67 @@ export default function GameHubPage() {
         onStart={handleStartFromWelcome}
       />
 
-      {/* Beta Badge - compact */}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          pt: 1,
-        }}
-      >
+      {/* Update Available Banner */}
+      {showUpdateBanner && (
         <Box
           sx={{
-            backgroundColor: "rgba(255, 193, 7, 0.8)",
-            color: "#000",
-            px: 1,
-            py: 0.25,
-            borderRadius: 1,
-            fontSize: "0.6rem",
-            fontWeight: "bold",
+            backgroundColor: "#4CAF50",
+            color: "#fff",
+            py: 0.5,
+            px: 2,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 2,
           }}
         >
-          BETA v2.3.0
+          <Typography sx={{ fontSize: "0.75rem", fontWeight: 500 }}>
+            New version available
+          </Typography>
+          <Button
+            size="small"
+            onClick={handleRefresh}
+            sx={{
+              color: "#fff",
+              borderColor: "#fff",
+              fontSize: "0.65rem",
+              py: 0,
+              minHeight: 24,
+            }}
+            variant="outlined"
+          >
+            Refresh
+          </Button>
         </Box>
-      </Box>
+      )}
 
       {/* Swipeable Menu */}
       <Box sx={{ flex: 1, minHeight: 0 }}>
         <SwipeMenu pages={pages} initialPage={0} externalPage={targetPage} />
       </Box>
+
+      {/* Quick Play FAB - Orchestra Quiz shortcut */}
+      <IconButton
+        onClick={() => router.push("/games/orchestra-quiz")}
+        sx={{
+          position: "fixed",
+          bottom: 80,
+          right: 16,
+          width: 48,
+          height: 48,
+          backgroundColor: "#FF6B6B",
+          color: "#fff",
+          boxShadow: "0 4px 12px rgba(255, 107, 107, 0.4)",
+          "&:hover": {
+            backgroundColor: "#FF5252",
+            transform: "scale(1.1)",
+          },
+          transition: "all 0.2s ease",
+          zIndex: 100,
+        }}
+      >
+        <MusicNoteIcon />
+      </IconButton>
     </Box>
   );
 }

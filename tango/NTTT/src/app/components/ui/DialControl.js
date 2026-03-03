@@ -89,7 +89,7 @@ export default function DialControl({
   };
 
   const handleTouchMove = (e) => {
-    e.preventDefault();
+    // touchAction: "none" on container prevents scrolling, no preventDefault needed
     handleMove(e.touches[0].clientY);
   };
 
