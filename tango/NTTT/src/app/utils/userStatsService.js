@@ -194,6 +194,11 @@ export async function saveSessionResults({
         correct: r.correct || false,
         timeUsed: r.timeUsed || 0,
         score: r.score || 0,
+        // Enhanced per-entity analytics data
+        correctOrchestra: r.correctOrchestra || null,
+        userGuess: r.userGuess || null,
+        correctSinger: r.correctSinger || null,
+        userGuessSinger: r.userGuessSinger || null,
       })),
       totalScore,
       correctCount,
@@ -212,6 +217,13 @@ export async function saveSessionResults({
       totalScore,
       correctCount,
       totalQuestions,
+    });
+
+    // 3. Update per-entity stats (orchestra or singer)
+    await updatePerEntityStats({
+      userId: user.uid,
+      gameType,
+      results,
     });
 
     return sessionRef.id;
@@ -279,6 +291,100 @@ async function updateUserGameStats({
   } catch (error) {
     console.error('Error updating user game stats:', error.message);
     throw error;
+  }
+}
+
+/**
+ * Update per-entity stats (per-orchestra or per-singer)
+ * Tracks confusion matrix data for analytics
+ *
+ * Firestore structure:
+ * users/{uid}/gameStats/orchestra-quiz/orchestras/{orchestraName}
+ *   - played: number
+ *   - correct: number
+ *   - confusedWith: { orchestraName: count }
+ *
+ * users/{uid}/gameStats/singer-quiz/singers/{singerName}
+ *   - played: number
+ *   - correct: number
+ *   - confusedWith: { singerName: count }
+ *
+ * @param {Object} params - Update parameters
+ * @param {string} params.userId - Firebase user ID
+ * @param {string} params.gameType - Game identifier
+ * @param {Array} params.results - Round results with correctOrchestra/userGuess or correctSinger/userGuessSinger
+ * @returns {Promise<void>}
+ */
+async function updatePerEntityStats({ userId, gameType, results }) {
+  if (!results || results.length === 0) return;
+
+  const userRef = doc(db, collections.users, userId);
+
+  try {
+    // Aggregate stats by entity from results
+    const entityStats = {};
+
+    for (const r of results) {
+      // Determine entity name and user guess based on game type
+      let entityName, userGuess;
+      if (gameType === 'orchestra-quiz' || gameType.includes('orchestra')) {
+        entityName = r.correctOrchestra;
+        userGuess = r.userGuess;
+      } else if (gameType === 'singer-quiz' || gameType.includes('singer')) {
+        entityName = r.correctSinger;
+        userGuess = r.userGuessSinger;
+      } else {
+        continue; // Unknown game type
+      }
+
+      if (!entityName) continue;
+
+      // Initialize entity stats if needed
+      if (!entityStats[entityName]) {
+        entityStats[entityName] = {
+          played: 0,
+          correct: 0,
+          confusedWith: {},
+        };
+      }
+
+      entityStats[entityName].played += 1;
+
+      if (r.correct) {
+        entityStats[entityName].correct += 1;
+      } else if (userGuess && userGuess !== entityName) {
+        // Track confusion - user guessed wrong
+        entityStats[entityName].confusedWith[userGuess] =
+          (entityStats[entityName].confusedWith[userGuess] || 0) + 1;
+      }
+    }
+
+    // Build update object
+    const updates = {};
+    const entityType = gameType.includes('singer') ? 'singers' : 'orchestras';
+
+    for (const [entityName, stats] of Object.entries(entityStats)) {
+      // Sanitize entity name for Firestore path (remove dots, slashes)
+      const safeEntityName = entityName.replace(/[./]/g, '_');
+      const basePath = `gameStats.${gameType}.${entityType}.${safeEntityName}`;
+
+      updates[`${basePath}.played`] = increment(stats.played);
+      updates[`${basePath}.correct`] = increment(stats.correct);
+      updates[`${basePath}.lastPlayed`] = serverTimestamp();
+
+      // Update confusion counts
+      for (const [confusedWith, count] of Object.entries(stats.confusedWith)) {
+        const safeConfusedName = confusedWith.replace(/[./]/g, '_');
+        updates[`${basePath}.confusedWith.${safeConfusedName}`] = increment(count);
+      }
+    }
+
+    if (Object.keys(updates).length > 0) {
+      await updateDoc(userRef, updates);
+    }
+  } catch (error) {
+    console.error('Error updating per-entity stats:', error.message);
+    // Don't throw - per-entity stats are supplementary
   }
 }
 

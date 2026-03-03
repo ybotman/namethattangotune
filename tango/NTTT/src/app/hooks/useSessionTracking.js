@@ -71,6 +71,11 @@ export default function useSessionTracking({
           correct: r.correct !== false, // If not explicitly false, assume correct (for backward compat)
           timeUsed: r.timeUsed || 0,
           score: r.score || 0,
+          // Enhanced per-entity analytics data
+          correctOrchestra: r.correctOrchestra || null,
+          userGuess: r.userGuess || null,
+          correctSinger: r.correctSinger || null,
+          userGuessSinger: r.userGuessSinger || null,
         }));
 
         await saveSessionResults({
@@ -132,6 +137,11 @@ export default function useSessionTracking({
         correct: r.correct !== false,
         timeUsed: r.timeUsed || 0,
         score: r.score || 0,
+        // Enhanced per-entity analytics data
+        correctOrchestra: r.correctOrchestra || null,
+        userGuess: r.userGuess || null,
+        correctSinger: r.correctSinger || null,
+        userGuessSinger: r.userGuessSinger || null,
       }));
 
       await saveSessionResults({

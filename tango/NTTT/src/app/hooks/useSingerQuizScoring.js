@@ -41,6 +41,14 @@ export default function useSingerQuizScoring({
   const decrementIntervalRef = useRef(null);
   const timeIntervalRef = useRef(null);
 
+  // Ref to track current song for timeout recording (avoids stale closure)
+  const currentSongRef = useRef(null);
+  const wrongAnswersRef = useRef([]);
+
+  // Keep refs in sync with state
+  currentSongRef.current = currentSong;
+  wrongAnswersRef.current = wrongAnswers;
+
   // Clear lockout timeout
   const clearLockout = useCallback(() => {
     if (lockoutTimeoutRef.current) {
@@ -100,7 +108,16 @@ export default function useSingerQuizScoring({
       setSessionScore((old) => old + multipliedScore);
       setRoundStats((old) => [
         ...old,
-        { timeUsed: timeElapsed, distractorsUsed: wrongAnswers.length, score: multipliedScore },
+        {
+          songId: currentSong.SongID || null,
+          correct: true,
+          timeUsed: timeElapsed,
+          distractorsUsed: wrongAnswers.length,
+          score: multipliedScore,
+          // Enhanced data for per-singer analytics
+          correctSinger: currentSong.Singer || null,
+          userGuessSinger: ans,
+        },
       ]);
       return { roundEnded: true, correct: true };
     } else {
@@ -127,6 +144,22 @@ export default function useSingerQuizScoring({
         const nextVal = old + 0.1;
         if (nextVal >= timeLimit) {
           stopAllIntervals();
+          // Record timeout result internally before calling external handler
+          if (currentSongRef.current) {
+            setRoundStats((prev) => [
+              ...prev,
+              {
+                songId: currentSongRef.current.SongID || null,
+                correct: false,
+                timeUsed: timeLimit,
+                distractorsUsed: wrongAnswersRef.current.length,
+                score: 0,
+                // Enhanced data for per-singer analytics
+                correctSinger: currentSongRef.current.Singer || null,
+                userGuessSinger: null, // Timed out, no guess recorded
+              },
+            ]);
+          }
           if (onTimesUp) onTimesUp();
         }
         return nextVal;

@@ -110,6 +110,9 @@ export default function useArtistQuizScoring({
           timeUsed: timeElapsed,
           distractorsUsed: wrongAnswers.length,
           score: multipliedScore,
+          // Enhanced data for per-orchestra analytics
+          correctOrchestra: currentSong.ArtistMaster || null,
+          userGuess: ans,
         },
       ]);
       return { roundEnded: true, correct: true };
@@ -159,6 +162,9 @@ export default function useArtistQuizScoring({
                 timeUsed: timeLimit,
                 distractorsUsed: wrongAnswersRef.current.length,
                 score: 0,
+                // Enhanced data for per-orchestra analytics
+                correctOrchestra: currentSongRef.current.ArtistMaster || null,
+                userGuess: null, // Timed out, no guess recorded
               },
             ]);
           }
