@@ -1640,7 +1640,7 @@ export default function GameHubPage() {
             fontWeight: "bold",
           }}
         >
-          BETA v2.1.0
+          BETA v2.3.0
         </Box>
       </Box>
 
