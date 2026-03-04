@@ -113,19 +113,34 @@ export default function SwipeMenu({ pages, initialPage = 0, onPageChange, extern
         >
           &lt;
         </Typography>
-        <Typography
-          sx={{
-            fontSize: "1.25rem",
-            fontWeight: 600,
-            color: "var(--foreground)",
-            textTransform: "uppercase",
-            letterSpacing: 2,
-            minWidth: 140,
-            textAlign: "center",
-          }}
-        >
-          {page.title}
-        </Typography>
+{page.image ? (
+          <img
+            src={page.image}
+            alt={page.title}
+            style={{
+              height: 32,
+              width: "auto",
+              maxWidth: 160,
+              objectFit: "contain",
+              maskImage: "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+            }}
+          />
+        ) : (
+          <Typography
+            sx={{
+              fontSize: "1.25rem",
+              fontWeight: 600,
+              color: "var(--foreground)",
+              textTransform: "uppercase",
+              letterSpacing: 2,
+              minWidth: 140,
+              textAlign: "center",
+            }}
+          >
+            {page.title}
+          </Typography>
+        )}
         <Typography
           onClick={() => currentPage < pages.length - 1 && goToPage(currentPage + 1)}
           sx={{

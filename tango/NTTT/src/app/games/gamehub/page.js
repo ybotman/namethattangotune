@@ -267,8 +267,8 @@ function WelcomePage({ onQuickStart, onViewStats }) {
         gap: 2,
       }}
     >
-      {/* Banner - full image with CDD edge fading */}
-      <PageBanner src="/Banner/Type1__NTTT.png" alt="Name That Tango Tune" contain fade />
+      {/* Banner - Type2 style with gold underline */}
+      <PageBanner src="/Banner/Type2__NTTT.png" alt="Name That Tango Tune" contain fade />
 
       {/* Visit Stats */}
       <Paper
@@ -787,7 +787,7 @@ function StatusPage() {
   if (!user) {
     return (
       <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <PageBanner src="/Banner/Type1__NTTT.png" alt="Your Stats" />
+        <PageBanner src="/Banner/Type2__Stats.png" alt="Your Stats" />
         <Paper
           elevation={0}
           sx={{
@@ -823,7 +823,7 @@ function StatusPage() {
   if (loading) {
     return (
       <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <PageBanner src="/Banner/Type1__NTTT.png" alt="Your Stats" />
+        <PageBanner src="/Banner/Type2__Stats.png" alt="Your Stats" />
         <CircularProgress sx={{ color: "var(--accent)", mt: 4 }} />
       </Box>
     );
@@ -988,7 +988,7 @@ function StatusPage() {
 
   return (
     <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-      <PageBanner src="/Banner/Type1__NTTT.png" alt="Your Stats" />
+      <PageBanner src="/Banner/Type2__Stats.png" alt="Your Stats" />
 
       <Typography
         sx={{
@@ -1585,46 +1585,55 @@ export default function GameHubPage() {
     {
       title: "Welcome",
       label: "Home",
+      image: "/Banner/Type2__NTTT.png",
       content: <WelcomePage onQuickStart={handleQuickStart} onViewStats={handleViewStats} />,
     },
     {
       title: "Orchestra",
       label: "Orch",
+      image: "/Banner/Type2__ORCHESTRA.png",
       content: <OrchestraPage />,
     },
     {
       title: "Singer",
       label: "Singer",
+      image: "/Banner/Type2__SINGER.png",
       content: <SingerPage />,
     },
     {
       title: "Songs",
       label: "Songs",
+      image: "/Banner/Type2__SONGS.png",
       content: <SongsPage />,
     },
     {
       title: "Listen",
       label: "Listen",
+      image: "/Banner/Type2__LISTEN.png",
       content: <ListenPage />,
     },
     {
       title: "Stats",
       label: "Stats",
+      image: "/Banner/Type2__Stats.png",
       content: <StatusPage />,
     },
     {
       title: "Daily",
       label: "Daily",
+      image: "/Banner/Type2__DAILY.png",
       content: <DailyPage />,
     },
     {
       title: "Contest",
       label: "Contest",
+      image: "/Banner/Type2__CONTEST.png",
       content: <ContestPage />,
     },
     {
       title: "Setup",
       label: "Setup",
+      image: "/Banner/Type2__SETUP.png",
       content: <SetupPage />,
     },
     {
@@ -1692,27 +1701,34 @@ export default function GameHubPage() {
       </Box>
 
       {/* Quick Play FAB - Orchestra Quiz shortcut */}
-      <IconButton
+      <Box
         onClick={() => router.push("/games/orchestra-quiz")}
         sx={{
           position: "fixed",
           bottom: 80,
           right: 16,
-          width: 48,
-          height: 48,
-          backgroundColor: "#FF6B6B",
-          color: "#fff",
-          boxShadow: "0 4px 12px rgba(255, 107, 107, 0.4)",
+          width: 56,
+          height: 56,
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
           "&:hover": {
-            backgroundColor: "#FF5252",
             transform: "scale(1.1)",
           },
-          transition: "all 0.2s ease",
+          "&:active": {
+            transform: "scale(0.95)",
+          },
+          transition: "transform 0.2s ease",
           zIndex: 100,
         }}
       >
-        <MusicNoteIcon />
-      </IconButton>
+        <img
+          src="/Banner/Type3__ORCHESTRA.png"
+          alt="Orchestra Quiz"
+          style={{ width: 56, height: 56, objectFit: "contain" }}
+        />
+      </Box>
     </Box>
   );
 }
