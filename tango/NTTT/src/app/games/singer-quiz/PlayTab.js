@@ -69,7 +69,7 @@ function findVocalStartPosition(song, playDuration) {
 export default function PlayTab({ songs, config, onCancel }) {
   const { calculateMaxScore, INTERVAL_MS } = useSingerQuiz();
   const timeLimit = config.timeLimit ?? 15;
-  const maxScore = calculateMaxScore(timeLimit);
+  const maxScore = calculateMaxScore(timeLimit, config.gridCells);
 
   const [roundOver, setRoundOver] = useState(false);
   const [roundScorePercents, setRoundScorePercents] = useState([]);

@@ -14,7 +14,7 @@ const PERIODS = [
   { name: "New Guard", short: "NEW", color: "#FF8A65" },
   { name: "Golden Age", short: "GOLD", color: "#FFD54F" },
   { name: "Decline", short: "DEC", color: "#90A4AE" },
-  { name: "Renaissance", short: "REN", color: "#4DD0E1" },
+  { name: "Tango Renaissance", short: "REN", color: "#4DD0E1" },
 ];
 
 export default function PeriodsSelector({

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useGameContext } from "@/contexts/GameContext";
+import { gridToScoreMultiplier } from "@/components/ui/DifficultyGrid";
 
 /**
  * Provide quiz-specific logic & validations:
@@ -61,8 +62,8 @@ export default function useArtistQuiz() {
 
   // For dynamic scoring:
 
-  // Basic maxScore calculation
-  const calculateMaxScore = useCallback((timeLimit) => {
+  // Basic maxScore calculation - now takes optional gridCells for difficulty multiplier
+  const calculateMaxScore = useCallback((timeLimit, gridCells = null) => {
     // 1) Clamp time between 3 and 30
     const clamped = Math.max(3, Math.min(timeLimit, 30));
 
@@ -74,11 +75,14 @@ export default function useArtistQuiz() {
     const c = 3.69;
     const d = 0.0595;
 
-    // 3) Compute polynomial
-    const val = a - b * clamped + c * clamped ** 2 - d * clamped ** 3;
+    // 3) Compute base score from polynomial
+    const baseScore = a - b * clamped + c * clamped ** 2 - d * clamped ** 3;
 
-    // 4) Round if you want an integer
-    return Math.round(val);
+    // 4) Apply difficulty multiplier from grid selection
+    const difficultyMultiplier = gridCells ? gridToScoreMultiplier(gridCells) : 1.0;
+
+    // 5) Round final score
+    return Math.round(baseScore * difficultyMultiplier);
   }, []);
 
   // Interval => 100ms for score/time updates

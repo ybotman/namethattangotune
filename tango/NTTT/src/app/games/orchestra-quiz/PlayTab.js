@@ -88,7 +88,7 @@ export default function PlayTab({ songs, config, onCancel }) {
   // 2) Quiz config
   const { calculateMaxScore, INTERVAL_MS } = useArtistQuiz();
   const timeLimit = config.timeLimit ?? 15;
-  const maxScore = calculateMaxScore(timeLimit);
+  const maxScore = calculateMaxScore(timeLimit, config.gridCells);
 
   // Local state
   const [roundOver, setRoundOver] = useState(false);

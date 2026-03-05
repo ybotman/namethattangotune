@@ -53,6 +53,39 @@ const GLOW_COLORS = {
 
 export { ORCHESTRA_LEVELS, SONG_FAMILIARITY };
 
+// Heat map for difficulty scoring (0=easiest, 4=hardest)
+const CELL_HEAT = {
+  "Icons-Famous": 0,
+  "Icons-Known": 1,
+  "Icons-Obscure": 2,
+  "Core-Famous": 1,
+  "Core-Known": 2,
+  "Core-Obscure": 3,
+  "Niche-Famous": 2,
+  "Niche-Known": 3,
+  "Niche-Obscure": 4,
+};
+
+/**
+ * Calculate score multiplier from grid selections
+ * Harder cells = higher multiplier = more points possible
+ * @param {string[]} selectedCells - e.g., ["Icons-Famous", "Core-Known"]
+ * @returns {number} - Multiplier between 1.0 (easiest) and 1.5 (hardest)
+ */
+export function gridToScoreMultiplier(selectedCells) {
+  if (!selectedCells || selectedCells.length === 0) return 1.0;
+
+  // Calculate average heat across selected cells
+  const totalHeat = selectedCells.reduce((sum, cell) => {
+    return sum + (CELL_HEAT[cell] ?? 0);
+  }, 0);
+  const avgHeat = totalHeat / selectedCells.length;
+
+  // Convert heat (0-4) to multiplier (1.0-1.5)
+  // Heat 0 = 1.0x, Heat 4 = 1.5x
+  return 1.0 + (avgHeat * 0.125);
+}
+
 /**
  * Convert grid selections to filter options
  * @param {string[]} selectedCells - e.g., ["Icons-Famous", "Core-Known"]

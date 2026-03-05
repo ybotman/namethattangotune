@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useGameContext } from "@/contexts/GameContext";
+import { gridToScoreMultiplier } from "@/components/ui/DifficultyGrid";
 
 /**
  * Hook for Singer Quiz - provides quiz-specific logic & validations
@@ -39,15 +40,16 @@ export default function useSingerQuiz() {
     [config],
   );
 
-  // Scoring calculation
-  const calculateMaxScore = useCallback((timeLimit) => {
+  // Scoring calculation - now takes optional gridCells for difficulty multiplier
+  const calculateMaxScore = useCallback((timeLimit, gridCells = null) => {
     const clamped = Math.max(3, Math.min(timeLimit, 30));
     const a = 705.39;
     const b = 79.0;
     const c = 3.69;
     const d = 0.0595;
-    const val = a - b * clamped + c * clamped ** 2 - d * clamped ** 3;
-    return Math.round(val);
+    const baseScore = a - b * clamped + c * clamped ** 2 - d * clamped ** 3;
+    const difficultyMultiplier = gridCells ? gridToScoreMultiplier(gridCells) : 1.0;
+    return Math.round(baseScore * difficultyMultiplier);
   }, []);
 
   // Interval => 100ms for score/time updates

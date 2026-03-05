@@ -113,7 +113,8 @@ export default function SingerQuizPage() {
       sx={{
         color: "var(--foreground)",
         background: "var(--background)",
-        minHeight: "100vh",
+        minHeight: "100dvh",
+        paddingBottom: "env(safe-area-inset-bottom, 16px)",
       }}
     >
       {/* PlayTab Overlay */}

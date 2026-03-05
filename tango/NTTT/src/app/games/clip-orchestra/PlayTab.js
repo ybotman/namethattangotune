@@ -110,20 +110,16 @@ function getClipBaseScore(clipLength) {
 // Calculate max possible score based on difficulty multipliers
 function calculateMaxScore(config) {
   const clipLength = config.clipLength ?? 5;
-  const tiers = config.recognitionTiers || [1];
+  const gridCells = config.gridCells || ["Icons-Famous"];
 
   // Base score from clip length
   const clipScore = getClipBaseScore(clipLength);
 
-  // Calculate average tier level (1=Iconic easiest, 5=Deep hardest)
-  const avgTier = tiers.length > 0
-    ? tiers.reduce((a, b) => a + b, 0) / tiers.length
-    : 1;
+  // Use grid-based difficulty multiplier
+  const { gridToScoreMultiplier } = require("@/components/ui/DifficultyGrid");
+  const difficultyMultiplier = gridToScoreMultiplier(gridCells);
 
-  // Average tier 1 = 1x, average tier 5 = 2x
-  const familiarityMultiplier = 1 + (avgTier - 1) * 0.25;
-
-  return Math.round(clipScore * familiarityMultiplier);
+  return Math.round(clipScore * difficultyMultiplier);
 }
 
 export default function PlayTab({ songs, config, onCancel }) {

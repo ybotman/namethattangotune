@@ -34,7 +34,7 @@ import SongFeedback from "@/components/ui/SongFeedback";
 export default function PlayTab({ songs, config, onCancel }) {
   const { calculateMaxScore, INTERVAL_MS } = useSongQuiz();
   const timeLimit = config.timeLimit ?? 15;
-  const maxScore = calculateMaxScore(timeLimit);
+  const maxScore = calculateMaxScore(timeLimit, config.gridCells);
 
   const [roundOver, setRoundOver] = useState(false);
   const [roundScorePercents, setRoundScorePercents] = useState([]);
