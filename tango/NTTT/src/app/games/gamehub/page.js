@@ -268,7 +268,7 @@ function WelcomePage({ onQuickStart, onViewStats }) {
       }}
     >
       {/* Banner - Type1 with CSS auto-crop, focus on bandoneon */}
-      <PageBanner src="/Banner/Type1__NTTT.png" alt="Name That Tango Tune" position="center 60%" />
+      <PageBanner src="/Banner/Type1__NTTT.png" alt="Name That Tango Tune" position="center 70%" />
 
       {/* Visit Stats */}
       <Paper
