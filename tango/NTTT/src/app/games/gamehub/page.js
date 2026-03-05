@@ -175,7 +175,7 @@ const tools = [
 ];
 
 // Page Banner Component
-function PageBanner({ src, alt, contain = false, fade = false }) {
+function PageBanner({ src, alt, contain = false, fade = false, position = "center" }) {
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   // CDD-style edge fading effect
@@ -204,7 +204,7 @@ function PageBanner({ src, alt, contain = false, fade = false }) {
         alt={alt}
         fill
         sizes="100vw"
-        style={{ objectFit: contain ? "contain" : "cover" }}
+        style={{ objectFit: contain ? "contain" : "cover", objectPosition: position }}
         priority
       />
     </Box>
@@ -267,8 +267,8 @@ function WelcomePage({ onQuickStart, onViewStats }) {
         gap: 2,
       }}
     >
-      {/* Banner - Type1 with CSS auto-crop (same as other pages) */}
-      <PageBanner src="/Banner/Type1__NTTT.png" alt="Name That Tango Tune" />
+      {/* Banner - Type1 with CSS auto-crop, focus on bandoneon */}
+      <PageBanner src="/Banner/Type1__NTTT.png" alt="Name That Tango Tune" position="center 60%" />
 
       {/* Visit Stats */}
       <Paper
