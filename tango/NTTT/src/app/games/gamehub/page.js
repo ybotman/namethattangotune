@@ -267,8 +267,8 @@ function WelcomePage({ onQuickStart, onViewStats }) {
         gap: 2,
       }}
     >
-      {/* Banner - Type2 style with gold underline */}
-      <PageBanner src="/Banner/Type2__NTTT.png" alt="Name That Tango Tune" contain fade />
+      {/* Banner - Type1 with CSS auto-crop (same as other pages) */}
+      <PageBanner src="/Banner/Type1__NTTT.png" alt="Name That Tango Tune" />
 
       {/* Visit Stats */}
       <Paper
