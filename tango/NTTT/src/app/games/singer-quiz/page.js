@@ -6,7 +6,7 @@
 
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Box, Divider, useMediaQuery } from "@mui/material";
 import ConfigTab from "./ConfigTab";
 import BackButton from "@/components/ui/BackButton";
@@ -29,6 +29,12 @@ export default function SingerQuizPage() {
   const isLandscape = useMediaQuery("(min-width: 768px) and (orientation: landscape)", { noSsr: true });
 
   const { config, resetAll } = useGameContext();
+
+  // Enter fullscreen + back button trap on page load
+  useEffect(() => {
+    enterGameMode();
+    return () => exitGameMode();
+  }, []);
 
   // Callback for ConfigTab to report pool count
   const handlePoolCountChange = useCallback((count) => {
@@ -96,14 +102,12 @@ export default function SingerQuizPage() {
 
     trackGameSetup("singer-quiz", config);
     trackGameStart("singer-quiz", config);
-    enterGameMode();
 
     setSongs(fetchedSongs);
     setShowPlayTab(true);
   }, [config, canPlay, primaryFilterMode, singerGridCells, periods, activeStyles, hasEnoughSongs, numSongs, poolCount]);
 
   const handleClosePlayTab = () => {
-    exitGameMode();
     setShowPlayTab(false);
   };
 

@@ -26,6 +26,12 @@ export default function ListenPage() {
 
   const { config, resetAll } = useGameContext();
 
+  // Enter fullscreen + back button trap on page load
+  useEffect(() => {
+    enterGameMode();
+    return () => exitGameMode();
+  }, []);
+
   // Load artist and singer options on mount
   useEffect(() => {
     (async () => {
@@ -94,7 +100,6 @@ export default function ListenPage() {
     // Track game setup and start
     trackGameSetup("listen", config);
     trackGameStart("listen", config);
-    enterGameMode();
 
     // Shuffle for random order
     const shuffled = shuffleArray(fetchedSongs);
@@ -103,7 +108,6 @@ export default function ListenPage() {
   }, [config]);
 
   const handleClose = () => {
-    exitGameMode();
     setShowListenTab(false);
   };
 

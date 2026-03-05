@@ -97,6 +97,7 @@ export default function PlayTab({ songs, config, onCancel }) {
   const [allArtists, setAllArtists] = useState([]); // ArtistMaster data for distractors
   const [audioReady, setAudioReady] = useState(false); // Gate answers until audio starts
   const lastSongRef = useRef(null);
+  const answersGeneratedForRef = useRef(null); // Track which song's answers were generated
   const celebrationRef = useRef(null);
   const numSongs = config.numSongs ?? 10;
 
@@ -273,8 +274,15 @@ export default function PlayTab({ songs, config, onCancel }) {
 
   // 9) Build answers from ArtistMaster filtered by selected orchestra levels
   // Distractors come ONLY from the same tier(s) selected - no bleeding across tiers
+  // IMPORTANT: Only generate once per song to prevent answer positions from shifting
   useEffect(() => {
     if (!currentSong || allArtists.length === 0) return;
+
+    // Skip if we already generated answers for this exact song
+    const songId = currentSong.SongID || currentSong.AudioUrl;
+    if (answersGeneratedForRef.current === songId) return;
+    answersGeneratedForRef.current = songId;
+
     const correctArtist = currentSong.ArtistMaster || "";
 
     // Get selected orchestra levels from gridCells (e.g., ["Icons-Famous"] → [1])
@@ -575,8 +583,8 @@ export default function PlayTab({ songs, config, onCancel }) {
         )}
       </Box>
 
-      {/* Spacer - smaller on desktop, flexible on mobile */}
-      <Box sx={{ flex: { xs: 1, md: 0 }, minHeight: { xs: 20, md: 40 } }} />
+      {/* Fixed spacer - no flex to prevent layout shift */}
+      <Box sx={{ height: 24 }} />
 
       {/* Answers */}
       <List sx={{ maxWidth: "min(100%, 400px)", mx: "auto", width: "100%" }}>
@@ -649,54 +657,56 @@ export default function PlayTab({ songs, config, onCancel }) {
         </AnimatePresence>
       </List>
 
-      {/* Fixed height feedback area - prevents layout shift */}
-      <Box sx={{ minHeight: 80, display: "flex", flexDirection: "column", justifyContent: "center", mt: 2 }}>
-        <AnimatePresence>
-          {roundOver && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
-            >
-              <Box sx={{ textAlign: "center" }}>
-                {lastCorrect ? (
-                  <>
-                    <Typography
-                      variant="h6"
-                      sx={{ color: "#4caf50", fontWeight: "bold", mb: 0.5 }}
-                    >
-                      {getPerformanceMessage()}
-                    </Typography>
-                    <Typography variant="body2">
-                      +{Math.floor(roundScore)} pts | Total: {Math.floor(sessionScore)}
-                    </Typography>
-                  </>
-                ) : (
-                  <>
-                    <Typography variant="body1" sx={{ color: "#f44336", mb: 0.5 }}>
-                      Answer: <strong>{currentSong?.ArtistMaster}</strong>
-                    </Typography>
-                    <Typography variant="body2">
-                      Total: {Math.floor(sessionScore)}
-                    </Typography>
-                  </>
-                )}
-              </Box>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </Box>
+      {/* FIXED HEIGHT bottom section - prevents answer position shift */}
+      <Box sx={{ height: 180, display: "flex", flexDirection: "column", justifyContent: "flex-start", mt: 2 }}>
+        {/* Feedback area - fixed 60px */}
+        <Box sx={{ height: 60, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <AnimatePresence>
+            {roundOver && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                <Box sx={{ textAlign: "center" }}>
+                  {lastCorrect ? (
+                    <>
+                      <Typography
+                        variant="h6"
+                        sx={{ color: "#4caf50", fontWeight: "bold", mb: 0.5 }}
+                      >
+                        {getPerformanceMessage()}
+                      </Typography>
+                      <Typography variant="body2">
+                        +{Math.floor(roundScore)} pts | Total: {Math.floor(sessionScore)}
+                      </Typography>
+                    </>
+                  ) : (
+                    <>
+                      <Typography variant="body1" sx={{ color: "#f44336", mb: 0.5 }}>
+                        Answer: <strong>{currentSong?.ArtistMaster}</strong>
+                      </Typography>
+                      <Typography variant="body2">
+                        Total: {Math.floor(sessionScore)}
+                      </Typography>
+                    </>
+                  )}
+                </Box>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </Box>
 
-      {/* GO!/Next Button - fixed position */}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          py: 2,
-        }}
-      >
+        {/* Button area - fixed 80px */}
+        <Box
+          sx={{
+            height: 80,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
         <AnimatePresence>
           {!isPlaying && !roundOver && currentSong && (
             <motion.div
@@ -770,24 +780,25 @@ export default function PlayTab({ songs, config, onCancel }) {
             </motion.div>
           )}
         </AnimatePresence>
-      </Box>
+        </Box>{/* Close button area */}
 
-      {/* Feedback button - below Next button */}
-      {roundOver && (
-        <Box sx={{ display: "flex", justifyContent: "center", pb: 2 }}>
-          <SongFeedback
-            song={currentSong}
-            gameType="orchestra-quiz"
-            config={config}
-            answers={answers}
-            selectedAnswer={selectedAnswer}
-            correctAnswer={currentSong?.ArtistMaster}
-            wasCorrect={lastCorrect}
-            roundScore={roundScore}
-            sessionScore={sessionScore}
-          />
+        {/* Feedback button - fixed 40px */}
+        <Box sx={{ height: 40, display: "flex", justifyContent: "center", alignItems: "center" }}>
+          {roundOver && (
+            <SongFeedback
+              song={currentSong}
+              gameType="orchestra-quiz"
+              config={config}
+              answers={answers}
+              selectedAnswer={selectedAnswer}
+              correctAnswer={currentSong?.ArtistMaster}
+              wasCorrect={lastCorrect}
+              roundScore={roundScore}
+              sessionScore={sessionScore}
+            />
+          )}
         </Box>
-      )}
+      </Box>{/* Close 180px fixed height bottom section */}
       </Box>{/* Close inner constrained Box */}
     </Box>
   );

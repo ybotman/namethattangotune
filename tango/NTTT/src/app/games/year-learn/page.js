@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Box, Typography, Divider, useMediaQuery } from "@mui/material";
 import ConfigTab from "./ConfigTab";
 import BackButton from "@/components/ui/BackButton";
@@ -24,6 +24,12 @@ export default function YearLearnPage() {
   const isLandscape = useMediaQuery("(min-width: 768px) and (orientation: landscape)", { noSsr: true });
 
   const { config, resetAll } = useGameContext();
+
+  // Enter fullscreen + back button trap on page load
+  useEffect(() => {
+    enterGameMode();
+    return () => exitGameMode();
+  }, []);
 
   // Validation: need at least 1 familiarity and 1 style (no era - that would be cheating!)
   const recognitionTiers = config.recognitionTiers || [1];
@@ -74,14 +80,12 @@ export default function YearLearnPage() {
     // Track game setup and start
     trackGameSetup("year-learn", config);
     trackGameStart("year-learn", config);
-    enterGameMode();
 
     setSongs(shuffleArray(songsWithYear));
     setShowPlayTab(true);
   }, [config]);
 
   const handleClose = () => {
-    exitGameMode();
     setShowPlayTab(false);
   };
 

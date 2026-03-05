@@ -41,6 +41,12 @@ export default function SameSongPage() {
   // Detect landscape mode (min-width 768px AND landscape orientation)
   const isLandscape = useMediaQuery("(min-width: 768px) and (orientation: landscape)", { noSsr: true });
 
+  // Enter fullscreen + back button trap on page load
+  useEffect(() => {
+    enterGameMode();
+    return () => exitGameMode();
+  }, []);
+
   // Local config state - always starts with all selected, never persisted
   const [config, setConfig] = useState({
     recognitionTiers: ALL_TIERS,
@@ -91,12 +97,10 @@ export default function SameSongPage() {
     // Track game setup and start
     trackGameSetup("same-song", { ...config, selectedSong: selectedGroup.title });
     trackGameStart("same-song", { ...config, selectedSong: selectedGroup.title });
-    enterGameMode();
     setShowCompareTab(true);
   }, [selectedGroup, config]);
 
   const handleCloseCompareTab = () => {
-    exitGameMode();
     setShowCompareTab(false);
   };
 

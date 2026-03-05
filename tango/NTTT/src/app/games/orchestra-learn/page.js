@@ -5,7 +5,7 @@
 
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Box, Typography, Divider, useMediaQuery } from "@mui/material";
 import ConfigTab from "./ConfigTab";
 import BackButton from "@/components/ui/BackButton";
@@ -30,6 +30,12 @@ export default function ArtistLearnPage() {
   const isLandscape = useMediaQuery("(min-width: 768px) and (orientation: landscape)", { noSsr: true });
 
   const { config, resetAll } = useGameContext();
+
+  // Enter fullscreen + back button trap on page load
+  useEffect(() => {
+    enterGameMode();
+    return () => exitGameMode();
+  }, []);
 
   const handlePlayClick = useCallback(async () => {
     if (!config.selectedOrchestra) {
@@ -76,14 +82,12 @@ export default function ArtistLearnPage() {
     // Track game setup and start
     trackGameSetup("orchestra-learn", config);
     trackGameStart("orchestra-learn", config);
-    enterGameMode();
 
     setSongs(finalSongs);
     setShowPlayTab(true);
   }, [config]);
 
   const handleClosePlayTab = () => {
-    exitGameMode();
     setShowPlayTab(false);
   };
 

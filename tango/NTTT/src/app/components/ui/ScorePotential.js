@@ -4,15 +4,12 @@
 //
 "use client";
 
-import React, { useMemo, useState, useEffect, useRef } from "react";
+import React, { useMemo, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { Box, Typography } from "@mui/material";
 import { motion, useAnimation } from "motion/react";
-import {
-  getDifficultyMultiplier,
-  getSingerMultiplier,
-  getTotalMultiplier,
-} from "@/utils/scoringUtils";
+import { getSingerMultiplier } from "@/utils/scoringUtils";
+import { gridToScoreMultiplier } from "@/components/ui/DifficultyGrid";
 
 /**
  * Calculate max base score from time limit using the cubic polynomial
@@ -31,25 +28,25 @@ function calculateBaseMaxScore(timeLimit) {
  * ScorePotential - Displays max possible score per song
  */
 export default function ScorePotential({ config }) {
-  const { timeLimit = 15, recognitionTiers = [1], includeSinger = false, numSongs = 10 } = config;
+  const { timeLimit = 15, gridCells = ["Icons-Famous"], includeSinger = false, numSongs = 10 } = config;
 
   const scoring = useMemo(() => {
     const baseMax = calculateBaseMaxScore(timeLimit);
-    const tierMult = getDifficultyMultiplier(recognitionTiers);
+    const gridMult = gridToScoreMultiplier(gridCells);
     const singerMult = getSingerMultiplier(includeSinger);
-    const totalMult = tierMult * singerMult;
+    const totalMult = gridMult * singerMult;
     const maxPerSong = Math.round(baseMax * totalMult);
     const sessionMax = maxPerSong * numSongs;
 
     return {
       baseMax,
-      tierMult,
+      gridMult,
       singerMult,
       totalMult,
       maxPerSong,
       sessionMax,
     };
-  }, [timeLimit, recognitionTiers, includeSinger, numSongs]);
+  }, [timeLimit, gridCells, includeSinger, numSongs]);
 
   // Intensity level based on max per song
   const getIntensityLevel = (max) => {
@@ -129,7 +126,7 @@ ScorePotential.propTypes = {
   config: PropTypes.shape({
     timeLimit: PropTypes.number,
     numSongs: PropTypes.number,
-    recognitionTiers: PropTypes.arrayOf(PropTypes.number),
+    gridCells: PropTypes.arrayOf(PropTypes.string),
     includeSinger: PropTypes.bool,
   }),
 };

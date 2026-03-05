@@ -61,25 +61,23 @@ export default function useWaveSurfer({ onSongEnd }) {
         // Ignore
       }
 
-      // Use setTimeout to let any in-flight operations settle
-      setTimeout(() => {
-        try {
-          // Check if WaveSurfer is still valid before cleanup
-          if (ws && !ws.isDestroyed) {
-            try { ws.pause(); } catch (e) { /* ignore */ }
-            try { ws.stop(); } catch (e) { /* ignore */ }
-            // Call destroy and ignore the returned promise - don't await
-            // This prevents AbortError from propagating as unhandled rejection
-            const destroyPromise = ws.destroy();
-            if (destroyPromise && destroyPromise.catch) {
-              destroyPromise.catch(() => {});
-            }
-          }
-        } catch (err) {
-          // Ignore all cleanup errors - AbortError is common and expected
-          // when destroying while a fetch is in progress
+      // Synchronously attempt cleanup (setTimeout can race with React unmount)
+      try {
+        if (ws) {
+          try { ws.pause(); } catch (e) { /* ignore */ }
+          try { ws.stop(); } catch (e) { /* ignore */ }
+          // Call destroy and suppress any errors
+          // Use Promise.resolve to handle both sync and async cases
+          Promise.resolve()
+            .then(() => ws.destroy())
+            .catch(() => {
+              // AbortError is expected when destroying during fetch
+            });
         }
-      }, 0);
+      } catch (err) {
+        // Ignore all cleanup errors - AbortError is common and expected
+        // when destroying while a fetch is in progress
+      }
     }
     // Clear error callback
     onErrorRef.current = null;

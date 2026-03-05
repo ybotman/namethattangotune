@@ -4,7 +4,7 @@
 
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Box, Typography, Divider, useMediaQuery } from "@mui/material";
 import ConfigTab from "./ConfigTab";
 import BackButton from "@/components/ui/BackButton";
@@ -29,6 +29,12 @@ export default function SingerLearnPage() {
   const isLandscape = useMediaQuery("(min-width: 768px) and (orientation: landscape)", { noSsr: true });
 
   const { config, resetAll } = useGameContext();
+
+  // Enter fullscreen + back button trap on page load
+  useEffect(() => {
+    enterGameMode();
+    return () => exitGameMode();
+  }, []);
 
   // Validation: need singer selected + at least 1 familiarity, 1 style, 1 era
   const recognitionTiers = config.recognitionTiers || [1];
@@ -87,14 +93,12 @@ export default function SingerLearnPage() {
     // Track game setup and start
     trackGameSetup("singer-learn", config);
     trackGameStart("singer-learn", config);
-    enterGameMode();
 
     setSongs(fetchedSongs);
     setShowPlayTab(true);
   }, [config]);
 
   const handleClosePlayTab = () => {
-    exitGameMode();
     setShowPlayTab(false);
   };
 
