@@ -65,7 +65,6 @@ export default function PlayTab({ songs, config, onCancel }) {
   });
 
   useEffect(() => {
-    console.log("Singer Learn PlayTab - config:", config);
   }, [config]);
 
   // Timers / Intervals Cleanup
@@ -155,7 +154,6 @@ export default function PlayTab({ songs, config, onCancel }) {
       setCurrentIndex(-1);
       return;
     }
-    console.log("Ready to Play Song:", currentSong);
     initWaveSurfer();
     loadSong(currentSong.AudioUrl, () => {
       setReady(true);

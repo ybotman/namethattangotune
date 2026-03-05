@@ -38,10 +38,11 @@ singerMaster.singers.forEach(s => {
   singerEraMap[s.singer] = s.era;
 });
 
-// Build iconic song lookup (title + orchestra + year)
+// Build iconic song lookup (title + orchestra only - year matching was too strict)
+// This allows all versions of an iconic song to get the bonus
 const iconicSongSet = new Set();
 iconicMaster.iconicSongs.forEach(s => {
-  const key = `${s.title.toLowerCase()}|${s.orchestra.toLowerCase()}|${s.year}`;
+  const key = `${s.title.toLowerCase()}|${s.orchestra.toLowerCase()}`;
   iconicSongSet.add(key);
 });
 
@@ -106,8 +107,8 @@ djSongs.songs.forEach(song => {
     song.singerEra = null;
   }
 
-  // Iconic bonus - match on ArtistMaster (normalized name)
-  const songKey = `${(song.Title || '').toLowerCase()}|${(song.ArtistMaster || '').toLowerCase()}|${song.Year}`;
+  // Iconic bonus - match on title + orchestra only (ignoring year)
+  const songKey = `${(song.Title || '').toLowerCase()}|${(song.ArtistMaster || '').toLowerCase()}`;
   const isIconic = iconicSongSet.has(songKey);
   const iconicBonus = isIconic ? 0.2 : 0;
   if (isIconic) {
@@ -167,8 +168,10 @@ console.log(`0.8-1.0: ${buckets[4]} songs`);
 
 // Update version and save
 djSongs.version = (djSongs.version || 1) + 1;
-djSongs.lastUpdate = '2026-03-01';
+djSongs.lastUpdate = '2026-03-05';
 djSongs.familiarityFields = ['orchestraLevel', 'singerLevel', 'singerEra', 'songFamiliarity', 'isIconic'];
 
-fs.writeFileSync('../public/songData/djSongsWeighted.json', JSON.stringify(djSongs, null, 2));
+const path = require('path');
+const outputPath = path.join(__dirname, '../public/songData/djSongsWeighted.json');
+fs.writeFileSync(outputPath, JSON.stringify(djSongs, null, 2));
 console.log('\n✅ djSongsWeighted.json updated with familiarity scores');

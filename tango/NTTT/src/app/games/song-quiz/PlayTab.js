@@ -78,7 +78,6 @@ export default function PlayTab({ songs, config, onCancel }) {
     maxScore,
     INTERVAL_MS,
     onTimesUp: () => {
-      console.log("PlayTab-> onTimesUp => forcing 0 score + roundOver");
       setRoundScore(0);
       setRoundScorePercents(prev => [...prev, 0]);
       setRoundOver(true);
@@ -419,44 +418,32 @@ export default function PlayTab({ songs, config, onCancel }) {
         })}
       </List>
 
-      {/* Round result feedback */}
-      {roundOver && (
-        <Box sx={{ mt: 2, textAlign: "center" }}>
-          {roundScore > 0 ? (
-            <>
-              <Typography variant="h6" sx={{ color: "#4caf50", fontWeight: "bold", mb: 1 }}>
-                {getPerformanceMessage()}
-              </Typography>
-              <Typography variant="body1">
-                +{Math.floor(roundScore)} pts | Total: {Math.floor(sessionScore)}
-              </Typography>
-            </>
-          ) : (
-            <>
-              <Typography variant="body1" sx={{ color: "#f44336", mb: 1 }}>
-                Answer: <strong>{currentSong?.Title}</strong>
-              </Typography>
-              <Typography variant="body2">
-                Total: {Math.floor(sessionScore)}
-              </Typography>
-            </>
-          )}
-          {/* Feedback button */}
-          <Box sx={{ mt: 2, display: "flex", justifyContent: "center" }}>
-            <SongFeedback
-              song={currentSong}
-              gameType="song-quiz"
-              config={config}
-              answers={answers}
-              selectedAnswer={selectedAnswer}
-              correctAnswer={currentSong?.Title}
-              wasCorrect={roundScore > 0}
-              roundScore={roundScore}
-              sessionScore={sessionScore}
-            />
+      {/* Fixed height feedback area - prevents layout shift */}
+      <Box sx={{ minHeight: 70, display: "flex", flexDirection: "column", justifyContent: "center", mt: 2 }}>
+        {roundOver && (
+          <Box sx={{ textAlign: "center" }}>
+            {roundScore > 0 ? (
+              <>
+                <Typography variant="h6" sx={{ color: "#4caf50", fontWeight: "bold", mb: 0.5 }}>
+                  {getPerformanceMessage()}
+                </Typography>
+                <Typography variant="body2">
+                  +{Math.floor(roundScore)} pts | Total: {Math.floor(sessionScore)}
+                </Typography>
+              </>
+            ) : (
+              <>
+                <Typography variant="body1" sx={{ color: "#f44336", mb: 0.5 }}>
+                  Answer: <strong>{currentSong?.Title}</strong>
+                </Typography>
+                <Typography variant="body2">
+                  Total: {Math.floor(sessionScore)}
+                </Typography>
+              </>
+            )}
           </Box>
-        </Box>
-      )}
+        )}
+      </Box>
 
       {/* GO!/Next Button - Floating overlay, doesn't affect layout */}
       <Box
@@ -545,6 +532,31 @@ export default function PlayTab({ songs, config, onCancel }) {
           )}
         </AnimatePresence>
       </Box>
+
+      {/* Feedback button - below Next button */}
+      {roundOver && (
+        <Box sx={{
+          position: "fixed",
+          bottom: "5%",
+          left: 0,
+          right: 0,
+          display: "flex",
+          justifyContent: "center",
+          zIndex: 99,
+        }}>
+          <SongFeedback
+            song={currentSong}
+            gameType="song-quiz"
+            config={config}
+            answers={answers}
+            selectedAnswer={selectedAnswer}
+            correctAnswer={currentSong?.Title}
+            wasCorrect={roundScore > 0}
+            roundScore={roundScore}
+            sessionScore={sessionScore}
+          />
+        </Box>
+      )}
     </Box>
   );
 }

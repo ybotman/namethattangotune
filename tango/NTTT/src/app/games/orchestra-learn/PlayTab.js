@@ -62,7 +62,6 @@ export default function PlayTab({ songs, config, onCancel }) {
   });
 
   useEffect(() => {
-    console.log("PlayTab - config:", config);
   }, [config]);
 
   // -----------------------------
@@ -176,7 +175,6 @@ export default function PlayTab({ songs, config, onCancel }) {
       setCurrentIndex(-1);
       return;
     }
-    console.log("Ready to Play Song:", currentSong);
     initWaveSurfer();
     loadSong(currentSong.AudioUrl, () => {
       // waveSurfer onReady

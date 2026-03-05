@@ -22,7 +22,7 @@ import ShuffleIcon from "@mui/icons-material/Shuffle";
 import { motion, AnimatePresence } from "motion/react";
 
 import useWaveSurfer from "@/hooks/useWaveSurfer";
-import { shuffleArray } from "@/utils/dataFetching";
+import { shuffleArray, fetchAllSingers } from "@/utils/dataFetching";
 import { trackPlayClick, trackGuess, trackWrongAnswer, trackCorrectAnswer, trackGameComplete, trackGameCancel, trackGameAbandon } from "@/utils/analytics";
 import RoundProgress from "@/components/ui/RoundProgress";
 import GameHubRoute from "@/components/ui/GameHubRoute";
@@ -124,8 +124,14 @@ export default function PlayTab({ songs, config, onCancel }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [roundScorePercents, setRoundScorePercents] = useState([]);
   const [usedNewClip, setUsedNewClip] = useState(false);
+  const [allSingers, setAllSingers] = useState([]); // SingerMaster data for distractors
 
   const clipStartRef = useRef(null);
+
+  // Fetch SingerMaster for distractor generation
+  useEffect(() => {
+    fetchAllSingers().then(setAllSingers).catch(console.error);
+  }, []);
 
   const { initWaveSurfer, cleanupWaveSurfer, playSnippet } = useWaveSurfer({
     onSongEnd: () => {
@@ -156,20 +162,34 @@ export default function PlayTab({ songs, config, onCancel }) {
     clipStartRef.current = null;
   }, [songs]);
 
-  // Build singer answers when song changes
+  // Build singer answers when song changes - filter by selected levels
   useEffect(() => {
-    if (!currentSong) return;
+    if (!currentSong || allSingers.length === 0) return;
     const correctSinger = currentSong.Singer || "Unknown Singer";
 
-    // Get unique singers from songs list as distractors
-    const allSingers = [...new Set(songs.map((s) => s.Singer).filter(Boolean))];
+    // Get selected singer levels from config singerGridCells
+    const singerGridCells = config.singerGridCells || ["Iconic-Famous"];
+    const selectedLevels = new Set();
+    singerGridCells.forEach(cell => {
+      const [singerTier] = cell.split("-");
+      if (singerTier === "Iconic") selectedLevels.add(1);
+      else if (singerTier === "Essential") selectedLevels.add(2);
+      else if (singerTier === "Standard") selectedLevels.add(3);
+    });
+
+    // Filter singers by selected levels for distractors
+    const validSingers = allSingers
+      .filter(s => selectedLevels.has(s.level))
+      .map(s => s.singer);
+
+    // Pick 3 distractors (excluding correct answer)
     const distractors = shuffleArray(
-      allSingers.filter((s) => s !== correctSinger)
+      validSingers.filter((s) => s !== correctSinger)
     ).slice(0, 3);
 
     const finalAnswers = shuffleArray([correctSinger, ...distractors]);
     setAnswers(finalAnswers);
-  }, [currentSong, songs]);
+  }, [currentSong, allSingers, config.singerGridCells]);
 
   // Play the clip from a vocal section
   const playClip = useCallback(() => {
@@ -496,44 +516,32 @@ export default function PlayTab({ songs, config, onCancel }) {
         })}
       </List>
 
-      {/* Round result feedback */}
-      {roundOver && (
-        <Box sx={{ mt: 2, textAlign: "center" }}>
-          {roundScore > 0 ? (
-            <>
-              <Typography variant="h6" sx={{ color: "#4caf50", fontWeight: "bold", mb: 1 }}>
-                Correct!
-              </Typography>
-              <Typography variant="body1">
-                +{Math.floor(roundScore)} pts | Total: {Math.floor(sessionScore)}
-              </Typography>
-            </>
-          ) : (
-            <>
-              <Typography variant="body1" sx={{ color: "#f44336", mb: 1 }}>
-                Answer: <strong>{currentSong?.Singer || "Unknown"}</strong>
-              </Typography>
-              <Typography variant="body2">
-                Total: {Math.floor(sessionScore)}
-              </Typography>
-            </>
-          )}
-          {/* Feedback button */}
-          <Box sx={{ mt: 2, display: "flex", justifyContent: "center" }}>
-            <SongFeedback
-              song={currentSong}
-              gameType="clip-singer"
-              config={config}
-              answers={answers}
-              selectedAnswer={selectedAnswer}
-              correctAnswer={currentSong?.Singer}
-              wasCorrect={roundScore > 0}
-              roundScore={roundScore}
-              sessionScore={sessionScore}
-            />
+      {/* Fixed height feedback area - prevents layout shift */}
+      <Box sx={{ minHeight: 70, display: "flex", flexDirection: "column", justifyContent: "center", mt: 2 }}>
+        {roundOver && (
+          <Box sx={{ textAlign: "center" }}>
+            {roundScore > 0 ? (
+              <>
+                <Typography variant="h6" sx={{ color: "#4caf50", fontWeight: "bold", mb: 0.5 }}>
+                  Correct!
+                </Typography>
+                <Typography variant="body2">
+                  +{Math.floor(roundScore)} pts | Total: {Math.floor(sessionScore)}
+                </Typography>
+              </>
+            ) : (
+              <>
+                <Typography variant="body1" sx={{ color: "#f44336", mb: 0.5 }}>
+                  Answer: <strong>{currentSong?.Singer || "Unknown"}</strong>
+                </Typography>
+                <Typography variant="body2">
+                  Total: {Math.floor(sessionScore)}
+                </Typography>
+              </>
+            )}
           </Box>
-        </Box>
-      )}
+        )}
+      </Box>
 
       {/* Listen Countdown - shows while clip is playing */}
       <Box
@@ -674,6 +682,31 @@ export default function PlayTab({ songs, config, onCancel }) {
           )}
         </AnimatePresence>
       </Box>
+
+      {/* Feedback button - below Next button */}
+      {roundOver && (
+        <Box sx={{
+          position: "fixed",
+          bottom: "5%",
+          left: 0,
+          right: 0,
+          display: "flex",
+          justifyContent: "center",
+          zIndex: 99,
+        }}>
+          <SongFeedback
+            song={currentSong}
+            gameType="clip-singer"
+            config={config}
+            answers={answers}
+            selectedAnswer={selectedAnswer}
+            correctAnswer={currentSong?.Singer}
+            wasCorrect={roundScore > 0}
+            roundScore={roundScore}
+            sessionScore={sessionScore}
+          />
+        </Box>
+      )}
     </Box>
   );
 }

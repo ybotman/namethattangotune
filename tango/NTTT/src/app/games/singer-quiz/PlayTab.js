@@ -63,7 +63,6 @@ function findVocalStartPosition(song, playDuration) {
 
   // Start at the beginning of this segment (it's shorter than playDuration
   // so there's no room to randomize within it)
-  console.log(`Using shorter vocal segment: ${segment.duration.toFixed(1)}s at ${segment.start.toFixed(1)}s`);
   return Math.max(0, segment.start);
 }
 
@@ -120,7 +119,6 @@ export default function PlayTab({ songs, config, onCancel }) {
     maxScore,
     INTERVAL_MS,
     onTimesUp: () => {
-      console.log("PlayTab-> onTimesUp => forcing 0 score + roundOver");
       setRoundScore(0);
       setRoundScorePercents(prev => [...prev, 0]);
       setRoundOver(true);
@@ -131,14 +129,12 @@ export default function PlayTab({ songs, config, onCancel }) {
   });
 
   const stopAudio = useCallback(() => {
-    console.log("PlayTab-> stopAudio => waveSurfer cleanup + stop intervals");
     cleanupWaveSurfer();
     stopAllIntervals();
   }, [cleanupWaveSurfer, stopAllIntervals]);
 
   const handleAnswerSelect = useCallback(
     (ans) => {
-      console.log("PlayTab-> handleAnswerSelect =>", ans);
       const { roundEnded, correct } = scoringAnswerSelect(ans);
 
       // Track guess with song details
@@ -157,9 +153,7 @@ export default function PlayTab({ songs, config, onCancel }) {
         setRoundScorePercents(prev => [...prev, scorePercent]);
         stopAudio();
         if (correct) {
-          console.log("PlayTab-> Correct!");
         } else {
-          console.log("PlayTab-> Wrong => Round Over!");
         }
       }
     },
@@ -167,13 +161,11 @@ export default function PlayTab({ songs, config, onCancel }) {
   );
 
   const doNextSong = useCallback(() => {
-    console.log("PlayTab-> doNextSong");
     setRoundOver(false);
     handleNextSong();
   }, [handleNextSong]);
 
   const clickPlaySong = useCallback(() => {
-    console.log("PlayTab-> clickPlaySong");
     trackPlayClick("singer-quiz");
     if (!currentSong) return;
     if (lastSongRef.current === currentSong.AudioUrl) return;
@@ -185,7 +177,6 @@ export default function PlayTab({ songs, config, onCancel }) {
 
     // Find a vocal segment start position
     const vocalStart = findVocalStartPosition(currentSong, timeLimit);
-    console.log(`Singer Quiz: vocalSegments=${currentSong.vocalSegments?.length || 0}, vocalStart=${vocalStart}`);
 
     initWaveSurfer();
     playSnippet(currentSong.AudioUrl, {
@@ -476,44 +467,32 @@ export default function PlayTab({ songs, config, onCancel }) {
         })}
       </List>
 
-      {/* Round result feedback */}
-      {roundOver && (
-        <Box sx={{ mt: 2, textAlign: "center" }}>
-          {roundScore > 0 ? (
-            <>
-              <Typography variant="h6" sx={{ color: "#4caf50", fontWeight: "bold", mb: 1 }}>
-                {getPerformanceMessage()}
-              </Typography>
-              <Typography variant="body1">
-                +{Math.floor(roundScore)} pts | Total: {Math.floor(sessionScore)}
-              </Typography>
-            </>
-          ) : (
-            <>
-              <Typography variant="body1" sx={{ color: "#f44336", mb: 1 }}>
-                Answer: <strong>{currentSong?.Singer || "Unknown"}</strong>
-              </Typography>
-              <Typography variant="body2">
-                Total: {Math.floor(sessionScore)}
-              </Typography>
-            </>
-          )}
-          {/* Feedback button */}
-          <Box sx={{ mt: 2, display: "flex", justifyContent: "center" }}>
-            <SongFeedback
-              song={currentSong}
-              gameType="singer-quiz"
-              config={config}
-              answers={answers}
-              selectedAnswer={selectedAnswer}
-              correctAnswer={currentSong?.Singer}
-              wasCorrect={roundScore > 0}
-              roundScore={roundScore}
-              sessionScore={sessionScore}
-            />
+      {/* Fixed height feedback area - prevents layout shift */}
+      <Box sx={{ minHeight: 70, display: "flex", flexDirection: "column", justifyContent: "center", mt: 2 }}>
+        {roundOver && (
+          <Box sx={{ textAlign: "center" }}>
+            {roundScore > 0 ? (
+              <>
+                <Typography variant="h6" sx={{ color: "#4caf50", fontWeight: "bold", mb: 0.5 }}>
+                  {getPerformanceMessage()}
+                </Typography>
+                <Typography variant="body2">
+                  +{Math.floor(roundScore)} pts | Total: {Math.floor(sessionScore)}
+                </Typography>
+              </>
+            ) : (
+              <>
+                <Typography variant="body1" sx={{ color: "#f44336", mb: 0.5 }}>
+                  Answer: <strong>{currentSong?.Singer || "Unknown"}</strong>
+                </Typography>
+                <Typography variant="body2">
+                  Total: {Math.floor(sessionScore)}
+                </Typography>
+              </>
+            )}
           </Box>
-        </Box>
-      )}
+        )}
+      </Box>
 
       {/* GO!/Next Button - Floating overlay, doesn't affect layout */}
       <Box
@@ -602,6 +581,31 @@ export default function PlayTab({ songs, config, onCancel }) {
           )}
         </AnimatePresence>
       </Box>
+
+      {/* Feedback button - below Next button */}
+      {roundOver && (
+        <Box sx={{
+          position: "fixed",
+          bottom: "5%",
+          left: 0,
+          right: 0,
+          display: "flex",
+          justifyContent: "center",
+          zIndex: 99,
+        }}>
+          <SongFeedback
+            song={currentSong}
+            gameType="singer-quiz"
+            config={config}
+            answers={answers}
+            selectedAnswer={selectedAnswer}
+            correctAnswer={currentSong?.Singer}
+            wasCorrect={roundScore > 0}
+            roundScore={roundScore}
+            sessionScore={sessionScore}
+          />
+        </Box>
+      )}
     </Box>
   );
 }
