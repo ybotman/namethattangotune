@@ -38,11 +38,12 @@
 |---|-------|--------|------|
 | 2 | Blank orchestra (1,305) | Need singer→orchestra mapping | Backfill pass |
 
-### 🟠 High Priority
+### 🟠 High Priority — FIXED
 
-| # | Issue | Reason | Plan |
-|---|-------|--------|------|
-| 7 | Missing Laurenz/Biagi | Need source audio files | Add catalogs |
+| # | Issue | Action | Records | Status |
+|---|-------|--------|---------|--------|
+| 7 | Biagi at wrong level | Set ArtistMaster, level 4→2 | 214 | ✅ Done |
+| 7 | Laurenz at wrong level | Set ArtistMaster, level 4→2 | 69 | ✅ Done |
 
 ### 🟡 Medium (Design Decisions)
 

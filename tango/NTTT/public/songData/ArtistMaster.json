@@ -207,21 +207,29 @@
     "type": "orchestra",
     "active": "true",
     "level": "2",
-    "grouped": ["Quinteto Pedro Laurenz"]
+    "grouped": [
+      "Quinteto Pedro Laurenz"
+    ]
   },
   {
     "artist": "Héctor Varela",
     "type": "orchestra",
     "active": "true",
     "level": "2",
-    "grouped": ["Hector Varela"]
+    "grouped": [
+      "Hector Varela"
+    ]
   },
   {
     "artist": "Orquesta Típica Victor",
     "type": "orchestra",
     "active": "true",
     "level": "2",
-    "grouped": ["Orquesta Tipica Victor", "Orquesta Típica Víctor", "OTV"]
+    "grouped": [
+      "Orquesta Tipica Victor",
+      "Orquesta Típica Víctor",
+      "OTV"
+    ]
   },
   {
     "artist": "Quinteto Pirincho",
@@ -249,14 +257,18 @@
     "type": "orchestra",
     "active": "true",
     "level": "3",
-    "grouped": ["Horacio Salgan y su Orquesta Típica"]
+    "grouped": [
+      "Horacio Salgan y su Orquesta Típica"
+    ]
   },
   {
     "artist": "Florindo Sassone",
     "type": "orchestra",
     "active": "true",
     "level": "3",
-    "grouped": ["Florindo Sassone y Su Orquesta"]
+    "grouped": [
+      "Florindo Sassone y Su Orquesta"
+    ]
   },
   {
     "artist": "Alberto Castillo",
@@ -270,14 +282,23 @@
     "type": "orchestra",
     "active": "true",
     "level": "3",
-    "grouped": ["Angel Vargas y Orquesta Armando Lacava", "Angel Vargas con la Orquesta Armando Lacava", "Angel Vargas con la Orquesta de Armando Lacava", "Angel Vargas y Orquesta Eduardo del Piano", "Angel Vargas con la Orquesta Eduardo del Piano"]
+    "grouped": [
+      "Angel Vargas y Orquesta Armando Lacava",
+      "Angel Vargas con la Orquesta Armando Lacava",
+      "Angel Vargas con la Orquesta de Armando Lacava",
+      "Angel Vargas y Orquesta Eduardo del Piano",
+      "Angel Vargas con la Orquesta Eduardo del Piano"
+    ]
   },
   {
     "artist": "Hyperion Ensemble",
     "type": "orchestra",
     "active": "true",
     "level": "4",
-    "grouped": ["Hyperion ensemble", "Hyperion Ensemble, Ruben Peloni"]
+    "grouped": [
+      "Hyperion ensemble",
+      "Hyperion Ensemble, Ruben Peloni"
+    ]
   },
   {
     "artist": "Sexteto Milonguero",
@@ -333,14 +354,18 @@
     "type": "orchestra",
     "active": "true",
     "level": "4",
-    "grouped": ["Orquesta Típica Andariega feat. Marisol Martinez"]
+    "grouped": [
+      "Orquesta Típica Andariega feat. Marisol Martinez"
+    ]
   },
   {
     "artist": "Nina Miranda & Donato Racciatti",
     "type": "orchestra",
     "active": "true",
     "level": "4",
-    "grouped": ["Nina Miranda & Donato Racciatti y Su Orquesta Típica"]
+    "grouped": [
+      "Nina Miranda & Donato Racciatti y Su Orquesta Típica"
+    ]
   },
   {
     "artist": "Mario Melfi",
@@ -354,7 +379,9 @@
     "type": "orchestra",
     "active": "true",
     "level": "5",
-    "grouped": ["Fulvio Salamanca Y Su Orquesta"]
+    "grouped": [
+      "Fulvio Salamanca Y Su Orquesta"
+    ]
   },
   {
     "artist": "Caceres",
@@ -368,7 +395,9 @@
     "type": "orchestra",
     "active": "true",
     "level": "4",
-    "grouped": ["Chino Laborde and Solo Tango Orquesta"]
+    "grouped": [
+      "Chino Laborde and Solo Tango Orquesta"
+    ]
   },
   {
     "artist": "Carlos Gardel",
