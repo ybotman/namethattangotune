@@ -34,7 +34,7 @@ export const metadata = {
   openGraph: {
     title: "Name That Tango Tune",
     description: "Learn to identify tango orchestras, singers, and songs by ear",
-    url: "https://nttt.vercel.app",
+    url: "https://namethattangotune.com",
     siteName: "NTTT",
     images: [
       {
