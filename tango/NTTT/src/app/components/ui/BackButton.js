@@ -12,7 +12,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function BackButton({
   href = "/games/gamehub",
-  size = "small",
+  size = "large",
   tooltip = "Back to Menu",
 }) {
   const router = useRouter();
@@ -27,13 +27,19 @@ export default function BackButton({
         onClick={handleClick}
         size={size}
         sx={{
-          color: "var(--accent)",
-          opacity: 0.7,
-          "&:hover": { opacity: 1 },
+          color: "#fff",
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          opacity: 0.9,
+          "&:hover": {
+            opacity: 1,
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          width: 44,
+          height: 44,
         }}
         aria-label={tooltip}
       >
-        <ArrowBackIcon />
+        <ArrowBackIcon sx={{ fontSize: "1.5rem" }} />
       </IconButton>
     </Tooltip>
   );

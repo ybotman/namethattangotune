@@ -17,6 +17,7 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import SwipeMenu from "@/components/ui/SwipeMenu";
 import GameRow from "@/components/ui/GameRow";
 import NTTT101 from "@/components/NTTT101";
+import SignupPromptModal from "@/components/SignupPromptModal";
 import { AuthContext } from "@/contexts/AuthContext";
 import { UserContext } from "@/contexts/UserContext";
 
@@ -788,7 +789,7 @@ function StatusPage() {
   if (!user) {
     return (
       <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <PageBanner src="/Banner/Type2__Stats.png" alt="Your Stats" />
+        <PageBanner src="/Banner/Type1__STATS.png" alt="Your Stats" />
         <Paper
           elevation={0}
           sx={{
@@ -824,7 +825,7 @@ function StatusPage() {
   if (loading) {
     return (
       <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <PageBanner src="/Banner/Type2__Stats.png" alt="Your Stats" />
+        <PageBanner src="/Banner/Type1__STATS.png" alt="Your Stats" />
         <CircularProgress sx={{ color: "var(--accent)", mt: 4 }} />
       </Box>
     );
@@ -989,7 +990,7 @@ function StatusPage() {
 
   return (
     <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-      <PageBanner src="/Banner/Type2__Stats.png" alt="Your Stats" />
+      <PageBanner src="/Banner/Type1__STATS.png" alt="Your Stats" />
 
       <Typography
         sx={{
@@ -1577,10 +1578,13 @@ function SetupPage() {
 export default function GameHubPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { user, loading: authLoading } = useContext(AuthContext);
   const isMobile = useMediaQuery("(max-width: 600px)");
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [targetPage, setTargetPage] = useState(undefined);
   const [showUpdateBanner, setShowUpdateBanner] = useState(false);
+  const [showSignupPrompt, setShowSignupPrompt] = useState(false);
+  const [currentVisitCount, setCurrentVisitCount] = useState(0);
 
   // Check for page param in URL (e.g., ?page=1 for Orchestra)
   useEffect(() => {
@@ -1606,6 +1610,25 @@ export default function GameHubPage() {
       setShowWelcomeModal(true);
     }
   }, []);
+
+  // Check for 5th visit signup prompt (every 5 visits for non-logged-in users)
+  useEffect(() => {
+    if (authLoading) return; // Wait for auth to load
+    if (user) return; // Don't show for logged-in users
+
+    const visitCount = getVisitCount();
+    setCurrentVisitCount(visitCount);
+
+    // Show on every 5th visit (5, 10, 15, 20, ...)
+    if (visitCount > 0 && visitCount % 5 === 0) {
+      // Check if we already showed this prompt for this visit count
+      const lastPromptVisit = parseInt(localStorage.getItem("nttt-last-signup-prompt") || "0", 10);
+      if (lastPromptVisit !== visitCount) {
+        setShowSignupPrompt(true);
+        localStorage.setItem("nttt-last-signup-prompt", visitCount.toString());
+      }
+    }
+  }, [user, authLoading]);
 
   const handleRefresh = () => {
     localStorage.setItem("nttt-app-version", APP_VERSION);
@@ -1666,7 +1689,7 @@ export default function GameHubPage() {
     {
       title: "Stats",
       label: "Stats",
-      image: "/Banner/Type2__Stats.png",
+      image: "/Banner/Type2__STATS.png",
       content: <StatusPage />,
     },
     {
@@ -1711,6 +1734,13 @@ export default function GameHubPage() {
         open={showWelcomeModal}
         onClose={handleCloseWelcome}
         onStart={handleStartFromWelcome}
+      />
+
+      {/* Every 5th visit Signup Prompt (for non-logged-in users) */}
+      <SignupPromptModal
+        open={showSignupPrompt}
+        onClose={() => setShowSignupPrompt(false)}
+        visitCount={currentVisitCount}
       />
 
       {/* Update Available Banner */}
