@@ -197,6 +197,82 @@ export default function LandingPage() {
         </p>
       </section>
 
+      {/* The Big 5 Orchestras - SEO */}
+      <section className={styles.seoBlock}>
+        <h2>The Big 5 Tango Orchestras</h2>
+        <div className={styles.orchestraGrid}>
+          <div className={styles.orchestraItem}>
+            <h3>Juan D&apos;Arienzo — El Rey del Compás</h3>
+            <p>Sharp, driving, percussive 2x4 beat. The most recognizable sound in tango. 606 songs including La Cumparsita, El Flete, Nueve de Julio, La Puñalada. Key singers: Alberto Echagüe, Héctor Maure.</p>
+          </div>
+          <div className={styles.orchestraItem}>
+            <h3>Carlos Di Sarli — El Señor del Tango</h3>
+            <p>Lush strings, elegant piano, flowing melody. 433 songs including Bahía Blanca, A la Gran Muñeca, Shusheta. Key singers: Roberto Rufino, Alberto Podestá, Jorge Durán.</p>
+          </div>
+          <div className={styles.orchestraItem}>
+            <h3>Aníbal Troilo — Pichuco</h3>
+            <p>Lyrical, expressive, deeply emotional. The poet&apos;s orchestra. 253 songs including Malena, Toda Mi Vida, Sur, Gricel. Key singers: Francisco Fiorentino, Floreal Ruiz.</p>
+          </div>
+          <div className={styles.orchestraItem}>
+            <h3>Osvaldo Pugliese — El Rojo</h3>
+            <p>Heavy, dramatic, complex. La Yumba rhythm, dramatic builds. 127 songs including Recuerdo, Emancipación, Farol, Negracha. Key singers: Roberto Chanel, Alberto Morán.</p>
+          </div>
+          <div className={styles.orchestraItem}>
+            <h3>Rodolfo Biagi — Manos Brujas</h3>
+            <p>Jumpy, syncopated piano, playful and energetic. 214 songs including Racing Club, Todo Te Nombra, Pura Clase. Key singers: Jorge Ortiz, Andrés Falgás.</p>
+          </div>
+        </div>
+        <p className={styles.moreOrchestras}>
+          <strong>Also featuring:</strong> Francisco Canaro, Ricardo Tanturi, Miguel Caló,
+          Ángel D&apos;Agostino, Alfredo De Angelis, Enrique Rodríguez, Pedro Laurenz,
+          Osvaldo Fresedo, Edgardo Donato, Lucio Demare, and 45+ more orchestras.
+        </p>
+      </section>
+
+      {/* Iconic Tier 1 Songs - SEO */}
+      <section className={styles.seoBlock}>
+        <h2>Must-Know Tango Songs</h2>
+        <p>Played at virtually every milonga worldwide — the songs every dancer should recognize:</p>
+        <p className={styles.songList}>
+          <strong>La Cumparsita</strong> (D&apos;Arienzo) •
+          <strong>Bahía Blanca</strong> (Di Sarli) •
+          <strong>La Yumba</strong> (Pugliese) •
+          <strong>Malena</strong> (Troilo/Fiorentino) •
+          <strong>El Flete</strong> (D&apos;Arienzo) •
+          <strong>Recuerdo</strong> (Pugliese) •
+          <strong>A la Gran Muñeca</strong> (Di Sarli) •
+          <strong>Toda Mi Vida</strong> (Troilo/Fiorentino) •
+          <strong>Racing Club</strong> (Biagi) •
+          <strong>Nueve de Julio</strong> (D&apos;Arienzo) •
+          <strong>Gricel</strong> (Troilo/Fiorentino) •
+          <strong>Junto a Tu Corazón</strong> (Di Sarli/Podestá) •
+          <strong>Emancipación</strong> (Pugliese) •
+          <strong>La Puñalada</strong> (D&apos;Arienzo) •
+          <strong>Todo Te Nombra</strong> (Biagi/Ortiz) •
+          <strong>Shusheta</strong> (Di Sarli) •
+          <strong>Tinta Roja</strong> (Troilo/Fiorentino) •
+          <strong>Farol</strong> (Pugliese/Chanel)
+        </p>
+        <p>4,700+ songs from Old Guard classics to Golden Age masterpieces to modern tango nuevo.</p>
+      </section>
+
+      {/* Famous Singers - SEO */}
+      <section className={styles.seoBlock}>
+        <h2>Legendary Tango Singers</h2>
+        <p>Can you identify the voice? Learn to recognize the greatest tango vocalists:</p>
+        <p className={styles.singerList}>
+          <strong>Francisco Fiorentino</strong> — Troilo&apos;s legendary singer, voice of Malena and Toda Mi Vida •
+          <strong>Alberto Echagüe</strong> — D&apos;Arienzo&apos;s distinctive tenor, Mandria, Indiferencia •
+          <strong>Alberto Podestá</strong> — elegant Di Sarli vocalist, Junto a Tu Corazón •
+          <strong>Roberto Rufino</strong> — Di Sarli&apos;s romantic voice, Cascabelito •
+          <strong>Jorge Ortiz</strong> — Biagi&apos;s signature singer, Todo Te Nombra •
+          <strong>Héctor Maure</strong> — D&apos;Arienzo&apos;s second great voice, Lilian •
+          <strong>Roberto Chanel</strong> — Pugliese&apos;s powerful vocalist, Farol •
+          <strong>Carlos Gardel</strong> — the voice that defined tango worldwide •
+          <strong>Roberto Goyeneche</strong> — &quot;El Polaco,&quot; emotional and dramatic
+        </p>
+      </section>
+
       {/* Tango Universe - Cross Promotion */}
       <section className={styles.tangoUniverse}>
         <h2>The Tango Universe</h2>

@@ -205,6 +205,50 @@
   margin-bottom: 0;
 }
 
+/* Orchestra Grid for Big 5 */
+.orchestraGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.orchestraItem {
+  padding: 12px;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.orchestraItem h3 {
+  font-size: 0.95rem;
+  margin: 0 0 8px 0;
+  color: var(--accent, #4dd0e1);
+}
+
+.orchestraItem p {
+  font-size: 0.8rem;
+  margin: 0;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+.moreOrchestras {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  margin-top: 12px;
+}
+
+.songList {
+  font-size: 0.85rem;
+  line-height: 1.8;
+}
+
+.singerList {
+  font-size: 0.85rem;
+  line-height: 1.8;
+}
+
 /* Tango Universe Section */
 .tangoUniverse {
   width: 100%;
