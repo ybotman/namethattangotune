@@ -350,8 +350,10 @@ export async function fetchFilteredSongs(
     // Filtering logic
     let filtered = enrichedSongs;
 
-    // DNP filter - exclude doNotPlay songs from gameplay
-    filtered = filtered.filter((song) => !song.doNotPlay);
+    // DNP/DUP filter - exclude flagged songs from gameplay
+    // DNP = Do Not Play (blank orchestra, non-tango, etc.)
+    // DUP = Duplicate (same title/orchestra/year)
+    filtered = filtered.filter((song) => !song.doNotPlay && !song.DNP && !song.DUP);
 
     // RequireOrchestra filter - only for orchestra-based games (orchestra-quiz, orchestra-learn, clip-orchestra)
     // ~1,305 songs are missing ArtistMaster but may have Singer data for singer games
