@@ -16,6 +16,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import SwipeMenu from "@/components/ui/SwipeMenu";
 import GameRow from "@/components/ui/GameRow";
+import NTTT101 from "@/components/NTTT101";
 import { AuthContext } from "@/contexts/AuthContext";
 import { UserContext } from "@/contexts/UserContext";
 
@@ -1072,6 +1073,13 @@ function DailyPage() {
 
 // About Page Content
 function AboutPage() {
+  const [show101, setShow101] = useState(false);
+
+  // Show NTTT 101 explainer
+  if (show101) {
+    return <NTTT101 onClose={() => setShow101(false)} />;
+  }
+
   return (
     <Box
       sx={{
@@ -1083,6 +1091,49 @@ function AboutPage() {
         gap: 2,
       }}
     >
+      {/* NTTT 101 Entry Point */}
+      <Paper
+        onClick={() => setShow101(true)}
+        elevation={0}
+        sx={{
+          p: 2,
+          backgroundColor: "rgba(77, 208, 225, 0.1)",
+          border: "2px solid var(--accent)",
+          borderRadius: 2,
+          width: "100%",
+          cursor: "pointer",
+          transition: "all 0.2s ease",
+          "&:hover": {
+            backgroundColor: "rgba(77, 208, 225, 0.2)",
+            transform: "scale(1.02)",
+          },
+        }}
+      >
+        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <Box>
+            <Typography
+              sx={{
+                fontSize: "1rem",
+                fontWeight: 700,
+                color: "var(--accent)",
+              }}
+            >
+              NTTT 101
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: "0.75rem",
+                color: "var(--foreground)",
+                opacity: 0.8,
+              }}
+            >
+              Learn how the app works
+            </Typography>
+          </Box>
+          <Typography sx={{ fontSize: "1.5rem", color: "var(--accent)" }}>→</Typography>
+        </Box>
+      </Paper>
+
       {/* About Toby - Main Focus */}
       <Paper
         elevation={0}
