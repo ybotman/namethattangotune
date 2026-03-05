@@ -1639,6 +1639,7 @@ export default function GameHubPage() {
     {
       title: "About",
       label: "About",
+      image: "/Banner/AboutToby.png",
       content: <AboutPage />,
     },
   ];

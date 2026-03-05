@@ -1,0 +1,768 @@
+{
+  "version": 1,
+  "_generated": "2026-02-28T00:02:34.467Z",
+  "_stats": {
+    "totalInList": 100,
+    "matched": 72,
+    "unmatched": 28
+  },
+  "iconicOrchestras": [
+    "Alfredo de Angelis",
+    "Angel D'Agostino",
+    "Anibal Troilo",
+    "Carlos Di Sarli",
+    "Edgardo Donato",
+    "Francisco Canaro",
+    "Juan D'Arienzo",
+    "Lucio Demare",
+    "Miguel Calo",
+    "Osvaldo Fresedo",
+    "Osvaldo Pugliese",
+    "Pedro Laurenz",
+    "Ricardo Tanturi",
+    "Rodolfo Biagi"
+  ],
+  "iconicSingers": [
+    "Alberto Castillo",
+    "Alberto Echague",
+    "Alberto Marino",
+    "Alberto Podesta",
+    "Alberto Reynal",
+    "Andres Falgas",
+    "Angel Vargas",
+    "Carlos Dante y Julio Martel",
+    "Edmundo Rivero",
+    "Enrique Campos",
+    "Felix Gutierrez",
+    "Francisco Fiorentino",
+    "Hector Pacheco",
+    "Horacio Lagos",
+    "Jorge Ortiz",
+    "Juan Carlos Miranda",
+    "Oscar Serpa",
+    "Raul Beron",
+    "Roberto Chanel",
+    "Roberto Maida",
+    "Roberto Rufino"
+  ],
+  "iconicSongs": [
+    {
+      "songId": "ed8f323a-e751-5e5e-b2c4-a6ae10e5b461",
+      "title": "La cumparsita",
+      "orchestra": "Juan D'Arienzo",
+      "year": "1966",
+      "singer": null,
+      "originalTitle": "La Cumparsita"
+    },
+    {
+      "songId": "da9b438a-5f0b-5109-a802-472f27973287",
+      "title": "El choclo",
+      "orchestra": "Juan D'Arienzo",
+      "year": "1963",
+      "singer": null,
+      "originalTitle": "El Choclo"
+    },
+    {
+      "songId": "6d43bef5-5437-5e4b-9359-1c7a60ff6afc",
+      "title": "El flete",
+      "orchestra": "Juan D'Arienzo",
+      "year": "1936",
+      "singer": null,
+      "originalTitle": "El Flete"
+    },
+    {
+      "songId": "68347105-40de-5474-8e7a-e35df0958336",
+      "title": "La punalada",
+      "orchestra": "Juan D'Arienzo",
+      "year": "1963",
+      "singer": null,
+      "originalTitle": "La Puñalada"
+    },
+    {
+      "songId": "80dca5d7-b08e-503c-9e94-12e3db575b3e",
+      "title": "Pensalo bien",
+      "orchestra": "Juan D'Arienzo",
+      "year": "1938",
+      "singer": "Alberto Echague",
+      "originalTitle": "Pensalo bien"
+    },
+    {
+      "songId": "6268e89f-da32-5f0a-903d-f33d73851d1e",
+      "title": "Don Esteban",
+      "orchestra": "Juan D'Arienzo",
+      "year": "1936",
+      "singer": null,
+      "originalTitle": "Don Esteban"
+    },
+    {
+      "songId": "c8df1dd2-6c43-55a4-84f5-69015127e310",
+      "title": "Gran Hotel Victoria",
+      "orchestra": "Juan D'Arienzo",
+      "year": "1966",
+      "singer": null,
+      "originalTitle": "Hotel Victoria"
+    },
+    {
+      "songId": "6144e56a-1f5e-5a29-b7e7-390fa4adee3c",
+      "title": "Union civica (custom)",
+      "orchestra": "Juan D'Arienzo",
+      "year": "1949",
+      "singer": null,
+      "originalTitle": "Unión Cívica"
+    },
+    {
+      "songId": "ce2a032f-0490-5f2b-8565-484fced755bb",
+      "title": "Loca",
+      "orchestra": "Juan D'Arienzo",
+      "year": "1955",
+      "singer": null,
+      "originalTitle": "Loca"
+    },
+    {
+      "songId": "a83de4c4-c646-587d-b22b-460b0caa6c74",
+      "title": "Paciencia",
+      "orchestra": "Juan D'Arienzo",
+      "year": "1951",
+      "singer": "Alberto Echague",
+      "originalTitle": "Paciencia"
+    },
+    {
+      "songId": "6ec370fd-dec5-5176-b6cb-0f3fe8be0ca7",
+      "title": "Chirusa",
+      "orchestra": "Juan D'Arienzo",
+      "year": "1940",
+      "singer": "Alberto Reynal",
+      "originalTitle": "Chirusa"
+    },
+    {
+      "songId": "e8f37c8d-6b0e-50d6-b85d-a3c28a6162fa",
+      "title": "Retintin",
+      "orchestra": "Juan D'Arienzo",
+      "year": "1936",
+      "singer": null,
+      "originalTitle": "Retintin"
+    },
+    {
+      "songId": "a0527bfc-bf2a-533b-be32-ceb01699a114",
+      "title": "Bahia Blanca",
+      "orchestra": "Carlos Di Sarli",
+      "year": "1958",
+      "singer": null,
+      "originalTitle": "Bahía Blanca"
+    },
+    {
+      "songId": "a0b29986-6ad6-5dbf-a188-361b37607bbf",
+      "title": "A La Gran Muneca",
+      "orchestra": "Carlos Di Sarli",
+      "year": "1951",
+      "singer": null,
+      "originalTitle": "A la gran muñeca"
+    },
+    {
+      "songId": "d442435c-5d68-5c52-80b5-136e210e9839",
+      "title": "El cielo en tus ojos",
+      "orchestra": "Carlos Di Sarli",
+      "year": "1941",
+      "singer": "Roberto Rufino",
+      "originalTitle": "El cielo en tus ojos"
+    },
+    {
+      "songId": "ebac7134-9241-59d1-8d71-c07f8f9d281a",
+      "title": "Comme Il Faut",
+      "orchestra": "Carlos Di Sarli",
+      "year": "1951",
+      "singer": null,
+      "originalTitle": "Comme il faut"
+    },
+    {
+      "songId": "8654d4a0-2172-565a-a155-04675a3b909e",
+      "title": "Verdemar",
+      "orchestra": "Carlos Di Sarli",
+      "year": "1954",
+      "singer": "Oscar Serpa",
+      "originalTitle": "Verdemar"
+    },
+    {
+      "songId": "7f835edb-bcfd-53c7-af7f-8eeb56e300af",
+      "title": "Corazon",
+      "orchestra": "Carlos Di Sarli",
+      "year": "1939",
+      "singer": "Roberto Rufino",
+      "originalTitle": "Junto a tu corazón"
+    },
+    {
+      "songId": "0d41c567-cc1c-5b4e-9ce1-ccc7a48e4642",
+      "title": "La torcacita",
+      "orchestra": "Carlos Di Sarli",
+      "year": "1941",
+      "singer": null,
+      "originalTitle": "La torcacita"
+    },
+    {
+      "songId": "1f0ca320-9417-50fb-8ae9-8ccba9edcaca",
+      "title": "Organito De La Tarde",
+      "orchestra": "Carlos Di Sarli",
+      "year": "1951",
+      "singer": null,
+      "originalTitle": "Organito de la tarde"
+    },
+    {
+      "songId": "df44bf9c-13a3-5c26-8f53-b0e42925ede8",
+      "title": "El Pollo Ricardo",
+      "orchestra": "Carlos Di Sarli",
+      "year": "1951",
+      "singer": null,
+      "originalTitle": "El pollo Ricardo"
+    },
+    {
+      "songId": "4e885985-f800-551a-9b1b-ce7279d7f412",
+      "title": "Indio manso",
+      "orchestra": "Carlos Di Sarli",
+      "year": "1958",
+      "singer": null,
+      "originalTitle": "Indio manso"
+    },
+    {
+      "songId": "63ee9c53-e52a-56d1-b041-eddfe3d9cf13",
+      "title": "La yumba",
+      "orchestra": "Osvaldo Pugliese",
+      "year": "1946",
+      "singer": null,
+      "originalTitle": "La yumba"
+    },
+    {
+      "songId": "70a0dbfe-3005-50db-b668-2551d8653ac5",
+      "title": "Recuerdo",
+      "orchestra": "Osvaldo Pugliese",
+      "year": "1944",
+      "singer": null,
+      "originalTitle": "Recuerdo"
+    },
+    {
+      "songId": "2a5871e6-42e1-5392-bef6-bac7cf928f5a",
+      "title": "Emancipacion",
+      "orchestra": "Osvaldo Pugliese",
+      "year": "1955",
+      "singer": null,
+      "originalTitle": "Emancipación"
+    },
+    {
+      "songId": "784f7219-77b9-5a1f-a2b5-dd54b983c01f",
+      "title": "Malandraca",
+      "orchestra": "Osvaldo Pugliese",
+      "year": "1949",
+      "singer": null,
+      "originalTitle": "Malandraca"
+    },
+    {
+      "songId": "7a25bcd8-8679-5706-b93f-aeaa5eb1e006",
+      "title": "Corrientes y Esmeralda",
+      "orchestra": "Osvaldo Pugliese",
+      "year": "1944",
+      "singer": "Roberto Chanel",
+      "originalTitle": "Corrientes y Esmeralda"
+    },
+    {
+      "songId": "26d07b96-61f2-523b-95a9-38e60a4aa196",
+      "title": "Farol",
+      "orchestra": "Osvaldo Pugliese",
+      "year": "1943",
+      "singer": "Roberto Chanel",
+      "originalTitle": "Farol"
+    },
+    {
+      "songId": "9be9ed7e-a418-5ad0-b582-6794614c1fc3",
+      "title": "Negracha",
+      "orchestra": "Osvaldo Pugliese",
+      "year": "1948",
+      "singer": null,
+      "originalTitle": "Negracha"
+    },
+    {
+      "songId": "248cbf74-8078-5888-83e1-e2056b8d3e44",
+      "title": "Derecho viejo",
+      "orchestra": "Osvaldo Pugliese",
+      "year": "1945",
+      "singer": null,
+      "originalTitle": "Derecho viejo"
+    },
+    {
+      "songId": "821b909a-b51e-54c7-bc13-f674237254a9",
+      "title": "La trampera",
+      "orchestra": "Anibal Troilo",
+      "year": "1951",
+      "singer": null,
+      "originalTitle": "La trampera"
+    },
+    {
+      "songId": "b397b4c2-539b-575d-96eb-e8acc94a2301",
+      "title": "Sur",
+      "orchestra": "Anibal Troilo",
+      "year": "1948",
+      "singer": "Edmundo Rivero",
+      "originalTitle": "Sur"
+    },
+    {
+      "songId": "58234971-d1c3-52ce-8cac-d6886423004e",
+      "title": "Malena",
+      "orchestra": "Anibal Troilo",
+      "year": "1942",
+      "singer": "Francisco Fiorentino",
+      "originalTitle": "Malena"
+    },
+    {
+      "songId": "29b2f447-20ed-5c34-888b-ec100763ea46",
+      "title": "Pa' que bailen los muchachos",
+      "orchestra": "Anibal Troilo",
+      "year": "1942",
+      "singer": "Francisco Fiorentino",
+      "originalTitle": "Pa' que bailen los muchachos"
+    },
+    {
+      "songId": "1937a8c6-5d75-50e7-a95d-b8735f5ba73f",
+      "title": "Toda mi vida",
+      "orchestra": "Anibal Troilo",
+      "year": "1941",
+      "singer": "Francisco Fiorentino",
+      "originalTitle": "Toda mi vida"
+    },
+    {
+      "songId": "2bf7038d-bedd-5900-aceb-034e84c461f1",
+      "title": "Quejas de bandoneon",
+      "orchestra": "Anibal Troilo",
+      "year": "1944",
+      "singer": null,
+      "originalTitle": "Quejas de bandoneón"
+    },
+    {
+      "songId": "327ec5a7-84c7-5a66-9a25-3a378cf9caf3",
+      "title": "Responso // 1951",
+      "orchestra": "Anibal Troilo",
+      "year": "1951",
+      "singer": null,
+      "originalTitle": "Responso"
+    },
+    {
+      "songId": "aed42557-cf33-523a-a643-cd40a24d214a",
+      "title": "Tango y copas",
+      "orchestra": "Anibal Troilo",
+      "year": "1943",
+      "singer": "Alberto Marino",
+      "originalTitle": "Tango y copas"
+    },
+    {
+      "songId": "79a4d86c-6cd8-5159-b7a3-ff3ba93cc6ca",
+      "title": "El recodo",
+      "orchestra": "Rodolfo Biagi",
+      "year": "1952",
+      "singer": null,
+      "originalTitle": "El recodo"
+    },
+    {
+      "songId": "199fdd75-cb80-520c-8464-ea7e851174ea",
+      "title": "Racing club",
+      "orchestra": "Rodolfo Biagi",
+      "year": "1950",
+      "singer": null,
+      "originalTitle": "Racing Club"
+    },
+    {
+      "songId": "fa969775-a8f2-5d62-b497-3ebf63e3eee1",
+      "title": "Indiferencia",
+      "orchestra": "Rodolfo Biagi",
+      "year": "1942",
+      "singer": "Jorge Ortiz",
+      "originalTitle": "Indiferencia"
+    },
+    {
+      "songId": "c6329b04-8090-54ed-984d-8b3fec569b5e",
+      "title": "Dichas Que Vivi",
+      "orchestra": "Rodolfo Biagi",
+      "year": "1939",
+      "singer": "Andres Falgas",
+      "originalTitle": "Dichas que viví"
+    },
+    {
+      "songId": "22cb6051-e86a-5a6d-84f4-9a462068fa95",
+      "title": "Humillacion",
+      "orchestra": "Rodolfo Biagi",
+      "year": "1941",
+      "singer": "Jorge Ortiz",
+      "originalTitle": "Humillación"
+    },
+    {
+      "songId": "42285144-b3ab-5c0c-9b5b-669140b2fe90",
+      "title": "Lagrimas y sonrisas",
+      "orchestra": "Rodolfo Biagi",
+      "year": "1941",
+      "singer": null,
+      "originalTitle": "Lágrimas y sonrisas"
+    },
+    {
+      "songId": "a85e06e3-b5df-5305-b49a-b829a1045aab",
+      "title": "Al compas del corazon (raw)",
+      "orchestra": "Miguel Calo",
+      "year": "1942",
+      "singer": "Raul Beron",
+      "originalTitle": "Al compás del corazón"
+    },
+    {
+      "songId": "3bd46c24-b65c-5c01-bbb8-8dd411c0bb4b",
+      "title": "Saludos",
+      "orchestra": "Miguel Calo",
+      "year": "1944",
+      "singer": null,
+      "originalTitle": "Saludos"
+    },
+    {
+      "songId": "6c27743c-c0ec-5d60-af6b-1a88899279ef",
+      "title": "Sans Souci",
+      "orchestra": "Miguel Calo",
+      "year": "1964",
+      "singer": null,
+      "originalTitle": "Sans souci"
+    },
+    {
+      "songId": "78a22d8b-578b-5b25-a270-137508e0bbc7",
+      "title": "Trasnochando",
+      "orchestra": "Miguel Calo",
+      "year": "1942",
+      "singer": "Raul Beron",
+      "originalTitle": "Trasnochando"
+    },
+    {
+      "songId": "ff8fb70e-dde6-52d7-b52c-2aa7d81996d6",
+      "title": "Que Te Importa Que Te Llore",
+      "orchestra": "Miguel Calo",
+      "year": "1942",
+      "singer": "Raul Beron",
+      "originalTitle": "Qué te importa que te llore"
+    },
+    {
+      "songId": "418d3a62-858a-5150-977b-78844f65e29e",
+      "title": "Pavadita",
+      "orchestra": "Alfredo de Angelis",
+      "year": "1958",
+      "singer": null,
+      "originalTitle": "Pavadita"
+    },
+    {
+      "songId": "0a30743f-b92a-5d1a-9f72-4c29c45c577e",
+      "title": "Adios marinero",
+      "orchestra": "Alfredo de Angelis",
+      "year": "1946",
+      "singer": "Carlos Dante y Julio Martel",
+      "originalTitle": "Adiós marinero"
+    },
+    {
+      "songId": "ba725b3b-b657-59ad-82c1-32c01c7b1e15",
+      "title": "Poema",
+      "orchestra": "Francisco Canaro",
+      "year": "1935",
+      "singer": "Roberto Maida",
+      "originalTitle": "Poema"
+    },
+    {
+      "songId": "1310b41a-154b-5364-a3f0-ed6d7d9d11b7",
+      "title": "Sentimiento gaucho",
+      "orchestra": "Francisco Canaro",
+      "year": "1927",
+      "singer": null,
+      "originalTitle": "Sentimiento gaucho"
+    },
+    {
+      "songId": "03c81dc0-51ca-5ed8-b742-315449cba33e",
+      "title": "El Pollito",
+      "orchestra": "Francisco Canaro",
+      "year": "1927",
+      "singer": null,
+      "originalTitle": "El pollito"
+    },
+    {
+      "songId": "810225ea-7e74-5711-9df6-6f26b8995a12",
+      "title": "Pampa",
+      "orchestra": "Francisco Canaro",
+      "year": "1938",
+      "singer": null,
+      "originalTitle": "Pampa"
+    },
+    {
+      "songId": "448c3f2b-e037-5ce5-9e7a-6abfd5c7f313",
+      "title": "Tango",
+      "orchestra": "Ricardo Tanturi",
+      "year": "1942",
+      "singer": "Alberto Castillo",
+      "originalTitle": "Así se baila el tango"
+    },
+    {
+      "songId": "448c3f2b-e037-5ce5-9e7a-6abfd5c7f313",
+      "title": "Tango",
+      "orchestra": "Ricardo Tanturi",
+      "year": "1942",
+      "singer": "Alberto Castillo",
+      "originalTitle": "El tango es una historia"
+    },
+    {
+      "songId": "d79e25f9-5330-5b3e-b6b0-f748aa570f7f",
+      "title": "Pocas palabras",
+      "orchestra": "Ricardo Tanturi",
+      "year": "1941",
+      "singer": "Alberto Castillo",
+      "originalTitle": "Pocas palabras"
+    },
+    {
+      "songId": "99bfe0b8-4a41-538a-9d7f-41d77b362d8e",
+      "title": "Domingo a la noche",
+      "orchestra": "Ricardo Tanturi",
+      "year": "1944",
+      "singer": "Enrique Campos",
+      "originalTitle": "Domingo"
+    },
+    {
+      "songId": "27fd9715-126a-5b78-8fce-0ce42bb6e5d1",
+      "title": "Una noche de garufa",
+      "orchestra": "Ricardo Tanturi",
+      "year": "1941",
+      "singer": null,
+      "originalTitle": "Una noche de garufa"
+    },
+    {
+      "songId": "0ea88c55-a26b-5fb6-b6dc-4ef16c763559",
+      "title": "Tres esquinas",
+      "orchestra": "Angel D'Agostino",
+      "year": "1941",
+      "singer": "Angel Vargas",
+      "originalTitle": "Tres esquinas"
+    },
+    {
+      "songId": "3dccef18-8139-5872-88b4-c6c644b2d6d0",
+      "title": "El cocherito",
+      "orchestra": "Angel D'Agostino",
+      "year": "1944",
+      "singer": "Angel Vargas",
+      "originalTitle": "El cocherito"
+    },
+    {
+      "songId": "d498fdb8-0f05-512b-b68b-ce295f6c35b0",
+      "title": "El aristocrata | El Shusheta",
+      "orchestra": "Angel D'Agostino",
+      "year": "1945",
+      "singer": "Angel Vargas",
+      "originalTitle": "Shusheta"
+    },
+    {
+      "songId": "b5bc7c1f-931f-5be8-b0b4-6d4be08468ad",
+      "title": "Milonga De Mis Amores",
+      "orchestra": "Pedro Laurenz",
+      "year": "1944",
+      "singer": null,
+      "originalTitle": "Milonga de mis amores"
+    },
+    {
+      "songId": "8c01d0ee-55e9-54fb-aeb8-f25472729ebd",
+      "title": "Nunca tuvo novio",
+      "orchestra": "Pedro Laurenz",
+      "year": "1943",
+      "singer": "Alberto Podesta",
+      "originalTitle": "Nunca tuvo novio"
+    },
+    {
+      "songId": "f4517c8f-b959-5f82-80bd-14f57a11ef2d",
+      "title": "Arrabal",
+      "orchestra": "Pedro Laurenz",
+      "year": "1937",
+      "singer": null,
+      "originalTitle": "Arrabalera"
+    },
+    {
+      "songId": "77d389a6-e17e-596d-8059-abd17144087e",
+      "title": "Como dos extranos",
+      "orchestra": "Pedro Laurenz",
+      "year": "1966",
+      "singer": null,
+      "originalTitle": "Como dos extraños"
+    },
+    {
+      "songId": "19a6d037-41be-5327-8fc5-836c3a0dee92",
+      "title": "Malena",
+      "orchestra": "Lucio Demare",
+      "year": "1942",
+      "singer": "Juan Carlos Miranda",
+      "originalTitle": "Malena"
+    },
+    {
+      "songId": "720096a6-64ad-551c-a7e5-951de5f74d1c",
+      "title": "A media luz",
+      "orchestra": "Edgardo Donato",
+      "year": "1941",
+      "singer": "Horacio Lagos",
+      "originalTitle": "A media luz"
+    },
+    {
+      "songId": "a91649c3-a2e8-5476-a662-13aa3c5f225c",
+      "title": "El huracan",
+      "orchestra": "Edgardo Donato",
+      "year": "1932",
+      "singer": "Felix Gutierrez",
+      "originalTitle": "El huracán"
+    },
+    {
+      "songId": "b1c0ea7d-e0fa-50ff-84a8-17c2d272f4dc",
+      "title": "Vida mia",
+      "orchestra": "Osvaldo Fresedo",
+      "year": "1952-08-21",
+      "singer": "Hector Pacheco",
+      "originalTitle": "Vida mía"
+    },
+    {
+      "songId": "f0ef05b0-185b-5c55-9211-1143c1765da2",
+      "title": "Pampero",
+      "orchestra": "Osvaldo Fresedo",
+      "year": "1952-08-21",
+      "singer": "Hector Pacheco",
+      "originalTitle": "Pampero"
+    }
+  ],
+  "unmatchedSongs": [
+    {
+      "title": "Paloma",
+      "orchestra": "Carlos Di Sarli",
+      "year": 1954
+    },
+    {
+      "title": "A fuego lento",
+      "orchestra": "Carlos Di Sarli",
+      "year": 1954
+    },
+    {
+      "title": "Gallo ciego",
+      "orchestra": "Osvaldo Pugliese",
+      "year": 1948
+    },
+    {
+      "title": "Nochero soy",
+      "orchestra": "Osvaldo Pugliese",
+      "year": 1962
+    },
+    {
+      "title": "La beba",
+      "orchestra": "Osvaldo Pugliese",
+      "year": 1947
+    },
+    {
+      "title": "Perpetuum Mobile",
+      "orchestra": "Osvaldo Pugliese",
+      "year": 1961
+    },
+    {
+      "title": "El marne",
+      "orchestra": "Anibal Troilo",
+      "year": 1941
+    },
+    {
+      "title": "Una canción",
+      "orchestra": "Anibal Troilo",
+      "year": 1943
+    },
+    {
+      "title": "Cascabelito",
+      "orchestra": "Alfredo De Angelis",
+      "year": 1943
+    },
+    {
+      "title": "El tango es el tango",
+      "orchestra": "Alfredo De Angelis",
+      "year": 1946
+    },
+    {
+      "title": "El cencerro",
+      "orchestra": "Alfredo De Angelis",
+      "year": 1946
+    },
+    {
+      "title": "Cabeza de novia",
+      "orchestra": "Alfredo De Angelis",
+      "year": 1944
+    },
+    {
+      "title": "Organito de la tarde",
+      "orchestra": "Francisco Canaro",
+      "year": 1928
+    },
+    {
+      "title": "Noche de reyes",
+      "orchestra": "Francisco Canaro",
+      "year": 1941
+    },
+    {
+      "title": "Madreselva",
+      "orchestra": "Francisco Canaro",
+      "year": 1931
+    },
+    {
+      "title": "Café dominguez",
+      "orchestra": "Angel D'Agostino",
+      "year": 1942
+    },
+    {
+      "title": "Lejos de Buenos Aires",
+      "orchestra": "Angel D'Agostino",
+      "year": 1943
+    },
+    {
+      "title": "Adiós pampa mía",
+      "orchestra": "Enrique Rodriguez",
+      "year": 1942
+    },
+    {
+      "title": "Bésame",
+      "orchestra": "Enrique Rodriguez",
+      "year": 1941
+    },
+    {
+      "title": "Clavel del aire",
+      "orchestra": "Enrique Rodriguez",
+      "year": 1943
+    },
+    {
+      "title": "Tango guapo",
+      "orchestra": "Lucio Demare",
+      "year": 1942
+    },
+    {
+      "title": "Mandria",
+      "orchestra": "Lucio Demare",
+      "year": 1942
+    },
+    {
+      "title": "Julián",
+      "orchestra": "Edgardo Donato",
+      "year": 1933
+    },
+    {
+      "title": "Por una cabeza",
+      "orchestra": "Carlos Gardel",
+      "year": 1935
+    },
+    {
+      "title": "El día que me quieras",
+      "orchestra": "Carlos Gardel",
+      "year": 1935
+    },
+    {
+      "title": "Volver",
+      "orchestra": "Carlos Gardel",
+      "year": 1935
+    },
+    {
+      "title": "Silencio",
+      "orchestra": "Carlos Gardel",
+      "year": 1932
+    },
+    {
+      "title": "El espiante",
+      "orchestra": "Osvaldo Fresedo",
+      "year": 1947
+    }
+  ]
+}
