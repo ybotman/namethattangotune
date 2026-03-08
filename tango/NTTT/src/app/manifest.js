@@ -4,7 +4,10 @@
 //------------------------------------------------------------
 
 export default function manifest() {
-  const isProduction = process.env.VERCEL_ENV === "production";
+  // Check if this is the TEST project by URL or custom env var
+  const vercelUrl = process.env.VERCEL_URL || "";
+  const isTest = vercelUrl.includes("nttt-test") || process.env.NEXT_PUBLIC_IS_TEST === "true";
+  const isProduction = !isTest;
 
   return {
     name: isProduction ? "Name That Tango Tune" : "NTTT (TEST)",
