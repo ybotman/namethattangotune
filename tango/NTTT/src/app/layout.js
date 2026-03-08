@@ -15,6 +15,7 @@ import { ScoreProvider } from "@/contexts/ScoreContext";
 import { ThemeProvider } from "@/hooks/useTheme";
 import { initErrorTracking } from "@/utils/analytics";
 import { preloadSongData } from "@/utils/dataFetching";
+import { registerServiceWorker } from "@/utils/registerSW";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
 import { CssBaseline } from "@mui/material";
@@ -25,10 +26,11 @@ const GA_MEASUREMENT_ID = "G-GSRFSWE79N";
 const inter = Inter({ subsets: ["latin"] });
 
 function LayoutContent({ children }) {
-  // Init error tracking and preload song data on first load
+  // Init error tracking, preload song data, register service worker
   useEffect(() => {
     initErrorTracking();
     preloadSongData(); // Cache song data early so games load instantly
+    registerServiceWorker(); // Register PWA service worker
   }, []);
 
   return <>{children}</>;
@@ -42,6 +44,14 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.className}>
       <head>
+        {/* PWA Meta Tags */}
+        <link rel="manifest" href="/manifest.webmanifest" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <meta name="theme-color" content="#D4AF37" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="NTTT" />
+
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
           strategy="afterInteractive"

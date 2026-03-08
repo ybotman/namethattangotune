@@ -18,6 +18,7 @@ import SwipeMenu from "@/components/ui/SwipeMenu";
 import GameRow from "@/components/ui/GameRow";
 import NTTT101 from "@/components/NTTT101";
 import SignupPromptModal from "@/components/SignupPromptModal";
+import InstallPWA from "@/components/InstallPWA";
 import { AuthContext } from "@/contexts/AuthContext";
 import { UserContext } from "@/contexts/UserContext";
 
@@ -1425,6 +1426,12 @@ function SetupPage() {
   return (
     <Box sx={{ width: "100%", maxWidth: 350, display: "flex", flexDirection: "column", alignItems: "center" }}>
       <PageBanner src="/Banner/Type1__SETUP.png" alt="Setup" />
+
+      {/* Install App */}
+      <Box sx={{ width: "100%", mb: 2 }}>
+        <InstallPWA variant="menuItem" showOnlyIfInstallable={false} />
+      </Box>
+
       {/* Reports */}
       <Paper
         elevation={0}

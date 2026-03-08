@@ -10,6 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./landing.module.css";
 import LandingRedirect from "@/components/LandingRedirect";
+import InstallPWA from "@/components/InstallPWA";
 
 // Next.js Metadata for SEO
 export const metadata = {
@@ -329,6 +330,9 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Install PWA Banner */}
+      <InstallPWA variant="banner" />
+
       {/* Footer Links */}
       <footer className={styles.footer}>
         <div className={styles.footerLinks}>
@@ -339,6 +343,8 @@ export default function LandingPage() {
           <Link href="/auth/signup">Sign Up</Link>
           <span className={styles.separator}>•</span>
           <Link href="/fairuse">Fair Use</Link>
+          <span className={styles.separator}>•</span>
+          <InstallPWA variant="button" />
         </div>
         <p className={styles.copyright}>
           Built by{" "}
