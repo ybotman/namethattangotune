@@ -250,6 +250,27 @@ export default function ListenTab({ songs, onCancel }) {
         color: "var(--foreground)",
       }}
     >
+      {/* Top navigation bar */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          p: 1,
+          borderBottom: "1px solid var(--border-color)",
+        }}
+      >
+        <Typography variant="subtitle2" sx={{ fontWeight: "bold", color: "var(--accent)" }}>
+          Listen Mode
+        </Typography>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <GameHubRoute />
+          <IconButton onClick={onCancel} color="primary" aria-label="Back">
+            <ArrowBackIcon />
+          </IconButton>
+        </Box>
+      </Box>
+
       {/* Top controls */}
       <Box sx={{ flex: "0 0 auto", p: 2 }}>
         {/* Song info */}
@@ -347,22 +368,10 @@ export default function ListenTab({ songs, onCancel }) {
           </IconButton>
         </Box>
 
-        {/* Song counter and navigation */}
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <Typography variant="body2">
-            Song {currentIndex + 1} of {songs.length}
-          </Typography>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <GameHubRoute />
-            <IconButton
-              onClick={onCancel}
-              color="primary"
-              aria-label="Back"
-            >
-              <ArrowBackIcon />
-            </IconButton>
-          </Box>
-        </Box>
+        {/* Song counter */}
+        <Typography variant="body2" sx={{ textAlign: "center" }}>
+          Song {currentIndex + 1} of {songs.length}
+        </Typography>
       </Box>
 
       {/* Song list - compact single line */}

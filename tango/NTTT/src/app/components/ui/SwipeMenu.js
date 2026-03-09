@@ -6,7 +6,9 @@
 
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Box, Typography } from "@mui/material";
+import Link from "next/link";
+import { Box, Typography, IconButton } from "@mui/material";
+import GridViewIcon from "@mui/icons-material/GridView";
 import { motion, AnimatePresence, useMotionValue, useTransform } from "motion/react";
 
 const SWIPE_THRESHOLD = 50; // px needed to trigger page change
@@ -159,6 +161,19 @@ export default function SwipeMenu({ pages, initialPage = 0, onPageChange, extern
         >
           &gt;
         </Typography>
+        {/* GameHub Grid Link */}
+        <Link href="/games/gamehub" style={{ textDecoration: "none" }}>
+          <IconButton
+            size="small"
+            sx={{
+              color: "var(--accent)",
+              ml: 1,
+            }}
+            title="Game Hub Grid"
+          >
+            <GridViewIcon />
+          </IconButton>
+        </Link>
       </Box>
 
       {/* Swipeable Content Area */}

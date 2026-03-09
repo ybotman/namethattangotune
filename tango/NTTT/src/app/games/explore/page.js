@@ -46,6 +46,7 @@ const TOOLS_PASSWORD = "!El4Gotan";
 
 // App version - uses Vercel commit SHA or fallback
 const APP_VERSION = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA || "dev";
+const PKG_VERSION = "2.7.1"; // Keep in sync with package.json
 
 // Version check - prompts refresh if new version detected
 const checkAppVersion = () => {
@@ -1395,14 +1396,23 @@ function AboutPage() {
         </Typography>
         <Typography
           sx={{
-            fontSize: "0.6rem",
+            fontSize: "0.7rem",
             color: "var(--accent)",
-            opacity: 0.7,
             textAlign: "center",
             mt: 1,
           }}
         >
-          Version: {APP_VERSION.slice(0, 7)}
+          v{PKG_VERSION}
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: "0.55rem",
+            color: "var(--foreground)",
+            opacity: 0.4,
+            textAlign: "center",
+          }}
+        >
+          Build: {APP_VERSION.slice(0, 7)}
         </Typography>
       </Paper>
     </Box>
@@ -1415,11 +1425,23 @@ function SetupPage() {
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+  const [debugMode, setDebugMode] = useState(false);
 
   useEffect(() => {
     const unlocked = sessionStorage.getItem("nttt-tools-unlocked");
     if (unlocked === "true") setToolsUnlocked(true);
+    // Load debug mode
+    const storedDebug = localStorage.getItem("nttt_debugMode");
+    setDebugMode(storedDebug === null || storedDebug === "true");
   }, []);
+
+  const toggleDebugMode = () => {
+    const newValue = !debugMode;
+    setDebugMode(newValue);
+    localStorage.setItem("nttt_debugMode", String(newValue));
+    // Reload to apply change
+    window.location.reload();
+  };
 
   const handleToolsUnlock = () => {
     if (password === TOOLS_PASSWORD) {
@@ -1442,6 +1464,44 @@ function SetupPage() {
       <Box sx={{ width: "100%", mb: 2 }}>
         <InstallPWA variant="menuItem" showOnlyIfInstallable={false} />
       </Box>
+
+      {/* Debug Mode Toggle */}
+      <Paper
+        elevation={0}
+        sx={{
+          p: 2,
+          mb: 2,
+          backgroundColor: "var(--background)",
+          border: "1px solid var(--border-color)",
+          borderRadius: 2,
+          width: "100%",
+        }}
+      >
+        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <Box>
+            <Typography sx={{ fontSize: "0.8rem", color: "var(--foreground)", fontWeight: 600 }}>
+              Debug Mode
+            </Typography>
+            <Typography sx={{ fontSize: "0.65rem", color: "var(--foreground)", opacity: 0.6 }}>
+              Show debug overlay for troubleshooting
+            </Typography>
+          </Box>
+          <Button
+            variant={debugMode ? "contained" : "outlined"}
+            size="small"
+            onClick={toggleDebugMode}
+            sx={{
+              minWidth: 60,
+              backgroundColor: debugMode ? "#4CAF50" : "transparent",
+              borderColor: debugMode ? "#4CAF50" : "var(--border-color)",
+              color: debugMode ? "#fff" : "var(--foreground)",
+              fontSize: "0.7rem",
+            }}
+          >
+            {debugMode ? "ON" : "OFF"}
+          </Button>
+        </Box>
+      </Paper>
 
       {/* Reports */}
       <Paper
