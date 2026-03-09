@@ -55,7 +55,11 @@ export default function useArtistQuizScoring({
   // initRound
   const initRound = useCallback(
     async (idx) => {
-      if (!songs || idx >= songs.length) return;
+      console.log("[Scoring] initRound called - idx:", idx, "songs:", songs?.length, "song:", songs?.[idx]?.Title);
+      if (!songs || idx >= songs.length) {
+        console.log("[Scoring] initRound BAILED - no songs or bad index");
+        return;
+      }
 
       setCurrentIndex(idx);
       setCurrentSong(songs[idx]);

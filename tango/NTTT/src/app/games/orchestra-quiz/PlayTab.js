@@ -97,6 +97,7 @@ export default function PlayTab({ songs, config, onCancel }) {
     hasLoggedRef.current = true;
   }
 
+
   // 2) Quiz config
   const { calculateMaxScore, INTERVAL_MS } = useArtistQuiz();
   const timeLimit = config.timeLimit ?? 15;
@@ -190,6 +191,19 @@ export default function PlayTab({ songs, config, onCancel }) {
     roundStats,
     sessionScore,
   });
+
+  // Debug: Log GO button state (only first few renders)
+  const renderCountRef = useRef(0);
+  renderCountRef.current++;
+  if (renderCountRef.current <= 5) {
+    const goButtonVisible = !isPlaying && !roundOver && !!currentSong;
+    console.log("[PlayTab] Render #" + renderCountRef.current +
+      " - currentSong:", currentSong?.Title || "NULL",
+      "| isPlaying:", isPlaying,
+      "| isReady:", isReady,
+      "| GO visible:", goButtonVisible,
+      "| answers:", answers.length);
+  }
 
   // 4) Stop audio & intervals
   const stopAudio = useCallback(() => {
