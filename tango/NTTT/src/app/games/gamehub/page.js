@@ -370,7 +370,7 @@ export default function GameHubPage() {
   const handleStartFromWelcome = () => {
     markWelcomeSeen();
     setShowWelcome(false);
-    router.push("/games/orchestra-quiz");
+    // Stay on gamehub - user can tap Orchestra Quiz tile
   };
 
   // Quick stats calculation

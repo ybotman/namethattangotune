@@ -90,14 +90,6 @@ export default function PlayTab({ songs, config, onCancel }) {
   const [isReady, setIsReady] = useState(false);
   const isMountedRef = useRef(true);
 
-  // Only log once per mount, not every render
-  const hasLoggedRef = useRef(false);
-  if (!hasLoggedRef.current) {
-    console.log("[PlayTab] Mounting with", songs?.length, "songs");
-    hasLoggedRef.current = true;
-  }
-
-
   // 2) Quiz config
   const { calculateMaxScore, INTERVAL_MS } = useArtistQuiz();
   const timeLimit = config.timeLimit ?? 15;
@@ -192,19 +184,6 @@ export default function PlayTab({ songs, config, onCancel }) {
     sessionScore,
   });
 
-  // Debug: Log GO button state (only first few renders)
-  const renderCountRef = useRef(0);
-  renderCountRef.current++;
-  if (renderCountRef.current <= 5) {
-    const goButtonVisible = !isPlaying && !roundOver && !!currentSong;
-    console.log("[PlayTab] Render #" + renderCountRef.current +
-      " - currentSong:", currentSong?.Title || "NULL",
-      "| isPlaying:", isPlaying,
-      "| isReady:", isReady,
-      "| GO visible:", goButtonVisible,
-      "| answers:", answers.length);
-  }
-
   // 4) Stop audio & intervals
   const stopAudio = useCallback(() => {
     cleanupWaveSurfer();
@@ -249,14 +228,12 @@ export default function PlayTab({ songs, config, onCancel }) {
 
   // 6) doNextSong => proceed to next
   const doNextSong = useCallback(() => {
-    console.log("[PlayTab] doNextSong called");
     setRoundOver(false);
     handleNextSong();
   }, [handleNextSong]);
 
   // 6b) handleCancel => track abandonment and close
   const handleCancel = useCallback(() => {
-    console.log("[PlayTab] handleCancel called at index", currentIndex, "- closing PlayTab");
     trackGameAbandon("orchestra-quiz", currentIndex + 1, numSongs);
     trackGameCancel("orchestra-quiz", currentIndex + 1, numSongs, config);
     onCancel();
@@ -264,12 +241,8 @@ export default function PlayTab({ songs, config, onCancel }) {
 
   // 7) clickPlaySong => waveSurfer snippet
   const clickPlaySong = useCallback(() => {
-    console.log("[PlayTab] clickPlaySong, currentSong:", currentSong?.Title);
     trackPlayClick("orchestra-quiz");
-    if (!currentSong) {
-      console.log("[PlayTab] No currentSong, returning");
-      return;
-    }
+    if (!currentSong) return;
     if (lastSongRef.current === currentSong.AudioUrl) return;
     lastSongRef.current = currentSong.AudioUrl;
 
@@ -295,8 +268,7 @@ export default function PlayTab({ songs, config, onCancel }) {
         setAudioReady(true);
         startIntervals();
       },
-      onPlayError: (err) => {
-        console.error("[PlayTab] onPlayError:", err?.message || err);
+      onPlayError: () => {
         setIsPlaying(false);
         doNextSong();
       },
@@ -320,11 +292,9 @@ export default function PlayTab({ songs, config, onCancel }) {
   // 8) Init round on mount or index change
   // IMPORTANT: Only depend on currentIndex to prevent iOS PWA crash from callback instability
   useEffect(() => {
-    console.log("[PlayTab] useEffect: initRound for index", currentIndex);
     setAudioReady(false); // Reset audio ready state for new round
     initRoundRef.current(currentIndex);
     return () => {
-      console.log("[PlayTab] useEffect cleanup: stopAudio");
       stopAudioRef.current();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -369,7 +339,6 @@ export default function PlayTab({ songs, config, onCancel }) {
 
     // Mark as ready - this gates AnimatePresence rendering to prevent iOS PWA crash
     if (!isReady && isMountedRef.current) {
-      console.log("[PlayTab] Initialization complete, setting isReady=true");
       setIsReady(true);
     }
   }, [currentSong, allArtists, config.gridCells, setAnswers, isReady]);
@@ -451,7 +420,6 @@ export default function PlayTab({ songs, config, onCancel }) {
 
   // C) If final => summary with celebration
   if (showFinalSummary) {
-    console.log("[PlayTab] Showing final summary");
     const totalRounds = roundStats.length;
     let avgTime = 0,
       avgDist = 0;
@@ -588,7 +556,7 @@ export default function PlayTab({ songs, config, onCancel }) {
       >
         {/* Title */}
         <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-          Identify the Artist
+          Identify the Orchestra
         </Typography>
 
         {/* Icons Row (Justified Right) */}
@@ -605,7 +573,7 @@ export default function PlayTab({ songs, config, onCancel }) {
       </Box>
 
       {/* Round Progress - Score-colored dashes */}
-      <Box sx={{ mb: 1 }}>
+      <Box sx={{ mb: 1, width: "100%" }}>
         <RoundProgress
           totalRounds={numSongs}
           currentRound={currentIndex}
@@ -805,9 +773,6 @@ export default function PlayTab({ songs, config, onCancel }) {
         {!isPlaying && !roundOver && currentSong && (
           <Button
             variant="contained"
-            onTouchStart={() => console.log("[GO] touchStart")}
-            onTouchEnd={() => console.log("[GO] touchEnd")}
-            onPointerDown={() => console.log("[GO] pointerDown")}
             onClick={clickPlaySong}
             sx={{
               backgroundColor: "#4CAF50",

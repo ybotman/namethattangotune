@@ -37,13 +37,6 @@ export default function PlayTab({ songs, config, onCancel }) {
   const [isReady, setIsReady] = useState(false);
   const isMountedRef = useRef(true);
 
-  // Only log once per mount, not every render
-  const hasLoggedRef = useRef(false);
-  if (!hasLoggedRef.current) {
-    console.log("[SongPlayTab] Mounting with", songs?.length, "songs");
-    hasLoggedRef.current = true;
-  }
-
   const { calculateMaxScore, INTERVAL_MS } = useSongQuiz();
   const timeLimit = config.timeLimit ?? 15;
   const maxScore = calculateMaxScore(timeLimit, config.gridCells);
@@ -184,11 +177,9 @@ export default function PlayTab({ songs, config, onCancel }) {
   // Init round on mount or index change
   // IMPORTANT: Only depend on currentIndex to prevent iOS PWA crash from callback instability
   useEffect(() => {
-    console.log("[SongPlayTab] useEffect: initRound for index", currentIndex);
     setAudioReady(false); // Reset audio ready state for new round
     initRoundRef.current(currentIndex);
     return () => {
-      console.log("[SongPlayTab] useEffect cleanup: stopAudio");
       stopAudioRef.current();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -210,7 +201,6 @@ export default function PlayTab({ songs, config, onCancel }) {
 
     // Mark as ready - this gates AnimatePresence rendering to prevent iOS PWA crash
     if (!isReady && isMountedRef.current) {
-      console.log("[SongPlayTab] Initialization complete, setting isReady=true");
       setIsReady(true);
     }
   }, [currentSong, songs, setAnswers, isReady]);
@@ -346,7 +336,7 @@ export default function PlayTab({ songs, config, onCancel }) {
       </Box>
 
       {/* Round Progress - Score-colored dashes */}
-      <Box sx={{ mb: 1 }}>
+      <Box sx={{ mb: 1, width: "100%" }}>
         <RoundProgress
           totalRounds={numSongs}
           currentRound={currentIndex}

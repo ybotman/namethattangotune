@@ -15,26 +15,17 @@ export default function useWaveSurfer({ onSongEnd }) {
   const unlockAudioRef = useRef(false);
 
   const unlockIOSAudio = useCallback(async () => {
-    if (unlockAudioRef.current) {
-      console.log("[WS] iOS audio already unlocked");
-      return;
-    }
+    if (unlockAudioRef.current) return;
 
     try {
-      console.log("[WS] Attempting iOS audio unlock...");
       // Create a short silent audio and play it
       const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContext) {
-        console.warn("[WS] No AudioContext available");
-        return;
-      }
+      if (!AudioContext) return;
       const ctx = new AudioContext();
-      console.log("[WS] AudioContext created, state:", ctx.state);
 
       // Resume if suspended
       if (ctx.state === "suspended") {
         await ctx.resume();
-        console.log("[WS] AudioContext resumed");
       }
 
       // Create and play a silent buffer
@@ -45,9 +36,8 @@ export default function useWaveSurfer({ onSongEnd }) {
       source.start(0);
 
       unlockAudioRef.current = true;
-      console.log("[WS] iOS audio unlocked successfully");
     } catch (e) {
-      console.error("[WS] iOS audio unlock failed:", e.message);
+      // iOS audio unlock failed - continue anyway
     }
   }, []);
 
@@ -62,9 +52,8 @@ export default function useWaveSurfer({ onSongEnd }) {
       if (backend?.context?.state === "suspended") {
         try {
           await backend.context.resume();
-          console.log("AudioContext resumed");
         } catch (e) {
-          console.warn("Could not resume AudioContext:", e);
+          // Could not resume AudioContext
         }
       }
     }
@@ -72,10 +61,7 @@ export default function useWaveSurfer({ onSongEnd }) {
 
   // 1) Init
   const initWaveSurfer = useCallback(() => {
-    if (waveSurferRef.current) {
-      console.warn("WaveSurfer is already initialized.");
-      return;
-    }
+    if (waveSurferRef.current) return;
     waveSurferRef.current = WaveSurfer.create({
       container: document.createElement("div"),
       waveColor: "transparent",
@@ -85,24 +71,11 @@ export default function useWaveSurfer({ onSongEnd }) {
       backend: "WebAudio",
     });
 
-    // Try to get AudioContext handle for iOS resume
-    try {
-      const ac = waveSurferRef.current.backend?.ac;
-      if (ac) {
-        console.log("AudioContext state:", ac.state);
-      }
-    } catch (e) {
-      // Ignore
-    }
     waveSurferRef.current.on("finish", () => {
       if (onSongEnd) onSongEnd();
     });
     waveSurferRef.current.on("error", (err) => {
-      if (err?.name === "AbortError") {
-        console.info("WaveSurfer fetch aborted - ignoring...");
-        return;
-      }
-      console.error("WaveSurfer error:", err);
+      if (err?.name === "AbortError") return;
       // Call the error callback if set
       if (onErrorRef.current) {
         onErrorRef.current(err);
@@ -155,7 +128,6 @@ export default function useWaveSurfer({ onSongEnd }) {
   // 3) Load
   const loadSong = useCallback((songUrl, onReady, onError) => {
     if (!waveSurferRef.current) {
-      console.error("WaveSurfer is not initialized.");
       if (onError) onError(new Error("WaveSurfer not initialized"));
       return;
     }
@@ -171,17 +143,13 @@ export default function useWaveSurfer({ onSongEnd }) {
     try {
       waveSurferRef.current.load(songUrl);
     } catch (err) {
-      console.error("WaveSurfer load exception:", err);
       if (onError) onError(err);
     }
   }, []);
 
   // 4) Fade
   const fadeVolume = useCallback((fromVol, toVol, durationSec, callback) => {
-    if (!waveSurferRef.current) {
-      console.error("WaveSurfer is not initialized.");
-      return;
-    }
+    if (!waveSurferRef.current) return;
     const steps = 15;
     const stepTime = (durationSec * 1000) / steps;
     let currentStep = 0;
@@ -213,54 +181,38 @@ export default function useWaveSurfer({ onSongEnd }) {
         onPlayError,
       },
     ) => {
-      console.log("[WS] playSnippet called for:", songUrl?.slice(-30));
       if (!waveSurferRef.current) {
-        console.error("[WS] WaveSurfer not initialized!");
         if (onPlayError) onPlayError(new Error("WaveSurfer not initialized"));
         return;
       }
 
-      // NOTE: Removed resumeAudioContext() - it was creating a separate AudioContext
-      // that interfered with WaveSurfer's internal WebAudio backend on iOS.
-      // Listen mode works without it, and this was causing quiz audio crashes.
-
-      console.log("[WS] Loading song...");
       loadSong(songUrl, () => {
-        console.log("[WS] Song loaded, preparing playback...");
         const ws = waveSurferRef.current;
         if (!ws) {
-          console.error("[WS] WaveSurfer disappeared after load!");
           if (onPlayError) onPlayError(new Error("WaveSurfer gone"));
           return;
         }
 
         const dur = ws.getDuration();
-        console.log("[WS] Duration:", dur);
 
         // Use specific start position if provided, otherwise random
         let startTime;
         if (snippetStart !== null && snippetStart >= 0) {
           startTime = Math.min(snippetStart, dur - 1);
-          console.log(`[WS] Playing from segment at ${startTime.toFixed(1)}s`);
         } else {
           startTime = Math.floor(Math.random() * Math.min(snippetMaxStart, dur - 1));
-          console.log(`[WS] Playing from random at ${startTime.toFixed(1)}s`);
         }
 
         // iOS PWA fix: play() first to preserve user gesture, then seek
-        // The seekTo before play was breaking iOS PWA audio
-        console.log("[WS] Calling play() first (iOS PWA fix)...");
         ws.setVolume(0); // Start silent for seek
         ws.play()
           .then(() => {
-            console.log("[WS] play() resolved, now seeking to", startTime.toFixed(1));
             ws.seekTo(startTime / dur);
 
             // Start timer immediately when play resolves
             if (onPlaySuccess) onPlaySuccess();
 
             fadeVolume(0, 1, fadeDurationSec, () => {
-              console.log("[WS] Fade in complete");
               // Fade complete - cosmetic only
 
               // If snippetDuration specified, schedule fade-out and stop
@@ -280,7 +232,6 @@ export default function useWaveSurfer({ onSongEnd }) {
             });
           })
           .catch((err) => {
-            console.error("[WS] play() FAILED:", err?.message || err);
             if (onPlayError) onPlayError(err);
           });
       });
