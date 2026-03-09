@@ -140,7 +140,14 @@ export default function OrchestraQuizPage() {
             zIndex: 9999,
             overflow: "auto",
             p: 2,
+            // iOS PWA fix: explicitly capture all touch/pointer events
+            touchAction: "auto",
+            pointerEvents: "auto",
+            WebkitTouchCallout: "none",
+            WebkitUserSelect: "none",
           }}
+          onClick={(e) => e.stopPropagation()}
+          onTouchStart={(e) => { console.log("[Overlay] touchStart"); e.stopPropagation(); }}
         >
           <PlayTab songs={songs} config={config} onCancel={handleClosePlayTab} />
         </Box>
