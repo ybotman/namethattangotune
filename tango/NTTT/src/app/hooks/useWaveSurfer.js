@@ -11,8 +11,41 @@ export default function useWaveSurfer({ onSongEnd }) {
   const fadeIntervalRef = useRef(null);
   const onErrorRef = useRef(null);
 
+  // Unlock audio on iOS - creates and plays silent buffer to bypass silent switch
+  const unlockAudioRef = useRef(false);
+
+  const unlockIOSAudio = useCallback(async () => {
+    if (unlockAudioRef.current) return; // Already unlocked
+
+    try {
+      // Create a short silent audio and play it
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      const ctx = new AudioContext();
+
+      // Resume if suspended
+      if (ctx.state === "suspended") {
+        await ctx.resume();
+      }
+
+      // Create and play a silent buffer
+      const buffer = ctx.createBuffer(1, 1, 22050);
+      const source = ctx.createBufferSource();
+      source.buffer = buffer;
+      source.connect(ctx.destination);
+      source.start(0);
+
+      unlockAudioRef.current = true;
+      console.log("iOS audio unlocked");
+    } catch (e) {
+      console.warn("Could not unlock iOS audio:", e);
+    }
+  }, []);
+
   // Resume AudioContext on iOS (must be called from user gesture)
   const resumeAudioContext = useCallback(async () => {
+    // First unlock iOS audio
+    await unlockIOSAudio();
+
     if (waveSurferRef.current) {
       const backend = waveSurferRef.current.getMediaElement?.() ||
                       waveSurferRef.current.backend?.ac;
@@ -25,7 +58,7 @@ export default function useWaveSurfer({ onSongEnd }) {
         }
       }
     }
-  }, []);
+  }, [unlockIOSAudio]);
 
   // 1) Init
   const initWaveSurfer = useCallback(() => {
