@@ -51,7 +51,10 @@ const markWelcomeSeen = () => {
   localStorage.setItem("nttt-seen-welcome", "true");
 };
 
-// Game tiles for grid - core games + more
+// App version
+const APP_VERSION = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA?.slice(0, 7) || "dev";
+
+// Game tiles for grid - 9 tiles for 3x3
 const gameTiles = [
   {
     id: "orchestra",
@@ -88,6 +91,29 @@ const gameTiles = [
     subtitle: "Stats",
     image: "/Banner/Type1__STATS.png",
     href: "/games/explore?page=5",
+  },
+  {
+    id: "daily",
+    title: "Daily",
+    subtitle: "Soon",
+    image: "/Banner/Type1__DAILY.png",
+    href: "/games/explore?page=6",
+    comingSoon: true,
+  },
+  {
+    id: "contest",
+    title: "Contest",
+    subtitle: "Soon",
+    image: "/Banner/Type1__CONTEST.png",
+    href: "/games/explore?page=7",
+    comingSoon: true,
+  },
+  {
+    id: "about",
+    title: "About",
+    subtitle: "NTTT",
+    image: "/Banner/Type1__NTTT.png",
+    href: "/games/explore?page=9",
   },
   {
     id: "more",
@@ -200,6 +226,27 @@ function GameTile({ tile, isMobile }) {
           },
         }}
       >
+        {/* Coming Soon badge */}
+        {tile.comingSoon && (
+          <Box
+            sx={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+              bgcolor: "#666",
+              color: "#fff",
+              px: 1,
+              py: 0.25,
+              borderRadius: 1,
+              fontSize: "0.55rem",
+              fontWeight: 700,
+              zIndex: 2,
+            }}
+          >
+            SOON
+          </Box>
+        )}
+
         {/* Featured badge */}
         {tile.featured && (
           <Box
@@ -507,7 +554,7 @@ export default function GameHubPage() {
           mt: 1,
         }}
       >
-        Built by Toby Balsley
+        v{APP_VERSION} • Built by Toby Balsley
       </Typography>
     </Box>
   );

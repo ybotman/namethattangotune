@@ -1393,6 +1393,17 @@ function AboutPage() {
         >
           AI-powered apps for communities
         </Typography>
+        <Typography
+          sx={{
+            fontSize: "0.6rem",
+            color: "var(--accent)",
+            opacity: 0.7,
+            textAlign: "center",
+            mt: 1,
+          }}
+        >
+          Version: {APP_VERSION.slice(0, 7)}
+        </Typography>
       </Paper>
     </Box>
   );
@@ -1664,10 +1675,36 @@ export default function GameHubPage() {
   // Define swipeable pages - Welcome is first
   const pages = [
     {
-      title: "Welcome",
-      label: "Home",
+      title: "Hub",
+      label: "Hub",
       image: "/Banner/Type2__NTTT.png",
-      content: <WelcomePage onQuickStart={handleQuickStart} onViewStats={handleViewStats} />,
+      content: (
+        <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
+          <Typography sx={{ fontSize: "1.2rem", fontWeight: 700, color: "var(--accent)", mt: 2 }}>
+            Game Hub
+          </Typography>
+          <Typography sx={{ fontSize: "0.85rem", color: "var(--foreground)", opacity: 0.8, textAlign: "center", maxWidth: 280 }}>
+            Quick access to all games in a simple grid layout
+          </Typography>
+          <Link href="/games/gamehub" style={{ textDecoration: "none" }}>
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: "var(--accent)",
+                color: "#000",
+                fontWeight: 700,
+                px: 4,
+                py: 1.5,
+                fontSize: "1rem",
+                textTransform: "none",
+                "&:hover": { backgroundColor: "#c9a431" },
+              }}
+            >
+              Go to Hub
+            </Button>
+          </Link>
+        </Box>
+      ),
     },
     {
       title: "Orchestra",
