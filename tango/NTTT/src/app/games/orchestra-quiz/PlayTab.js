@@ -85,7 +85,7 @@ import AnimatedButton from "@/components/ui/AnimatedButton";
 import SongFeedback from "@/components/ui/SongFeedback";
 
 export default function PlayTab({ songs, config, onCancel }) {
-  console.log("[PlayTab] Mounted with", songs?.length, "songs");
+  console.log("[PlayTab] Mounted with", songs?.length, "songs, config:", JSON.stringify(config?.gridCells));
 
   // 2) Quiz config
   const { calculateMaxScore, INTERVAL_MS } = useArtistQuiz();
@@ -275,9 +275,13 @@ export default function PlayTab({ songs, config, onCancel }) {
 
   // 8) Init round on mount or index change
   useEffect(() => {
+    console.log("[PlayTab] useEffect: initRound for index", currentIndex, "currentSong:", currentSong?.Title);
     setAudioReady(false); // Reset audio ready state for new round
     initRound(currentIndex);
-    return () => stopAudio();
+    return () => {
+      console.log("[PlayTab] useEffect cleanup: stopAudio");
+      stopAudio();
+    };
   }, [currentIndex, initRound, stopAudio]);
 
   // 9) Build answers from ArtistMaster filtered by selected orchestra levels
