@@ -175,12 +175,24 @@ export default function PlayTab({ songs, config, onCancel }) {
     doNextSong,
   ]);
 
+  // Store functions in refs to avoid useEffect re-running when callbacks are recreated
+  const initRoundRef = useRef(initRound);
+  const stopAudioRef = useRef(stopAudio);
+  initRoundRef.current = initRound;
+  stopAudioRef.current = stopAudio;
+
   // Init round on mount or index change
+  // IMPORTANT: Only depend on currentIndex to prevent iOS PWA crash from callback instability
   useEffect(() => {
+    console.log("[SongPlayTab] useEffect: initRound for index", currentIndex);
     setAudioReady(false); // Reset audio ready state for new round
-    initRound(currentIndex);
-    return () => stopAudio();
-  }, [currentIndex, initRound, stopAudio]);
+    initRoundRef.current(currentIndex);
+    return () => {
+      console.log("[SongPlayTab] useEffect cleanup: stopAudio");
+      stopAudioRef.current();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentIndex]);
 
   // Build answers from titles in the filtered songs pool
   useEffect(() => {

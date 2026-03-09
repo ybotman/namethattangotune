@@ -297,16 +297,24 @@ export default function PlayTab({ songs, config, onCancel }) {
     doNextSong,
   ]);
 
+  // Store functions in refs to avoid useEffect re-running when callbacks are recreated
+  const initRoundRef = useRef(initRound);
+  const stopAudioRef = useRef(stopAudio);
+  initRoundRef.current = initRound;
+  stopAudioRef.current = stopAudio;
+
   // 8) Init round on mount or index change
+  // IMPORTANT: Only depend on currentIndex to prevent iOS PWA crash from callback instability
   useEffect(() => {
-    console.log("[PlayTab] useEffect: initRound for index", currentIndex, "currentSong:", currentSong?.Title);
+    console.log("[PlayTab] useEffect: initRound for index", currentIndex);
     setAudioReady(false); // Reset audio ready state for new round
-    initRound(currentIndex);
+    initRoundRef.current(currentIndex);
     return () => {
       console.log("[PlayTab] useEffect cleanup: stopAudio");
-      stopAudio();
+      stopAudioRef.current();
     };
-  }, [currentIndex, initRound, stopAudio]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentIndex]);
 
   // 9) Build answers from ArtistMaster filtered by selected orchestra levels
   // Distractors come ONLY from the same tier(s) selected - no bleeding across tiers
