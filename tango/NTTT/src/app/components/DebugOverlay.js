@@ -1,13 +1,19 @@
 "use client";
 //------------------------------------------------------------
 // src/app/components/DebugOverlay.js
-// Temporary debug overlay for mobile debugging
+// Debug overlay for mobile debugging (enabled via Settings)
 // Shows last N log messages on screen
 //------------------------------------------------------------
 import React, { useState, useEffect } from "react";
 import { Box, Typography, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import BugReportIcon from "@mui/icons-material/BugReport";
+
+// Check if debug mode is enabled in settings
+function isDebugEnabled() {
+  if (typeof window === "undefined") return false;
+  return localStorage.getItem("nttt_debugMode") === "true";
+}
 
 // Global log storage
 const MAX_LOGS = 20;
@@ -64,15 +70,20 @@ export default function DebugOverlay() {
   const [logs, setLogs] = useState([]);
   const [visible, setVisible] = useState(false);
   const [minimized, setMinimized] = useState(true);
+  const [debugEnabled, setDebugEnabled] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
+    // Check if debug mode is enabled
+    setDebugEnabled(isDebugEnabled());
+
     const listener = (newLogs) => setLogs([...newLogs]);
     logListeners.push(listener);
     setLogs([...logMessages]);
 
-    // Auto-show on first error
+    // Auto-show on first error (only if debug enabled)
     const errorListener = (newLogs) => {
-      if (newLogs.some(l => l.type === "error")) {
+      if (isDebugEnabled() && newLogs.some(l => l.type === "error")) {
         setVisible(true);
       }
     };
@@ -82,6 +93,23 @@ export default function DebugOverlay() {
       logListeners = logListeners.filter(l => l !== listener && l !== errorListener);
     };
   }, []);
+
+  // Copy all logs to clipboard
+  const copyLogs = async () => {
+    const logText = logs.map(l => `${l.time} [${l.type}] ${l.message}`).join("\n");
+    try {
+      await navigator.clipboard.writeText(logText);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (e) {
+      console.error("Failed to copy logs:", e);
+    }
+  };
+
+  // Don't render anything if debug mode is disabled
+  if (!debugEnabled) {
+    return null;
+  }
 
   if (!visible) {
     return (
@@ -154,6 +182,9 @@ export default function DebugOverlay() {
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
         <Typography sx={{ fontSize: "0.7rem", color: "#fff" }}>DEBUG LOG</Typography>
         <Box>
+          <IconButton size="small" onClick={copyLogs} sx={{ color: copied ? "#0f0" : "#888", p: 0.5 }}>
+            <Typography sx={{ fontSize: "0.6rem" }}>{copied ? "COPIED!" : "COPY"}</Typography>
+          </IconButton>
           <IconButton size="small" onClick={() => setMinimized(true)} sx={{ color: "#888", p: 0.5 }}>
             <Typography sx={{ fontSize: "0.6rem" }}>MIN</Typography>
           </IconButton>

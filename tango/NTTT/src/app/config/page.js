@@ -34,6 +34,7 @@ export default function ConfigurationScreen() {
 
   const [tabIndex, setTabIndex] = useState(0);
   const [expertiseLevel, setExpertiseLevel] = useState(3);
+  const [debugMode, setDebugMode] = useState(false);
 
   const [aqSongs, setAqSongs] = useState(10);
   const [aqSeconds, setAqSeconds] = useState(15);
@@ -48,6 +49,9 @@ export default function ConfigurationScreen() {
     if (typeof window !== "undefined") {
       const storedExpertise = localStorage.getItem("nttt_expertiseLevel");
       if (storedExpertise) setExpertiseLevel(Number(storedExpertise));
+
+      const storedDebugMode = localStorage.getItem("nttt_debugMode");
+      setDebugMode(storedDebugMode === "true");
 
       const storedAqSongs = localStorage.getItem("nttt_aq_songs");
       if (storedAqSongs) setAqSongs(Number(storedAqSongs));
@@ -70,6 +74,7 @@ export default function ConfigurationScreen() {
   const saveLocalConfig = () => {
     if (typeof window !== "undefined") {
       localStorage.setItem("nttt_expertiseLevel", String(expertiseLevel));
+      localStorage.setItem("nttt_debugMode", String(debugMode));
       localStorage.setItem("nttt_aq_songs", String(aqSongs));
       localStorage.setItem("nttt_aq_seconds", String(aqSeconds));
       const selectedLevels = [];
@@ -140,6 +145,20 @@ export default function ConfigurationScreen() {
               step={1}
               onChange={(e, val) => setExpertiseLevel(val)}
             />
+            <Box sx={{ mt: 3 }}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={debugMode}
+                    onChange={(e) => setDebugMode(e.target.checked)}
+                  />
+                }
+                label="Debug Mode (shows log overlay for troubleshooting)"
+              />
+              <Typography variant="caption" display="block" sx={{ color: "text.secondary", ml: 4 }}>
+                When enabled, a bug icon appears. Tap to view logs. Use COPY to share with support.
+              </Typography>
+            </Box>
           </Box>
         )}
         {tabIndex === 1 && (
