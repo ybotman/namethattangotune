@@ -166,23 +166,15 @@ export default function useWaveSurfer({ onSongEnd }) {
 
         ws.seekTo(startTime / dur);
 
-        // Start timer when audio ACTUALLY plays (not just when promise resolves)
-        // This fixes iOS delay where play() resolves before audio starts
-        let playSuccessCalled = false;
-        const handlePlaying = () => {
-          if (playSuccessCalled) return;
-          playSuccessCalled = true;
-          ws.un("play", handlePlaying); // WaveSurfer uses 'play' event when playing starts
-          if (onPlaySuccess) onPlaySuccess();
-        };
-        ws.on("play", handlePlaying);
-
-        // play => fade in (fade is cosmetic, timer starts on actual play)
+        // play => fade in, start timer immediately when play() resolves
         ws.play()
           .then(() => {
+            // Start timer immediately when play resolves (not after fade)
+            if (onPlaySuccess) onPlaySuccess();
+
             ws.setVolume(0);
             fadeVolume(0, 1, fadeDurationSec, () => {
-              // Fade complete - just cosmetic, timer already started
+              // Fade complete - cosmetic only
 
               // If snippetDuration specified, schedule fade-out and stop
               if (snippetDuration && snippetDuration > 0) {
@@ -202,7 +194,6 @@ export default function useWaveSurfer({ onSongEnd }) {
           })
           .catch((err) => {
             console.error("WaveSurfer play error:", err);
-            ws.un("play", handlePlaying);
             if (onPlayError) onPlayError(err);
           });
       });
