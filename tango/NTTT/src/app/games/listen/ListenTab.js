@@ -18,7 +18,9 @@ import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import InfoIcon from "@mui/icons-material/Info";
 import CloseIcon from "@mui/icons-material/Close";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Dialog from "@mui/material/Dialog";
+import GameHubRoute from "@/components/ui/GameHubRoute";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import styles from "../styles.module.css";
@@ -345,26 +347,21 @@ export default function ListenTab({ songs, onCancel }) {
           </IconButton>
         </Box>
 
-        {/* Song counter and close button */}
+        {/* Song counter and navigation */}
         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <Typography variant="body2">
             Song {currentIndex + 1} of {songs.length}
           </Typography>
-          <Button
-            variant="outlined"
-            onClick={onCancel}
-            size="small"
-            sx={{
-              borderColor: "var(--foreground)",
-              color: "var(--foreground)",
-              "&:hover": {
-                background: "var(--foreground)",
-                color: "var(--background)",
-              },
-            }}
-          >
-            Close
-          </Button>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <GameHubRoute />
+            <IconButton
+              onClick={onCancel}
+              color="primary"
+              aria-label="Back"
+            >
+              <ArrowBackIcon />
+            </IconButton>
+          </Box>
         </Box>
       </Box>
 

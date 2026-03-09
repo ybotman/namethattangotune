@@ -220,9 +220,9 @@ export default function useWaveSurfer({ onSongEnd }) {
         return;
       }
 
-      // Resume AudioContext for iOS PWA (must be in user gesture handler)
-      console.log("[WS] Resuming audio context...");
-      resumeAudioContext();
+      // NOTE: Removed resumeAudioContext() - it was creating a separate AudioContext
+      // that interfered with WaveSurfer's internal WebAudio backend on iOS.
+      // Listen mode works without it, and this was causing quiz audio crashes.
 
       console.log("[WS] Loading song...");
       loadSong(songUrl, () => {
@@ -284,7 +284,7 @@ export default function useWaveSurfer({ onSongEnd }) {
           });
       });
     },
-    [loadSong, fadeVolume, resumeAudioContext],
+    [loadSong, fadeVolume],
   );
 
   return {
