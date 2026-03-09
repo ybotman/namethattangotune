@@ -256,7 +256,7 @@ export default function PlayTab({ songs, config, onCancel }) {
 
   // 6b) handleCancel => track abandonment and close
   const handleCancel = useCallback(() => {
-    console.log("[PlayTab] handleCancel called at index", currentIndex);
+    console.log("[PlayTab] handleCancel called at index", currentIndex, "- closing PlayTab");
     trackGameAbandon("orchestra-quiz", currentIndex + 1, numSongs);
     trackGameCancel("orchestra-quiz", currentIndex + 1, numSongs, config);
     onCancel();
@@ -805,6 +805,9 @@ export default function PlayTab({ songs, config, onCancel }) {
         {!isPlaying && !roundOver && currentSong && (
           <Button
             variant="contained"
+            onTouchStart={() => console.log("[GO] touchStart")}
+            onTouchEnd={() => console.log("[GO] touchEnd")}
+            onPointerDown={() => console.log("[GO] pointerDown")}
             onClick={clickPlaySong}
             sx={{
               backgroundColor: "#4CAF50",

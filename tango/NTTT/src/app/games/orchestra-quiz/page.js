@@ -28,6 +28,8 @@ export default function OrchestraQuizPage() {
   const [showPlayTab, setShowPlayTab] = useState(false);
   const [poolCount, setPoolCount] = useState(0);
 
+  console.log("[OrchestraQuizPage] Render - showPlayTab:", showPlayTab);
+
   const isLandscape = useMediaQuery("(min-width: 768px) and (orientation: landscape)", { noSsr: true });
 
   const { config, resetAll } = useGameContext();
@@ -105,11 +107,13 @@ export default function OrchestraQuizPage() {
     trackGameSetup("orchestra-quiz", config);
     trackGameStart("orchestra-quiz", config);
 
+    console.log("[OrchestraQuizPage] handlePlayClick: Got", fetchedSongs.length, "songs, setting showPlayTab=true");
     setSongs(fetchedSongs);
     setShowPlayTab(true);
   }, [config, canPlay, primaryFilterMode, gridCells, periods, activeStyles, hasEnoughSongs, numSongs, poolCount]);
 
   const handleClosePlayTab = () => {
+    console.log("[OrchestraQuizPage] handleClosePlayTab: setting showPlayTab=false");
     setShowPlayTab(false);
   };
 
