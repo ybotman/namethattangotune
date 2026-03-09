@@ -512,7 +512,7 @@ export default function PlayTab({ songs, config, onCancel }) {
         )}
       </Box>
 
-      {/* GO!/Next Button - Floating overlay, doesn't affect layout */}
+      {/* GO!/Next Button - Using plain Button for iOS PWA touch compatibility */}
       <Box
         sx={{
           position: "fixed",
@@ -522,82 +522,48 @@ export default function PlayTab({ songs, config, onCancel }) {
           display: "flex",
           justifyContent: "center",
           zIndex: 100,
-          pointerEvents: "none",
         }}
       >
-        <AnimatePresence>
-          {!isPlaying && !roundOver && currentSong && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.2 }}
-              style={{ pointerEvents: "auto" }}
-            >
-              <AnimatedButton
-                variant="contained"
-                onClick={clickPlaySong}
-                sx={{
-                  backgroundColor: "#4CAF50",
-                  color: "white",
-                  fontWeight: "bold",
-                  px: 4,
-                  py: 1.5,
-                  fontSize: "1.2rem",
-                  borderRadius: 3,
-                  boxShadow: "0 4px 20px rgba(76, 175, 80, 0.5)",
-                  position: "relative",
-                  overflow: "hidden",
-                  "&:hover": { backgroundColor: "#43A047" },
-                  "&::before": {
-                    content: '""',
-                    position: "absolute",
-                    top: 0,
-                    left: "-100%",
-                    width: "100%",
-                    height: "100%",
-                    background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
-                    animation: "shine 2s infinite",
-                  },
-                  "@keyframes shine": {
-                    "0%": { left: "-100%" },
-                    "50%": { left: "100%" },
-                    "100%": { left: "100%" },
-                  },
-                }}
-              >
-                GO!
-              </AnimatedButton>
-            </motion.div>
-          )}
-          {roundOver && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.2 }}
-              style={{ pointerEvents: "auto" }}
-            >
-              <AnimatedButton
-                variant="contained"
-                onClick={doNextSong}
-                sx={{
-                  backgroundColor: "var(--accent)",
-                  color: "white",
-                  fontWeight: "bold",
-                  px: 4,
-                  py: 1.5,
-                  fontSize: "1.2rem",
-                  borderRadius: 3,
-                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.4)",
-                  "&:hover": { opacity: 0.9 },
-                }}
-              >
-                Next
-              </AnimatedButton>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {!isPlaying && !roundOver && currentSong && (
+          <Button
+            variant="contained"
+            onClick={clickPlaySong}
+            sx={{
+              backgroundColor: "#4CAF50",
+              color: "white",
+              fontWeight: "bold",
+              px: 4,
+              py: 1.5,
+              fontSize: "1.2rem",
+              borderRadius: 3,
+              boxShadow: "0 4px 20px rgba(76, 175, 80, 0.5)",
+              "&:hover": { backgroundColor: "#43A047" },
+              "&:active": { transform: "scale(0.95)" },
+            }}
+          >
+            GO!
+          </Button>
+        )}
+        {roundOver && (
+          <Button
+            variant="contained"
+            onClick={doNextSong}
+            sx={{
+              backgroundColor: "var(--accent)",
+              color: "white",
+              fontWeight: "bold",
+              px: 4,
+              py: 1.5,
+              fontSize: "1.2rem",
+              borderRadius: 3,
+              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.4)",
+              "&:hover": { opacity: 0.9 },
+              "&:active": { transform: "scale(0.95)" },
+            }}
+          >
+            Next
+          </Button>
+        )}
       </Box>
 
       {/* Feedback button - below Next button */}
