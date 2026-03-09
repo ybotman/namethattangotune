@@ -85,6 +85,8 @@ import AnimatedButton from "@/components/ui/AnimatedButton";
 import SongFeedback from "@/components/ui/SongFeedback";
 
 export default function PlayTab({ songs, config, onCancel }) {
+  console.log("[PlayTab] Mounted with", songs?.length, "songs");
+
   // 2) Quiz config
   const { calculateMaxScore, INTERVAL_MS } = useArtistQuiz();
   const timeLimit = config.timeLimit ?? 15;
@@ -209,12 +211,14 @@ export default function PlayTab({ songs, config, onCancel }) {
 
   // 6) doNextSong => proceed to next
   const doNextSong = useCallback(() => {
+    console.log("[PlayTab] doNextSong called");
     setRoundOver(false);
     handleNextSong();
   }, [handleNextSong]);
 
   // 6b) handleCancel => track abandonment and close
   const handleCancel = useCallback(() => {
+    console.log("[PlayTab] handleCancel called at index", currentIndex);
     trackGameAbandon("orchestra-quiz", currentIndex + 1, numSongs);
     trackGameCancel("orchestra-quiz", currentIndex + 1, numSongs, config);
     onCancel();
@@ -222,8 +226,12 @@ export default function PlayTab({ songs, config, onCancel }) {
 
   // 7) clickPlaySong => waveSurfer snippet
   const clickPlaySong = useCallback(() => {
+    console.log("[PlayTab] clickPlaySong, currentSong:", currentSong?.Title);
     trackPlayClick("orchestra-quiz");
-    if (!currentSong) return;
+    if (!currentSong) {
+      console.log("[PlayTab] No currentSong, returning");
+      return;
+    }
     if (lastSongRef.current === currentSong.AudioUrl) return;
     lastSongRef.current = currentSong.AudioUrl;
 
@@ -250,7 +258,7 @@ export default function PlayTab({ songs, config, onCancel }) {
         startIntervals();
       },
       onPlayError: (err) => {
-        console.error("Snippet play error:", err);
+        console.error("[PlayTab] onPlayError:", err?.message || err);
         setIsPlaying(false);
         doNextSong();
       },
@@ -358,6 +366,7 @@ export default function PlayTab({ songs, config, onCancel }) {
 
   // C) If final => summary with celebration
   if (showFinalSummary) {
+    console.log("[PlayTab] Showing final summary");
     const totalRounds = roundStats.length;
     let avgTime = 0,
       avgDist = 0;
