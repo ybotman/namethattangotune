@@ -11,6 +11,22 @@ export default function useWaveSurfer({ onSongEnd }) {
   const fadeIntervalRef = useRef(null);
   const onErrorRef = useRef(null);
 
+  // Resume AudioContext on iOS (must be called from user gesture)
+  const resumeAudioContext = useCallback(async () => {
+    if (waveSurferRef.current) {
+      const backend = waveSurferRef.current.getMediaElement?.() ||
+                      waveSurferRef.current.backend?.ac;
+      if (backend?.context?.state === "suspended") {
+        try {
+          await backend.context.resume();
+          console.log("AudioContext resumed");
+        } catch (e) {
+          console.warn("Could not resume AudioContext:", e);
+        }
+      }
+    }
+  }, []);
+
   // 1) Init
   const initWaveSurfer = useCallback(() => {
     if (waveSurferRef.current) {
@@ -25,6 +41,16 @@ export default function useWaveSurfer({ onSongEnd }) {
       height: 0,
       backend: "WebAudio",
     });
+
+    // Try to get AudioContext handle for iOS resume
+    try {
+      const ac = waveSurferRef.current.backend?.ac;
+      if (ac) {
+        console.log("AudioContext state:", ac.state);
+      }
+    } catch (e) {
+      // Ignore
+    }
     waveSurferRef.current.on("finish", () => {
       if (onSongEnd) onSongEnd();
     });
@@ -148,6 +174,10 @@ export default function useWaveSurfer({ onSongEnd }) {
         console.error("WaveSurfer is not initialized. Call initWaveSurfer().");
         return;
       }
+
+      // Resume AudioContext for iOS PWA (must be in user gesture handler)
+      resumeAudioContext();
+
       loadSong(songUrl, () => {
         const ws = waveSurferRef.current;
         if (!ws) return;
@@ -198,7 +228,7 @@ export default function useWaveSurfer({ onSongEnd }) {
           });
       });
     },
-    [loadSong, fadeVolume],
+    [loadSong, fadeVolume, resumeAudioContext],
   );
 
   return {
