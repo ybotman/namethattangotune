@@ -32,6 +32,18 @@ import AnimatedButton from "@/components/ui/AnimatedButton";
 import SongFeedback from "@/components/ui/SongFeedback";
 
 export default function PlayTab({ songs, config, onCancel }) {
+  // Initialization gate - prevents AnimatePresence from re-rendering during rapid state changes
+  // iOS PWA crashes when AnimatePresence handles too many rapid updates
+  const [isReady, setIsReady] = useState(false);
+  const isMountedRef = useRef(true);
+
+  // Only log once per mount, not every render
+  const hasLoggedRef = useRef(false);
+  if (!hasLoggedRef.current) {
+    console.log("[SongPlayTab] Mounting with", songs?.length, "songs");
+    hasLoggedRef.current = true;
+  }
+
   const { calculateMaxScore, INTERVAL_MS } = useSongQuiz();
   const timeLimit = config.timeLimit ?? 15;
   const maxScore = calculateMaxScore(timeLimit, config.gridCells);
@@ -41,6 +53,14 @@ export default function PlayTab({ songs, config, onCancel }) {
   const [audioReady, setAudioReady] = useState(false); // Gate answers until audio starts
   const lastSongRef = useRef(null);
   const numSongs = config.numSongs ?? 10;
+
+  // Track mounted state to prevent state updates after unmount
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   const { initWaveSurfer, cleanupWaveSurfer, playSnippet } = useWaveSurfer({
     onSongEnd: null,
@@ -175,7 +195,13 @@ export default function PlayTab({ songs, config, onCancel }) {
 
     const finalAnswers = shuffleArray([correctTitle, ...distractors]);
     setAnswers(finalAnswers);
-  }, [currentSong, songs, setAnswers]);
+
+    // Mark as ready - this gates AnimatePresence rendering to prevent iOS PWA crash
+    if (!isReady && isMountedRef.current) {
+      console.log("[SongPlayTab] Initialization complete, setting isReady=true");
+      setIsReady(true);
+    }
+  }, [currentSong, songs, setAnswers, isReady]);
 
   const timePercent = (timeElapsed / timeLimit) * 100;
 
@@ -187,6 +213,35 @@ export default function PlayTab({ songs, config, onCancel }) {
     if (pct > 1) return "Just Barely.";
     return "You'll get the next one!";
   };
+
+  // Loading state - show while initializing to prevent AnimatePresence crash on iOS PWA
+  if (!isReady) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          background: "var(--background)",
+          color: "var(--foreground)",
+        }}
+      >
+        <Typography variant="h6" sx={{ mb: 2 }}>
+          Loading...
+        </Typography>
+        <LinearProgress
+          sx={{
+            width: 200,
+            "& .MuiLinearProgress-bar": {
+              backgroundColor: "var(--accent)",
+            },
+          }}
+        />
+      </Box>
+    );
+  }
 
   // Final summary
   if (showFinalSummary) {

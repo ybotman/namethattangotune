@@ -85,7 +85,17 @@ import AnimatedButton from "@/components/ui/AnimatedButton";
 import SongFeedback from "@/components/ui/SongFeedback";
 
 export default function PlayTab({ songs, config, onCancel }) {
-  console.log("[PlayTab] Mounted with", songs?.length, "songs, config:", JSON.stringify(config?.gridCells));
+  // Initialization gate - prevents AnimatePresence from re-rendering during rapid state changes
+  // iOS PWA crashes when AnimatePresence handles too many rapid updates
+  const [isReady, setIsReady] = useState(false);
+  const isMountedRef = useRef(true);
+
+  // Only log once per mount, not every render
+  const hasLoggedRef = useRef(false);
+  if (!hasLoggedRef.current) {
+    console.log("[PlayTab] Mounting with", songs?.length, "songs");
+    hasLoggedRef.current = true;
+  }
 
   // 2) Quiz config
   const { calculateMaxScore, INTERVAL_MS } = useArtistQuiz();
@@ -103,9 +113,23 @@ export default function PlayTab({ songs, config, onCancel }) {
   const celebrationRef = useRef(null);
   const numSongs = config.numSongs ?? 10;
 
+  // Track mounted state to prevent state updates after unmount
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
+
   // Fetch ArtistMaster for distractor generation
   useEffect(() => {
-    fetchAllArtists().then(setAllArtists).catch(console.error);
+    fetchAllArtists()
+      .then((artists) => {
+        if (isMountedRef.current) {
+          setAllArtists(artists);
+        }
+      })
+      .catch(console.error);
   }, []);
 
   // waveSurfer
@@ -320,7 +344,13 @@ export default function PlayTab({ songs, config, onCancel }) {
 
     const finalAnswers = shuffleArray([correctArtist, ...distractors]);
     setAnswers(finalAnswers);
-  }, [currentSong, allArtists, config.gridCells, setAnswers]);
+
+    // Mark as ready - this gates AnimatePresence rendering to prevent iOS PWA crash
+    if (!isReady && isMountedRef.current) {
+      console.log("[PlayTab] Initialization complete, setting isReady=true");
+      setIsReady(true);
+    }
+  }, [currentSong, allArtists, config.gridCells, setAnswers, isReady]);
 
   // A) timePercent for progress
   const timePercent = (timeElapsed / timeLimit) * 100;
@@ -367,6 +397,35 @@ export default function PlayTab({ songs, config, onCancel }) {
       "Every milonguero starts somewhere!", "Back to the práctica!", "Feel the music!"
     ]);
   };
+
+  // C-1) Loading state - show while initializing to prevent AnimatePresence crash on iOS PWA
+  if (!isReady) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          background: "var(--background)",
+          color: "var(--foreground)",
+        }}
+      >
+        <Typography variant="h6" sx={{ mb: 2 }}>
+          Loading...
+        </Typography>
+        <LinearProgress
+          sx={{
+            width: 200,
+            "& .MuiLinearProgress-bar": {
+              backgroundColor: "var(--accent)",
+            },
+          }}
+        />
+      </Box>
+    );
+  }
 
   // C) If final => summary with celebration
   if (showFinalSummary) {

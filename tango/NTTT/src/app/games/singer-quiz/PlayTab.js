@@ -67,6 +67,18 @@ function findVocalStartPosition(song, playDuration) {
 }
 
 export default function PlayTab({ songs, config, onCancel }) {
+  // Initialization gate - prevents AnimatePresence from re-rendering during rapid state changes
+  // iOS PWA crashes when AnimatePresence handles too many rapid updates
+  const [isReady, setIsReady] = useState(false);
+  const isMountedRef = useRef(true);
+
+  // Only log once per mount, not every render
+  const hasLoggedRef = useRef(false);
+  if (!hasLoggedRef.current) {
+    console.log("[SingerPlayTab] Mounting with", songs?.length, "songs");
+    hasLoggedRef.current = true;
+  }
+
   const { calculateMaxScore, INTERVAL_MS } = useSingerQuiz();
   const timeLimit = config.timeLimit ?? 15;
   const maxScore = calculateMaxScore(timeLimit, config.gridCells);
@@ -78,9 +90,23 @@ export default function PlayTab({ songs, config, onCancel }) {
   const lastSongRef = useRef(null);
   const numSongs = config.numSongs ?? 10;
 
+  // Track mounted state to prevent state updates after unmount
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
+
   // Fetch SingerMaster for distractor generation
   useEffect(() => {
-    fetchAllSingers().then(setAllSingers).catch(console.error);
+    fetchAllSingers()
+      .then((singers) => {
+        if (isMountedRef.current) {
+          setAllSingers(singers);
+        }
+      })
+      .catch(console.error);
   }, []);
 
   const { initWaveSurfer, cleanupWaveSurfer, playSnippet } = useWaveSurfer({
@@ -237,7 +263,13 @@ export default function PlayTab({ songs, config, onCancel }) {
 
     const finalAnswers = shuffleArray([correctSinger, ...distractors]);
     setAnswers(finalAnswers);
-  }, [currentSong, allSingers, config.singerGridCells, setAnswers]);
+
+    // Mark as ready - this gates AnimatePresence rendering to prevent iOS PWA crash
+    if (!isReady && isMountedRef.current) {
+      console.log("[SingerPlayTab] Initialization complete, setting isReady=true");
+      setIsReady(true);
+    }
+  }, [currentSong, allSingers, config.singerGridCells, setAnswers, isReady]);
 
   const timePercent = (timeElapsed / timeLimit) * 100;
 
@@ -249,6 +281,35 @@ export default function PlayTab({ songs, config, onCancel }) {
     if (pct > 1) return "Just barely.";
     return "You'll get the next one!";
   };
+
+  // Loading state - show while initializing to prevent AnimatePresence crash on iOS PWA
+  if (!isReady) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          background: "var(--background)",
+          color: "var(--foreground)",
+        }}
+      >
+        <Typography variant="h6" sx={{ mb: 2 }}>
+          Loading...
+        </Typography>
+        <LinearProgress
+          sx={{
+            width: 200,
+            "& .MuiLinearProgress-bar": {
+              backgroundColor: "var(--accent)",
+            },
+          }}
+        />
+      </Box>
+    );
+  }
 
   if (showFinalSummary) {
     const totalRounds = roundStats.length;
