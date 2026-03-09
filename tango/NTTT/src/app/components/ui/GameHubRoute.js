@@ -15,7 +15,7 @@ import {
   DialogTitle,
   Button,
 } from "@mui/material";
-import HubIcon from "@mui/icons-material/Hub";
+import GridViewIcon from "@mui/icons-material/GridView";
 import { trackEvent, getGameSessionId } from "@/utils/analytics";
 
 function GameHubRoute() {
@@ -60,7 +60,7 @@ function GameHubRoute() {
   return (
     <>
       <IconButton color="primary" onClick={handleClick} aria-label="Go to Hub">
-        <HubIcon fontSize="small" />
+        <GridViewIcon fontSize="small" />
       </IconButton>
       <Dialog open={openDialog} onClose={handleClose}>
         <DialogTitle>Are you sure?</DialogTitle>

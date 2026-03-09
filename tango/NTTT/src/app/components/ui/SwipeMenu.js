@@ -199,6 +199,7 @@ export default function SwipeMenu({ pages, initialPage = 0, onPageChange, extern
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={0.2}
+            dragDirectionLock
             onDragEnd={handleDragEnd}
             style={{
               x: dragX,
