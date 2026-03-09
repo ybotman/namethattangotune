@@ -544,6 +544,9 @@ export default function GameHubPage() {
         <Link href="/games/explore?page=9" style={{ color: "var(--foreground)", opacity: 0.5, textDecoration: "none" }}>
           About
         </Link>
+        <Link href="/config" style={{ color: "var(--foreground)", opacity: 0.5, textDecoration: "none" }}>
+          Settings
+        </Link>
       </Box>
 
       <Typography

@@ -9,10 +9,12 @@ import { Box, Typography, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import BugReportIcon from "@mui/icons-material/BugReport";
 
-// Check if debug mode is enabled in settings
+// Check if debug mode is enabled in settings (default ON for now)
 function isDebugEnabled() {
   if (typeof window === "undefined") return false;
-  return localStorage.getItem("nttt_debugMode") === "true";
+  const stored = localStorage.getItem("nttt_debugMode");
+  // Default to true if not set
+  return stored === null || stored === "true";
 }
 
 // Global log storage
