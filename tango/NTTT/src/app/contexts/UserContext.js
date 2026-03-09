@@ -94,7 +94,15 @@ export function UserProvider({ children }) {
         }
       } catch (err) {
         console.error("Error loading user data:", err);
-        setError(err.message);
+        // Don't block the app on permission errors - just skip user stats
+        // This can happen with stale PWA auth tokens
+        if (err?.code === "permission-denied") {
+          console.warn("Firestore permission denied - continuing without user stats");
+          setUserData(null);
+          setGameSummaries({});
+        } else {
+          setError(err.message);
+        }
       } finally {
         setLoading(false);
       }

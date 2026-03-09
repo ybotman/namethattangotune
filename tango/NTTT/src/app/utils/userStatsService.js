@@ -112,7 +112,10 @@ export async function initializeUserDoc(user) {
     }
   } catch (error) {
     console.error('Error initializing user doc:', error.message);
-    throw error;
+    // Re-throw with code for upstream handling
+    const err = new Error(error.message);
+    err.code = error.code;
+    throw err;
   }
 }
 
