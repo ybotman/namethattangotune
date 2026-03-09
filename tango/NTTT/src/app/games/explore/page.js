@@ -46,7 +46,7 @@ const TOOLS_PASSWORD = "!El4Gotan";
 
 // App version - uses Vercel commit SHA or fallback
 const APP_VERSION = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA || "dev";
-const PKG_VERSION = "2.7.9"; // Keep in sync with package.json
+const PKG_VERSION = "2.8.0"; // Keep in sync with package.json
 
 // Version check - prompts refresh if new version detected
 const checkAppVersion = () => {

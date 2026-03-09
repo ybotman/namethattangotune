@@ -1,7 +1,7 @@
 // Service Worker for NTTT PWA
-// v1.3.0 - Cache UI assets, stream audio from network
+// v1.4.0 - Auto-update on startup
 
-const CACHE_NAME = 'nttt-v1.3';
+const CACHE_NAME = 'nttt-v1.4';
 const STATIC_ASSETS = [
   '/',
   '/games/gamehub',
