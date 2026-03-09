@@ -15,16 +15,26 @@ export default function useWaveSurfer({ onSongEnd }) {
   const unlockAudioRef = useRef(false);
 
   const unlockIOSAudio = useCallback(async () => {
-    if (unlockAudioRef.current) return; // Already unlocked
+    if (unlockAudioRef.current) {
+      console.log("[WS] iOS audio already unlocked");
+      return;
+    }
 
     try {
+      console.log("[WS] Attempting iOS audio unlock...");
       // Create a short silent audio and play it
       const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) {
+        console.warn("[WS] No AudioContext available");
+        return;
+      }
       const ctx = new AudioContext();
+      console.log("[WS] AudioContext created, state:", ctx.state);
 
       // Resume if suspended
       if (ctx.state === "suspended") {
         await ctx.resume();
+        console.log("[WS] AudioContext resumed");
       }
 
       // Create and play a silent buffer
@@ -35,9 +45,9 @@ export default function useWaveSurfer({ onSongEnd }) {
       source.start(0);
 
       unlockAudioRef.current = true;
-      console.log("iOS audio unlocked");
+      console.log("[WS] iOS audio unlocked successfully");
     } catch (e) {
-      console.warn("Could not unlock iOS audio:", e);
+      console.error("[WS] iOS audio unlock failed:", e.message);
     }
   }, []);
 
@@ -203,40 +213,53 @@ export default function useWaveSurfer({ onSongEnd }) {
         onPlayError,
       },
     ) => {
+      console.log("[WS] playSnippet called for:", songUrl?.slice(-30));
       if (!waveSurferRef.current) {
-        console.error("WaveSurfer is not initialized. Call initWaveSurfer().");
+        console.error("[WS] WaveSurfer not initialized!");
+        if (onPlayError) onPlayError(new Error("WaveSurfer not initialized"));
         return;
       }
 
       // Resume AudioContext for iOS PWA (must be in user gesture handler)
+      console.log("[WS] Resuming audio context...");
       resumeAudioContext();
 
+      console.log("[WS] Loading song...");
       loadSong(songUrl, () => {
+        console.log("[WS] Song loaded, preparing playback...");
         const ws = waveSurferRef.current;
-        if (!ws) return;
+        if (!ws) {
+          console.error("[WS] WaveSurfer disappeared after load!");
+          if (onPlayError) onPlayError(new Error("WaveSurfer gone"));
+          return;
+        }
 
         const dur = ws.getDuration();
+        console.log("[WS] Duration:", dur);
 
         // Use specific start position if provided, otherwise random
         let startTime;
         if (snippetStart !== null && snippetStart >= 0) {
           startTime = Math.min(snippetStart, dur - 1);
-          console.log(`Playing from vocal segment at ${startTime.toFixed(1)}s`);
+          console.log(`[WS] Playing from segment at ${startTime.toFixed(1)}s`);
         } else {
           startTime = Math.floor(Math.random() * Math.min(snippetMaxStart, dur - 1));
-          console.log(`Playing from random position at ${startTime.toFixed(1)}s`);
+          console.log(`[WS] Playing from random at ${startTime.toFixed(1)}s`);
         }
 
         ws.seekTo(startTime / dur);
+        console.log("[WS] Seeking complete, calling play()...");
 
         // play => fade in, start timer immediately when play() resolves
         ws.play()
           .then(() => {
+            console.log("[WS] play() resolved successfully");
             // Start timer immediately when play resolves (not after fade)
             if (onPlaySuccess) onPlaySuccess();
 
             ws.setVolume(0);
             fadeVolume(0, 1, fadeDurationSec, () => {
+              console.log("[WS] Fade in complete");
               // Fade complete - cosmetic only
 
               // If snippetDuration specified, schedule fade-out and stop
@@ -256,7 +279,7 @@ export default function useWaveSurfer({ onSongEnd }) {
             });
           })
           .catch((err) => {
-            console.error("WaveSurfer play error:", err);
+            console.error("[WS] play() FAILED:", err?.message || err);
             if (onPlayError) onPlayError(err);
           });
       });

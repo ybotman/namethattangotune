@@ -17,6 +17,7 @@ import { initErrorTracking } from "@/utils/analytics";
 import { preloadSongData } from "@/utils/dataFetching";
 import { registerServiceWorker } from "@/utils/registerSW";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import DebugOverlay from "@/components/DebugOverlay";
 
 import { CssBaseline } from "@mui/material";
 import { Inter } from "next/font/google";
@@ -73,6 +74,7 @@ export default function RootLayout({ children }) {
               <ScoreProvider>
                 <ThemeProvider>
                   <LayoutContent>{children}</LayoutContent>
+                  <DebugOverlay />
                 </ThemeProvider>
               </ScoreProvider>
             </UserProvider>
