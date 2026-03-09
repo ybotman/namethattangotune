@@ -247,17 +247,18 @@ export default function useWaveSurfer({ onSongEnd }) {
           console.log(`[WS] Playing from random at ${startTime.toFixed(1)}s`);
         }
 
-        ws.seekTo(startTime / dur);
-        console.log("[WS] Seeking complete, calling play()...");
-
-        // play => fade in, start timer immediately when play() resolves
+        // iOS PWA fix: play() first to preserve user gesture, then seek
+        // The seekTo before play was breaking iOS PWA audio
+        console.log("[WS] Calling play() first (iOS PWA fix)...");
+        ws.setVolume(0); // Start silent for seek
         ws.play()
           .then(() => {
-            console.log("[WS] play() resolved successfully");
-            // Start timer immediately when play resolves (not after fade)
+            console.log("[WS] play() resolved, now seeking to", startTime.toFixed(1));
+            ws.seekTo(startTime / dur);
+
+            // Start timer immediately when play resolves
             if (onPlaySuccess) onPlaySuccess();
 
-            ws.setVolume(0);
             fadeVolume(0, 1, fadeDurationSec, () => {
               console.log("[WS] Fade in complete");
               // Fade complete - cosmetic only
