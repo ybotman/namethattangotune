@@ -1,0 +1,90 @@
+//src/app/components/ui/GameHubRoute.js
+//
+
+"use client";
+
+import React from "react";
+import PropTypes from "prop-types";
+import { useRouter } from "next/navigation";
+import {
+  IconButton,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button,
+} from "@mui/material";
+import GridViewIcon from "@mui/icons-material/GridView";
+import { trackEvent, getGameSessionId } from "@/utils/analytics";
+
+function GameHubRoute() {
+  const router = useRouter();
+
+  // local state to track if the game is in progress
+  const [isPlaying, setIsPlaying] = React.useState(false);
+  const [openDialog, setOpenDialog] = React.useState(false);
+
+  const handleNavigateToHub = () => {
+    if (isPlaying) {
+      // Logic for resetting game or cleaning up scores
+      console.log("Game canceled. Scores reset.");
+      setIsPlaying(false); // Reset the game state
+    }
+    router.push("/games/gamehub/"); // Navigate to the hub
+  };
+
+  const handleClick = () => {
+    // Track the hub button click
+    const hasActiveGame = getGameSessionId() !== null;
+    trackEvent("hub_button_click", "Navigation", hasActiveGame ? "during_game" : "no_game");
+
+    if (isPlaying) {
+      setOpenDialog(true); // Open confirmation dialog if the game is playing
+    } else {
+      handleNavigateToHub();
+    }
+  };
+
+  const handleConfirm = () => {
+    // Track abandonment via hub button
+    trackEvent("hub_abandon", "Navigation", "confirmed_exit");
+    setOpenDialog(false);
+    handleNavigateToHub();
+  };
+
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+
+  return (
+    <>
+      <IconButton color="primary" onClick={handleClick} aria-label="Go to Hub">
+        <GridViewIcon fontSize="small" />
+      </IconButton>
+      <Dialog open={openDialog} onClose={handleClose}>
+        <DialogTitle>Are you sure?</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Canceling will result in losing your current scores. Are you sure
+            you want to continue?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Stay
+          </Button>
+          <Button onClick={handleConfirm} color="secondary">
+            That&apos;s OK
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+}
+
+GameHubRoute.propTypes = {
+  // Define any props your component needs
+};
+
+export default GameHubRoute;

@@ -1,0 +1,82 @@
+{
+  "date": "2026-02-26",
+  "timestamp": "2026-02-26 02:18:18",
+  "description": "Match El Cachivache quinteto songs to El Cachivache artist",
+  "changes": [
+    {
+      "file": "ArtistMaster.json",
+      "action": "update",
+      "description": "Added grouped: El Cachivache quinteto"
+    },
+    {
+      "file": "djSongsWeighted.json",
+      "action": "update",
+      "count": 9,
+      "songs": [
+        {
+          "songId": "420fc891-62a7-500f-8e72-d215bed29a43",
+          "title": "Comparsa criolla",
+          "orchestra": "El Cachivache quinteto",
+          "oldArtistMaster": "El Cachivache",
+          "newArtistMaster": "El Cachivache"
+        },
+        {
+          "songId": "69cd45e8-c086-5acd-b1e5-6481779b13ae",
+          "title": "Corazon",
+          "orchestra": "El Cachivache quinteto",
+          "oldArtistMaster": "El Cachivache",
+          "newArtistMaster": "El Cachivache"
+        },
+        {
+          "songId": "ef4030a9-3cbe-5009-84b5-2538f123d7e5",
+          "title": "Te aconsejo que me olvides",
+          "orchestra": "El Cachivache quinteto",
+          "oldArtistMaster": "El Cachivache",
+          "newArtistMaster": "El Cachivache"
+        },
+        {
+          "songId": "868aaf06-b63a-5196-a8e5-6072a7caebc8",
+          "title": "El acomodo",
+          "orchestra": "El Cachivache quinteto",
+          "oldArtistMaster": "El Cachivache",
+          "newArtistMaster": "El Cachivache"
+        },
+        {
+          "songId": "c92ce64c-3d40-5bb7-b3d3-b8bb347fc0a4",
+          "title": "Catamarca",
+          "orchestra": "El Cachivache quinteto",
+          "oldArtistMaster": "El Cachivache",
+          "newArtistMaster": "El Cachivache"
+        },
+        {
+          "songId": "77752d52-676c-5025-8c97-74352cddd993",
+          "title": "Que falta que me haces",
+          "orchestra": "El Cachivache quinteto",
+          "oldArtistMaster": "El Cachivache",
+          "newArtistMaster": "El Cachivache"
+        },
+        {
+          "songId": "bda27e0c-ccc4-5f42-8199-b1d9ddd3264c",
+          "title": "Buscandote",
+          "orchestra": "El Cachivache quinteto",
+          "oldArtistMaster": "El Cachivache",
+          "newArtistMaster": "El Cachivache"
+        },
+        {
+          "songId": "d8cc48ae-f7b6-5889-b573-d7924e42407e",
+          "title": "Oigo tu voz",
+          "orchestra": "El Cachivache quinteto",
+          "oldArtistMaster": "El Cachivache",
+          "newArtistMaster": "El Cachivache"
+        },
+        {
+          "songId": "bbf4a4e3-4ff9-50de-b6eb-b70e586458fb",
+          "title": "Milonguero viejo",
+          "orchestra": "El Cachivache quinteto",
+          "oldArtistMaster": "El Cachivache",
+          "newArtistMaster": "El Cachivache"
+        }
+      ]
+    }
+  ]
+}

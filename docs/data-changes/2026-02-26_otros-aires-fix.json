@@ -1,0 +1,53 @@
+{
+  "date": "2026-02-26",
+  "timestamp": "2026-02-26 02:34:40",
+  "description": "Mark Otros Aires as valid modern, add to ArtistMaster",
+  "changes": [
+    {
+      "file": "ArtistMaster.json",
+      "action": "add"
+    },
+    {
+      "file": "djSongsWeighted.json",
+      "action": "update",
+      "count": 7
+    },
+    {
+      "file": "dataQualityIssues.json",
+      "action": "update",
+      "count": 6,
+      "songs": [
+        {
+          "issueId": "DQ-0176",
+          "title": "Amor Que Se Baila",
+          "year": "2012"
+        },
+        {
+          "issueId": "DQ-0178",
+          "title": "Aquel Muchacho Bueno",
+          "year": "2012"
+        },
+        {
+          "issueId": "DQ-0179",
+          "title": "De Puro Curda",
+          "year": "2012"
+        },
+        {
+          "issueId": "DQ-0180",
+          "title": "Otra Noche En La Viruta",
+          "year": "2012"
+        },
+        {
+          "issueId": "DQ-0177",
+          "title": "Percanta",
+          "year": "2012"
+        },
+        {
+          "issueId": "DQ-0175",
+          "title": "Sin Rumbo",
+          "year": "2012"
+        }
+      ]
+    }
+  ]
+}

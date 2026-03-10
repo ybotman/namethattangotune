@@ -1,0 +1,1344 @@
+{
+  "version": 1,
+  "generated": "2026-03-01",
+  "notes": "Singer tiers with era classification",
+  "levelDefinitions": {
+    "1": "Iconic - instantly recognizable voices, essential pairings",
+    "2": "Essential - important vocalists, prolific recordings",
+    "3": "Standard - all other vocalists"
+  },
+  "eraDefinitions": {
+    "golden": "1935-1955 Golden Age recordings",
+    "later": "1955+ Later era, typically solo or modern"
+  },
+  "singers": [
+    {
+      "singer": "Angel Vargas",
+      "level": 1,
+      "era": "golden",
+      "songCount": 84,
+      "orchestra": "Angel D'Agostino",
+      "notes": "Two Angels - best instrument in tango per Troilo"
+    },
+    {
+      "singer": "Roberto Rufino",
+      "level": 1,
+      "era": "golden",
+      "songCount": 80,
+      "orchestra": "Carlos Di Sarli",
+      "notes": "Started at 16, 3 stints with Di Sarli"
+    },
+    {
+      "singer": "Enrique Campos",
+      "level": 1,
+      "era": "golden",
+      "songCount": 68,
+      "orchestra": "Ricardo Tanturi",
+      "notes": "Milongueros prefer Tanturi-Campos for dancing"
+    },
+    {
+      "singer": "Alberto Podesta",
+      "level": 1,
+      "era": "golden",
+      "songCount": 66,
+      "orchestra": "Carlos Di Sarli",
+      "notes": "The incomparable"
+    },
+    {
+      "singer": "Francisco Fiorentino",
+      "level": 1,
+      "era": "golden",
+      "songCount": 62,
+      "orchestra": "Anibal Troilo",
+      "notes": "THE definitive Golden Age pairing"
+    },
+    {
+      "singer": "Alberto Echague",
+      "level": 1,
+      "era": "golden",
+      "songCount": 57,
+      "orchestra": "Juan D'Arienzo",
+      "notes": "Distinctive reo voice"
+    },
+    {
+      "singer": "Raul Beron",
+      "level": 1,
+      "era": "golden",
+      "songCount": 50,
+      "orchestra": "Anibal Troilo",
+      "notes": "The romantic voice, sang with 3 legends"
+    },
+    {
+      "singer": "Alberto Castillo",
+      "level": 1,
+      "era": "golden",
+      "songCount": 49,
+      "orchestra": "Ricardo Tanturi",
+      "notes": "Singer of 100 neighborhoods"
+    },
+    {
+      "singer": "Roberto Chanel",
+      "level": 1,
+      "era": "golden",
+      "songCount": 33,
+      "orchestra": "Osvaldo Pugliese",
+      "notes": "Pugliese's signature vocalist"
+    },
+    {
+      "singer": "Hector Maure",
+      "level": 1,
+      "era": "golden",
+      "songCount": 20,
+      "orchestra": "Juan D'Arienzo",
+      "notes": "Considered D'Arienzo's best"
+    },
+    {
+      "singer": "Edmundo Rivero",
+      "level": 1,
+      "era": "later",
+      "songCount": 12,
+      "orchestra": "Anibal Troilo",
+      "notes": "Deep voice, definitive Cafetín de Buenos Aires"
+    },
+    {
+      "singer": "Carlos Gardel",
+      "level": 1,
+      "era": "golden",
+      "songCount": 11,
+      "orchestra": "soloist",
+      "notes": "Most famous tango singer ever - soloist category"
+    },
+    {
+      "singer": "Roberto Goyeneche",
+      "level": 1,
+      "era": "later",
+      "songCount": 3,
+      "orchestra": "soloist",
+      "notes": "Most distinctive voice - gravelly, unmistakable"
+    },
+    {
+      "singer": "Julio Sosa",
+      "level": 1,
+      "era": "later",
+      "songCount": 1,
+      "orchestra": "soloist",
+      "notes": "El Varón del Tango"
+    },
+    {
+      "singer": "Ernesto Fama",
+      "level": 2,
+      "era": "golden",
+      "songCount": 97,
+      "orchestra": "Francisco Canaro",
+      "notes": "Most recorded Canaro singer"
+    },
+    {
+      "singer": "Roberto Maida",
+      "level": 2,
+      "era": "golden",
+      "songCount": 88,
+      "orchestra": "Francisco Canaro",
+      "notes": "Canaro's main vocalist"
+    },
+    {
+      "singer": "Jorge Omar",
+      "level": 2,
+      "era": "golden",
+      "songCount": 80,
+      "orchestra": "Francisco Canaro",
+      "notes": "Prolific Canaro singer"
+    },
+    {
+      "singer": "Armando Moreno",
+      "level": 2,
+      "era": "golden",
+      "songCount": 75,
+      "orchestra": "Enrique Rodriguez",
+      "notes": "Rodriguez's signature voice"
+    },
+    {
+      "singer": "Armando Laborde",
+      "level": 2,
+      "era": "later",
+      "songCount": 59,
+      "orchestra": "Juan D'Arienzo",
+      "notes": "Later D'Arienzo era"
+    },
+    {
+      "singer": "Carlos Dante",
+      "level": 2,
+      "era": "golden",
+      "songCount": 54,
+      "orchestra": "Alfredo de Angelis",
+      "notes": "De Angelis duo"
+    },
+    {
+      "singer": "Raul Iriarte",
+      "level": 2,
+      "era": "golden",
+      "songCount": 49,
+      "orchestra": "Miguel Calo",
+      "notes": "Caló vocalist"
+    },
+    {
+      "singer": "Oscar Larroca",
+      "level": 2,
+      "era": "golden",
+      "songCount": 44,
+      "orchestra": "Alfredo de Angelis",
+      "notes": "De Angelis duo"
+    },
+    {
+      "singer": "Alberto Reynal",
+      "level": 2,
+      "era": "golden",
+      "songCount": 42,
+      "orchestra": "Juan D'Arienzo",
+      "notes": "D'Arienzo 1940s"
+    },
+    {
+      "singer": "Alberto Marino",
+      "level": 2,
+      "era": "golden",
+      "songCount": 41,
+      "orchestra": "Anibal Troilo",
+      "notes": "Post-Fiorentino Troilo"
+    },
+    {
+      "singer": "Carlos Roldan",
+      "level": 2,
+      "era": "golden",
+      "songCount": 34,
+      "orchestra": "Juan D'Arienzo",
+      "notes": "D'Arienzo vocalist"
+    },
+    {
+      "singer": "Ricardo Ruiz",
+      "level": 2,
+      "era": "golden",
+      "songCount": 33,
+      "orchestra": "Alfredo de Angelis",
+      "notes": "De Angelis vocalist"
+    },
+    {
+      "singer": "Horacio Lagos",
+      "level": 2,
+      "era": "golden",
+      "songCount": 26,
+      "orchestra": "Edgardo Donato",
+      "notes": "Donato vocalist"
+    },
+    {
+      "singer": "Hugo Duval",
+      "level": 2,
+      "era": "golden",
+      "songCount": 25,
+      "orchestra": "Ricardo Tanturi",
+      "notes": "Tanturi vocalist"
+    },
+    {
+      "singer": "Fernando Diaz",
+      "level": 2,
+      "era": "golden",
+      "songCount": 24,
+      "orchestra": "Miguel Calo",
+      "notes": "Caló vocalist"
+    },
+    {
+      "singer": "Oscar Serpa",
+      "level": 2,
+      "era": "golden",
+      "songCount": 23,
+      "orchestra": "Miguel Calo",
+      "notes": "Caló vocalist"
+    },
+    {
+      "singer": "Roberto Ray",
+      "level": 2,
+      "era": "golden",
+      "songCount": 22,
+      "orchestra": "Osvaldo Fresedo",
+      "notes": "Fresedo-Ray partnership"
+    },
+    {
+      "singer": "Charlo",
+      "level": 2,
+      "era": "golden",
+      "songCount": 22,
+      "orchestra": "soloist",
+      "notes": "Major solo vocalist"
+    },
+    {
+      "singer": "Teofilo Ibanez",
+      "level": 2,
+      "era": "golden",
+      "songCount": 18,
+      "orchestra": "Rodolfo Biagi",
+      "notes": "Early Biagi"
+    },
+    {
+      "singer": "Jorge Vidal",
+      "level": 2,
+      "era": "later",
+      "songCount": 1,
+      "orchestra": "Osvaldo Pugliese",
+      "notes": "Later Pugliese"
+    },
+    {
+      "singer": "Jorge Ortiz",
+      "level": 3,
+      "era": "golden",
+      "songCount": 75
+    },
+    {
+      "singer": "Jorge Duran",
+      "level": 3,
+      "era": "golden",
+      "songCount": 45
+    },
+    {
+      "singer": "Horacio Quintana",
+      "level": 3,
+      "era": "golden",
+      "songCount": 41
+    },
+    {
+      "singer": "Floreal Ruiz",
+      "level": 3,
+      "era": "golden",
+      "songCount": 33
+    },
+    {
+      "singer": "Carlos A. Varela",
+      "level": 3,
+      "era": "golden",
+      "songCount": 29
+    },
+    {
+      "singer": "Julio Martel",
+      "level": 3,
+      "era": "golden",
+      "songCount": 27
+    },
+    {
+      "singer": "Carlos Dante y Oscar Larroca",
+      "level": 3,
+      "era": "golden",
+      "songCount": 26
+    },
+    {
+      "singer": "Francisco Amor",
+      "level": 3,
+      "era": "golden",
+      "songCount": 24
+    },
+    {
+      "singer": "Andres Falgas",
+      "level": 3,
+      "era": "golden",
+      "songCount": 22
+    },
+    {
+      "singer": "Luis Diaz",
+      "level": 3,
+      "era": "golden",
+      "songCount": 21
+    },
+    {
+      "singer": "Javier Di Ciriaco",
+      "level": 3,
+      "era": "later",
+      "songCount": 21
+    },
+    {
+      "singer": "Eduardo Adrian",
+      "level": 3,
+      "era": "golden",
+      "songCount": 21
+    },
+    {
+      "singer": "Luis Scalon",
+      "level": 3,
+      "era": "golden",
+      "songCount": 20
+    },
+    {
+      "singer": "Carlos Dante y Julio Martel",
+      "level": 3,
+      "era": "golden",
+      "songCount": 19
+    },
+    {
+      "singer": "Roberto Flores",
+      "level": 3,
+      "era": "golden",
+      "songCount": 18
+    },
+    {
+      "singer": "Roberto Florio",
+      "level": 3,
+      "era": "later",
+      "songCount": 18
+    },
+    {
+      "singer": "Roberto Videla",
+      "level": 3,
+      "era": "golden",
+      "songCount": 18
+    },
+    {
+      "singer": "Juan Carlos Casas",
+      "level": 3,
+      "era": "golden",
+      "songCount": 17
+    },
+    {
+      "singer": "Juan Carlos Godoy",
+      "level": 3,
+      "era": "later",
+      "songCount": 16
+    },
+    {
+      "singer": "Juan Carlos Miranda",
+      "level": 3,
+      "era": "golden",
+      "songCount": 16
+    },
+    {
+      "singer": "Alberto Moran",
+      "level": 3,
+      "era": "golden",
+      "songCount": 16
+    },
+    {
+      "singer": "Lalo Martel",
+      "level": 3,
+      "era": "later",
+      "songCount": 14
+    },
+    {
+      "singer": "Felix Gutierrez",
+      "level": 3,
+      "era": "golden",
+      "songCount": 13
+    },
+    {
+      "singer": "Mario Pomar",
+      "level": 3,
+      "era": "golden",
+      "songCount": 13
+    },
+    {
+      "singer": "Juan Carlos Lamas",
+      "level": 3,
+      "era": "golden",
+      "songCount": 13
+    },
+    {
+      "singer": "Jorge Maciel",
+      "level": 3,
+      "era": "golden",
+      "songCount": 12
+    },
+    {
+      "singer": "Agustin Irusta",
+      "level": 3,
+      "era": "golden",
+      "songCount": 12
+    },
+    {
+      "singer": "Carlos Galan",
+      "level": 3,
+      "era": "golden",
+      "songCount": 12
+    },
+    {
+      "singer": "Pedro Datila",
+      "level": 3,
+      "era": "golden",
+      "songCount": 12
+    },
+    {
+      "singer": "Canto",
+      "level": 3,
+      "era": "golden",
+      "songCount": 11
+    },
+    {
+      "singer": "Ernesto Herrera",
+      "level": 3,
+      "era": "later",
+      "songCount": 9
+    },
+    {
+      "singer": "Ortega Del Cerro",
+      "level": 3,
+      "era": "golden",
+      "songCount": 9
+    },
+    {
+      "singer": "Hector Pacheco",
+      "level": 3,
+      "era": "golden",
+      "songCount": 9
+    },
+    {
+      "singer": "Orlando Verri",
+      "level": 3,
+      "era": "golden",
+      "songCount": 9
+    },
+    {
+      "singer": "Osvaldo Ribo",
+      "level": 3,
+      "era": "golden",
+      "songCount": 8
+    },
+    {
+      "singer": "Alberto Amor",
+      "level": 3,
+      "era": "golden",
+      "songCount": 8
+    },
+    {
+      "singer": "Carlos Lafuente",
+      "level": 3,
+      "era": "golden",
+      "songCount": 8
+    },
+    {
+      "singer": "Alberto Carol",
+      "level": 3,
+      "era": "golden",
+      "songCount": 8
+    },
+    {
+      "singer": "Alberto Echague - Armando Laborde",
+      "level": 3,
+      "era": "golden",
+      "songCount": 8
+    },
+    {
+      "singer": "Rodolfo Lesica",
+      "level": 3,
+      "era": "later",
+      "songCount": 7
+    },
+    {
+      "singer": "Argentino Ledesma",
+      "level": 3,
+      "era": "later",
+      "songCount": 7
+    },
+    {
+      "singer": "Raul Sander",
+      "level": 3,
+      "era": "golden",
+      "songCount": 6
+    },
+    {
+      "singer": "Orquesta Angel Condercuri",
+      "level": 3,
+      "era": "golden",
+      "songCount": 6
+    },
+    {
+      "singer": "Carlos Bermudez",
+      "level": 3,
+      "era": "golden",
+      "songCount": 6
+    },
+    {
+      "singer": "Alberto Tagle",
+      "level": 3,
+      "era": "golden",
+      "songCount": 5
+    },
+    {
+      "singer": "Roger Toussaint",
+      "level": 3,
+      "era": "golden",
+      "songCount": 5
+    },
+    {
+      "singer": "Antonio Maida",
+      "level": 3,
+      "era": "golden",
+      "songCount": 5
+    },
+    {
+      "singer": "Alberto Gomez",
+      "level": 3,
+      "era": "golden",
+      "songCount": 5
+    },
+    {
+      "singer": "Mario Corrales",
+      "level": 3,
+      "era": "golden",
+      "songCount": 5
+    },
+    {
+      "singer": "Walter Cabral",
+      "level": 3,
+      "era": "golden",
+      "songCount": 5
+    },
+    {
+      "singer": "Carlos Casares",
+      "level": 3,
+      "era": "golden",
+      "songCount": 5
+    },
+    {
+      "singer": "Mario Pomar (Corrales)",
+      "level": 3,
+      "era": "golden",
+      "songCount": 5
+    },
+    {
+      "singer": "Luis Mariano",
+      "level": 3,
+      "era": "golden",
+      "songCount": 4
+    },
+    {
+      "singer": "Argentino Ledesma y Rodolfo Lesica",
+      "level": 3,
+      "era": "later",
+      "songCount": 4
+    },
+    {
+      "singer": "Jorge Falcon y Fernando Soler",
+      "level": 3,
+      "era": "later",
+      "songCount": 4
+    },
+    {
+      "singer": "Raul Lavie",
+      "level": 3,
+      "era": "later",
+      "songCount": 4
+    },
+    {
+      "singer": "Orquesta Emilio Balcarce",
+      "level": 3,
+      "era": "golden",
+      "songCount": 4
+    },
+    {
+      "singer": "Orquesta Enrique Alessio",
+      "level": 3,
+      "era": "golden",
+      "songCount": 4
+    },
+    {
+      "singer": "Francisco Fiorentino y Alberto Marino",
+      "level": 3,
+      "era": "golden",
+      "songCount": 4
+    },
+    {
+      "singer": "Martin Podesta",
+      "level": 3,
+      "era": "golden",
+      "songCount": 4
+    },
+    {
+      "singer": "Horacio Casares",
+      "level": 3,
+      "era": "later",
+      "songCount": 4
+    },
+    {
+      "singer": "Alberto Echague y Armando Laborde",
+      "level": 3,
+      "era": "golden",
+      "songCount": 4
+    },
+    {
+      "singer": "Armando Guerrico",
+      "level": 3,
+      "era": "later",
+      "songCount": 4
+    },
+    {
+      "singer": "Mario Beltran",
+      "level": 3,
+      "era": "golden",
+      "songCount": 3
+    },
+    {
+      "singer": "Jorge Falcon",
+      "level": 3,
+      "era": "later",
+      "songCount": 3
+    },
+    {
+      "singer": "Romeo Gavio",
+      "level": 3,
+      "era": "golden",
+      "songCount": 3
+    },
+    {
+      "singer": "Alberto Marino y Floreal Ruiz",
+      "level": 3,
+      "era": "golden",
+      "songCount": 3
+    },
+    {
+      "singer": "Floreal Ruiz y Edmundo Rivero",
+      "level": 3,
+      "era": "golden",
+      "songCount": 3
+    },
+    {
+      "singer": "Enrique Campos y Roberto Videla",
+      "level": 3,
+      "era": "golden",
+      "songCount": 3
+    },
+    {
+      "singer": "Jorge Omar y Cell Brian",
+      "level": 3,
+      "era": "golden",
+      "songCount": 3
+    },
+    {
+      "singer": "Jorge Omar y Fernando Diaz",
+      "level": 3,
+      "era": "golden",
+      "songCount": 3
+    },
+    {
+      "singer": "Nelly Omar",
+      "level": 3,
+      "era": "golden",
+      "songCount": 3
+    },
+    {
+      "singer": "Antonio Rodriguez Lesende",
+      "level": 3,
+      "era": "golden",
+      "songCount": 3
+    },
+    {
+      "singer": "Juan Carlos Caceres",
+      "level": 3,
+      "era": "later",
+      "songCount": 3
+    },
+    {
+      "singer": "Adolfo Rivas",
+      "level": 3,
+      "era": "golden",
+      "songCount": 3
+    },
+    {
+      "singer": "Alberto Diale",
+      "level": 3,
+      "era": "golden",
+      "songCount": 3
+    },
+    {
+      "singer": "Ricardo Duarte",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Antonio Maida y Randona",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Romeo Gavio y Lita Morales",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Pablo Lozano",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Romeo Gavio, Lita Morales y Horacio Lagos",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Horacio Lagos y Romeo Gavio",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Horacio Lagos y Randona",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Horacio Lagos y Lita Morales",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Floreal Ruiz y Alberto Marino",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Juan Carlos Godoy y Lalo Martel",
+      "level": 3,
+      "era": "later",
+      "songCount": 2
+    },
+    {
+      "singer": "Fernando Diaz y Jorge Omar",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Hector Farrel",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Carlos Saavedra",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Carlos Acuna",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Carlos Roldan y Eduardo Adrian",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Ernesto Fama y Angel Ramos",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Domingo Conte",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Roberto Maida y Angel Ramos",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Carlos Bermudez y Jorge Linares",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Roberto Florio y Jorge Duran",
+      "level": 3,
+      "era": "later",
+      "songCount": 2
+    },
+    {
+      "singer": "Lita Morales",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Vicente Crisera",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Roberto Lemos",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Jorge Maciel y Hector Coral",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Santiago Devincenzi",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Oscar Galan",
+      "level": 3,
+      "era": "later",
+      "songCount": 2
+    },
+    {
+      "singer": "Hector De Rosas",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Luis Tolosa",
+      "level": 3,
+      "era": "golden",
+      "songCount": 2
+    },
+    {
+      "singer": "Rafael Canaro",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Carlos Dante y coro",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Rafael Canaro y coro",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Fernando Soler",
+      "level": 3,
+      "era": "later",
+      "songCount": 1
+    },
+    {
+      "singer": "Armando Laborde y Rodolfo Lesica",
+      "level": 3,
+      "era": "later",
+      "songCount": 1
+    },
+    {
+      "singer": "Fontan Reyes",
+      "level": 3,
+      "era": "later",
+      "songCount": 1
+    },
+    {
+      "singer": "Ernesto Herrera y Armando Laborde",
+      "level": 3,
+      "era": "later",
+      "songCount": 1
+    },
+    {
+      "singer": "Juan Alessio",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Lita Morales, Horacio Lagos y Romeo Gavio",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Lita Morales y Horacio Lagos",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Hugo del Carril y Randona",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Daniel Adamo y Jorge Denis",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Agustin Magaldi",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Antonio Maida y Rondana",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Carlos Vivan",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Hugo del Carril",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Romeo Gavio y Horacio Lagos",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Mercedes Carne",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Horacio Lagos, Lita Morales y Romeo Gavio",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Orquesta Jorge Dragone",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Roberto Alvar",
+      "level": 3,
+      "era": "later",
+      "songCount": 1
+    },
+    {
+      "singer": "Tino Garcia",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Canta",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Marcel Veran",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Oscar Valeta",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Duo Rosales-Casedei",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Amadeo Mandarino",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Francisco Fiorentino y Amadeo Mandarino",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Aldo Calderon",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Jorge Casal y Raul Beron",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Edmundo Rivero y Aldo Calderon",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Angel Cardenas",
+      "level": 3,
+      "era": "later",
+      "songCount": 1
+    },
+    {
+      "singer": "Juan Carlos Godoy y Roberto Mancini",
+      "level": 3,
+      "era": "later",
+      "songCount": 1
+    },
+    {
+      "singer": "Carlos Dante - Julio Martel",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Carlos Aguirre",
+      "level": 3,
+      "era": "later",
+      "songCount": 1
+    },
+    {
+      "singer": "Roberto Mancini",
+      "level": 3,
+      "era": "later",
+      "songCount": 1
+    },
+    {
+      "singer": "Julio Martel, glosa: Nestor Rodi",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Charlo?",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Alberto Rivera",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Carlos Galarce",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Fernando Diaz y Alberto Hilarion Acuna",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Carlos Heredia y Hugo Duval",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Alberto Amor y Lago",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Alberto Arenas y Enrique Lucero",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Charlo  or Gardel",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Ernesto Fama  y Mirna Mores",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Augustin Irusta",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Ernesto Fama y Mirna Mores",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Luis Diaz y coro",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "el Coro del Teatro Nacional",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Roberto Maida y coro",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Ernesto Fama y coro",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Alberto Fuentes",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Raul Iriarte y Roberto Arrieta",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Mariano Balcarce",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Jaime Moreno y Lito Bayardo",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Alberto Moran y Roberto Chanel",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Roberto Chanel y Alberto Moran",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Agustin Volpe",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Rodriguez Lesende",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Enrique Carbel",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Hector Coral y Jorge Maciel",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Jorge Maciel y Angel Diaz",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Hector Maciel",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Enalmar De Maria",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Raul Iriarte y Los Trovadores del Peru",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Roberto Diaz",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Jorge Garre",
+      "level": 3,
+      "era": "later",
+      "songCount": 1
+    },
+    {
+      "singer": "Carlos Varela",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Dorita Davis, Principe Azul, -choir-",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Principe Azul",
+      "level": 3,
+      "era": "golden",
+      "songCount": 1
+    },
+    {
+      "singer": "Amelita Baltar",
+      "level": 3,
+      "era": "later",
+      "songCount": 1
+    }
+  ]
+}

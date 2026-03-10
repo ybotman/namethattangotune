@@ -1,0 +1,6 @@
+# robots.txt for NTTT
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://namethattangotune.com/sitemap.xml

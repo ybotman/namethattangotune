@@ -1,0 +1,189 @@
+{
+  "name": "Tango Canción Era Acquisition List",
+  "description": "Post-Golden Age vocal tango (1955-1995) - concert/listening style",
+  "generated": "2026-02-27",
+  "totalSongs": 80,
+
+  "artists": [
+    {
+      "name": "Roberto Goyeneche",
+      "nickname": "El Polaco",
+      "era": "1960-1994",
+      "style": "Dramatic, emotional, raspy voice",
+      "songs": [
+        { "title": "La última curda", "year": 1968, "orchestra": "Solo/Troilo", "ytSearch": "Goyeneche La ultima curda" },
+        { "title": "Sur", "year": 1968, "orchestra": "Troilo", "ytSearch": "Troilo Goyeneche Sur" },
+        { "title": "Garúa", "year": 1970, "orchestra": "Troilo", "ytSearch": "Goyeneche Troilo Garua" },
+        { "title": "María", "year": 1972, "orchestra": "Solo", "ytSearch": "Goyeneche Maria tango" },
+        { "title": "Nostalgias", "year": 1975, "orchestra": "Solo", "ytSearch": "Goyeneche Nostalgias" },
+        { "title": "Volver", "year": 1980, "orchestra": "Solo", "ytSearch": "Goyeneche Volver" },
+        { "title": "El día que me quieras", "year": 1982, "orchestra": "Solo", "ytSearch": "Goyeneche El dia que me quieras" },
+        { "title": "Naranjo en flor", "year": 1985, "orchestra": "Solo", "ytSearch": "Goyeneche Naranjo en flor" },
+        { "title": "Malena", "year": 1988, "orchestra": "Solo", "ytSearch": "Goyeneche Malena" },
+        { "title": "Balada para un loco", "year": 1990, "orchestra": "Solo", "ytSearch": "Goyeneche Balada para un loco" }
+      ]
+    },
+    {
+      "name": "Julio Sosa",
+      "nickname": "El Varón del Tango",
+      "era": "1955-1964",
+      "style": "Powerful, masculine, dramatic",
+      "songs": [
+        { "title": "Cambalache", "year": 1961, "orchestra": "Leopoldo Federico", "ytSearch": "Julio Sosa Cambalache" },
+        { "title": "Nada", "year": 1959, "orchestra": "Armando Pontier", "ytSearch": "Julio Sosa Nada" },
+        { "title": "Rencor", "year": 1960, "orchestra": "Federico", "ytSearch": "Julio Sosa Rencor" },
+        { "title": "Sus ojos se cerraron", "year": 1961, "orchestra": "Federico", "ytSearch": "Julio Sosa Sus ojos se cerraron" },
+        { "title": "La cumparsita", "year": 1962, "orchestra": "Federico", "ytSearch": "Julio Sosa La Cumparsita" },
+        { "title": "Uno", "year": 1962, "orchestra": "Federico", "ytSearch": "Julio Sosa Uno" },
+        { "title": "Mano a mano", "year": 1960, "orchestra": "Pontier", "ytSearch": "Julio Sosa Mano a mano" },
+        { "title": "Nostalgias", "year": 1963, "orchestra": "Federico", "ytSearch": "Julio Sosa Nostalgias" },
+        { "title": "Qué me van a hablar de amor", "year": 1963, "orchestra": "Federico", "ytSearch": "Julio Sosa Que me van a hablar de amor" },
+        { "title": "En esta tarde gris", "year": 1962, "orchestra": "Federico", "ytSearch": "Julio Sosa En esta tarde gris" }
+      ]
+    },
+    {
+      "name": "Edmundo Rivero",
+      "nickname": "El Feo",
+      "era": "1950-1986",
+      "style": "Deep bass, lunfardo specialist",
+      "songs": [
+        { "title": "Cafetín de Buenos Aires", "year": 1969, "orchestra": "Solo", "ytSearch": "Edmundo Rivero Cafetin de Buenos Aires" },
+        { "title": "Sur", "year": 1948, "orchestra": "Troilo", "ytSearch": "Rivero Troilo Sur 1948" },
+        { "title": "El último organito", "year": 1962, "orchestra": "Solo", "ytSearch": "Edmundo Rivero El ultimo organito" },
+        { "title": "Malevaje", "year": 1955, "orchestra": "Solo", "ytSearch": "Edmundo Rivero Malevaje" },
+        { "title": "A media luz", "year": 1960, "orchestra": "Solo", "ytSearch": "Edmundo Rivero A media luz" },
+        { "title": "El ciruja", "year": 1965, "orchestra": "Solo", "ytSearch": "Edmundo Rivero El ciruja" },
+        { "title": "Jacinto Chiclana", "year": 1967, "orchestra": "Solo", "ytSearch": "Edmundo Rivero Jacinto Chiclana" },
+        { "title": "Milonga triste", "year": 1970, "orchestra": "Solo", "ytSearch": "Edmundo Rivero Milonga triste" }
+      ]
+    },
+    {
+      "name": "Susana Rinaldi",
+      "nickname": "Tana",
+      "era": "1965-present",
+      "style": "Theatrical, dramatic, cabaret",
+      "songs": [
+        { "title": "Balada para un loco", "year": 1969, "orchestra": "Piazzolla", "ytSearch": "Susana Rinaldi Balada para un loco" },
+        { "title": "Chiquilín de Bachín", "year": 1970, "orchestra": "Piazzolla", "ytSearch": "Susana Rinaldi Chiquilin de Bachin" },
+        { "title": "Preludio para el año 3001", "year": 1972, "orchestra": "Piazzolla", "ytSearch": "Susana Rinaldi Preludio ano 3001" },
+        { "title": "Garúa", "year": 1975, "orchestra": "Solo", "ytSearch": "Susana Rinaldi Garua" },
+        { "title": "Los mareados", "year": 1978, "orchestra": "Solo", "ytSearch": "Susana Rinaldi Los mareados" },
+        { "title": "Yira yira", "year": 1980, "orchestra": "Solo", "ytSearch": "Susana Rinaldi Yira yira" },
+        { "title": "Volver", "year": 1982, "orchestra": "Solo", "ytSearch": "Susana Rinaldi Volver" },
+        { "title": "Malena", "year": 1985, "orchestra": "Solo", "ytSearch": "Susana Rinaldi Malena" }
+      ]
+    },
+    {
+      "name": "Amelita Baltar",
+      "nickname": "La Voz de Piazzolla",
+      "era": "1968-1980",
+      "style": "Nuevo tango, Piazzolla interpreter",
+      "songs": [
+        { "title": "Balada para un loco", "year": 1969, "orchestra": "Piazzolla", "ytSearch": "Amelita Baltar Balada para un loco" },
+        { "title": "Chiquilín de Bachín", "year": 1969, "orchestra": "Piazzolla", "ytSearch": "Amelita Baltar Chiquilin de Bachin" },
+        { "title": "La bicicleta blanca", "year": 1971, "orchestra": "Piazzolla", "ytSearch": "Amelita Baltar La bicicleta blanca" },
+        { "title": "Yo soy María", "year": 1968, "orchestra": "Piazzolla", "ytSearch": "Amelita Baltar Yo soy Maria" },
+        { "title": "El gordo triste", "year": 1972, "orchestra": "Piazzolla", "ytSearch": "Amelita Baltar El gordo triste" },
+        { "title": "Preludio para el año 3001", "year": 1973, "orchestra": "Piazzolla", "ytSearch": "Amelita Baltar Preludio 3001" }
+      ]
+    },
+    {
+      "name": "Raúl Lavié",
+      "nickname": null,
+      "era": "1960-present",
+      "style": "Smooth, romantic crooner",
+      "songs": [
+        { "title": "Nostalgias", "year": 1975, "orchestra": "Solo", "ytSearch": "Raul Lavie Nostalgias" },
+        { "title": "Naranjo en flor", "year": 1978, "orchestra": "Solo", "ytSearch": "Raul Lavie Naranjo en flor" },
+        { "title": "Malena", "year": 1980, "orchestra": "Solo", "ytSearch": "Raul Lavie Malena" },
+        { "title": "Sur", "year": 1982, "orchestra": "Solo", "ytSearch": "Raul Lavie Sur" },
+        { "title": "Los mareados", "year": 1985, "orchestra": "Solo", "ytSearch": "Raul Lavie Los mareados" },
+        { "title": "Volver", "year": 1988, "orchestra": "Solo", "ytSearch": "Raul Lavie Volver" }
+      ]
+    },
+    {
+      "name": "Rubén Juárez",
+      "nickname": null,
+      "era": "1970-2010",
+      "style": "Pure, emotional, bandoneón player-singer",
+      "songs": [
+        { "title": "Naranjo en flor", "year": 1975, "orchestra": "Solo", "ytSearch": "Ruben Juarez Naranjo en flor" },
+        { "title": "Sur", "year": 1978, "orchestra": "Solo", "ytSearch": "Ruben Juarez Sur" },
+        { "title": "Nostalgias", "year": 1980, "orchestra": "Solo", "ytSearch": "Ruben Juarez Nostalgias" },
+        { "title": "La última curda", "year": 1982, "orchestra": "Solo", "ytSearch": "Ruben Juarez La ultima curda" },
+        { "title": "Garúa", "year": 1985, "orchestra": "Solo", "ytSearch": "Ruben Juarez Garua" },
+        { "title": "Malena", "year": 1988, "orchestra": "Solo", "ytSearch": "Ruben Juarez Malena" }
+      ]
+    },
+    {
+      "name": "Floreal Ruiz",
+      "nickname": null,
+      "era": "1943-1978",
+      "style": "Lyrical, romantic",
+      "songs": [
+        { "title": "Tristezas de la calle Corrientes", "year": 1958, "orchestra": "Troilo", "ytSearch": "Floreal Ruiz Tristezas Corrientes Troilo" },
+        { "title": "María", "year": 1960, "orchestra": "Solo", "ytSearch": "Floreal Ruiz Maria" },
+        { "title": "Uno", "year": 1962, "orchestra": "Solo", "ytSearch": "Floreal Ruiz Uno" },
+        { "title": "Garúa", "year": 1965, "orchestra": "Solo", "ytSearch": "Floreal Ruiz Garua" },
+        { "title": "La última curda", "year": 1968, "orchestra": "Solo", "ytSearch": "Floreal Ruiz La ultima curda" }
+      ]
+    },
+    {
+      "name": "Alberto Marino",
+      "nickname": null,
+      "era": "1942-1989",
+      "style": "Clear, elegant phrasing",
+      "songs": [
+        { "title": "Uno", "year": 1965, "orchestra": "Solo", "ytSearch": "Alberto Marino Uno solo" },
+        { "title": "Percal", "year": 1960, "orchestra": "Solo", "ytSearch": "Alberto Marino Percal" },
+        { "title": "Malena", "year": 1958, "orchestra": "Solo", "ytSearch": "Alberto Marino Malena solo" },
+        { "title": "Nostalgias", "year": 1970, "orchestra": "Solo", "ytSearch": "Alberto Marino Nostalgias" },
+        { "title": "Barrio de tango", "year": 1962, "orchestra": "Solo", "ytSearch": "Alberto Marino Barrio de tango" }
+      ]
+    },
+    {
+      "name": "Nelly Omar",
+      "nickname": "La Gardel con faldas",
+      "era": "1938-2013",
+      "style": "Powerful, Gardel-influenced",
+      "songs": [
+        { "title": "Desde el alma", "year": 1950, "orchestra": "Fresedo", "ytSearch": "Nelly Omar Desde el alma" },
+        { "title": "Sur", "year": 1960, "orchestra": "Solo", "ytSearch": "Nelly Omar Sur" },
+        { "title": "Malena", "year": 1965, "orchestra": "Solo", "ytSearch": "Nelly Omar Malena" },
+        { "title": "Uno", "year": 1970, "orchestra": "Solo", "ytSearch": "Nelly Omar Uno" },
+        { "title": "La última curda", "year": 1975, "orchestra": "Solo", "ytSearch": "Nelly Omar La ultima curda" }
+      ]
+    },
+    {
+      "name": "Adriana Varela",
+      "nickname": "La Gata",
+      "era": "1990-present",
+      "style": "Modern, sensual, theatrical",
+      "songs": [
+        { "title": "Naranjo en flor", "year": 1995, "orchestra": "Solo", "ytSearch": "Adriana Varela Naranjo en flor" },
+        { "title": "Sur", "year": 1998, "orchestra": "Solo", "ytSearch": "Adriana Varela Sur" },
+        { "title": "Malena", "year": 2000, "orchestra": "Solo", "ytSearch": "Adriana Varela Malena" },
+        { "title": "La última curda", "year": 2002, "orchestra": "Solo", "ytSearch": "Adriana Varela La ultima curda" },
+        { "title": "Nostalgias", "year": 2005, "orchestra": "Solo", "ytSearch": "Adriana Varela Nostalgias" }
+      ]
+    },
+    {
+      "name": "Roberto Rufino",
+      "nickname": null,
+      "era": "1939-1999",
+      "style": "Lyrical, romantic (solo career post-Di Sarli)",
+      "songs": [
+        { "title": "Remembranza", "year": 1965, "orchestra": "Solo", "ytSearch": "Roberto Rufino Remembranza solo" },
+        { "title": "Uno", "year": 1970, "orchestra": "Solo", "ytSearch": "Roberto Rufino Uno solo" },
+        { "title": "Nada", "year": 1972, "orchestra": "Solo", "ytSearch": "Roberto Rufino Nada solo" },
+        { "title": "Nostalgias", "year": 1975, "orchestra": "Solo", "ytSearch": "Roberto Rufino Nostalgias solo" }
+      ]
+    }
+  ],
+
+  "ripCommands": {
+    "description": "Batch download commands - run from MusicRips folder",
+    "setup": "mkdir -p cancion_era && cd cancion_era",
+    "example": "yt-dlp -x --audio-format mp3 --audio-quality 0 --add-metadata -o '%(title)s - %(uploader)s.%(ext)s' 'ytsearch1:SEARCH_TERM'"
+  }
+}

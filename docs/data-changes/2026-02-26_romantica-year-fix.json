@@ -1,0 +1,68 @@
+{
+  "date": "2026-02-26",
+  "timestamp": "2026-02-26 01:35:45",
+  "description": "Normalize year format for Orquesta Romantica Milonguera songs",
+  "changes": [
+    {
+      "file": "djSongsWeighted.json",
+      "action": "update",
+      "count": 9,
+      "songs": [
+        {
+          "songId": "3fbcff31-0c93-50f2-a32a-d3aa4dbad149",
+          "title": "Fueron tres anos",
+          "oldYear": "2017-02-23",
+          "newYear": "2017"
+        },
+        {
+          "songId": "bf0f2316-c692-59f0-9458-9456b09671cf",
+          "title": "Adios Corazon",
+          "oldYear": "2017-02-23",
+          "newYear": "2017"
+        },
+        {
+          "songId": "a1f4a034-905a-541b-b494-3d47f31445b0",
+          "title": "Solamente ella",
+          "oldYear": "2017-02-23",
+          "newYear": "2017"
+        },
+        {
+          "songId": "9c1d122b-80c0-5aa7-8783-d6c4fe41c40c",
+          "title": "Buscandote",
+          "oldYear": "2017-02-23",
+          "newYear": "2017"
+        },
+        {
+          "songId": "c091df11-482c-5f27-afa1-f98a74962d53",
+          "title": "Poema",
+          "oldYear": "2017-02-23",
+          "newYear": "2017"
+        },
+        {
+          "songId": "eb040193-40fc-5670-97d0-fede8b95d612",
+          "title": "Todo es amor",
+          "oldYear": "2017-02-23",
+          "newYear": "2017"
+        },
+        {
+          "songId": "efdc7e5d-75a5-5ac8-ba33-2f4e139a65c4",
+          "title": "Bomboncito",
+          "oldYear": "2017-02-23",
+          "newYear": "2017"
+        },
+        {
+          "songId": "51de2b96-259d-5eb4-9237-9e0b0717aa1c",
+          "title": "Oigo tu voz",
+          "oldYear": "2017-02-23",
+          "newYear": "2017"
+        },
+        {
+          "songId": "2a987342-f67f-55d7-945a-3ce542f00185",
+          "title": "Tu",
+          "oldYear": "2017-02-23",
+          "newYear": "2017"
+        }
+      ]
+    }
+  ]
+}

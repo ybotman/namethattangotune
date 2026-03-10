@@ -1,0 +1,15 @@
+node_modules/
+.next/
+.DS_Store
+.vercel
+
+# Environment files (contain secrets)
+.env
+.env.local
+.env.*.local
+
+# Audio files
+*.mp3
+*.wav
+*.flac
+*.m4a

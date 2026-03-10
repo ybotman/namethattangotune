@@ -1,0 +1,190 @@
+{
+  "date": "2026-02-26",
+  "timestamp": "2026-02-26 01:27:59",
+  "description": "Mark 25 Bandonegro songs as valid modern recordings",
+  "changes": [
+    {
+      "file": "dataQualityIssues.json",
+      "action": "update",
+      "count": 25,
+      "resolution": "valid_modern",
+      "songs": [
+        {
+          "issueId": "DQ-0324",
+          "songId": "712d1bfb-50dc-5359-af4f-df2fe58664ce",
+          "title": "A Evaristo Carriego",
+          "year": "2017",
+          "resolution": "valid_modern"
+        },
+        {
+          "issueId": "DQ-0312",
+          "songId": "08470886-aa26-57a2-b956-9447c9f77236",
+          "title": "A Los Amigos",
+          "year": "2022",
+          "resolution": "valid_modern"
+        },
+        {
+          "issueId": "DQ-0309",
+          "songId": "8045a6b3-b83f-5d86-846b-d27ca907608d",
+          "title": "A Mis Viejos",
+          "year": "2022",
+          "resolution": "valid_modern"
+        },
+        {
+          "issueId": "DQ-0320",
+          "songId": "a93d8782-7f7f-5c64-91d9-32342965b153",
+          "title": "Bahia Blanca",
+          "year": "2017",
+          "resolution": "valid_modern"
+        },
+        {
+          "issueId": "DQ-0318",
+          "songId": "193fcb01-ca18-5f0a-b450-f78373dad1d2",
+          "title": "Cafe Dominguez",
+          "year": "2017",
+          "resolution": "valid_modern"
+        },
+        {
+          "issueId": "DQ-0307",
+          "songId": "f67b3570-62e9-5df8-a91c-2c8949349fc5",
+          "title": "Canaro En Paris",
+          "year": "2022",
+          "resolution": "valid_modern"
+        },
+        {
+          "issueId": "DQ-0311",
+          "songId": "d93be5b6-4c7a-56bd-bcb3-85dfdc8f921e",
+          "title": "Desde El Alma",
+          "year": "2022",
+          "resolution": "valid_modern"
+        },
+        {
+          "issueId": "DQ-0317",
+          "songId": "f31882e4-8ff3-54e2-9a4c-17c2fd2e9a40",
+          "title": "El Huracan",
+          "year": "2017",
+          "resolution": "valid_modern"
+        },
+        {
+          "issueId": "DQ-0303",
+          "songId": "4df6658c-a83d-538d-99d8-1144dcce0ca8",
+          "title": "El Puntazo",
+          "year": "2022",
+          "resolution": "valid_modern"
+        },
+        {
+          "issueId": "DQ-0302",
+          "songId": "d46dd94e-24fc-5d71-9f4f-14130a598911",
+          "title": "Felicia",
+          "year": "2022",
+          "resolution": "valid_modern"
+        },
+        {
+          "issueId": "DQ-0325",
+          "songId": "79eaf442-1fdb-5659-9767-c3e5ec1aa52e",
+          "title": "Gallo Ciego",
+          "year": "2017",
+          "resolution": "valid_modern"
+        },
+        {
+          "issueId": "DQ-0308",
+          "songId": "34ce95ee-1dfa-50c1-8db4-703c846a6e51",
+          "title": "La Bordona",
+          "year": "2022",
+          "resolution": "valid_modern"
+        },
+        {
+          "issueId": "DQ-0323",
+          "songId": "42204f56-0d1d-5454-877e-483a3d4f9ec7",
+          "title": "La Mulateada",
+          "year": "2017",
+          "resolution": "valid_modern"
+        },
+        {
+          "issueId": "DQ-0326",
+          "songId": "ebd5583d-cb21-5a65-8db0-a36c97aada37",
+          "title": "La Yumba",
+          "year": "2017",
+          "resolution": "valid_modern"
+        },
+        {
+          "issueId": "DQ-0316",
+          "songId": "baba4cc1-6196-5ef5-a885-bc9eb886de21",
+          "title": "Loca",
+          "year": "2017",
+          "resolution": "valid_modern"
+        },
+        {
+          "issueId": "DQ-0315",
+          "songId": "5e524e06-0280-5dbd-91af-35be72e5aac8",
+          "title": "Madame Ivonne",
+          "year": "2017",
+          "resolution": "valid_modern"
+        },
+        {
+          "issueId": "DQ-0319",
+          "songId": "bf3a7acd-0a22-56f9-af49-2e77cd594c63",
+          "title": "Milonga de Mis Amores",
+          "year": "2017",
+          "resolution": "valid_modern"
+        },
+        {
+          "issueId": "DQ-0304",
+          "songId": "4101f83c-005c-5094-b45f-0c33f67bc211",
+          "title": "No Hay Tierra Como La Mia",
+          "year": "2022",
+          "resolution": "valid_modern"
+        },
+        {
+          "issueId": "DQ-0310",
+          "songId": "dd252f59-1b0a-5566-97e0-f71638fa59ab",
+          "title": "Palomita Blanca",
+          "year": "2022",
+          "resolution": "valid_modern"
+        },
+        {
+          "issueId": "DQ-0321",
+          "songId": "90c15a0e-80db-5809-97c7-5bed98156b54",
+          "title": "Por una Cabeza",
+          "year": "2017",
+          "resolution": "valid_modern"
+        },
+        {
+          "issueId": "DQ-0314",
+          "songId": "1fb33b5f-02ff-534f-ac64-3a0261b21e7c",
+          "title": "Quejas de Bandoneon",
+          "year": "2017",
+          "resolution": "valid_modern"
+        },
+        {
+          "issueId": "DQ-0306",
+          "songId": "279288b0-0a29-5cd5-a270-7938c05f0629",
+          "title": "Reliquias Portenas",
+          "year": "2022",
+          "resolution": "valid_modern"
+        },
+        {
+          "issueId": "DQ-0305",
+          "songId": "10e0a585-a963-5a5d-a042-48b80269817e",
+          "title": "Silueta Portena",
+          "year": "2022",
+          "resolution": "valid_modern"
+        },
+        {
+          "issueId": "DQ-0322",
+          "songId": "3852c2ba-53b8-5b8d-bf86-a8aeac04258f",
+          "title": "To Ostatnia Niedziela",
+          "year": "2017",
+          "resolution": "valid_modern"
+        },
+        {
+          "issueId": "DQ-0313",
+          "songId": "1fa679cb-ad81-5397-b3f2-db1c76e46561",
+          "title": "Zum",
+          "year": "2022",
+          "resolution": "valid_modern"
+        }
+      ]
+    }
+  ]
+}

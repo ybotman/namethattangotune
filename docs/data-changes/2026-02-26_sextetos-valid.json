@@ -1,0 +1,379 @@
+{
+  "date": "2026-02-26",
+  "timestamp": "2026-02-26T20:08:48.926Z",
+  "description": "Make Sexteto Milonguero and Sexteto Cristal playable - valid modern Renaissance orchestras",
+  "orchestraInfo": {
+    "sextetoMilonguero": {
+      "style": "D'Arienzo/Biagi rhythmic tradition - strong marcato, crisp bandoneón, compás-driven",
+      "years": "2007-2013",
+      "singer": "Javier Di Ciriaco"
+    },
+    "sextetoCristal": {
+      "style": "Di Sarli/Troilo melodic tradition - legato phrasing, rich harmonics, lyrical",
+      "years": "2018"
+    }
+  },
+  "changes": [
+    {
+      "file": "djSongsWeighted.json",
+      "action": "update",
+      "orchestra": "Sexteto Milonguero",
+      "count": 34,
+      "description": "Removed DNP flag - valid modern recordings",
+      "songs": [
+        {
+          "songId": "da0cd788-0e68-5c84-a127-e4125e289d6e",
+          "title": "Flor De Lino",
+          "year": "2010",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "741976d1-fb1b-5cf1-a152-d2df94ca483a",
+          "title": "Tres Esquinas",
+          "year": "2007",
+          "singer": "Javier Di Ciriaco",
+          "action": "removed DNP"
+        },
+        {
+          "songId": "7ea9a450-ed77-52f2-abb6-371ef85c47bb",
+          "title": "Al Pasar",
+          "year": "2010",
+          "singer": "Javier Di Ciriaco",
+          "action": "removed DNP"
+        },
+        {
+          "songId": "83f2d34b-c164-5594-a124-f526e578357c",
+          "title": "El Recodo (long intro)",
+          "year": "2010",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "2c9b1f61-9689-5c76-950b-6ea0c448b034",
+          "title": "Lejos Estas",
+          "year": "2013",
+          "singer": "Javier Di Ciriaco",
+          "action": "removed DNP"
+        },
+        {
+          "songId": "661d233a-7859-55d3-932f-3a52c79302cb",
+          "title": "No Hay Tierra Como La Mia",
+          "year": "2010",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "b2503229-db9f-5deb-b8c3-45f71b290a23",
+          "title": "Yo soy de San Telmo",
+          "year": "2007",
+          "singer": "Javier Di Ciriaco",
+          "action": "removed DNP"
+        },
+        {
+          "songId": "697d0603-9838-57d8-a388-f08fc7c8a878",
+          "title": "El Yacare",
+          "year": "2007",
+          "singer": "Javier Di Ciriaco",
+          "action": "removed DNP"
+        },
+        {
+          "songId": "340931d6-cbdf-5818-a2ba-dc4b32e10ba3",
+          "title": "Como Le Digo",
+          "year": "2010",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "e8e86afb-fe47-5477-92f3-9f424f3c4050",
+          "title": "La Mulateada",
+          "year": "2007",
+          "singer": "Javier Di Ciriaco",
+          "action": "removed DNP"
+        },
+        {
+          "songId": "d8606da0-fa23-58c8-bc4e-959e124dc605",
+          "title": "Paisaje",
+          "year": "2010",
+          "singer": "Javier Di Ciriaco",
+          "action": "removed DNP"
+        },
+        {
+          "songId": "bffd8130-dc75-5aba-9ea5-85405c2f6aaf",
+          "title": "Llorar Por Una Mujer",
+          "year": "2010",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "40a88c81-cd8a-56d4-b904-a0742b069433",
+          "title": "Bajo Un Cielo De Estrellas",
+          "year": "2010",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "a047a0f8-7fa3-5d06-84c1-60f869e87a69",
+          "title": "Romance de barrio",
+          "year": "2007",
+          "singer": "Javier Di Ciriaco",
+          "action": "removed DNP"
+        },
+        {
+          "songId": "efd509a9-3724-5dc3-a7d4-1037d91570b2",
+          "title": "Cachirulo",
+          "year": "2010",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "bda76639-540c-539b-acc0-899d92556bd4",
+          "title": "Anda A Saber",
+          "year": "2013",
+          "singer": "Javier Di Ciriaco",
+          "action": "removed DNP"
+        },
+        {
+          "songId": "f8aa77c9-f4e8-520b-a0bd-503d1060ff9e",
+          "title": "Arrabalera",
+          "year": "2013",
+          "singer": "Javier Di Ciriaco",
+          "action": "removed DNP"
+        },
+        {
+          "songId": "b58061bb-9170-5643-8934-2a657389c6f9",
+          "title": "Pocas Palabras",
+          "year": "2013",
+          "singer": "Javier Di Ciriaco",
+          "action": "removed DNP"
+        },
+        {
+          "songId": "293afd24-3d28-5f05-919a-0ecdfc4efcf7",
+          "title": "Tu el cielo y tu",
+          "year": "2007",
+          "singer": "Javier Di Ciriaco",
+          "action": "removed DNP"
+        },
+        {
+          "songId": "e7b5dbf8-3fcd-5008-9da7-44e019a9e404",
+          "title": "Oigo Tu Voz",
+          "year": "2010",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "6ed2dc91-9e9b-5439-99df-0410dfbf1a3b",
+          "title": "Dichas que vivi",
+          "year": "2007",
+          "singer": "Javier Di Ciriaco",
+          "action": "removed DNP"
+        },
+        {
+          "songId": "0404547a-df45-5f4b-90b2-725bbf5ce955",
+          "title": "Viejo Porton",
+          "year": "2013",
+          "singer": "Javier Di Ciriaco",
+          "action": "removed DNP"
+        },
+        {
+          "songId": "b46365b6-2a5f-5575-a596-9cac6d3d97bd",
+          "title": "Yo soy el tango",
+          "year": "2007",
+          "singer": "Javier Di Ciriaco",
+          "action": "removed DNP"
+        },
+        {
+          "songId": "79f36883-1295-51b8-a880-9a84529ca06f",
+          "title": "Humillacion",
+          "year": "2013",
+          "singer": "Javier Di Ciriaco",
+          "action": "removed DNP"
+        },
+        {
+          "songId": "5ea0fc7d-8ed8-55f1-be8a-e2b6f4909dd9",
+          "title": "El Adios",
+          "year": "2013",
+          "singer": "Javier Di Ciriaco",
+          "action": "removed DNP"
+        },
+        {
+          "songId": "88e0a64f-6bb6-5298-b8db-93a458cc8b9a",
+          "title": "Junto A Tu Corazon",
+          "year": "2010",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "60d16886-1a76-53ea-a13a-6b5338affe1a",
+          "title": "Cafe Dominguez",
+          "year": "2007",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "c74f27b3-07d6-5c31-b3e8-dabc2c73366c",
+          "title": "Yerba Mala",
+          "year": "2010",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "b4722eb8-8677-50c2-9f61-8cf6bbf95056",
+          "title": "Ella es asi",
+          "year": "2013",
+          "singer": "Javier Di Ciriaco",
+          "action": "removed DNP"
+        },
+        {
+          "songId": "53766a69-10e1-54f7-9171-b8277b79176c",
+          "title": "Guapeando",
+          "year": "2010",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "f7af682f-0259-5541-aa7b-f90652c6fa5e",
+          "title": "Noches Del Colon",
+          "year": "2010",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "9094f408-ea2e-52fc-a063-e6b17a88d696",
+          "title": "Buscandote",
+          "year": "2013",
+          "singer": "Javier Di Ciriaco",
+          "action": "removed DNP"
+        },
+        {
+          "songId": "4f6e0de5-fb03-51e1-8636-37ea8a762ad3",
+          "title": "Pensalo Bien",
+          "year": "2013",
+          "singer": "Javier Di Ciriaco",
+          "action": "removed DNP"
+        },
+        {
+          "songId": "a1d9c346-ebb5-5011-b08e-b29cc391503d",
+          "title": "Una emocion",
+          "year": "2007",
+          "singer": "Javier Di Ciriaco",
+          "action": "removed DNP"
+        }
+      ]
+    },
+    {
+      "file": "djSongsWeighted.json",
+      "action": "update",
+      "orchestra": "Sexteto Cristal",
+      "count": 15,
+      "description": "Removed DNP flag and fixed missing years",
+      "songs": [
+        {
+          "songId": "5e62c998-b152-5a59-8777-881f7068cf77",
+          "title": "Flor de Montserrat",
+          "year": "2018",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "52776722-7185-557f-a12a-13654a0ce9e8",
+          "title": "S.O.S.",
+          "year": "2018",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "4eeaad7f-c8e7-5377-a2f0-53cec513c023",
+          "title": "Cuando Florescan los Rosales",
+          "year": "2018",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "be0fa5c9-e5b4-5592-93b4-9d3747346445",
+          "title": "El Adios",
+          "year": "2018",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "ffbc10c6-097a-566a-b2b2-a4f6f18974cf",
+          "title": "Mi Vieja Linda",
+          "year": "2018",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "a7fccb99-48f5-5150-9a66-0ee88a6f16c0",
+          "title": "Viento Norte",
+          "year": "2018",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "0420a001-a60b-5339-99fb-43e0a58448b6",
+          "title": "Mentira",
+          "year": "2018",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "557b5586-23f6-5eaf-bb6b-6696abce134c",
+          "title": "Caricias",
+          "year": "2018",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "57d43596-8ba3-587a-96be-fbf0c28e3964",
+          "title": "Noches de Invierno",
+          "year": "2018",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "d262cba3-2f7f-5770-b39b-e1a22981f7d2",
+          "title": "El Recodo",
+          "year": "2018",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "8bffac05-fd54-584f-b8f5-1cf069abab65",
+          "title": "Despues del Carnaval",
+          "year": "2018",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "109c862b-a487-510b-ab3f-e2e9051bc4dc",
+          "title": "Vals del Recuerdo",
+          "year": "2018",
+          "singer": null,
+          "action": "removed DNP"
+        },
+        {
+          "songId": "2515f1b0-fc59-5c2c-9d6a-59332372bfaa",
+          "title": "09 El amanecer",
+          "year": "2018",
+          "singer": null,
+          "action": "set year to 2018"
+        },
+        {
+          "songId": "6269bfca-9a45-52a6-9071-ec1f33e7157b",
+          "title": "03 Pavadita",
+          "year": "2018",
+          "singer": null,
+          "action": "set year to 2018"
+        },
+        {
+          "songId": "ca4aa1a8-7cdc-5366-b4fe-5c96d176aa4f",
+          "title": "10 Siete palabras",
+          "year": "2018",
+          "singer": null,
+          "action": "set year to 2018"
+        }
+      ]
+    }
+  ]
+}

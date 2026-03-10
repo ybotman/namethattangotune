@@ -1,0 +1,482 @@
+// ------------------------------------------------------------
+// src/utils/userStatsService.js
+// Firebase Firestore service for user stats and session tracking
+// Uses collection prefixes for TEST vs PROD separation
+// See: /Users/tobybalsley/MyDocs/AppDev/TANGO-FIREBASE-ARCHITECTURE.md
+// ------------------------------------------------------------
+
+import {
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  addDoc,
+  collection,
+  increment,
+  serverTimestamp,
+} from 'firebase/firestore';
+import { db, auth, collections, getUserDocPath } from './firebase';
+
+/**
+ * Grid cell key mapping for orchestra games
+ * Row-major order matching DifficultyGrid layout:
+ * Row 1 (Famous): Icons, Core, Niche
+ * Row 2 (Known): Icons, Core, Niche
+ * Row 3 (Obscure): Icons, Core, Niche
+ */
+export const ORCHESTRA_GRID_KEYS = {
+  1: 'Icons-Famous',
+  2: 'Core-Famous',
+  3: 'Niche-Famous',
+  4: 'Icons-Known',
+  5: 'Core-Known',
+  6: 'Niche-Known',
+  7: 'Icons-Obscure',
+  8: 'Core-Obscure',
+  9: 'Niche-Obscure',
+};
+
+/**
+ * Grid cell key mapping for singer games
+ * Row-major order matching SingerDifficultyGrid layout:
+ * Row 1 (Famous): Iconic, Essential, Standard
+ * Row 2 (Common): Iconic, Essential, Standard
+ * Row 3 (Obscure): Iconic, Essential, Standard
+ */
+export const SINGER_GRID_KEYS = {
+  1: 'Iconic-Famous',
+  2: 'Essential-Famous',
+  3: 'Standard-Famous',
+  4: 'Iconic-Common',
+  5: 'Essential-Common',
+  6: 'Standard-Common',
+  7: 'Iconic-Obscure',
+  8: 'Essential-Obscure',
+  9: 'Standard-Obscure',
+};
+
+/**
+ * Get grid key for a game type and cell
+ * @param {string} gameType - e.g., 'orchestra-quiz', 'singer-quiz'
+ * @param {string|number} gridCell - Cell key string (e.g., "Icons-Famous") or number (1-9)
+ * @returns {string} - Grid key string for stats storage
+ */
+export function getGridKey(gameType, gridCell) {
+  // If gridCell is already a string key, use it directly
+  if (typeof gridCell === 'string') {
+    return gridCell;
+  }
+  // If gridCell is a number, look up in the mapping
+  if (gameType.includes('singer')) {
+    return SINGER_GRID_KEYS[gridCell] || 'Unknown';
+  }
+  return ORCHESTRA_GRID_KEYS[gridCell] || 'Unknown';
+}
+
+/**
+ * Initialize user document on first login
+ * Creates profile, preferences, and empty gameStats
+ *
+ * @param {Object} user - Firebase user object
+ * @returns {Promise<void>}
+ */
+export async function initializeUserDoc(user) {
+  if (!user?.uid) return;
+
+  try {
+    const userRef = doc(db, collections.users, user.uid);
+    const userSnap = await getDoc(userRef);
+
+    if (!userSnap.exists()) {
+      // Create new user document
+      await setDoc(userRef, {
+        profile: {
+          displayName: user.displayName || null,
+          photoURL: user.photoURL || null,
+          email: user.email || null,
+          createdAt: serverTimestamp(),
+        },
+        preferences: {
+          theme: 'dark',
+          defaultNumSongs: 10,
+          defaultTimeLimit: 15,
+        },
+        gameStats: {},
+        lastLoginAt: serverTimestamp(),
+      });
+    } else {
+      // Update last login time
+      await updateDoc(userRef, {
+        lastLoginAt: serverTimestamp(),
+      });
+    }
+  } catch (error) {
+    console.error('Error initializing user doc:', error.message);
+    // Re-throw with code for upstream handling
+    const err = new Error(error.message);
+    err.code = error.code;
+    throw err;
+  }
+}
+
+/**
+ * Fetch user stats from Firestore
+ *
+ * @param {string} userId - Firebase user ID
+ * @returns {Promise<Object|null>} - User stats or null if not found
+ */
+export async function fetchUserStats(userId) {
+  if (!userId) return null;
+
+  try {
+    const userRef = doc(db, collections.users, userId);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+      return userSnap.data();
+    }
+    return null;
+  } catch (error) {
+    console.error('Error fetching user stats:', error.message);
+    return null;
+  }
+}
+
+/**
+ * Save a completed game session to Firestore
+ * Also updates user aggregate stats
+ *
+ * @param {Object} params - Session parameters
+ * @param {string} params.gameType - Game identifier (e.g., 'orchestra-quiz')
+ * @param {number} params.gridCell - Grid cell number (1-9)
+ * @param {Object} params.config - Game configuration
+ * @param {Array} params.results - Array of round results
+ * @param {number} params.totalScore - Total session score
+ * @param {number} params.correctCount - Number of correct answers
+ * @param {number} params.totalQuestions - Total questions asked
+ * @returns {Promise<string|null>} - Session document ID or null
+ */
+export async function saveSessionResults({
+  gameType,
+  gridCell,
+  config,
+  results,
+  totalScore,
+  correctCount,
+  totalQuestions,
+}) {
+  const user = auth.currentUser;
+  if (!user) {
+    console.warn('No user logged in, skipping session save');
+    return null;
+  }
+
+  try {
+    const gridKey = getGridKey(gameType, gridCell);
+
+    // 1. Save session document
+    const sessionDoc = {
+      userId: user.uid,
+      userEmail: user.email,
+      gameType,
+      gridCell,
+      gridKey,
+      config: {
+        primaryFilterMode: config?.primaryFilterMode || null,
+        gridCells: config?.gridCells || [],
+        orchestraTiers: config?.orchestraTiers || [],
+        singerGridCells: config?.singerGridCells || [],
+        recognitionTiers: config?.recognitionTiers || [],
+        periods: config?.periods || [],
+        styles: config?.styles || {},
+        numSongs: config?.numSongs || null,
+        timeLimit: config?.timeLimit || null,
+      },
+      results: results.map((r) => ({
+        songId: r.songId || null,
+        correct: r.correct || false,
+        timeUsed: r.timeUsed || 0,
+        score: r.score || 0,
+        // Enhanced per-entity analytics data
+        correctOrchestra: r.correctOrchestra || null,
+        userGuess: r.userGuess || null,
+        correctSinger: r.correctSinger || null,
+        userGuessSinger: r.userGuessSinger || null,
+      })),
+      totalScore,
+      correctCount,
+      totalQuestions,
+      accuracy: totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0,
+      completedAt: serverTimestamp(),
+    };
+
+    const sessionRef = await addDoc(collection(db, collections.ntttSessions), sessionDoc);
+
+    // 2. Update user aggregate stats for ALL selected cells
+    // Get all selected cells from config (orchestra or singer games)
+    const allGridCells = gameType.includes('singer')
+      ? config?.singerGridCells || []
+      : config?.gridCells || [];
+
+    // If we have selected cells, update stats for each; otherwise use the primary gridKey
+    const cellsToUpdate = allGridCells.length > 0 ? allGridCells : [gridKey];
+
+    for (const cell of cellsToUpdate) {
+      const cellKey = getGridKey(gameType, cell);
+      await updateUserGameStats({
+        userId: user.uid,
+        gameType,
+        gridKey: cellKey,
+        totalScore,
+        correctCount,
+        totalQuestions,
+      });
+    }
+
+    // 3. Update per-entity stats (orchestra or singer)
+    await updatePerEntityStats({
+      userId: user.uid,
+      gameType,
+      results,
+    });
+
+    return sessionRef.id;
+  } catch (error) {
+    console.error('Error saving session results:', error.message);
+    throw error;
+  }
+}
+
+/**
+ * Update user's aggregate game stats using atomic increments
+ *
+ * @param {Object} params - Update parameters
+ * @param {string} params.userId - Firebase user ID
+ * @param {string} params.gameType - Game identifier
+ * @param {string} params.gridKey - Grid cell key (e.g., 'Big4-Famous')
+ * @param {number} params.totalScore - Session total score
+ * @param {number} params.correctCount - Number of correct answers
+ * @param {number} params.totalQuestions - Total questions
+ * @returns {Promise<void>}
+ */
+async function updateUserGameStats({
+  userId,
+  gameType,
+  gridKey,
+  totalScore,
+  correctCount,
+  totalQuestions,
+}) {
+  const userRef = doc(db, collections.users, userId);
+
+  try {
+    // First, get current stats to check for best score
+    const userSnap = await getDoc(userRef);
+    const currentData = userSnap.data();
+    const currentGameStats = currentData?.gameStats?.[gameType] || {};
+    const currentBestScore = currentGameStats.bestSessionScore || 0;
+    const currentCellBestScore = currentGameStats.cells?.[gridKey]?.bestScore || 0;
+
+    // Build update object with atomic increments
+    const updates = {
+      // Game-level aggregates
+      [`gameStats.${gameType}.totalPlayed`]: increment(totalQuestions),
+      [`gameStats.${gameType}.totalCorrect`]: increment(correctCount),
+      [`gameStats.${gameType}.totalScore`]: increment(totalScore),
+      [`gameStats.${gameType}.sessionsCompleted`]: increment(1),
+
+      // Cell-level aggregates
+      [`gameStats.${gameType}.cells.${gridKey}.played`]: increment(totalQuestions),
+      [`gameStats.${gameType}.cells.${gridKey}.correct`]: increment(correctCount),
+      [`gameStats.${gameType}.cells.${gridKey}.totalScore`]: increment(totalScore),
+      [`gameStats.${gameType}.cells.${gridKey}.sessions`]: increment(1),
+      [`gameStats.${gameType}.cells.${gridKey}.lastPlayed`]: serverTimestamp(),
+    };
+
+    // Update best scores if beaten
+    if (totalScore > currentBestScore) {
+      updates[`gameStats.${gameType}.bestSessionScore`] = totalScore;
+    }
+    if (totalScore > currentCellBestScore) {
+      updates[`gameStats.${gameType}.cells.${gridKey}.bestScore`] = totalScore;
+    }
+
+    await updateDoc(userRef, updates);
+  } catch (error) {
+    console.error('Error updating user game stats:', error.message);
+    throw error;
+  }
+}
+
+/**
+ * Update per-entity stats (per-orchestra or per-singer)
+ * Tracks confusion matrix data for analytics
+ *
+ * Firestore structure:
+ * users/{uid}/gameStats/orchestra-quiz/orchestras/{orchestraName}
+ *   - played: number
+ *   - correct: number
+ *   - confusedWith: { orchestraName: count }
+ *
+ * users/{uid}/gameStats/singer-quiz/singers/{singerName}
+ *   - played: number
+ *   - correct: number
+ *   - confusedWith: { singerName: count }
+ *
+ * @param {Object} params - Update parameters
+ * @param {string} params.userId - Firebase user ID
+ * @param {string} params.gameType - Game identifier
+ * @param {Array} params.results - Round results with correctOrchestra/userGuess or correctSinger/userGuessSinger
+ * @returns {Promise<void>}
+ */
+async function updatePerEntityStats({ userId, gameType, results }) {
+  if (!results || results.length === 0) return;
+
+  const userRef = doc(db, collections.users, userId);
+
+  try {
+    // Aggregate stats by entity from results
+    const entityStats = {};
+
+    for (const r of results) {
+      // Determine entity name and user guess based on game type
+      let entityName, userGuess;
+      if (gameType === 'orchestra-quiz' || gameType.includes('orchestra')) {
+        entityName = r.correctOrchestra;
+        userGuess = r.userGuess;
+      } else if (gameType === 'singer-quiz' || gameType.includes('singer')) {
+        entityName = r.correctSinger;
+        userGuess = r.userGuessSinger;
+      } else {
+        continue; // Unknown game type
+      }
+
+      if (!entityName) continue;
+
+      // Initialize entity stats if needed
+      if (!entityStats[entityName]) {
+        entityStats[entityName] = {
+          played: 0,
+          correct: 0,
+          confusedWith: {},
+        };
+      }
+
+      entityStats[entityName].played += 1;
+
+      if (r.correct) {
+        entityStats[entityName].correct += 1;
+      } else if (userGuess && userGuess !== entityName) {
+        // Track confusion - user guessed wrong
+        entityStats[entityName].confusedWith[userGuess] =
+          (entityStats[entityName].confusedWith[userGuess] || 0) + 1;
+      }
+    }
+
+    // Build update object
+    const updates = {};
+    const entityType = gameType.includes('singer') ? 'singers' : 'orchestras';
+
+    for (const [entityName, stats] of Object.entries(entityStats)) {
+      // Sanitize entity name for Firestore path (remove dots, slashes)
+      const safeEntityName = entityName.replace(/[./]/g, '_');
+      const basePath = `gameStats.${gameType}.${entityType}.${safeEntityName}`;
+
+      updates[`${basePath}.played`] = increment(stats.played);
+      updates[`${basePath}.correct`] = increment(stats.correct);
+      updates[`${basePath}.lastPlayed`] = serverTimestamp();
+
+      // Update confusion counts
+      for (const [confusedWith, count] of Object.entries(stats.confusedWith)) {
+        const safeConfusedName = confusedWith.replace(/[./]/g, '_');
+        updates[`${basePath}.confusedWith.${safeConfusedName}`] = increment(count);
+      }
+    }
+
+    if (Object.keys(updates).length > 0) {
+      await updateDoc(userRef, updates);
+    }
+  } catch (error) {
+    console.error('Error updating per-entity stats:', error.message);
+    // Don't throw - per-entity stats are supplementary
+  }
+}
+
+/**
+ * Get stats summary for a specific game type
+ * Computes averages from stored totals
+ *
+ * @param {Object} gameStats - The gameStats object for a game type
+ * @returns {Object} - Computed stats with averages
+ */
+export function computeGameStatsSummary(gameStats) {
+  if (!gameStats) {
+    return {
+      totalPlayed: 0,
+      totalCorrect: 0,
+      accuracy: 0,
+      totalScore: 0,
+      avgScore: 0,
+      bestSessionScore: 0,
+      sessionsCompleted: 0,
+      cells: {},
+    };
+  }
+
+  const totalPlayed = gameStats.totalPlayed || 0;
+  const totalCorrect = gameStats.totalCorrect || 0;
+  const totalScore = gameStats.totalScore || 0;
+
+  const summary = {
+    totalPlayed,
+    totalCorrect,
+    accuracy: totalPlayed > 0 ? Math.round((totalCorrect / totalPlayed) * 100) : 0,
+    totalScore,
+    avgScore: totalPlayed > 0 ? Math.round(totalScore / totalPlayed) : 0,
+    bestSessionScore: gameStats.bestSessionScore || 0,
+    sessionsCompleted: gameStats.sessionsCompleted || 0,
+    cells: {},
+  };
+
+  // Compute per-cell summaries
+  if (gameStats.cells) {
+    for (const [key, cell] of Object.entries(gameStats.cells)) {
+      const cellPlayed = cell.played || 0;
+      const cellCorrect = cell.correct || 0;
+      const cellTotalScore = cell.totalScore || 0;
+
+      summary.cells[key] = {
+        played: cellPlayed,
+        correct: cellCorrect,
+        accuracy: cellPlayed > 0 ? Math.round((cellCorrect / cellPlayed) * 100) : 0,
+        avgScore: cellPlayed > 0 ? Math.round(cellTotalScore / cellPlayed) : 0,
+        bestScore: cell.bestScore || 0,
+        sessions: cell.sessions || 0,
+        lastPlayed: cell.lastPlayed || null,
+      };
+    }
+  }
+
+  return summary;
+}
+
+/**
+ * Update user preferences
+ *
+ * @param {string} userId - Firebase user ID
+ * @param {Object} preferences - Preferences to update (merged with existing)
+ * @returns {Promise<void>}
+ */
+export async function updateUserPreferences(userId, preferences) {
+  if (!userId) return;
+
+  try {
+    const userRef = doc(db, collections.users, userId);
+    await updateDoc(userRef, {
+      preferences: preferences,
+    });
+  } catch (error) {
+    console.error('Error updating preferences:', error.message);
+    throw error;
+  }
+}

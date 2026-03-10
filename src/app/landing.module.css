@@ -1,0 +1,471 @@
+/* Landing Page Styles - 3x3 Game Grid */
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--background, #1a1a2e);
+  color: var(--foreground, #e0e0e0);
+}
+
+/* Top Banner - Type2 */
+.topBanner {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 16px;
+}
+
+.bannerImage {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Typography */
+.title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  text-align: center;
+  color: var(--accent, #4dd0e1);
+}
+
+.subtitle {
+  font-size: 1rem;
+  margin: 0 0 24px 0;
+  text-align: center;
+  opacity: 0.85;
+  max-width: 400px;
+}
+
+/* Primary Button */
+.primaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 40px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: #4CAF50;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.2s, transform 0.2s;
+  margin-bottom: 32px;
+}
+
+.primaryButton:hover {
+  background-color: #388E3C;
+  transform: scale(1.02);
+}
+
+/* 3x3 Game Grid */
+.gameGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  width: 100%;
+  max-width: 900px;
+  margin-bottom: 40px;
+  padding-top: 16px; /* Space for START HERE badge */
+}
+
+.gameTile {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: visible;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+
+.gameTile:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent, #4dd0e1);
+  box-shadow: 0 8px 24px rgba(77, 208, 225, 0.15);
+}
+
+.tileImageWrapper {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+}
+
+.tileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.gameTile:hover .tileImage {
+  transform: scale(1.05);
+}
+
+/* Featured Tile - START HERE */
+.featuredTile {
+  border: 2px solid #4CAF50 !important;
+  box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+  position: relative;
+}
+
+.featuredTile:hover {
+  border-color: #4CAF50 !important;
+  box-shadow: 0 8px 30px rgba(76, 175, 80, 0.4);
+}
+
+.startHereBadge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 12px;
+  white-space: nowrap;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.4);
+  animation: pulse 2s infinite;
+}
+
+.startHereArrow {
+  display: inline-block;
+  margin-right: 4px;
+  animation: bounce 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.4);
+  }
+  50% {
+    box-shadow: 0 2px 16px rgba(76, 175, 80, 0.6);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(3px);
+  }
+}
+
+.tileTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 12px 12px 4px 12px;
+  color: var(--accent, #4dd0e1);
+}
+
+.tileDescription {
+  font-size: 0.75rem;
+  margin: 0 12px 12px 12px;
+  opacity: 0.75;
+  line-height: 1.4;
+  flex-grow: 1;
+}
+
+/* SEO Text Block */
+.seoBlock {
+  width: 100%;
+  max-width: 700px;
+  margin-bottom: 40px;
+  padding: 24px;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+}
+
+.seoBlock h2 {
+  font-size: 1.2rem;
+  margin: 0 0 16px 0;
+  color: var(--accent, #4dd0e1);
+  text-align: center;
+}
+
+.seoBlock p {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  margin: 0 0 12px 0;
+  opacity: 0.8;
+}
+
+.seoBlock p:last-child {
+  margin-bottom: 0;
+}
+
+/* Orchestra Grid for Big 5 */
+.orchestraGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.orchestraItem {
+  padding: 12px;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.orchestraItem h3 {
+  font-size: 0.95rem;
+  margin: 0 0 8px 0;
+  color: var(--accent, #4dd0e1);
+}
+
+.orchestraItem p {
+  font-size: 0.8rem;
+  margin: 0;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+.moreOrchestras {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  margin-top: 12px;
+}
+
+.songList {
+  font-size: 0.85rem;
+  line-height: 1.8;
+}
+
+.singerList {
+  font-size: 0.85rem;
+  line-height: 1.8;
+}
+
+/* Tango Universe Section */
+.tangoUniverse {
+  width: 100%;
+  max-width: 700px;
+  margin-bottom: 40px;
+  padding: 24px;
+  background: linear-gradient(135deg, rgba(77, 208, 225, 0.08) 0%, rgba(156, 39, 176, 0.08) 100%);
+  border: 1px solid rgba(77, 208, 225, 0.2);
+  border-radius: 12px;
+}
+
+.tangoUniverse h2 {
+  font-size: 1.3rem;
+  margin: 0 0 8px 0;
+  color: var(--accent, #4dd0e1);
+  text-align: center;
+}
+
+.universeIntro {
+  font-size: 0.9rem;
+  text-align: center;
+  opacity: 0.8;
+  margin: 0 0 20px 0;
+}
+
+.universeGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.universeCard {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.universeCard:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent, #4dd0e1);
+}
+
+.universeComingSoon {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.universeComingSoon:hover {
+  transform: none;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.universeIcon {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+}
+
+.universeCard h3 {
+  font-size: 1rem;
+  margin: 0 0 8px 0;
+  color: var(--accent, #4dd0e1);
+}
+
+.universeCard p {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  margin: 0 0 12px 0;
+  opacity: 0.85;
+  flex-grow: 1;
+}
+
+.universeLink {
+  font-size: 0.75rem;
+  color: var(--accent, #4dd0e1);
+  font-weight: 500;
+}
+
+.organizerCta {
+  text-align: center;
+  padding: 16px;
+  background-color: rgba(76, 175, 80, 0.1);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  border-radius: 8px;
+}
+
+.organizerCta p {
+  font-size: 0.85rem;
+  margin: 0 0 12px 0;
+  opacity: 0.9;
+}
+
+.organizerButton {
+  display: inline-block;
+  padding: 10px 24px;
+  background-color: #4CAF50;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.organizerButton:hover {
+  background-color: #388E3C;
+}
+
+/* Footer */
+.footer {
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footerLinks {
+  margin-bottom: 12px;
+}
+
+.footer a {
+  color: var(--accent, #4dd0e1);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+.separator {
+  margin: 0 12px;
+  opacity: 0.4;
+}
+
+.copyright {
+  font-size: 0.8rem;
+  opacity: 0.6;
+  margin: 0;
+}
+
+.copyright a {
+  opacity: 1;
+}
+
+/* Tablet - 2 columns */
+@media (max-width: 768px) {
+  .gameGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .tileTitle {
+    font-size: 0.85rem;
+  }
+
+  .tileDescription {
+    font-size: 0.7rem;
+  }
+
+  .universeGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile - 1 column */
+@media (max-width: 500px) {
+  .container {
+    padding: 16px;
+  }
+
+  .gameGrid {
+    grid-template-columns: 1fr;
+    max-width: 320px;
+  }
+
+  .title {
+    font-size: 1.4rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+  .primaryButton {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .tileTitle {
+    font-size: 0.9rem;
+  }
+
+  .tileDescription {
+    font-size: 0.75rem;
+  }
+
+  .seoBlock {
+    padding: 16px;
+  }
+
+  .seoBlock h2 {
+    font-size: 1.1rem;
+  }
+
+  .seoBlock p {
+    font-size: 0.85rem;
+  }
+}

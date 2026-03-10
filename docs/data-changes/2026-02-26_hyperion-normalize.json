@@ -1,0 +1,133 @@
+{
+  "date": "2026-02-26",
+  "timestamp": "2026-02-26 02:04:41",
+  "description": "Normalize all Hyperion variations to ArtistMaster: Hyperion Ensemble",
+  "changes": [
+    {
+      "file": "djSongsWeighted.json",
+      "action": "update",
+      "count": 17,
+      "songs": [
+        {
+          "songId": "770e8180-e4b4-51ca-a81c-7c75ca56310f",
+          "title": "Mi dolor",
+          "orchestra": "Ruben Peloni Hyperion Ensemble",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Hyperion Ensemble"
+        },
+        {
+          "songId": "717f07d6-e147-5609-be39-9d983faf3d89",
+          "title": "Condena (S.O.S.)",
+          "orchestra": "Ruben Peloni Hyperion Ensemble",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Hyperion Ensemble"
+        },
+        {
+          "songId": "ca8da711-6066-5bae-81ea-ea4ab0485abf",
+          "title": "Buscandote",
+          "orchestra": "Ruben Peloni Hyperion Ensemble",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Hyperion Ensemble"
+        },
+        {
+          "songId": "7ecbd5d3-3523-5f20-bb14-2e909592fede",
+          "title": "Torrente",
+          "orchestra": "Ruben Peloni Hyperion Ensemble",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Hyperion Ensemble"
+        },
+        {
+          "songId": "14b20f88-4f79-5b82-8fea-bf67548c2d52",
+          "title": "Remembranzas",
+          "orchestra": "Ruben Peloni Hyperion Ensemble",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Hyperion Ensemble"
+        },
+        {
+          "songId": "d4bc1174-02f9-5ae5-8a72-80a8862f1bde",
+          "title": "Percal",
+          "orchestra": "Ruben Peloni Hyperion Ensemble",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Hyperion Ensemble"
+        },
+        {
+          "songId": "a963b8c3-adbc-55b2-9f9e-4a902d29e205",
+          "title": "Tango negro",
+          "orchestra": "Ruben Peloni Hyperion Ensemble",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Hyperion Ensemble"
+        },
+        {
+          "songId": "ff0454da-0ff9-5891-887a-3b7a8b0c44b0",
+          "title": "Libertango",
+          "orchestra": "Ensemble Hyperion",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Hyperion Ensemble"
+        },
+        {
+          "songId": "ef9c12d2-b7df-5d3a-b437-1c417633d417",
+          "title": "Balada Para Un Loco",
+          "orchestra": "Ensemble Hyperion",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Hyperion Ensemble"
+        },
+        {
+          "songId": "be61f3e0-c74c-5c5a-8e21-36b68d4ba3de",
+          "title": "Invierno Porteno",
+          "orchestra": "Ensemble Hyperion",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Hyperion Ensemble"
+        },
+        {
+          "songId": "70ac2924-2a90-533e-93fd-bcecc6b86f9a",
+          "title": "Chique",
+          "orchestra": "Ensemble Hyperion",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Hyperion Ensemble"
+        },
+        {
+          "songId": "fe2fbd1c-ce74-5c1c-b965-676c9632b53f",
+          "title": "A los amigos",
+          "orchestra": "Ensemble Hyperion",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Hyperion Ensemble"
+        },
+        {
+          "songId": "5510b73e-0370-568c-9d1c-3bf56122cbe6",
+          "title": "Milonga de mis amores",
+          "orchestra": "Ensemble Hyperion",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Hyperion Ensemble"
+        },
+        {
+          "songId": "7dca8992-ccc0-5b22-9565-e87f93dc0e6e",
+          "title": "A fuego lento",
+          "orchestra": "Ensemble Hyperion",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Hyperion Ensemble"
+        },
+        {
+          "songId": "a1a74b93-e907-5034-8c64-d250bcb353eb",
+          "title": "Tierra querida",
+          "orchestra": "Ensemble Hyperion",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Hyperion Ensemble"
+        },
+        {
+          "songId": "61a60711-c886-590d-a23b-53d3d777fa98",
+          "title": "A Don Agustin Bardi",
+          "orchestra": "Ensemble Hyperion",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Hyperion Ensemble"
+        },
+        {
+          "songId": "eca49b19-c930-52e3-a637-b84237c5b915",
+          "title": "Cambalache",
+          "orchestra": "Ensemble Hyperion",
+          "oldArtistMaster": "EMPTY",
+          "newArtistMaster": "Hyperion Ensemble"
+        }
+      ]
+    }
+  ]
+}
