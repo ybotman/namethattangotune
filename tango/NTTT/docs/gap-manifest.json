@@ -1,0 +1,140 @@
+{
+  "description": "Gap songs to acquire for NTTT Iconic mode",
+  "generated": "2026-02-27",
+  "outputFolder": "~/tunes/tango/MusicRips/gaps/",
+  "namingConvention": "Orchestra - Title - Year - Singer.mp3",
+  "songs": [
+    {
+      "priority": "critical",
+      "file": "Osvaldo Pugliese - Gallo Ciego - 1948 - instrumental.mp3",
+      "title": "Gallo Ciego",
+      "orchestra": "Osvaldo Pugliese",
+      "year": 1948,
+      "singer": null,
+      "style": "Tango",
+      "ytSearch": "Pugliese Gallo Ciego 1948 original",
+      "notes": "Only Bandonegro cover in DB. Original is critical."
+    },
+    {
+      "priority": "high",
+      "file": "Anibal Troilo - El Marne - 1941 - instrumental.mp3",
+      "title": "El Marne",
+      "orchestra": "Anibal Troilo",
+      "year": 1941,
+      "singer": null,
+      "style": "Tango",
+      "ytSearch": "Troilo El Marne 1941",
+      "notes": "Classic Troilo instrumental"
+    },
+    {
+      "priority": "high",
+      "file": "Osvaldo Pugliese - Nochero Soy - 1962 - Jorge Vidal.mp3",
+      "title": "Nochero Soy",
+      "orchestra": "Osvaldo Pugliese",
+      "year": 1962,
+      "singer": "Jorge Vidal",
+      "style": "Tango",
+      "ytSearch": "Pugliese Nochero Soy Jorge Vidal",
+      "notes": "Very popular at milongas"
+    },
+    {
+      "priority": "medium",
+      "file": "Osvaldo Pugliese - La Beba - 1947 - instrumental.mp3",
+      "title": "La Beba",
+      "orchestra": "Osvaldo Pugliese",
+      "year": 1947,
+      "singer": null,
+      "style": "Tango",
+      "ytSearch": "Pugliese La Beba 1947",
+      "notes": "Classic Pugliese instrumental"
+    },
+    {
+      "priority": "medium",
+      "file": "Anibal Troilo - Una Cancion - 1943 - Francisco Fiorentino.mp3",
+      "title": "Una Cancion",
+      "orchestra": "Anibal Troilo",
+      "year": 1943,
+      "singer": "Francisco Fiorentino",
+      "style": "Tango",
+      "ytSearch": "Troilo Una Cancion Fiorentino 1943",
+      "notes": "Fiorentino period gem"
+    },
+    {
+      "priority": "medium",
+      "file": "Osvaldo Fresedo - El Espiante - 1947 - instrumental.mp3",
+      "title": "El Espiante",
+      "orchestra": "Osvaldo Fresedo",
+      "year": 1947,
+      "singer": null,
+      "style": "Tango",
+      "ytSearch": "Fresedo El Espiante 1947",
+      "notes": "Important for Fresedo tanda"
+    },
+    {
+      "priority": "medium",
+      "file": "Edgardo Donato - Julian - 1933 - instrumental.mp3",
+      "title": "Julian",
+      "orchestra": "Edgardo Donato",
+      "year": 1933,
+      "singer": null,
+      "style": "Tango",
+      "ytSearch": "Edgardo Donato Julian 1933 tango",
+      "notes": "Donato signature"
+    },
+    {
+      "priority": "medium",
+      "file": "Angel DAgostino - Cafe Dominguez - 1955 - Angel Vargas.mp3",
+      "title": "Cafe Dominguez",
+      "orchestra": "Angel D'Agostino",
+      "year": 1955,
+      "singer": "Angel Vargas",
+      "style": "Tango",
+      "ytSearch": "D'Agostino Vargas Cafe Dominguez",
+      "notes": "D'Agostino/Vargas classic"
+    },
+    {
+      "priority": "low",
+      "file": "Osvaldo Pugliese - Perpetuum Mobile - 1961 - instrumental.mp3",
+      "title": "Perpetuum Mobile",
+      "orchestra": "Osvaldo Pugliese",
+      "year": 1961,
+      "singer": null,
+      "style": "Tango",
+      "ytSearch": "Pugliese Perpetuum Mobile 1961",
+      "notes": "Culturally important, less dancefloor"
+    },
+    {
+      "priority": "low",
+      "file": "Carlos Di Sarli - Paloma - 1954 - instrumental.mp3",
+      "title": "Paloma",
+      "orchestra": "Carlos Di Sarli",
+      "year": 1954,
+      "singer": null,
+      "style": "Tango",
+      "ytSearch": "Di Sarli Paloma 1954 instrumental",
+      "notes": "Di Sarli original unclear in DB"
+    },
+    {
+      "priority": "low",
+      "file": "Carlos Di Sarli - A Fuego Lento - 1954 - instrumental.mp3",
+      "title": "A Fuego Lento",
+      "orchestra": "Carlos Di Sarli",
+      "year": 1954,
+      "singer": null,
+      "style": "Tango",
+      "ytSearch": "Di Sarli A Fuego Lento instrumental",
+      "notes": "Only Hyperion 2007 cover in DB"
+    },
+    {
+      "priority": "low",
+      "file": "Francisco Canaro - Noche de Reyes - 1941 - instrumental.mp3",
+      "title": "Noche de Reyes",
+      "orchestra": "Francisco Canaro",
+      "year": 1941,
+      "singer": null,
+      "style": "Tango",
+      "ytSearch": "Canaro Noche de Reyes tango",
+      "notes": "Not found under any orchestra"
+    }
+  ]
+}

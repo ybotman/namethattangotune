@@ -4,6 +4,8 @@
 
 | Document | Purpose |
 |----------|---------|
+| **[SHARED-AUTH-ARCHITECTURE.md](./SHARED-AUTH-ARCHITECTURE.md)** | **Cross-app auth & data strategy** |
+| [NTTT-System-Overview.md](./NTTT-System-Overview.md) | NTTT architecture overview |
 | [JIRA-TICKETS.md](./JIRA-TICKETS.md) | All tickets with execution order |
 | [BORIS-DATA-LOADING-PATH.md](./BORIS-DATA-LOADING-PATH.md) | End-to-end data pipeline (deep dive) |
 | [BORIS-MIGRATION-PLAN.md](./BORIS-MIGRATION-PLAN.md) | High-level migration plan |

@@ -1,0 +1,27 @@
+{
+  "generated": "2026-02-27T21:19:45.813214",
+  "total": 62,
+  "fullyPlayable": 60,
+  "dnpRecommended": 0,
+  "issueCounts": {
+    "missing_vocal_analysis": 2
+  },
+  "issues": [
+    {
+      "songId": "e0425f37-6519-5693-bc68-afc4754725bd",
+      "title": "El Choclo",
+      "orchestra": "Orquesta Típica Victor",
+      "issues": [
+        "missing_vocal_analysis"
+      ]
+    },
+    {
+      "songId": "9e48e3cc-d0f9-515e-8a80-2a2eb8a57d2d",
+      "title": "La Cumparsita",
+      "orchestra": "Orquesta Típica Victor",
+      "issues": [
+        "missing_vocal_analysis"
+      ]
+    }
+  ]
+}

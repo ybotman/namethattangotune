@@ -68,5 +68,29 @@ npm run lint
 - Metadata in JSON files
 - Organized by orchestra/era
 
+## Versioning & Tagging
+
+**Always tag releases:**
+```bash
+# After committing, tag with version from package.json
+git tag -a v2.9.0 -m "Release v2.9.0 - Brief description"
+
+# Push with tags
+git push origin main --tags
+```
+
+**When to bump:**
+| Change | Bump | Example |
+|--------|------|---------|
+| Bug fix | PATCH | 2.8.1 → 2.8.2 |
+| New feature | MINOR | 2.8.1 → 2.9.0 |
+| Breaking/major | MAJOR | 2.8.1 → 3.0.0 |
+
+**Commit format:** Include version in message
+```
+fix: Description here v2.8.2
+feat: New feature v2.9.0
+```
+
 ---
 *Compás - Tango music learning app*

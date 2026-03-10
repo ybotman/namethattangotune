@@ -1,0 +1,521 @@
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+Found 62 songs to process
+Existing analysis: 5455 songs
+New songs to analyze: 62
+
+Loading Whisper model (base)...
+Model loaded.
+
+[1/62] Anibal Troilo - Barrio de Tango
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/Anibal Troilo - Barrio de Tango - 1944 - Floreal Ruiz.mp3
+  Analyzing with Whisper...
+  0%|          | 0/14639 [00:00<?, ?frames/s] 20%|█▉        | 2916/14639 [00:06<00:27, 432.11frames/s] 32%|███▏      | 4746/14639 [00:08<00:16, 603.53frames/s] 51%|█████     | 7402/14639 [00:10<00:09, 796.92frames/s] 65%|██████▍   | 9444/14639 [00:12<00:05, 922.16frames/s] 83%|████████▎ | 12190/14639 [00:13<00:02, 1122.23frames/s]100%|██████████| 14639/14639 [00:15<00:00, 1245.78frames/s]100%|██████████| 14639/14639 [00:15<00:00, 946.66frames/s] 
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (77.1% vocal)
+
+[2/62] Anibal Troilo - Sur
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/Anibal Troilo - Sur - 1948 - Edmundo Rivero.mp3
+  Analyzing with Whisper...
+  0%|          | 0/21318 [00:00<?, ?frames/s] 14%|█▍        | 3000/21318 [00:05<00:30, 596.45frames/s] 27%|██▋       | 5720/21318 [00:06<00:16, 958.33frames/s] 37%|███▋      | 7814/21318 [00:08<00:13, 976.03frames/s] 48%|████▊     | 10314/21318 [00:10<00:09, 1148.03frames/s] 61%|██████    | 12928/21318 [00:12<00:06, 1246.46frames/s] 73%|███████▎  | 15472/21318 [00:13<00:04, 1257.56frames/s] 86%|████████▌ | 18362/21318 [00:15<00:02, 1368.38frames/s]100%|██████████| 21318/21318 [00:17<00:00, 1571.16frames/s]100%|██████████| 21318/21318 [00:17<00:00, 1245.85frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (65.8% vocal)
+
+[3/62] Francisco Canaro - La Cumparsita
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/Canaro - La Cumparsita - 1924 - unk.mp3
+  Analyzing with Whisper...
+  0%|          | 0/18162 [00:00<?, ?frames/s]  0%|          | 0/18162 [00:06<?, ?frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (0.0% vocal)
+
+[4/62] Carlos Gardel - Pobre Paica
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/Carlos Gardel - Pobre Paica - 1920 - Carlos Gardel.mp3
+  Analyzing with Whisper...
+  0%|          | 0/15856 [00:00<?, ?frames/s] 14%|█▍        | 2262/15856 [00:10<01:01, 221.37frames/s] 33%|███▎      | 5260/15856 [00:19<00:38, 278.72frames/s] 33%|███▎      | 5260/15856 [00:29<00:38, 278.72frames/s] 50%|████▉     | 7892/15856 [00:34<00:35, 223.70frames/s] 50%|█████     | 7940/15856 [00:40<00:46, 170.43frames/s] 62%|██████▏   | 9854/15856 [00:45<00:27, 217.35frames/s] 62%|██████▏   | 9854/15856 [00:45<00:27, 216.07frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (41.3% vocal)
+
+[5/62] Angel D'Agostino - Cafe Dominguez
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/DAgostino - Cafe Dominguez - 1941 - Angel Vargas.mp3
+  Analyzing with Whisper...
+  0%|          | 0/17949 [00:00<?, ?frames/s] 15%|█▌        | 2714/17949 [00:01<00:10, 1408.43frames/s] 32%|███▏      | 5714/17949 [00:03<00:06, 1953.60frames/s] 49%|████▊     | 8714/17949 [00:05<00:06, 1447.47frames/s] 65%|██████▌   | 11714/17949 [00:06<00:03, 1779.08frames/s] 82%|████████▏ | 14714/17949 [00:07<00:01, 2063.19frames/s] 83%|████████▎ | 14949/17949 [00:09<00:01, 1660.24frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (17.0% vocal)
+  [Checkpoint saved: 5 songs]
+
+[6/62] Juan D'Arienzo - Rawson
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/DArienzo - Rawson - 1936 - unk.mp3
+  Analyzing with Whisper...
+  0%|          | 0/22494 [00:00<?, ?frames/s]  0%|          | 0/22494 [00:18<?, ?frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (0.0% vocal)
+
+[7/62] Roberto Firpo - El Cencerro
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/Firpo - El Cencerro - 1949 - unk.mp3
+  Analyzing with Whisper...
+  0%|          | 0/15982 [00:00<?, ?frames/s]  0%|          | 0/15982 [00:10<?, ?frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (0.0% vocal)
+
+[8/62] Astor Piazzolla - Balada Para Un Loco
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/Piazzolla - Balada Para Un Loco - 1969 - Amelita Baltar.mp3
+  Analyzing with Whisper...
+  0%|          | 0/31139 [00:00<?, ?frames/s] 10%|▉         | 3000/31139 [00:02<00:23, 1208.04frames/s] 18%|█▊        | 5552/31139 [00:05<00:23, 1080.01frames/s] 23%|██▎       | 7252/31139 [00:07<00:24, 972.79frames/s]  32%|███▏      | 10064/31139 [00:08<00:18, 1159.84frames/s] 41%|████      | 12772/31139 [00:11<00:15, 1164.55frames/s] 49%|████▉     | 15392/31139 [00:13<00:12, 1223.07frames/s] 57%|█████▋    | 17640/31139 [00:15<00:11, 1226.55frames/s] 65%|██████▍   | 20222/31139 [00:16<00:08, 1306.69frames/s] 73%|███████▎  | 22786/31139 [00:18<00:06, 1338.31frames/s] 82%|████████▏ | 25400/31139 [00:19<00:03, 1499.18frames/s] 91%|█████████ | 28400/31139 [00:21<00:01, 1545.38frames/s]100%|██████████| 31139/31139 [00:23<00:00, 1614.07frames/s]100%|██████████| 31139/31139 [00:23<00:00, 1340.97frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (73.7% vocal)
+
+[9/62] Astor Piazzolla - La Ultima Curda
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/Piazzolla - La Ultima Curda - 1969 - Roberto Goyeneche.mp3
+  Analyzing with Whisper...
+  0%|          | 0/23265 [00:00<?, ?frames/s] 13%|█▎        | 3000/23265 [00:03<00:24, 838.03frames/s] 24%|██▎       | 5478/23265 [00:05<00:17, 1027.55frames/s] 36%|███▌      | 8268/23265 [00:07<00:12, 1228.30frames/s] 45%|████▍     | 10406/23265 [00:09<00:10, 1201.45frames/s] 54%|█████▎    | 12490/23265 [00:10<00:08, 1223.63frames/s] 64%|██████▍   | 14890/23265 [00:12<00:06, 1251.45frames/s] 74%|███████▎  | 17124/23265 [00:14<00:04, 1250.53frames/s] 84%|████████▎ | 19441/23265 [00:16<00:03, 1150.91frames/s] 96%|█████████▋| 22441/23265 [00:19<00:00, 1194.38frames/s] 96%|█████████▋| 22441/23265 [00:19<00:00, 1139.73frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (69.0% vocal)
+
+[10/62] Armando Pontier - Cambalache
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/Pontier - Cambalache - 1961 - Julio Sosa.mp3
+  Analyzing with Whisper...
+  0%|          | 0/18906 [00:00<?, ?frames/s] 15%|█▌        | 2876/18906 [00:03<00:17, 891.31frames/s] 29%|██▉       | 5476/18906 [00:05<00:12, 1048.35frames/s] 40%|███▉      | 7478/18906 [00:07<00:11, 1004.20frames/s] 54%|█████▍    | 10276/18906 [00:09<00:07, 1098.77frames/s] 69%|██████▉   | 13072/18906 [00:12<00:05, 1118.75frames/s] 84%|████████▍ | 15906/18906 [00:14<00:02, 1105.28frames/s] 84%|████████▍ | 15906/18906 [00:14<00:02, 1076.43frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (68.4% vocal)
+  [Checkpoint saved: 10 songs]
+
+[11/62] Raul Garello - Sin Palabras
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/Raul Garello - Sin Palabras - 1970 - Roberto Rufino.mp3
+  Analyzing with Whisper...
+  0%|          | 0/18161 [00:00<?, ?frames/s] 14%|█▍        | 2554/18161 [00:02<00:15, 980.94frames/s] 30%|██▉       | 5370/18161 [00:04<00:11, 1144.26frames/s] 46%|████▌     | 8370/18161 [00:05<00:06, 1600.54frames/s] 63%|██████▎   | 11368/18161 [00:07<00:04, 1591.65frames/s] 79%|███████▉  | 14368/18161 [00:08<00:01, 2013.18frames/s] 83%|████████▎ | 15161/18161 [00:09<00:01, 1796.21frames/s] 83%|████████▎ | 15161/18161 [00:09<00:01, 1617.76frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (47.6% vocal)
+
+[12/62] Raul Lavie - Como Dos Extranos
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/Raul Lavie - Como Dos Extranos - 1970 - Raul Lavie.mp3
+  Analyzing with Whisper...
+  0%|          | 0/20358 [00:00<?, ?frames/s] 13%|█▎        | 2746/20358 [00:01<00:07, 2514.57frames/s] 26%|██▌       | 5272/20358 [00:02<00:07, 1892.99frames/s] 37%|███▋      | 7632/20358 [00:04<00:06, 1839.73frames/s] 49%|████▊     | 9896/20358 [00:05<00:06, 1630.14frames/s] 61%|██████    | 12332/20358 [00:07<00:04, 1660.08frames/s] 73%|███████▎  | 14764/20358 [00:08<00:03, 1641.94frames/s] 84%|████████▍ | 17056/20358 [00:10<00:02, 1636.32frames/s] 99%|█████████▊| 20056/20358 [00:11<00:00, 1612.39frames/s]100%|██████████| 20358/20358 [00:12<00:00, 1332.03frames/s]100%|██████████| 20358/20358 [00:12<00:00, 1580.38frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (82.6% vocal)
+
+[13/62] Angel D'Agostino - Cafe Dominguez
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/gaps/Angel DAgostino - Cafe Dominguez - 1955 - Angel Vargas.mp3
+  Analyzing with Whisper...
+  0%|          | 0/17949 [00:00<?, ?frames/s] 15%|█▌        | 2714/17949 [00:01<00:11, 1365.31frames/s] 32%|███▏      | 5714/17949 [00:03<00:06, 1853.05frames/s] 49%|████▊     | 8712/17949 [00:05<00:06, 1440.71frames/s] 65%|██████▌   | 11710/17949 [00:07<00:03, 1564.95frames/s] 82%|████████▏ | 14708/17949 [00:09<00:01, 1685.38frames/s] 99%|█████████▊| 17706/17949 [00:15<00:00, 894.66frames/s]  99%|█████████▊| 17706/17949 [00:15<00:00, 1120.37frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (22.5% vocal)
+
+[14/62] Anibal Troilo - El Marne
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/gaps/Anibal Troilo - El Marne - 1941 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/17750 [00:00<?, ?frames/s]  0%|          | 0/17750 [00:02<?, ?frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (0.0% vocal)
+
+[15/62] Carlos Di Sarli - Paloma
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/gaps/Carlos Di Sarli - Paloma - 1954 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/16106 [00:00<?, ?frames/s]  0%|          | 0/16106 [00:02<?, ?frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (0.0% vocal)
+  [Checkpoint saved: 15 songs]
+
+[16/62] Edgardo Donato - Julian
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/gaps/Edgardo Donato - Julian - 1933 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/18328 [00:00<?, ?frames/s] 16%|█▋        | 3000/18328 [00:02<00:15, 1009.04frames/s] 16%|█▋        | 3000/18328 [00:05<00:27, 564.35frames/s] 
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (102.5% vocal)
+
+[17/62] Francisco Canaro - Noche de Reyes
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/gaps/Francisco Canaro - Noche de Reyes - 1941 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/18055 [00:00<?, ?frames/s] 17%|█▋        | 3000/18055 [00:02<00:14, 1067.16frames/s] 17%|█▋        | 3000/18055 [00:15<00:14, 1067.16frames/s] 31%|███       | 5610/18055 [00:16<00:41, 296.91frames/s]  47%|████▋     | 8454/18055 [00:19<00:21, 455.45frames/s] 63%|██████▎   | 11334/18055 [00:21<00:11, 586.16frames/s] 77%|███████▋  | 13970/18055 [00:26<00:06, 592.40frames/s] 83%|████████▎ | 15055/18055 [00:27<00:04, 648.95frames/s] 83%|████████▎ | 15055/18055 [00:27<00:05, 554.78frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (51.9% vocal)
+
+[18/62] Osvaldo Fresedo - El Espiante
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/gaps/Osvaldo Fresedo - El Espiante - 1947 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/18000 [00:00<?, ?frames/s] 17%|█▋        | 3000/18000 [00:07<00:39, 375.48frames/s] 31%|███       | 5538/18000 [00:15<00:36, 344.62frames/s] 47%|████▋     | 8538/18000 [00:18<00:18, 500.68frames/s] 63%|██████▎   | 11302/18000 [00:25<00:14, 456.27frames/s] 63%|██████▎   | 11302/18000 [00:26<00:15, 431.80frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (10.4% vocal)
+
+[19/62] Osvaldo Pugliese - Gallo Ciego
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/gaps/Osvaldo Pugliese - Gallo Ciego - 1948 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/21564 [00:00<?, ?frames/s] 14%|█▍        | 3000/21564 [00:02<00:16, 1112.68frames/s] 14%|█▍        | 3000/21564 [00:05<00:33, 550.53frames/s] 
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (21.4% vocal)
+
+[20/62] Osvaldo Pugliese - La Beba
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/gaps/Osvaldo Pugliese - La Beba - 1947 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/16728 [00:00<?, ?frames/s]  0%|          | 0/16728 [00:02<?, ?frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (0.0% vocal)
+  [Checkpoint saved: 20 songs]
+
+[21/62] Osvaldo Pugliese - Nochero Soy
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/gaps/Osvaldo Pugliese - Nochero Soy - 1962 - Jorge Vidal.mp3
+  Analyzing with Whisper...
+  0%|          | 0/20605 [00:00<?, ?frames/s] 15%|█▍        | 3000/20605 [00:02<00:16, 1037.22frames/s] 27%|██▋       | 5602/20605 [00:19<00:59, 251.31frames/s]  27%|██▋       | 5602/20605 [00:19<00:53, 281.45frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (1.4% vocal)
+
+[22/62] Angel Villoldo - Cuerpo de Alambre
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/primitivo/Angel Villoldo - Cuerpo de Alambre - 1905 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/22676 [00:00<?, ?frames/s] 13%|█▎        | 2984/22676 [00:17<01:53, 172.91frames/s] 25%|██▍       | 5668/22676 [00:20<00:53, 317.55frames/s] 37%|███▋      | 8500/22676 [00:23<00:31, 451.32frames/s] 45%|████▍     | 10124/22676 [00:33<00:41, 304.55frames/s] 56%|█████▌    | 12640/22676 [00:36<00:25, 388.06frames/s] 68%|██████▊   | 15440/22676 [00:39<00:13, 525.21frames/s] 81%|████████▏ | 18440/22676 [00:40<00:05, 743.02frames/s] 87%|████████▋ | 19676/22676 [00:41<00:03, 798.85frames/s] 87%|████████▋ | 19676/22676 [00:41<00:06, 477.98frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (50.5% vocal)
+
+[23/62] Angel Villoldo - El Choclo
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/primitivo/Angel Villoldo - El Choclo - 1913 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/20556 [00:00<?, ?frames/s]  0%|          | 0/20556 [00:02<?, ?frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (0.0% vocal)
+
+[24/62] Angel Villoldo - El Negro Alegre
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/primitivo/Angel Villoldo - El Negro Alegre - 1907 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/16738 [00:00<?, ?frames/s] 18%|█▊        | 3000/16738 [00:01<00:07, 1836.93frames/s] 29%|██▉       | 4816/16738 [00:03<00:08, 1440.45frames/s] 39%|███▉      | 6508/16738 [00:04<00:08, 1266.62frames/s] 52%|█████▏    | 8770/16738 [00:06<00:06, 1281.93frames/s] 65%|██████▌   | 10896/16738 [00:08<00:04, 1273.38frames/s] 78%|███████▊  | 13036/16738 [00:24<00:11, 318.40frames/s]  94%|█████████▍| 15796/16738 [00:26<00:02, 448.12frames/s]100%|██████████| 16738/16738 [00:30<00:00, 404.08frames/s]100%|██████████| 16738/16738 [00:30<00:00, 551.07frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (76.3% vocal)
+
+[25/62] Angel Villoldo - La Bicicleta
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/primitivo/Angel Villoldo - La Bicicleta - 1905 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/18518 [00:00<?, ?frames/s]  0%|          | 0/18518 [00:36<?, ?frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (0.0% vocal)
+  [Checkpoint saved: 25 songs]
+
+[26/62] Eduardo Arolas - Comme Il Faut
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_vieja/Eduardo Arolas - Comme Il Faut - 1913 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/15236 [00:00<?, ?frames/s]  0%|          | 0/15236 [00:18<?, ?frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (0.0% vocal)
+
+[27/62] Eduardo Arolas - El Marne
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_vieja/Eduardo Arolas - El Marne - 1914 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/18153 [00:00<?, ?frames/s]  0%|          | 0/18153 [00:40<?, ?frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (0.0% vocal)
+
+[28/62] Eduardo Arolas - La Cachila
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_vieja/Eduardo Arolas - La Cachila - 1914 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/26017 [00:00<?, ?frames/s] 12%|█▏        | 3000/26017 [00:05<00:44, 513.59frames/s] 19%|█▉        | 5017/26017 [00:12<00:53, 395.34frames/s] 19%|█▉        | 5017/26017 [00:12<00:50, 412.33frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (1.6% vocal)
+
+[29/62] Eduardo Arolas - Una Noche de Garufa
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_vieja/Eduardo Arolas - Una Noche de Garufa - 1914 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/14853 [00:00<?, ?frames/s] 15%|█▍        | 2182/14853 [00:56<05:28, 38.55frames/s] 15%|█▍        | 2182/14853 [01:08<05:28, 38.55frames/s] 19%|█▉        | 2853/14853 [01:17<05:28, 36.54frames/s] 19%|█▉        | 2853/14853 [01:17<05:24, 36.98frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (17.0% vocal)
+
+[30/62] Francisco Canaro - El Cachafaz
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_vieja/Francisco Canaro - El Cachafaz - 1922 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/18482 [00:00<?, ?frames/s]  0%|          | 0/18482 [00:32<?, ?frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (0.0% vocal)
+  [Checkpoint saved: 30 songs]
+
+[31/62] Francisco Canaro - Organito de la Tarde
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_vieja/Francisco Canaro - Organito de la Tarde - 1925 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/17322 [00:00<?, ?frames/s]  0%|          | 0/17322 [00:21<?, ?frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (0.0% vocal)
+
+[32/62] Juan Maglio - Comme Il Faut
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_vieja/Juan Maglio Pacho - Comme Il Faut - 1913 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/16000 [00:00<?, ?frames/s]  0%|          | 0/16000 [00:19<?, ?frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (0.0% vocal)
+
+[33/62] Juan Maglio - Rodriguez Pena
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_vieja/Juan Maglio Pacho - Rodriguez Pena - 1912 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/21133 [00:00<?, ?frames/s] 14%|█▍        | 3000/21133 [00:03<00:19, 937.25frames/s] 14%|█▍        | 3000/21133 [00:15<00:19, 937.25frames/s] 14%|█▍        | 3000/21133 [01:13<07:23, 40.91frames/s] 
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (5.3% vocal)
+
+[34/62] Julio De Caro - Boedo
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_vieja/Julio De Caro - Boedo - 1928 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/17860 [00:00<?, ?frames/s]  0%|          | 0/17860 [00:06<?, ?frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (0.0% vocal)
+
+[35/62] Julio De Caro - Mala Junta
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_vieja/Julio De Caro - Mala Junta - 1927 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/26666 [00:00<?, ?frames/s]  0%|          | 0/26666 [00:03<?, ?frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (0.0% vocal)
+  [Checkpoint saved: 35 songs]
+
+[36/62] Orquesta Tipica Victor - El Choclo
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_vieja/Orquesta Tipica Victor - El Choclo - 1926 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/16505 [00:00<?, ?frames/s]  0%|          | 0/16505 [00:02<?, ?frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (0.0% vocal)
+
+[37/62] Orquesta Tipica Victor - La Cumparsita
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_vieja/Orquesta Tipica Victor - La Cumparsita - 1927 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/17007 [00:00<?, ?frames/s]  0%|          | 0/17007 [00:02<?, ?frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (0.0% vocal)
+
+[38/62] Roberto Firpo - El Amanecer
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_vieja/Roberto Firpo - El Amanecer - 1920 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/13687 [00:00<?, ?frames/s]  0%|          | 0/13687 [00:02<?, ?frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (0.0% vocal)
+
+[39/62] Roberto Firpo - La Cumparsita
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_vieja/Roberto Firpo - La Cumparsita - 1916 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/20134 [00:00<?, ?frames/s] 11%|█         | 2134/20134 [00:33<04:42, 63.72frames/s] 11%|█         | 2134/20134 [00:33<04:42, 63.72frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (0.0% vocal)
+
+[40/62] Roberto Firpo - Sentimiento Gaucho
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_vieja/Roberto Firpo - Sentimiento Gaucho - 1921 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/15993 [00:00<?, ?frames/s]  0%|          | 0/15993 [00:02<?, ?frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (0.0% vocal)
+  [Checkpoint saved: 40 songs]
+
+[41/62] Vicente Greco - Don Juan
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_vieja/Vicente Greco - Don Juan - 1910 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/21021 [00:00<?, ?frames/s]  0%|          | 0/21021 [00:38<?, ?frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (0.0% vocal)
+
+[42/62] Vicente Greco - Ojos Negros
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_vieja/Vicente Greco - Ojos Negros - 1912 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/17113 [00:00<?, ?frames/s]  0%|          | 0/17113 [00:32<?, ?frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (0.0% vocal)
+
+[43/62] Carlos Di Sarli - Chau Pinela
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_nueva/Carlos Di Sarli - Chau Pinela - 1930 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/15412 [00:00<?, ?frames/s] 19%|█▉        | 2998/15412 [00:03<00:13, 889.53frames/s] 37%|███▋      | 5654/15412 [00:06<00:10, 910.65frames/s] 56%|█████▌    | 8654/15412 [00:10<00:08, 761.79frames/s] 56%|█████▌    | 8654/15412 [00:11<00:09, 739.81frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (41.6% vocal)
+
+[44/62] Edgardo Donato - A Media Luz
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_nueva/Edgardo Donato - A Media Luz - 1927 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/13213 [00:00<?, ?frames/s]  0%|          | 0/13213 [00:04<?, ?frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (0.0% vocal)
+
+[45/62] Edgardo Donato - El Huracan
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_nueva/Edgardo Donato - El Huracan - 1932 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/18062 [00:00<?, ?frames/s] 17%|█▋        | 2998/18062 [00:10<00:51, 289.92frames/s] 30%|██▉       | 5352/18062 [00:12<00:26, 483.41frames/s] 46%|████▌     | 8352/18062 [00:14<00:13, 736.29frames/s] 63%|██████▎   | 11312/18062 [00:23<00:13, 487.18frames/s] 63%|██████▎   | 11312/18062 [00:23<00:14, 479.49frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (29.9% vocal)
+  [Checkpoint saved: 45 songs]
+
+[46/62] Edgardo Donato - Julian
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_nueva/Edgardo Donato - Julian - 1933 - Romeo Gavioli.mp3
+  Analyzing with Whisper...
+  0%|          | 0/18328 [00:00<?, ?frames/s]  1%|▏         | 234/18328 [00:02<03:34, 84.29frames/s]  1%|▏         | 234/18328 [00:05<07:16, 41.44frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (101.7% vocal)
+
+[47/62] Francisco Canaro - Milonga Sentimental
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_nueva/Francisco Canaro - Milonga Sentimental - 1932 - Francisco Amor.mp3
+  Analyzing with Whisper...
+  0%|          | 0/18718 [00:00<?, ?frames/s]  1%|▏         | 250/18718 [00:03<04:16, 71.98frames/s] 15%|█▍        | 2748/18718 [00:06<00:29, 532.55frames/s] 27%|██▋       | 5130/18718 [00:08<00:18, 746.15frames/s] 43%|████▎     | 8130/18718 [00:09<00:10, 1048.04frames/s] 59%|█████▉    | 11130/18718 [00:11<00:05, 1395.79frames/s] 68%|██████▊   | 12718/18718 [00:12<00:04, 1452.02frames/s] 68%|██████▊   | 12718/18718 [00:12<00:05, 1053.68frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (28.6% vocal)
+
+[48/62] Osvaldo Fresedo - Chau Pinela
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_nueva/Osvaldo Fresedo - Chau Pinela - 1930 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/15620 [00:00<?, ?frames/s] 18%|█▊        | 2834/15620 [00:03<00:16, 770.06frames/s] 37%|███▋      | 5834/15620 [00:04<00:06, 1449.54frames/s] 37%|███▋      | 5834/15620 [00:09<00:16, 605.02frames/s] 
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (33.1% vocal)
+
+[49/62] Osvaldo Fresedo - El Espiante
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_nueva/Osvaldo Fresedo - El Espiante - 1931 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/17808 [00:00<?, ?frames/s]  0%|          | 0/17808 [00:08<?, ?frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (0.0% vocal)
+
+[50/62] Osvaldo Fresedo - Pampero
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_nueva/Osvaldo Fresedo - Pampero - 1930 - instrumental.mp3
+  Analyzing with Whisper...
+  0%|          | 0/20208 [00:00<?, ?frames/s] 15%|█▍        | 3000/20208 [00:01<00:08, 2081.05frames/s] 30%|██▉       | 6000/20208 [00:08<00:23, 605.90frames/s]  43%|████▎     | 8674/20208 [00:11<00:16, 720.83frames/s] 58%|█████▊    | 11674/20208 [00:18<00:15, 568.65frames/s] 70%|███████   | 14208/20208 [00:19<00:07, 759.37frames/s] 70%|███████   | 14208/20208 [00:19<00:08, 725.76frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (26.8% vocal)
+  [Checkpoint saved: 50 songs]
+
+[51/62] Osvaldo Fresedo - Sollozos
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_nueva/Osvaldo Fresedo - Sollozos - 1933 - Roberto Ray.mp3
+  Analyzing with Whisper...
+  0%|          | 0/21305 [00:00<?, ?frames/s] 14%|█▍        | 2998/21305 [00:12<01:14, 244.65frames/s] 27%|██▋       | 5668/21305 [00:14<00:35, 436.08frames/s] 41%|████      | 8668/21305 [00:16<00:19, 658.15frames/s] 41%|████      | 8668/21305 [00:17<00:24, 508.10frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (22.5% vocal)
+
+[52/62] Osvaldo Fresedo - Vida Mia
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/guardia_nueva/Osvaldo Fresedo - Vida Mia - 1933 - Roberto Ray.mp3
+  Analyzing with Whisper...
+  0%|          | 0/20283 [00:00<?, ?frames/s]  9%|▉         | 1800/20283 [00:15<02:40, 115.08frames/s] 18%|█▊        | 3750/20283 [00:16<01:03, 260.94frames/s] 33%|███▎      | 6750/20283 [00:18<00:25, 538.27frames/s] 33%|███▎      | 6750/20283 [00:22<00:45, 296.59frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (28.7% vocal)
+
+[53/62] Carlos Gardel - Cuesta Abajo
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/gardel/Carlos Gardel - Cuesta Abajo - 1934 - Carlos Gardel.mp3
+  Analyzing with Whisper...
+  0%|          | 0/17365 [00:00<?, ?frames/s] 11%|█▏        | 1974/17365 [00:02<00:16, 954.08frames/s] 22%|██▏       | 3870/17365 [00:03<00:13, 973.93frames/s] 35%|███▍      | 6066/17365 [00:05<00:10, 1036.54frames/s] 48%|████▊     | 8282/17365 [00:08<00:08, 1054.18frames/s] 64%|██████▎   | 11070/17365 [00:10<00:06, 1005.65frames/s] 76%|███████▋  | 13264/17365 [00:13<00:04, 991.12frames/s]  89%|████████▊ | 15372/17365 [00:15<00:02, 990.98frames/s]100%|██████████| 17365/17365 [00:17<00:00, 1030.84frames/s]100%|██████████| 17365/17365 [00:17<00:00, 1014.70frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (84.8% vocal)
+
+[54/62] Carlos Gardel - El Choclo
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/gardel/Carlos Gardel - El Choclo - 1930 - Carlos Gardel.mp3
+  Analyzing with Whisper...
+  0%|          | 0/16352 [00:00<?, ?frames/s] 18%|█▊        | 3000/16352 [00:02<00:12, 1036.90frames/s] 18%|█▊        | 3000/16352 [00:04<00:21, 625.54frames/s] 
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: INSTRUMENTAL (9.3% vocal)
+
+[55/62] Carlos Gardel - El Dia Que Me Quieras
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/gardel/Carlos Gardel - El Dia Que Me Quieras - 1935 - Carlos Gardel.mp3
+  Analyzing with Whisper...
+  0%|          | 0/20880 [00:00<?, ?frames/s] 12%|█▏        | 2408/20880 [00:11<01:27, 210.77frames/s] 25%|██▌       | 5258/20880 [00:13<00:33, 460.94frames/s] 38%|███▊      | 7872/20880 [00:14<00:19, 683.57frames/s] 49%|████▉     | 10314/20880 [00:16<00:12, 853.09frames/s] 63%|██████▎   | 13188/20880 [00:17<00:07, 1097.22frames/s] 76%|███████▌  | 15824/20880 [00:20<00:04, 1113.13frames/s] 87%|████████▋ | 18204/20880 [00:21<00:02, 1270.19frames/s] 92%|█████████▏| 19204/20880 [00:22<00:01, 1239.54frames/s]100%|██████████| 20880/20880 [00:23<00:00, 1347.40frames/s]100%|██████████| 20880/20880 [00:23<00:00, 892.47frames/s] 
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (73.7% vocal)
+  [Checkpoint saved: 55 songs]
+
+[56/62] Carlos Gardel - Melodia de Arrabal
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/gardel/Carlos Gardel - Melodia de Arrabal - 1933 - Carlos Gardel.mp3
+  Analyzing with Whisper...
+  0%|          | 0/15344 [00:00<?, ?frames/s] 15%|█▍        | 2262/15344 [00:01<00:10, 1267.12frames/s] 31%|███▏      | 4826/15344 [00:04<00:08, 1183.45frames/s] 50%|████▉     | 7610/15344 [00:06<00:06, 1211.79frames/s] 67%|██████▋   | 10250/15344 [00:08<00:04, 1144.46frames/s] 85%|████████▌ | 13076/15344 [00:11<00:01, 1141.81frames/s]100%|██████████| 15344/15344 [00:12<00:00, 1194.90frames/s]100%|██████████| 15344/15344 [00:12<00:00, 1183.97frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (82.4% vocal)
+
+[57/62] Carlos Gardel - Mi Buenos Aires Querido
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/gardel/Carlos Gardel - Mi Buenos Aires Querido - 1934 - Carlos Gardel.mp3
+  Analyzing with Whisper...
+  0%|          | 0/15127 [00:00<?, ?frames/s] 19%|█▉        | 2838/15127 [00:07<00:34, 358.61frames/s] 36%|███▌      | 5436/15127 [00:10<00:17, 563.05frames/s] 54%|█████▍    | 8232/15127 [00:12<00:09, 738.36frames/s] 72%|███████▏  | 10954/15127 [00:15<00:05, 804.16frames/s] 90%|█████████ | 13660/15127 [00:17<00:01, 947.90frames/s]100%|██████████| 15127/15127 [00:22<00:00, 683.91frames/s]100%|██████████| 15127/15127 [00:22<00:00, 684.21frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (86.7% vocal)
+
+[58/62] Carlos Gardel - Mi Noche Triste
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/gardel/Carlos Gardel - Mi Noche Triste - 1917 - Carlos Gardel.mp3
+  Analyzing with Whisper...
+  0%|          | 0/19604 [00:00<?, ?frames/s] 15%|█▌        | 3000/19604 [00:09<00:54, 303.68frames/s] 28%|██▊       | 5578/19604 [00:12<00:27, 503.16frames/s] 40%|███▉      | 7802/19604 [00:14<00:18, 644.12frames/s] 52%|█████▏    | 10102/19604 [00:16<00:12, 744.81frames/s] 64%|██████▍   | 12574/19604 [00:18<00:08, 878.28frames/s] 76%|███████▌  | 14912/19604 [00:20<00:05, 931.15frames/s] 85%|████████▍ | 16604/19604 [00:23<00:03, 797.26frames/s] 85%|████████▍ | 16604/19604 [00:23<00:04, 699.78frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (57.1% vocal)
+
+[59/62] Carlos Gardel - Por Una Cabeza
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/gardel/Carlos Gardel - Por Una Cabeza - 1935 - Carlos Gardel.mp3
+  Analyzing with Whisper...
+  0%|          | 0/15044 [00:00<?, ?frames/s] 20%|█▉        | 3000/15044 [00:07<00:30, 395.35frames/s] 37%|███▋      | 5630/15044 [00:09<00:14, 655.35frames/s] 55%|█████▍    | 8222/15044 [00:11<00:08, 828.37frames/s] 71%|███████▏  | 10752/15044 [00:13<00:04, 901.78frames/s] 90%|█████████ | 13598/15044 [00:16<00:01, 1023.05frames/s]100%|██████████| 15044/15044 [00:17<00:00, 1062.73frames/s]100%|██████████| 15044/15044 [00:17<00:00, 869.33frames/s] 
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (76.1% vocal)
+
+[60/62] Carlos Gardel - Silencio
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/gardel/Carlos Gardel - Silencio - 1932 - Carlos Gardel.mp3
+  Analyzing with Whisper...
+  0%|          | 0/16705 [00:00<?, ?frames/s] 18%|█▊        | 2998/16705 [00:02<00:09, 1394.65frames/s] 33%|███▎      | 5554/16705 [00:04<00:08, 1326.27frames/s] 48%|████▊     | 8090/16705 [00:06<00:06, 1316.61frames/s] 64%|██████▍   | 10672/16705 [00:08<00:04, 1310.06frames/s] 80%|████████  | 13392/16705 [00:10<00:02, 1300.44frames/s] 98%|█████████▊| 16392/16705 [00:12<00:00, 1369.34frames/s]100%|██████████| 16705/16705 [00:14<00:00, 986.51frames/s] 100%|██████████| 16705/16705 [00:14<00:00, 1182.23frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (70.5% vocal)
+  [Checkpoint saved: 60 songs]
+
+[61/62] Carlos Gardel - Sus Ojos Se Cerraron
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/gardel/Carlos Gardel - Sus Ojos Se Cerraron - 1935 - Carlos Gardel.mp3
+  Analyzing with Whisper...
+  0%|          | 0/15400 [00:00<?, ?frames/s] 17%|█▋        | 2684/15400 [00:02<00:13, 951.14frames/s] 34%|███▍      | 5258/15400 [00:05<00:09, 1041.95frames/s] 52%|█████▏    | 8072/15400 [00:07<00:06, 1050.48frames/s] 71%|███████▏  | 11008/15400 [00:11<00:04, 985.95frames/s] 90%|█████████ | 13866/15400 [00:13<00:01, 1011.74frames/s]100%|██████████| 15400/15400 [00:14<00:00, 1081.66frames/s]100%|██████████| 15400/15400 [00:14<00:00, 1042.20frames/s]
+/Users/tobybalsley/MyDocs/AppDev/tunes/tango/MusicImport/vocal_detection/venv/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+  warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+  Result: SINGER (96.0% vocal)
+
+[62/62] Carlos Gardel - Volver
+  Source: /Users/tobybalsley/tunes/tango/MusicRips/oldguard/gardel/Carlos Gardel - Volver - 1935 - Carlos Gardel.mp3
+  Analyzing with Whisper...
+  0%|          | 0/18000 [00:00<?, ?frames/s] 15%|█▍        | 2688/18000 [00:01<00:10, 1394.94frames/s] 29%|██▊       | 5152/18000 [00:03<00:09, 1308.96frames/s] 41%|████▏     | 7448/18000 [00:05<00:08, 1312.66frames/s] 54%|█████▍    | 9756/18000 [00:07<00:06, 1320.43frames/s] 68%|██████▊   | 12200/18000 [00:09<00:04, 1305.35frames/s] 84%|████████▍ | 15200/18000 [00:11<00:01, 1404.69frames/s]100%|██████████| 18000/18000 [00:12<00:00, 1609.60frames/s]100%|██████████| 18000/18000 [00:12<00:00, 1449.66frames/s]
+  Result: SINGER (84.7% vocal)
+
+============================================================
+=== Complete ===
+============================================================
+Processed: 62
+Failed: 0
+Total in analysis: 5516

@@ -1,0 +1,161 @@
+{
+  "version": 1,
+  "generated": "2026-02-27",
+  "purpose": "NTTT database expansion — Old Guard and pre-Golden Age tango songs for YouTube/Archive.org ripping",
+  "publicDomainNotes": {
+    "US": "All recordings before 1926 are fully public domain as of 2026 (100-year rolling window per MMA Act)",
+    "Argentina": "70 years post-publication — most pre-1956 recordings are PD",
+    "practical": "Archive.org hosts these legally. YouTube 78rpm channels are generally safe for PD rips."
+  },
+  "eras": {
+    "primitivo": "1895–1910 — Proto-tango, acoustic horn recording, historical value",
+    "guardia_vieja_1": "1910–1920 — First orchestras, primitive recording, NTTT historical tier",
+    "guardia_vieja_2": "1920–1928 — Electrical recording, mature orchestras, some danceable",
+    "guardia_nueva": "1928–1935 — Pre-Golden Age, fully formed orchestras, danceable",
+    "early_golden": "1935–1940 — D'Arienzo Revolution, modern tango is born"
+  },
+  "songs": [
+    { "id": "og001", "title": "El Choclo", "composer": "Ángel Villoldo", "orchestra": "Ángel Villoldo", "singer": null, "year": 1913, "style": "Tango", "era": "primitivo", "publicDomain": true, "danceable": false, "ntttValue": "historical", "source": "archive.org", "notes": "THE original tango. Villoldo self-recorded." },
+    { "id": "og002", "title": "El Pimpolla", "composer": "Ángel Villoldo", "orchestra": "Ángel Villoldo", "singer": null, "year": 1904, "style": "Tango", "era": "primitivo", "publicDomain": true, "danceable": false, "ntttValue": "historical", "source": "archive.org" },
+    { "id": "og003", "title": "La Bicicleta", "composer": "Ángel Villoldo", "orchestra": "Ángel Villoldo", "singer": null, "year": 1905, "style": "Tango", "era": "primitivo", "publicDomain": true, "danceable": false, "ntttValue": "historical", "source": "archive.org" },
+    { "id": "og004", "title": "Cuerpo de Alambre", "composer": "Ángel Villoldo", "orchestra": "Ángel Villoldo", "singer": null, "year": 1905, "style": "Tango", "era": "primitivo", "publicDomain": true, "danceable": false, "ntttValue": "historical", "source": "archive.org" },
+    { "id": "og005", "title": "Pamperito", "composer": "Ángel Villoldo", "orchestra": "Ángel Villoldo", "singer": null, "year": 1907, "style": "Tango", "era": "primitivo", "publicDomain": true, "danceable": false, "ntttValue": "historical", "source": "archive.org" },
+    { "id": "og006", "title": "El Negro Alegre", "composer": "Ángel Villoldo", "orchestra": "Ángel Villoldo", "singer": null, "year": 1907, "style": "Tango", "era": "primitivo", "publicDomain": true, "danceable": false, "ntttValue": "historical", "source": "archive.org", "notes": "Afro-Argentine influenced" },
+    { "id": "og007", "title": "Soy Tremendo", "composer": "Ángel Villoldo", "orchestra": "Ángel Villoldo", "singer": null, "year": 1907, "style": "Tango", "era": "primitivo", "publicDomain": true, "danceable": false, "ntttValue": "historical", "source": "archive.org" },
+    { "id": "og008", "title": "Calandria", "composer": "Ángel Villoldo", "orchestra": "Ángel Villoldo", "singer": null, "year": 1907, "style": "Tango", "era": "primitivo", "publicDomain": true, "danceable": false, "ntttValue": "historical", "source": "archive.org" },
+
+    { "id": "og009", "title": "Don Juan", "composer": "Ernesto Ponzio", "orchestra": "Vicente Greco", "singer": null, "year": 1910, "style": "Tango", "era": "guardia_vieja_1", "publicDomain": true, "danceable": false, "ntttValue": "historical", "source": "archive.org", "notes": "First tango ever recorded by an orchestra" },
+    { "id": "og010", "title": "Alma Porteña", "composer": "Vicente Greco", "orchestra": "Vicente Greco", "singer": null, "year": 1910, "style": "Tango", "era": "guardia_vieja_1", "publicDomain": true, "danceable": false, "ntttValue": "historical", "source": "archive.org" },
+    { "id": "og011", "title": "La Milonguera", "composer": "Vicente Greco", "orchestra": "Vicente Greco", "singer": null, "year": 1912, "style": "Milonga", "era": "guardia_vieja_1", "publicDomain": true, "danceable": false, "ntttValue": "historical", "source": "archive.org" },
+    { "id": "og012", "title": "Ojos Negros", "composer": "Vicente Greco", "orchestra": "Vicente Greco", "singer": null, "year": 1912, "style": "Tango", "era": "guardia_vieja_1", "publicDomain": true, "danceable": false, "ntttValue": "historical", "source": "archive.org" },
+    { "id": "og013", "title": "Argentina", "composer": "Vicente Greco", "orchestra": "Vicente Greco", "singer": null, "year": 1913, "style": "Tango", "era": "guardia_vieja_1", "publicDomain": true, "danceable": false, "ntttValue": "historical", "source": "archive.org" },
+    { "id": "og014", "title": "La Percanta Está Triste", "composer": "Vicente Greco", "orchestra": "Vicente Greco", "singer": null, "year": 1913, "style": "Tango", "era": "guardia_vieja_1", "publicDomain": true, "danceable": false, "ntttValue": "historical", "source": "archive.org" },
+
+    { "id": "og015", "title": "Rodríguez Peña", "composer": "Juan Maglio Pacho", "orchestra": "Juan Maglio Pacho", "singer": null, "year": 1912, "style": "Tango", "era": "guardia_vieja_1", "publicDomain": true, "danceable": false, "ntttValue": "medium", "source": "archive.org", "notes": "Essential Pacho — bandoneon showcase" },
+    { "id": "og016", "title": "Comme Il Faut", "composer": "Eduardo Arolas", "orchestra": "Juan Maglio Pacho", "singer": null, "year": 1913, "style": "Tango", "era": "guardia_vieja_1", "publicDomain": true, "danceable": false, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og017", "title": "Cara Sucia", "composer": "Juan Maglio Pacho", "orchestra": "Juan Maglio Pacho", "singer": null, "year": 1913, "style": "Tango", "era": "guardia_vieja_1", "publicDomain": true, "danceable": false, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og018", "title": "Nogoyá", "composer": "Juan Maglio Pacho", "orchestra": "Juan Maglio Pacho", "singer": null, "year": 1914, "style": "Tango", "era": "guardia_vieja_1", "publicDomain": true, "danceable": false, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og019", "title": "El Marne (Pacho version)", "composer": "Eduardo Arolas", "orchestra": "Juan Maglio Pacho", "singer": null, "year": 1914, "style": "Tango", "era": "guardia_vieja_1", "publicDomain": true, "danceable": false, "ntttValue": "high", "source": "archive.org", "notes": "Same title as Troilo classic — earlier version, important distinction for game" },
+
+    { "id": "og020", "title": "La Cachila", "composer": "Eduardo Arolas", "orchestra": "Eduardo Arolas", "singer": null, "year": 1914, "style": "Tango", "era": "guardia_vieja_1", "publicDomain": true, "danceable": false, "ntttValue": "high", "source": "archive.org", "notes": "Arolas signature — wild syncopation. Same title as Pugliese classic." },
+    { "id": "og021", "title": "Comme Il Faut (Arolas)", "composer": "Eduardo Arolas", "orchestra": "Eduardo Arolas", "singer": null, "year": 1913, "style": "Tango", "era": "guardia_vieja_1", "publicDomain": true, "danceable": false, "ntttValue": "high", "source": "archive.org", "notes": "He composed this — definitive version" },
+    { "id": "og022", "title": "Una Noche de Garufa", "composer": "Eduardo Arolas", "orchestra": "Eduardo Arolas", "singer": null, "year": 1914, "style": "Tango", "era": "guardia_vieja_1", "publicDomain": true, "danceable": false, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og023", "title": "La Guitarrita", "composer": "Eduardo Arolas", "orchestra": "Eduardo Arolas", "singer": null, "year": 1914, "style": "Tango", "era": "guardia_vieja_1", "publicDomain": true, "danceable": false, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og024", "title": "Retinto", "composer": "Eduardo Arolas", "orchestra": "Eduardo Arolas", "singer": null, "year": 1915, "style": "Tango", "era": "guardia_vieja_1", "publicDomain": true, "danceable": false, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og025", "title": "El Marne (Arolas)", "composer": "Eduardo Arolas", "orchestra": "Eduardo Arolas", "singer": null, "year": 1914, "style": "Tango", "era": "guardia_vieja_1", "publicDomain": true, "danceable": false, "ntttValue": "high", "source": "archive.org", "notes": "THE definitive Guardia Vieja El Marne" },
+
+    { "id": "og026", "title": "Mi Noche Triste", "composer": "Samuel Castriota", "orchestra": "Samuel Castriota", "singer": "Carlos Gardel", "year": 1917, "style": "Tango", "era": "guardia_vieja_1", "publicDomain": true, "danceable": false, "ntttValue": "high", "source": "archive.org", "notes": "First tango canción ever recorded. Gardel debut." },
+    { "id": "og027", "title": "Nido de Amor", "composer": "Samuel Castriota", "orchestra": "Samuel Castriota", "singer": null, "year": 1916, "style": "Tango", "era": "guardia_vieja_1", "publicDomain": true, "danceable": false, "ntttValue": "medium", "source": "archive.org" },
+
+    { "id": "og028", "title": "La Cumparsita (1916)", "composer": "Gerardo Matos Rodríguez", "orchestra": "Roberto Firpo", "singer": null, "year": 1916, "style": "Tango", "era": "guardia_vieja_1", "publicDomain": true, "danceable": false, "ntttValue": "high", "source": "archive.org", "notes": "FIRST EVER recording of La Cumparsita" },
+    { "id": "og029", "title": "El Amanecer", "composer": "Roberto Firpo", "orchestra": "Roberto Firpo", "singer": null, "year": 1920, "style": "Tango", "era": "guardia_vieja_2", "publicDomain": true, "danceable": false, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og030", "title": "Loca (Firpo)", "composer": "Manuel Jovés", "orchestra": "Roberto Firpo", "singer": null, "year": 1920, "style": "Tango", "era": "guardia_vieja_2", "publicDomain": true, "danceable": false, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og031", "title": "Sentimiento Gaucho", "composer": "Roberto Firpo", "orchestra": "Roberto Firpo", "singer": null, "year": 1921, "style": "Tango", "era": "guardia_vieja_2", "publicDomain": true, "danceable": false, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og032", "title": "La Cumparsita (Firpo 1924)", "composer": "Gerardo Matos Rodríguez", "orchestra": "Roberto Firpo", "singer": null, "year": 1924, "style": "Tango", "era": "guardia_vieja_2", "publicDomain": true, "danceable": false, "ntttValue": "high", "source": "archive.org" },
+    { "id": "og033", "title": "Unión Cívica", "composer": "Roberto Firpo", "orchestra": "Roberto Firpo", "singer": null, "year": 1924, "style": "Tango", "era": "guardia_vieja_2", "publicDomain": true, "danceable": false, "ntttValue": "medium", "source": "archive.org" },
+
+    { "id": "og034", "title": "Organito de la Tarde (Canaro 1925)", "composer": "Carlos Gardel", "orchestra": "Francisco Canaro", "singer": null, "year": 1925, "style": "Tango", "era": "guardia_vieja_2", "publicDomain": true, "danceable": true, "ntttValue": "high", "source": "archive.org", "notes": "Most important early Canaro. Compare to Di Sarli 1954 version in DB." },
+    { "id": "og035", "title": "El Cachafaz", "composer": "Francisco Canaro", "orchestra": "Francisco Canaro", "singer": null, "year": 1922, "style": "Tango", "era": "guardia_vieja_2", "publicDomain": true, "danceable": false, "ntttValue": "medium", "source": "archive.org", "notes": "Named after legendary dancer Benito Bianquet" },
+    { "id": "og036", "title": "Mala Entraña", "composer": "Francisco Canaro", "orchestra": "Francisco Canaro", "singer": null, "year": 1923, "style": "Tango", "era": "guardia_vieja_2", "publicDomain": true, "danceable": false, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og037", "title": "El Internado (Canaro)", "composer": "Francisco Canaro", "orchestra": "Francisco Canaro", "singer": null, "year": 1926, "style": "Tango", "era": "guardia_vieja_2", "publicDomain": true, "danceable": false, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og038", "title": "Milonga Sentimental", "composer": "Sebastian Piana", "orchestra": "Francisco Canaro", "singer": "Francisco Amor", "year": 1932, "style": "Milonga", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "high", "source": "archive.org", "notes": "THE canonical milonga. Canaro's most played milonga." },
+    { "id": "og039", "title": "Poema (Canaro)", "composer": "Eduardo Bianco", "orchestra": "Francisco Canaro", "singer": "Roberto Maida", "year": 1935, "style": "Tango", "era": "early_golden", "publicDomain": true, "danceable": true, "ntttValue": "high", "source": "archive.org" },
+
+    { "id": "og040", "title": "El Choclo (OTV)", "composer": "Ángel Villoldo", "orchestra": "Orquesta Típica Victor", "singer": null, "year": 1926, "style": "Tango", "era": "guardia_vieja_2", "publicDomain": true, "danceable": false, "ntttValue": "high", "source": "archive.org", "notes": "Definitive early electric recording" },
+    { "id": "og041", "title": "La Cumparsita (OTV)", "composer": "Gerardo Matos Rodríguez", "orchestra": "Orquesta Típica Victor", "singer": null, "year": 1927, "style": "Tango", "era": "guardia_vieja_2", "publicDomain": true, "danceable": false, "ntttValue": "high", "source": "archive.org" },
+    { "id": "og042", "title": "Cara Sucia (OTV)", "composer": "Juan Maglio Pacho", "orchestra": "Orquesta Típica Victor", "singer": null, "year": 1926, "style": "Tango", "era": "guardia_vieja_2", "publicDomain": true, "danceable": false, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og043", "title": "Milonga del '900", "composer": "Sebastian Piana", "orchestra": "Orquesta Típica Victor", "singer": null, "year": 1930, "style": "Milonga", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "high", "source": "archive.org" },
+    { "id": "og044", "title": "Madrugada (OTV)", "composer": null, "orchestra": "Orquesta Típica Victor", "singer": null, "year": 1928, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og045", "title": "Cordobesita", "composer": null, "orchestra": "Orquesta Típica Victor", "singer": "Rosita Quiroga", "year": 1929, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": false, "ntttValue": "medium", "source": "archive.org" },
+
+    { "id": "og046", "title": "Boedo", "composer": "Julio De Caro", "orchestra": "Julio De Caro", "singer": null, "year": 1928, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "high", "source": "archive.org", "notes": "De Caro's most famous piece — named after Buenos Aires barrio" },
+    { "id": "og047", "title": "Mala Junta (De Caro)", "composer": "Julio De Caro", "orchestra": "Julio De Caro", "singer": null, "year": 1927, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "high", "source": "archive.org", "notes": "Pre-Pugliese version of this title" },
+    { "id": "og048", "title": "La Rayuela", "composer": "Julio De Caro", "orchestra": "Julio De Caro", "singer": null, "year": 1927, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og049", "title": "Tierra Querida (De Caro)", "composer": "Julio De Caro", "orchestra": "Julio De Caro", "singer": null, "year": 1928, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "medium", "source": "archive.org", "notes": "Same title as Pugliese classic — different piece" },
+    { "id": "og050", "title": "Buen Amigo", "composer": "Julio De Caro", "orchestra": "Julio De Caro", "singer": null, "year": 1925, "style": "Tango", "era": "guardia_vieja_2", "publicDomain": true, "danceable": false, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og051", "title": "Orgullo Criollo", "composer": "Julio De Caro", "orchestra": "Julio De Caro", "singer": null, "year": 1928, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "medium", "source": "archive.org" },
+
+    { "id": "og052", "title": "Mi Noche Triste (Gardel 1917)", "composer": "Samuel Castriota", "orchestra": "Guillermo Barbieri", "singer": "Carlos Gardel", "year": 1917, "style": "Tango", "era": "guardia_vieja_1", "publicDomain": true, "danceable": false, "ntttValue": "high", "source": "archive.org", "notes": "The birth of tango canción" },
+    { "id": "og053", "title": "El Choclo (Gardel)", "composer": "Ángel Villoldo", "orchestra": null, "singer": "Carlos Gardel", "year": 1930, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": false, "ntttValue": "high", "source": "archive.org" },
+    { "id": "og054", "title": "Por Una Cabeza", "composer": "Carlos Gardel", "orchestra": null, "singer": "Carlos Gardel", "year": 1935, "style": "Tango", "era": "early_golden", "publicDomain": true, "danceable": false, "ntttValue": "high", "source": "archive.org", "notes": "Greatest Gardel late song. Scent of a Woman." },
+    { "id": "og055", "title": "Volver", "composer": "Carlos Gardel", "orchestra": null, "singer": "Carlos Gardel", "year": 1935, "style": "Tango", "era": "early_golden", "publicDomain": true, "danceable": false, "ntttValue": "high", "source": "archive.org", "notes": "Tango of exile. Eternal." },
+    { "id": "og056", "title": "El Día Que Me Quieras", "composer": "Carlos Gardel", "orchestra": null, "singer": "Carlos Gardel", "year": 1935, "style": "Tango", "era": "early_golden", "publicDomain": true, "danceable": false, "ntttValue": "high", "source": "archive.org" },
+    { "id": "og057", "title": "Mi Buenos Aires Querido", "composer": "Carlos Gardel", "orchestra": null, "singer": "Carlos Gardel", "year": 1934, "style": "Tango", "era": "early_golden", "publicDomain": true, "danceable": false, "ntttValue": "high", "source": "archive.org" },
+    { "id": "og058", "title": "Silencio", "composer": "Carlos Gardel", "orchestra": null, "singer": "Carlos Gardel", "year": 1932, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": false, "ntttValue": "high", "source": "archive.org" },
+    { "id": "og059", "title": "Sus Ojos Se Cerraron", "composer": "Carlos Gardel", "orchestra": null, "singer": "Carlos Gardel", "year": 1935, "style": "Tango", "era": "early_golden", "publicDomain": true, "danceable": false, "ntttValue": "high", "source": "archive.org" },
+    { "id": "og060", "title": "Melodía de Arrabal", "composer": "Carlos Gardel", "orchestra": null, "singer": "Carlos Gardel", "year": 1933, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": false, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og061", "title": "Cuesta Abajo", "composer": "Carlos Gardel", "orchestra": null, "singer": "Carlos Gardel", "year": 1934, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": false, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og062", "title": "Arrabal Amargo", "composer": "Carlos Gardel", "orchestra": null, "singer": "Carlos Gardel", "year": 1935, "style": "Tango", "era": "early_golden", "publicDomain": true, "danceable": false, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og063", "title": "Golondrinas", "composer": "Carlos Gardel", "orchestra": null, "singer": "Carlos Gardel", "year": 1935, "style": "Tango", "era": "early_golden", "publicDomain": true, "danceable": false, "ntttValue": "medium", "source": "archive.org" },
+
+    { "id": "og064", "title": "El Espiante", "composer": "Osvaldo Fresedo", "orchestra": "Osvaldo Fresedo", "singer": null, "year": 1931, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "high", "source": "archive.org", "notes": "MISSING from DB — found here in PD. Fresedo signature." },
+    { "id": "og065", "title": "Vida Mía", "composer": "Osvaldo Fresedo", "orchestra": "Osvaldo Fresedo", "singer": "Roberto Ray", "year": 1933, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "high", "source": "archive.org" },
+    { "id": "og066", "title": "Sollozos", "composer": "Osvaldo Fresedo", "orchestra": "Osvaldo Fresedo", "singer": "Roberto Ray", "year": 1933, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og067", "title": "Chau Pinela (Fresedo)", "composer": "Osvaldo Fresedo", "orchestra": "Osvaldo Fresedo", "singer": null, "year": 1930, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "high", "source": "archive.org", "notes": "Frequently played at milongas today" },
+    { "id": "og068", "title": "Pampero", "composer": "Osvaldo Fresedo", "orchestra": "Osvaldo Fresedo", "singer": null, "year": 1930, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og069", "title": "Aromas", "composer": "Osvaldo Fresedo", "orchestra": "Osvaldo Fresedo", "singer": null, "year": 1930, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "medium", "source": "archive.org" },
+
+    { "id": "og070", "title": "A Media Luz", "composer": "Edgardo Donato", "orchestra": "Edgardo Donato", "singer": null, "year": 1927, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "high", "source": "archive.org", "notes": "HIS composition — iconic. One of most covered tangos ever." },
+    { "id": "og071", "title": "El Huracán", "composer": "Edgardo Donato", "orchestra": "Edgardo Donato", "singer": null, "year": 1932, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og072", "title": "Julián", "composer": "Edgardo Donato", "orchestra": "Edgardo Donato", "singer": "Romeo Gavioli", "year": 1933, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "high", "source": "archive.org", "notes": "THE missing Donato Julián — found here in PD" },
+    { "id": "og073", "title": "Se Va la Vida", "composer": "Edgardo Donato", "orchestra": "Edgardo Donato", "singer": "Horacio Lagos", "year": 1930, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og074", "title": "Muchacho", "composer": "Edgardo Donato", "orchestra": "Edgardo Donato", "singer": "Romeo Gavioli", "year": 1932, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og075", "title": "El Acomodo", "composer": "Edgardo Donato", "orchestra": "Edgardo Donato", "singer": null, "year": 1928, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "medium", "source": "archive.org" },
+
+    { "id": "og076", "title": "Madreselva (Lomuto)", "composer": "Francisco Canaro", "orchestra": "Francisco Lomuto", "singer": "Jorge Omar", "year": 1931, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "high", "source": "archive.org", "notes": "Version in your DB — confirm this is the Lomuto" },
+    { "id": "og077", "title": "La Última Copa", "composer": "Francisco Canaro", "orchestra": "Francisco Lomuto", "singer": "Jorge Omar", "year": 1932, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "high", "source": "archive.org", "notes": "Last drink before dawn — classic melancholic tango" },
+    { "id": "og078", "title": "Invierno", "composer": null, "orchestra": "Francisco Lomuto", "singer": "Jorge Omar", "year": 1930, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og079", "title": "Besos Brujos", "composer": null, "orchestra": "Francisco Lomuto", "singer": "Fernando Díaz", "year": 1935, "style": "Tango", "era": "early_golden", "publicDomain": true, "danceable": true, "ntttValue": "medium", "source": "archive.org" },
+
+    { "id": "og080", "title": "Chau Pinela (Di Sarli)", "composer": "Osvaldo Fresedo", "orchestra": "Carlos Di Sarli", "singer": null, "year": 1930, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "high", "source": "archive.org", "notes": "Early Di Sarli — frequently played at milongas" },
+    { "id": "og081", "title": "Flora", "composer": null, "orchestra": "Carlos Di Sarli", "singer": null, "year": 1930, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "medium", "source": "archive.org" },
+    { "id": "og082", "title": "Rosicler", "composer": null, "orchestra": "Carlos Di Sarli", "singer": null, "year": 1929, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": true, "ntttValue": "medium", "source": "archive.org" },
+
+    { "id": "og083", "title": "El Internado (D'Arienzo)", "composer": "Francisco Canaro", "orchestra": "Juan D'Arienzo", "singer": null, "year": 1928, "style": "Tango", "era": "guardia_nueva", "publicDomain": true, "danceable": false, "ntttValue": "medium", "source": "archive.org", "notes": "Pre-revolution D'Arienzo — unrecognizable style" },
+    { "id": "og084", "title": "El Talar", "composer": null, "orchestra": "Juan D'Arienzo", "singer": null, "year": 1935, "style": "Tango", "era": "early_golden", "publicDomain": true, "danceable": true, "ntttValue": "high", "source": "archive.org", "notes": "First session after hiatus — the revolution begins" }
+  ],
+
+  "ripSources": {
+    "archiveOrg": {
+      "url": "https://archive.org",
+      "search": "tango 78rpm [orchestra name]",
+      "keyCollections": [
+        "History of Tango Victor Orchestras Recordings 1928-1935",
+        "Argentine Tango Part 1 & 2 — Carlos Hagen",
+        "Recuerdos del Tango collection"
+      ],
+      "legal": "Fully legal — public domain content explicitly hosted for preservation"
+    },
+    "youtube": {
+      "channels": [
+        "TangoTunes",
+        "El Tanguero",
+        "Tango Archives",
+        "Ivan Diaz Tango",
+        "TangoLab"
+      ],
+      "searchPattern": "[orchestra name] tango 78rpm restored",
+      "tool": "yt-dlp",
+      "command": "yt-dlp -x --audio-format mp3 --audio-quality 0 -o '%(uploader)s/%(title)s.%(ext)s' [URL]"
+    },
+    "tangoTunes": {
+      "url": "https://tangotunes.com",
+      "notes": "Austrian-Argentine digital restoration project. Highest quality restorations. Some free."
+    }
+  },
+
+  "summary": {
+    "totalSongs": 84,
+    "byEra": {
+      "primitivo_1895_1910": 8,
+      "guardia_vieja_1_1910_1920": 19,
+      "guardia_vieja_2_1920_1928": 10,
+      "guardia_nueva_1928_1935": 35,
+      "early_golden_1935_1940": 12
+    },
+    "fullyPublicDomain": 84,
+    "danceable": 38,
+    "historicalOnly": 46,
+    "notableGapsFilled": ["El Espiante (Fresedo 1931)", "Julián (Donato 1933)", "La Cumparsita first recording (Firpo 1916)", "Milonga Sentimental (Canaro 1932)", "Mi Noche Triste (Gardel/Castriota 1917)"]
+  }
+}
