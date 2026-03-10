@@ -31,13 +31,15 @@
 | Project | Vercel URL | Custom Domain | Git Branch | Purpose |
 |---------|------------|---------------|------------|---------|
 | `nttt` | nttt.vercel.app | namethattangotune.com | `main` | **PROD** - Live users |
-| `nttt-test` | nttt-test.vercel.app | *(none)* | `DEVL` | **TEST** - Testing before PROD |
+| `nttt-test` | nttt-test.vercel.app | *(none)* | `TEST` | **TEST** - Testing before PROD |
 
 **Deployment:** Push to branch → Vercel auto-deploys
 ```bash
-git push origin DEVL    # → deploys to nttt-test
+git push origin TEST    # → deploys to nttt-test
 git push origin main    # → deploys to nttt (PROD)
 ```
+
+**Workflow:** `DEVL` → merge to `TEST` → merge to `main`
 
 ### Firebase Projects
 
