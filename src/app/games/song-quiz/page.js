@@ -141,47 +141,59 @@ export default function SongQuizPage() {
         sx={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
-          position: "relative",
-          pt: 1,
-          mb: 1,
+          justifyContent: "space-between",
+          px: 2,
+          py: 1,
+          borderBottom: isLandscape ? "1px solid rgba(255,255,255,0.1)" : "none",
         }}
       >
-        <Box sx={{ position: "absolute", left: 8 }}>
-          <BackButton />
-        </Box>
+        <BackButton />
         <Typography
           variant="h6"
           sx={{
             fontWeight: "bold",
             color: "var(--foreground)",
             textAlign: "center",
+            flex: 1,
           }}
         >
           Song Quiz
         </Typography>
+        <Box sx={{ width: 40 }} /> {/* Spacer to center title */}
       </Box>
 
       {isLandscape ? (
-        // LANDSCAPE LAYOUT: Two columns
+        // LANDSCAPE LAYOUT: Two columns, both vertically centered
         <Box
           sx={{
             display: "flex",
             flexDirection: "row",
-            alignItems: "stretch",
+            alignItems: "center",
+            justifyContent: "center",
             height: "calc(100vh - 60px)",
-            px: 2,
+            px: 4,
+            gap: 4,
           }}
         >
-          {/* Left: Config */}
-          <Box sx={{ flex: 1, overflowY: "auto", pr: 2 }}>
-            <ConfigTab isLandscape={isLandscape} onPoolCountChange={handlePoolCountChange} />
+          {/* Left: Config - vertically centered */}
+          <Box
+            sx={{
+              flex: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              maxWidth: 450,
+            }}
+          >
+            <Box sx={{ width: "100%" }}>
+              <ConfigTab isLandscape={isLandscape} onPoolCountChange={handlePoolCountChange} />
+            </Box>
           </Box>
 
           {/* Divider */}
-          <Divider orientation="vertical" flexItem sx={{ borderColor: "rgba(255,255,255,0.2)", mx: 1 }} />
+          <Divider orientation="vertical" flexItem sx={{ borderColor: "rgba(255,255,255,0.2)" }} />
 
-          {/* Right: Play Area */}
+          {/* Right: Play Area - vertically centered */}
           <Box
             sx={{
               flex: 1,
@@ -189,8 +201,7 @@ export default function SongQuizPage() {
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              pl: 2,
-              height: "100%",
+              maxWidth: 450,
               gap: 3,
             }}
           >
