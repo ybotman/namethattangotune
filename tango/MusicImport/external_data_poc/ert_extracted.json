@@ -1,0 +1,36 @@
+{
+  "extracted_at": "2026-03-01",
+  "source": "TangoLink audio recognition",
+  "total_files": 65,
+  "matched": 24,
+  "unmatched": 41,
+
+  "matches": [
+    {"filename": "Angel DAgostino - Cafe Dominguez - 1955 - Angel Vargas.mp3", "ert": "ERT-6543", "el_recodo_id": 6543},
+    {"filename": "Anibal Troilo - El Marne - 1941 - instrumental.mp3", "ert": "ERT-11806", "el_recodo_id": 11806},
+    {"filename": "Anibal Troilo - Una Cancion - 1943 - Francisco Fiorentino.mp3", "ert": "ERT-2769", "el_recodo_id": 2769},
+    {"filename": "Carlos Di Sarli - A Fuego Lento - 1954 - instrumental.mp3", "ert": "ERT-2582", "el_recodo_id": 2582},
+    {"filename": "Carlos Di Sarli - Chau Pinela - 1930 - instrumental.mp3", "ert": "ERT-2553", "el_recodo_id": 2553},
+    {"filename": "Carlos Di Sarli - Paloma - 1954 - instrumental.mp3", "ert": "ERT-2416", "el_recodo_id": 2416},
+    {"filename": "DAgostino - Cafe Dominguez - 1941 - Angel Vargas.mp3", "ert": "ERT-6543", "el_recodo_id": 6543},
+    {"filename": "Edgardo Donato - El Huracan - 1932 - instrumental.mp3", "ert": "ERT-5564", "el_recodo_id": 5564},
+    {"filename": "Francisco Canaro - Milonga Sentimental - 1932 - Francisco Amor.mp3", "ert": "ERT-4813", "el_recodo_id": 4813},
+    {"filename": "Francisco Canaro - Organito de la Tarde - 1925 - instrumental.mp3", "ert": "ERT-18106", "el_recodo_id": 18106},
+    {"filename": "Julio De Caro - Boedo - 1928 - instrumental.mp3", "ert": "ERT-4295", "el_recodo_id": 4295},
+    {"filename": "Julio De Caro - Mala Junta - 1927 - instrumental.mp3", "ert": "ERT-4291", "el_recodo_id": 4291},
+    {"filename": "Orquesta Tipica Victor - El Choclo - 1926 - instrumental.mp3", "ert": "ERT-5833", "el_recodo_id": 5833},
+    {"filename": "Orquesta Tipica Victor - La Cumparsita - 1927 - instrumental.mp3", "ert": "ERT-5812", "el_recodo_id": 5812},
+    {"filename": "Osvaldo Fresedo - Chau Pinela - 1930 - instrumental.mp3", "ert": "ERT-2553", "el_recodo_id": 2553},
+    {"filename": "Osvaldo Fresedo - Sollozos - 1933 - Roberto Ray.mp3", "ert": "ERT-6039", "el_recodo_id": 6039},
+    {"filename": "Osvaldo Fresedo - Vida Mia - 1933 - Roberto Ray.mp3", "ert": "ERT-6067", "el_recodo_id": 6067},
+    {"filename": "Osvaldo Pugliese - Gallo Ciego - 1948 - instrumental.mp3", "ert": "ERT-2044", "el_recodo_id": 2044},
+    {"filename": "Osvaldo Pugliese - La Beba - 1947 - instrumental.mp3", "ert": "ERT-2036", "el_recodo_id": 2036},
+    {"filename": "Piazzolla - La Ultima Curda - 1969 - Roberto Goyeneche.mp3", "ert": "ERT-9851", "el_recodo_id": 9851},
+    {"filename": "Pontier - Cambalache - 1961 - Julio Sosa.mp3", "ert": "ERT-10493", "el_recodo_id": 10493},
+    {"filename": "Roberto Firpo - El Amanecer - 1920 - instrumental.mp3", "ert": "ERT-15379", "el_recodo_id": 15379},
+    {"filename": "Roberto Firpo - La Cumparsita - 1916 - instrumental.mp3", "ert": "ERT-7520", "el_recodo_id": 7520},
+    {"filename": "Roberto Firpo - Sentimiento Gaucho - 1921 - instrumental.mp3", "ert": "ERT-7396", "el_recodo_id": 7396}
+  ],
+
+  "note": "Use el_recodo_id to query: https://www.el-recodo.com/music?id={el_recodo_id}"
+}

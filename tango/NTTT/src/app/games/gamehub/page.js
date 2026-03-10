@@ -90,14 +90,14 @@ const gameTiles = [
     title: "Your",
     subtitle: "Stats",
     image: "/Banner/Type1__STATS.png",
-    href: "/games/explore?page=5",
+    href: "/games/explore",
   },
   {
     id: "daily",
     title: "Daily",
     subtitle: "Soon",
     image: "/Banner/Type1__DAILY.png",
-    href: "/games/explore?page=6",
+    href: "/games/explore",
     comingSoon: true,
   },
   {
@@ -105,7 +105,7 @@ const gameTiles = [
     title: "Contest",
     subtitle: "Soon",
     image: "/Banner/Type1__CONTEST.png",
-    href: "/games/explore?page=7",
+    href: "/games/explore",
     comingSoon: true,
   },
   {
@@ -113,14 +113,14 @@ const gameTiles = [
     title: "Setup",
     subtitle: "& Tools",
     image: "/Banner/Type1__SETUP.png",
-    href: "/games/explore?page=8",
+    href: "/games/explore",
   },
   {
     id: "about",
     title: "About",
     subtitle: "NTTT",
     image: "/Banner/Type1__NTTT.png",
-    href: "/games/explore?page=9",
+    href: "/games/explore",
   },
   {
     id: "more",
@@ -548,7 +548,7 @@ export default function GameHubPage() {
         <Link href="/fairuse" style={{ color: "var(--foreground)", opacity: 0.5, textDecoration: "none" }}>
           Fair Use
         </Link>
-        <Link href="/games/explore?page=9" style={{ color: "var(--foreground)", opacity: 0.5, textDecoration: "none" }}>
+        <Link href="/games/explore" style={{ color: "var(--foreground)", opacity: 0.5, textDecoration: "none" }}>
           About
         </Link>
         <Link href="/config" style={{ color: "var(--foreground)", opacity: 0.5, textDecoration: "none" }}>

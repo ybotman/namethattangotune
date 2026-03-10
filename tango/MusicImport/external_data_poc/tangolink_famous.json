@@ -1,0 +1,35 @@
+{
+  "source": "el-recodo.com TangoLink",
+  "description": "Most Famous Tangos - curated list from el-recodo TangoLink",
+  "exported_by": "manual copy from browser",
+  "exported_at": "2026-02-28",
+  "instructions": "Replace this 'tangos' array with data from TangoLink page. Keep format consistent.",
+
+  "tangos": [
+    {
+      "title": "La Cumparsita",
+      "orchestra": "Juan D'Arienzo",
+      "year": 1951,
+      "singer": null,
+      "style": "Tango",
+      "el_recodo_id": null
+    },
+    {
+      "title": "EXAMPLE - DELETE THIS",
+      "orchestra": "Orchestra Name",
+      "year": 1940,
+      "singer": "Singer Name or null",
+      "style": "Tango|Vals|Milonga",
+      "el_recodo_id": "optional - from URL"
+    }
+  ],
+
+  "field_guide": {
+    "title": "Song title exactly as shown",
+    "orchestra": "Orchestra/artist name",
+    "year": "Recording year (number, not string)",
+    "singer": "Singer name or null if instrumental",
+    "style": "Tango, Vals, or Milonga",
+    "el_recodo_id": "From URL like music?id=12345 (optional)"
+  }
+}
