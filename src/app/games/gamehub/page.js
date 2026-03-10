@@ -54,7 +54,7 @@ const markWelcomeSeen = () => {
 // App version
 const APP_VERSION = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA?.slice(0, 7) || "dev";
 
-// Game tiles for grid - 9 tiles for 3x3
+// Game tiles for grid - 3x3 + 1 (10 tiles)
 const gameTiles = [
   {
     id: "orchestra",
@@ -86,18 +86,18 @@ const gameTiles = [
     href: "/games/listen",
   },
   {
-    id: "stats",
-    title: "Your",
-    subtitle: "Stats",
-    image: "/Banner/Type1__STATS.png",
-    href: "/games/explore",
+    id: "year",
+    title: "Year",
+    subtitle: "Quiz",
+    image: "/Banner/Type1__DAILY.png",
+    href: "/games/year-learn",
   },
   {
     id: "daily",
     title: "Daily",
     subtitle: "Soon",
-    image: "/Banner/Type1__DAILY.png",
-    href: "/games/explore",
+    image: "/Banner/Type1__CONTEST.png",
+    href: "#",
     comingSoon: true,
   },
   {
@@ -105,26 +105,19 @@ const gameTiles = [
     title: "Contest",
     subtitle: "Soon",
     image: "/Banner/Type1__CONTEST.png",
-    href: "/games/explore",
+    href: "#",
     comingSoon: true,
   },
   {
     id: "setup",
     title: "Setup",
-    subtitle: "& Tools",
+    subtitle: "& Config",
     image: "/Banner/Type1__SETUP.png",
-    href: "/games/explore",
-  },
-  {
-    id: "about",
-    title: "About",
-    subtitle: "NTTT",
-    image: "/Banner/Type1__NTTT.png",
-    href: "/games/explore",
+    href: "/config",
   },
   {
     id: "more",
-    title: "More",
+    title: "All",
     subtitle: "Games",
     image: "/Banner/Type1__NTTT.png",
     href: "/games/explore",

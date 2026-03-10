@@ -456,7 +456,7 @@ export default function ExplorePage() {
         </Link>
 
         <Typography sx={{ fontSize: "1rem", fontWeight: 700, color: "var(--foreground)" }}>
-          All Games
+          More Games
         </Typography>
 
         {user ? (
@@ -475,18 +475,12 @@ export default function ExplorePage() {
       {/* Content */}
       <Box sx={{ maxWidth: 500, mx: "auto", px: 2, pb: 4 }}>
 
-        {/* Orchestra Section */}
-        <SectionHeader title="Orchestra" image="/Banner/Type1__ORCHESTRA.png" />
+        {/* More Games - not on main hub grid */}
+        <SectionHeader title="More Games" image="/Banner/Type1__ORCHESTRA.png" />
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
           <GameRow
-            title="Orchestra Quiz"
-            subtitle="Hear a clip, pick the orchestra. Beat the clock!"
-            mode="quiz"
-            path="/games/orchestra-quiz"
-          />
-          <GameRow
             title="Orchestra Clip"
-            subtitle="Same challenge, no timer. Replay as needed."
+            subtitle="No timer. Replay clips as needed."
             mode="clip"
             path="/games/clip-orchestra"
           />
@@ -495,23 +489,6 @@ export default function ExplorePage() {
             subtitle="Deep dive into one orchestra's catalog."
             mode="learn"
             path="/games/orchestra-learn"
-          />
-          <GameRow
-            title="Year Quiz"
-            subtitle="Guess when each song was recorded."
-            mode="year"
-            path="/games/year-learn"
-          />
-        </Box>
-
-        {/* Singer Section */}
-        <SectionHeader title="Singer" image="/Banner/Type1__SINGER.png" />
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
-          <GameRow
-            title="Singer Quiz"
-            subtitle="Identify the singer from 4 choices."
-            mode="quiz"
-            path="/games/singer-quiz"
           />
           <GameRow
             title="Singer Clip"
@@ -525,22 +502,11 @@ export default function ExplorePage() {
             mode="learn"
             path="/games/singer-learn"
           />
-        </Box>
-
-        {/* Songs Section */}
-        <SectionHeader title="Songs" image="/Banner/Type1__SONGS.png" />
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
           <GameRow
-            title="Song Quiz"
-            subtitle="Know your classics? Guess the song title."
-            mode="song"
-            path="/games/song-quiz"
-          />
-          <GameRow
-            title="Listen Mode"
-            subtitle="Browse freely. No quiz, just music."
+            title="Same Song"
+            subtitle="Compare different recordings of the same song."
             mode="listen"
-            path="/games/listen"
+            path="/games/same-song"
           />
         </Box>
 
@@ -584,10 +550,6 @@ export default function ExplorePage() {
             </Typography>
           </Paper>
         </Box>
-
-        {/* Setup Section */}
-        <SectionHeader title="Setup & Tools" image="/Banner/Type1__SETUP.png" />
-        <SetupSection />
 
         {/* About Section */}
         <SectionHeader title="About" image="/Banner/Type1__NTTT.png" />
