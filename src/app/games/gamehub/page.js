@@ -113,7 +113,7 @@ const gameTiles = [
     title: "Your",
     subtitle: "Stats",
     image: "/Banner/Type1__STATS.png",
-    href: "/games/explore#stats",
+    href: "/games/stats",
   },
   {
     id: "setup",
