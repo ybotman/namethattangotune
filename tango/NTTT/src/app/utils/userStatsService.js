@@ -212,15 +212,26 @@ export async function saveSessionResults({
 
     const sessionRef = await addDoc(collection(db, collections.ntttSessions), sessionDoc);
 
-    // 2. Update user aggregate stats
-    await updateUserGameStats({
-      userId: user.uid,
-      gameType,
-      gridKey,
-      totalScore,
-      correctCount,
-      totalQuestions,
-    });
+    // 2. Update user aggregate stats for ALL selected cells
+    // Get all selected cells from config (orchestra or singer games)
+    const allGridCells = gameType.includes('singer')
+      ? config?.singerGridCells || []
+      : config?.gridCells || [];
+
+    // If we have selected cells, update stats for each; otherwise use the primary gridKey
+    const cellsToUpdate = allGridCells.length > 0 ? allGridCells : [gridKey];
+
+    for (const cell of cellsToUpdate) {
+      const cellKey = getGridKey(gameType, cell);
+      await updateUserGameStats({
+        userId: user.uid,
+        gameType,
+        gridKey: cellKey,
+        totalScore,
+        correctCount,
+        totalQuestions,
+      });
+    }
 
     // 3. Update per-entity stats (orchestra or singer)
     await updatePerEntityStats({
