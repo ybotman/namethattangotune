@@ -294,7 +294,7 @@ function GameTile({ tile, isMobile }) {
           sx={{
             position: "relative",
             width: "100%",
-            height: isMobile ? 80 : 100,
+            height: isMobile ? 80 : 140,
             overflow: "hidden",
           }}
         >
@@ -308,10 +308,10 @@ function GameTile({ tile, isMobile }) {
         </Box>
 
         {/* Title */}
-        <Box sx={{ p: isMobile ? 1 : 1.5, textAlign: "center" }}>
+        <Box sx={{ p: isMobile ? 1 : 2, textAlign: "center" }}>
           <Typography
             sx={{
-              fontSize: isMobile ? "0.85rem" : "1rem",
+              fontSize: isMobile ? "0.85rem" : "1.2rem",
               fontWeight: 700,
               color: "var(--foreground)",
               lineHeight: 1.1,
@@ -321,7 +321,7 @@ function GameTile({ tile, isMobile }) {
           </Typography>
           <Typography
             sx={{
-              fontSize: isMobile ? "0.7rem" : "0.8rem",
+              fontSize: isMobile ? "0.7rem" : "0.9rem",
               color: "var(--foreground)",
               opacity: 0.7,
             }}
@@ -477,14 +477,14 @@ export default function GameHubPage() {
         <InstallPWA variant="banner" />
       </Box>
 
-      {/* Game Grid - 2x3 on mobile, 3x2 on desktop */}
+      {/* Game Grid - 2x3 on mobile, 3x3 on desktop */}
       <Box
         sx={{
           display: "grid",
           gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(3, 1fr)",
-          gap: isMobile ? 1.5 : 2,
+          gap: isMobile ? 1.5 : 3,
           width: "100%",
-          maxWidth: 400,
+          maxWidth: isMobile ? 400 : 700,
           mb: 3,
         }}
       >
