@@ -93,6 +93,14 @@ function SectionHeader({ title, image }) {
   );
 }
 
+// Game names for display
+const gameDisplayNames = {
+  "orchestra-quiz": "Orchestra",
+  "singer-quiz": "Singer",
+  "song-quiz": "Song",
+  "year-learn": "Year",
+};
+
 // Stats Section
 function StatsSection() {
   const { user } = useContext(AuthContext);
@@ -138,7 +146,7 @@ function StatsSection() {
     );
   }
 
-  // Calculate stats
+  // Calculate totals
   let totalPlayed = 0;
   let totalCorrect = 0;
   let bestScore = 0;
@@ -172,43 +180,121 @@ function StatsSection() {
     );
   }
 
+  // Get per-game stats
+  const gameStats = Object.entries(gameSummaries || {})
+    .filter(([_, stats]) => stats.totalPlayed > 0)
+    .map(([gameId, stats]) => ({
+      name: gameDisplayNames[gameId] || gameId,
+      games: stats.sessionCount || 0,
+      played: stats.totalPlayed || 0,
+      correct: stats.totalCorrect || 0,
+      best: stats.bestSessionScore || 0,
+    }));
+
   return (
-    <Paper
-      elevation={0}
-      sx={{
-        p: 2,
-        backgroundColor: "var(--input-bg)",
-        border: "1px solid var(--accent)",
-        borderRadius: 2,
-      }}
-    >
-      <Box sx={{ display: "flex", justifyContent: "space-around" }}>
-        <Box sx={{ textAlign: "center" }}>
-          <Typography sx={{ fontSize: "1.2rem", fontWeight: 700, color: "var(--foreground)" }}>
-            {totalPlayed}
-          </Typography>
-          <Typography sx={{ fontSize: "0.65rem", color: "var(--foreground)", opacity: 0.6 }}>
-            Played
-          </Typography>
+    <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+      {/* Overall Stats */}
+      <Paper
+        elevation={0}
+        sx={{
+          p: 2,
+          backgroundColor: "var(--input-bg)",
+          border: "1px solid var(--accent)",
+          borderRadius: 2,
+        }}
+      >
+        <Typography sx={{ fontSize: "0.7rem", color: "var(--accent)", fontWeight: 600, mb: 1 }}>
+          OVERALL
+        </Typography>
+        <Box sx={{ display: "flex", justifyContent: "space-around" }}>
+          <Box sx={{ textAlign: "center" }}>
+            <Typography sx={{ fontSize: "1.2rem", fontWeight: 700, color: "var(--foreground)" }}>
+              {totalPlayed}
+            </Typography>
+            <Typography sx={{ fontSize: "0.6rem", color: "var(--foreground)", opacity: 0.6 }}>
+              Played
+            </Typography>
+          </Box>
+          <Box sx={{ textAlign: "center" }}>
+            <Typography sx={{ fontSize: "1.2rem", fontWeight: 700, color: "#4CAF50" }}>
+              {accuracy}%
+            </Typography>
+            <Typography sx={{ fontSize: "0.6rem", color: "var(--foreground)", opacity: 0.6 }}>
+              Accuracy
+            </Typography>
+          </Box>
+          <Box sx={{ textAlign: "center" }}>
+            <Typography sx={{ fontSize: "1.2rem", fontWeight: 700, color: "#FFD700" }}>
+              {bestScore}
+            </Typography>
+            <Typography sx={{ fontSize: "0.6rem", color: "var(--foreground)", opacity: 0.6 }}>
+              Best
+            </Typography>
+          </Box>
         </Box>
-        <Box sx={{ textAlign: "center" }}>
-          <Typography sx={{ fontSize: "1.2rem", fontWeight: 700, color: "#4CAF50" }}>
-            {accuracy}%
+      </Paper>
+
+      {/* Per-Game Stats */}
+      {gameStats.length > 0 && (
+        <Paper
+          elevation={0}
+          sx={{
+            p: 2,
+            backgroundColor: "var(--input-bg)",
+            border: "1px solid var(--border-color)",
+            borderRadius: 2,
+          }}
+        >
+          <Typography sx={{ fontSize: "0.7rem", color: "var(--accent)", fontWeight: 600, mb: 1.5 }}>
+            BY GAME
           </Typography>
-          <Typography sx={{ fontSize: "0.65rem", color: "var(--foreground)", opacity: 0.6 }}>
-            Accuracy
-          </Typography>
-        </Box>
-        <Box sx={{ textAlign: "center" }}>
-          <Typography sx={{ fontSize: "1.2rem", fontWeight: 700, color: "#FFD700" }}>
-            {bestScore}
-          </Typography>
-          <Typography sx={{ fontSize: "0.65rem", color: "var(--foreground)", opacity: 0.6 }}>
-            Best
-          </Typography>
-        </Box>
-      </Box>
-    </Paper>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
+            {gameStats.map((game) => (
+              <Box
+                key={game.name}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  pb: 1,
+                  borderBottom: "1px solid rgba(255,255,255,0.1)",
+                }}
+              >
+                <Typography sx={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--foreground)", minWidth: 70 }}>
+                  {game.name}
+                </Typography>
+                <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+                  <Box sx={{ textAlign: "center" }}>
+                    <Typography sx={{ fontSize: "0.9rem", fontWeight: 700, color: "var(--foreground)" }}>
+                      {game.games}
+                    </Typography>
+                    <Typography sx={{ fontSize: "0.5rem", color: "var(--foreground)", opacity: 0.5 }}>
+                      Games
+                    </Typography>
+                  </Box>
+                  <Box sx={{ textAlign: "center" }}>
+                    <Typography sx={{ fontSize: "0.9rem", fontWeight: 700, color: "var(--foreground)" }}>
+                      {game.correct}/{game.played}
+                    </Typography>
+                    <Typography sx={{ fontSize: "0.5rem", color: "var(--foreground)", opacity: 0.5 }}>
+                      Correct
+                    </Typography>
+                  </Box>
+                  <Box sx={{ textAlign: "center" }}>
+                    <Typography sx={{ fontSize: "0.9rem", fontWeight: 700, color: "#FFD700" }}>
+                      {game.best}
+                    </Typography>
+                    <Typography sx={{ fontSize: "0.5rem", color: "var(--foreground)", opacity: 0.5 }}>
+                      Best
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
+            ))}
+          </Box>
+        </Paper>
+      )}
+    </Box>
   );
 }
 
