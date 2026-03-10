@@ -134,7 +134,14 @@ export default function ClipSingerPage() {
             zIndex: 9999,
             overflow: "auto",
             p: 2,
+            // iOS PWA fix: explicitly capture all touch/pointer events
+            touchAction: "auto",
+            pointerEvents: "auto",
+            WebkitTouchCallout: "none",
+            WebkitUserSelect: "none",
           }}
+          onClick={(e) => e.stopPropagation()}
+          onTouchStart={(e) => e.stopPropagation()}
         >
           <PlayTab songs={songs} config={config} onCancel={handleClosePlayTab} />
         </Box>

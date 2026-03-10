@@ -173,7 +173,14 @@ export default function ListenPage() {
             backgroundColor: "var(--background)",
             zIndex: 9999,
             overflow: "auto",
+            // iOS PWA fix: explicitly capture all touch/pointer events
+            touchAction: "auto",
+            pointerEvents: "auto",
+            WebkitTouchCallout: "none",
+            WebkitUserSelect: "none",
           }}
+          onClick={(e) => e.stopPropagation()}
+          onTouchStart={(e) => e.stopPropagation()}
         >
           <ListenTab songs={songs} onCancel={handleClose} />
         </Box>
