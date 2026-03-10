@@ -7,7 +7,7 @@
 "use client";
 
 import React, { useState, useCallback, useEffect } from "react";
-import { Box, Divider, useMediaQuery } from "@mui/material";
+import { Box, Divider, Typography, useMediaQuery } from "@mui/material";
 import ConfigTab from "./ConfigTab";
 import BackButton from "@/components/ui/BackButton";
 import PlayButton from "@/components/ui/PlayButton";
@@ -147,79 +147,131 @@ export default function SingerQuizPage() {
         </Box>
       )}
 
-      {/* Banner Image */}
+      {/* Header: Back button + Title */}
       <Box
         sx={{
-          width: "100%",
           display: "flex",
+          alignItems: "center",
           justifyContent: "center",
           position: "relative",
           pt: 1,
+          mb: 1,
         }}
       >
-        <Box sx={{ position: "absolute", top: 8, left: 8, zIndex: 10 }}>
+        <Box sx={{ position: "absolute", left: 8 }}>
           <BackButton />
         </Box>
-        <img
-          src="/Banner/Type2__SINGER.png"
-          alt="Singer Quiz"
-          style={{
-            width: "70%",
-            maxWidth: 320,
-            height: "auto",
-            display: "block",
-            maskImage: "linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)",
-            maskComposite: "intersect",
-            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)",
-            WebkitMaskComposite: "source-in",
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: "bold",
+            color: "var(--foreground)",
+            textAlign: "center",
           }}
-        />
+        >
+          Singer Quiz
+        </Typography>
       </Box>
 
-      {/* Main Layout */}
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          px: 2,
-          pb: 2,
-        }}
-      >
-        {/* Play Button Area */}
+      {isLandscape ? (
+        // LANDSCAPE LAYOUT: Two columns
         <Box
           sx={{
             display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 2,
-            my: 2,
+            flexDirection: "row",
+            alignItems: "stretch",
+            height: "calc(100vh - 60px)",
+            px: 2,
           }}
         >
-          <HelpButton
-            title="Singer Quiz"
-            description="Identify the singer from a vocal clip. Filter by familiarity or era. Clips start in vocal sections. Faster correct answers = higher scores."
-          />
-          <PlayButton onClick={handlePlayClick} disabled={!canPlay} />
-          <ResetButton onClick={resetAll} />
-        </Box>
+          {/* Left: Config */}
+          <Box sx={{ flex: 1, overflowY: "auto", pr: 2 }}>
+            <ConfigTab isLandscape={isLandscape} onPoolCountChange={handlePoolCountChange} />
+          </Box>
 
-        {/* Config Area */}
-        <Box sx={{ width: "100%", maxWidth: 400 }}>
-          <ConfigTab isLandscape={isLandscape} onPoolCountChange={handlePoolCountChange} />
-        </Box>
+          {/* Divider */}
+          <Divider orientation="vertical" flexItem sx={{ borderColor: "rgba(255,255,255,0.2)", mx: 1 }} />
 
-        {/* Footer dash */}
-        <Box
-          sx={{
-            width: 40,
-            height: 4,
-            borderRadius: 2,
-            backgroundColor: "rgba(255,255,255,0.2)",
-            mt: 3,
-          }}
-        />
-      </Box>
+          {/* Right: Play Area */}
+          <Box
+            sx={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              pl: 2,
+              height: "100%",
+              gap: 3,
+            }}
+          >
+            <img
+              src="/Banner/Type2__SINGER.png"
+              alt="Singer Quiz"
+              style={{
+                width: "80%",
+                maxWidth: 280,
+                height: "auto",
+                display: "block",
+                maskImage: "linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)",
+                maskComposite: "intersect",
+                WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)",
+                WebkitMaskComposite: "source-in",
+              }}
+            />
+            <PlayButton onClick={handlePlayClick} disabled={!canPlay} />
+            <Box sx={{ display: "flex", gap: 3, alignItems: "center" }}>
+              <HelpButton
+                title="Singer Quiz"
+                description="Identify the singer from a vocal clip. Filter by familiarity or era. Clips start in vocal sections. Faster correct answers = higher scores."
+              />
+              <ResetButton onClick={resetAll} />
+            </Box>
+          </Box>
+        </Box>
+      ) : (
+        // PORTRAIT LAYOUT: Vertical stack
+        <>
+          {/* Banner Image */}
+          <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
+            <img
+              src="/Banner/Type2__SINGER.png"
+              alt="Singer Quiz"
+              style={{
+                width: "70%",
+                maxWidth: 320,
+                height: "auto",
+                display: "block",
+                maskImage: "linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)",
+                maskComposite: "intersect",
+                WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)",
+                WebkitMaskComposite: "source-in",
+              }}
+            />
+          </Box>
+
+          {/* Main Layout */}
+          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", px: 2, pb: 2 }}>
+            {/* Play Button Area */}
+            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 2, my: 2 }}>
+              <HelpButton
+                title="Singer Quiz"
+                description="Identify the singer from a vocal clip. Filter by familiarity or era. Clips start in vocal sections. Faster correct answers = higher scores."
+              />
+              <PlayButton onClick={handlePlayClick} disabled={!canPlay} />
+              <ResetButton onClick={resetAll} />
+            </Box>
+
+            {/* Config Area */}
+            <Box sx={{ width: "100%", maxWidth: 400 }}>
+              <ConfigTab isLandscape={isLandscape} onPoolCountChange={handlePoolCountChange} />
+            </Box>
+
+            {/* Footer dash */}
+            <Box sx={{ width: 40, height: 4, borderRadius: 2, backgroundColor: "rgba(255,255,255,0.2)", mt: 3 }} />
+          </Box>
+        </>
+      )}
     </Box>
   );
 }
