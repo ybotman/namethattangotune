@@ -109,6 +109,13 @@ const gameTiles = [
     comingSoon: true,
   },
   {
+    id: "stats",
+    title: "Your",
+    subtitle: "Stats",
+    image: "/Banner/Type1__STATS.png",
+    href: "/games/explore#stats",
+  },
+  {
     id: "setup",
     title: "Setup",
     subtitle: "& Config",
