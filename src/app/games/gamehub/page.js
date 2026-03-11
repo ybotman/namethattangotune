@@ -123,6 +123,13 @@ const gameTiles = [
     href: "/config",
   },
   {
+    id: "about",
+    title: "About",
+    subtitle: "NTTT",
+    image: "/Banner/Type1__NTTT.png",
+    href: "/games/explore#about",
+  },
+  {
     id: "more",
     title: "All",
     subtitle: "Games",

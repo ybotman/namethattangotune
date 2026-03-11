@@ -1,6 +1,7 @@
 //------------------------------------------------------------
 // src/app/games/stats/page.js
-// Dedicated stats page showing user game statistics
+// Dedicated stats page with 3x3 grid layout
+// Rows: Orchestra, Singer, Song | Columns: Games, Correct, Best
 //------------------------------------------------------------
 "use client";
 
@@ -12,13 +13,12 @@ import PersonIcon from "@mui/icons-material/Person";
 import { AuthContext } from "@/contexts/AuthContext";
 import { UserContext } from "@/contexts/UserContext";
 
-// Game names for display
-const gameDisplayNames = {
-  "orchestra-quiz": "Orchestra Quiz",
-  "singer-quiz": "Singer Quiz",
-  "song-quiz": "Song Quiz",
-  "year-learn": "Year Quiz",
-};
+// Main quiz games for the 3x3 grid
+const mainGames = [
+  { id: "orchestra-quiz", name: "Orchestra", color: "#4FC3F7" },
+  { id: "singer-quiz", name: "Singer", color: "#BA68C8" },
+  { id: "song-quiz", name: "Song", color: "#FFD54F" },
+];
 
 export default function StatsPage() {
   const { user } = useContext(AuthContext);
@@ -92,36 +92,35 @@ export default function StatsPage() {
     );
   }
 
-  // Calculate totals
-  let totalPlayed = 0;
-  let totalCorrect = 0;
-  let bestScore = 0;
-  let totalSessions = 0;
-
-  Object.values(gameSummaries || {}).forEach((game) => {
-    totalPlayed += game.totalPlayed || 0;
-    totalCorrect += game.totalCorrect || 0;
-    totalSessions += game.sessionCount || 0;
-    if (game.bestSessionScore > bestScore) {
-      bestScore = game.bestSessionScore;
-    }
-  });
-
-  const accuracy = totalPlayed > 0 ? Math.round((totalCorrect / totalPlayed) * 100) : 0;
-
-  // Get per-game stats
-  const gameStats = Object.entries(gameSummaries || {})
-    .filter(([_, stats]) => stats.totalPlayed > 0)
-    .map(([gameId, stats]) => ({
-      id: gameId,
-      name: gameDisplayNames[gameId] || gameId,
+  // Get stats for main games
+  const getGameStats = (gameId) => {
+    const stats = gameSummaries?.[gameId] || {};
+    return {
       sessions: stats.sessionCount || 0,
       played: stats.totalPlayed || 0,
       correct: stats.totalCorrect || 0,
       best: stats.bestSessionScore || 0,
-      accuracy: stats.totalPlayed > 0 ? Math.round((stats.totalCorrect / stats.totalPlayed) * 100) : 0,
-    }))
-    .sort((a, b) => b.played - a.played);
+    };
+  };
+
+  // Calculate totals across main games
+  let totalSessions = 0;
+  let totalPlayed = 0;
+  let totalCorrect = 0;
+  let bestScore = 0;
+
+  mainGames.forEach((game) => {
+    const stats = getGameStats(game.id);
+    totalSessions += stats.sessions;
+    totalPlayed += stats.played;
+    totalCorrect += stats.correct;
+    if (stats.best > bestScore) bestScore = stats.best;
+  });
+
+  const totalAccuracy = totalPlayed > 0 ? Math.round((totalCorrect / totalPlayed) * 100) : 0;
+
+  // Check if any games played
+  const hasPlayed = totalPlayed > 0;
 
   return (
     <Box
@@ -150,7 +149,7 @@ export default function StatsPage() {
       </Box>
 
       <Box sx={{ maxWidth: 500, mx: "auto", p: 2 }}>
-        {totalPlayed === 0 ? (
+        {!hasPlayed ? (
           <Paper
             elevation={0}
             sx={{
@@ -180,112 +179,167 @@ export default function StatsPage() {
           </Paper>
         ) : (
           <>
-            {/* Overall Stats */}
+            {/* Grand Total - Top */}
             <Paper
               elevation={0}
               sx={{
-                p: 3,
+                p: 2,
                 backgroundColor: "var(--input-bg)",
                 border: "2px solid var(--accent)",
                 borderRadius: 2,
                 mb: 3,
+                textAlign: "center",
               }}
             >
-              <Typography sx={{ fontSize: "0.75rem", color: "var(--accent)", fontWeight: 600, mb: 2, textAlign: "center" }}>
-                OVERALL STATS
+              <Typography sx={{ fontSize: "0.7rem", color: "var(--accent)", fontWeight: 600, mb: 1 }}>
+                ALL QUIZZES
               </Typography>
-              <Box sx={{ display: "flex", justifyContent: "space-around" }}>
-                <Box sx={{ textAlign: "center" }}>
-                  <Typography sx={{ fontSize: "2rem", fontWeight: 700, color: "var(--foreground)" }}>
+              <Box sx={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>
+                <Box>
+                  <Typography sx={{ fontSize: "1.8rem", fontWeight: 700, color: "var(--foreground)" }}>
                     {totalSessions}
                   </Typography>
-                  <Typography sx={{ fontSize: "0.7rem", color: "var(--foreground)", opacity: 0.6 }}>
-                    Games
-                  </Typography>
+                  <Typography sx={{ fontSize: "0.6rem", opacity: 0.6 }}>Games</Typography>
                 </Box>
-                <Box sx={{ textAlign: "center" }}>
-                  <Typography sx={{ fontSize: "2rem", fontWeight: 700, color: "var(--foreground)" }}>
-                    {totalPlayed}
+                <Box>
+                  <Typography sx={{ fontSize: "1.8rem", fontWeight: 700, color: "var(--foreground)" }}>
+                    {totalCorrect}/{totalPlayed}
                   </Typography>
-                  <Typography sx={{ fontSize: "0.7rem", color: "var(--foreground)", opacity: 0.6 }}>
-                    Questions
-                  </Typography>
+                  <Typography sx={{ fontSize: "0.6rem", opacity: 0.6 }}>Correct</Typography>
                 </Box>
-                <Box sx={{ textAlign: "center" }}>
-                  <Typography sx={{ fontSize: "2rem", fontWeight: 700, color: "#4CAF50" }}>
-                    {accuracy}%
+                <Box>
+                  <Typography sx={{ fontSize: "1.8rem", fontWeight: 700, color: "#4CAF50" }}>
+                    {totalAccuracy}%
                   </Typography>
-                  <Typography sx={{ fontSize: "0.7rem", color: "var(--foreground)", opacity: 0.6 }}>
-                    Accuracy
-                  </Typography>
+                  <Typography sx={{ fontSize: "0.6rem", opacity: 0.6 }}>Accuracy</Typography>
                 </Box>
-                <Box sx={{ textAlign: "center" }}>
-                  <Typography sx={{ fontSize: "2rem", fontWeight: 700, color: "#FFD700" }}>
+                <Box>
+                  <Typography sx={{ fontSize: "1.8rem", fontWeight: 700, color: "#FFD700" }}>
                     {bestScore}
                   </Typography>
-                  <Typography sx={{ fontSize: "0.7rem", color: "var(--foreground)", opacity: 0.6 }}>
-                    Best
-                  </Typography>
+                  <Typography sx={{ fontSize: "0.6rem", opacity: 0.6 }}>Best</Typography>
                 </Box>
               </Box>
             </Paper>
 
-            {/* Per-Game Stats */}
-            <Typography sx={{ fontSize: "0.75rem", color: "var(--accent)", fontWeight: 600, mb: 1.5 }}>
-              BY GAME
-            </Typography>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              {gameStats.map((game) => (
-                <Paper
-                  key={game.id}
-                  elevation={0}
-                  sx={{
-                    p: 2,
-                    backgroundColor: "var(--input-bg)",
-                    border: "1px solid var(--border-color)",
-                    borderRadius: 2,
-                  }}
-                >
-                  <Typography sx={{ fontSize: "1rem", fontWeight: 700, color: "var(--foreground)", mb: 1.5 }}>
-                    {game.name}
-                  </Typography>
-                  <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            {/* 3x3 Grid - Column Headers */}
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: "100px 1fr 1fr 1fr",
+                gap: 1,
+                mb: 1,
+              }}
+            >
+              <Box /> {/* Empty corner */}
+              <Typography sx={{ fontSize: "0.7rem", fontWeight: 600, textAlign: "center", color: "var(--accent)" }}>
+                GAMES
+              </Typography>
+              <Typography sx={{ fontSize: "0.7rem", fontWeight: 600, textAlign: "center", color: "var(--accent)" }}>
+                CORRECT
+              </Typography>
+              <Typography sx={{ fontSize: "0.7rem", fontWeight: 600, textAlign: "center", color: "var(--accent)" }}>
+                BEST
+              </Typography>
+            </Box>
+
+            {/* 3x3 Grid - Rows */}
+            <Paper
+              elevation={0}
+              sx={{
+                backgroundColor: "var(--input-bg)",
+                border: "1px solid var(--border-color)",
+                borderRadius: 2,
+                overflow: "hidden",
+              }}
+            >
+              {mainGames.map((game, idx) => {
+                const stats = getGameStats(game.id);
+                const accuracy = stats.played > 0 ? Math.round((stats.correct / stats.played) * 100) : 0;
+                return (
+                  <Box
+                    key={game.id}
+                    sx={{
+                      display: "grid",
+                      gridTemplateColumns: "100px 1fr 1fr 1fr",
+                      gap: 1,
+                      p: 1.5,
+                      borderBottom: idx < mainGames.length - 1 ? "1px solid rgba(255,255,255,0.1)" : "none",
+                      alignItems: "center",
+                    }}
+                  >
+                    {/* Row Label */}
+                    <Typography
+                      sx={{
+                        fontSize: "0.85rem",
+                        fontWeight: 700,
+                        color: game.color,
+                      }}
+                    >
+                      {game.name}
+                    </Typography>
+
+                    {/* Games */}
                     <Box sx={{ textAlign: "center" }}>
-                      <Typography sx={{ fontSize: "1.3rem", fontWeight: 700, color: "var(--foreground)" }}>
-                        {game.sessions}
-                      </Typography>
-                      <Typography sx={{ fontSize: "0.6rem", color: "var(--foreground)", opacity: 0.5 }}>
-                        Games
+                      <Typography sx={{ fontSize: "1.4rem", fontWeight: 700, color: "var(--foreground)" }}>
+                        {stats.sessions}
                       </Typography>
                     </Box>
+
+                    {/* Correct */}
                     <Box sx={{ textAlign: "center" }}>
-                      <Typography sx={{ fontSize: "1.3rem", fontWeight: 700, color: "var(--foreground)" }}>
-                        {game.correct}/{game.played}
+                      <Typography sx={{ fontSize: "1.1rem", fontWeight: 700, color: "var(--foreground)" }}>
+                        {stats.correct}/{stats.played}
                       </Typography>
-                      <Typography sx={{ fontSize: "0.6rem", color: "var(--foreground)", opacity: 0.5 }}>
-                        Correct
+                      <Typography sx={{ fontSize: "0.6rem", color: "#4CAF50" }}>
+                        {accuracy}%
                       </Typography>
                     </Box>
+
+                    {/* Best */}
                     <Box sx={{ textAlign: "center" }}>
-                      <Typography sx={{ fontSize: "1.3rem", fontWeight: 700, color: "#4CAF50" }}>
-                        {game.accuracy}%
-                      </Typography>
-                      <Typography sx={{ fontSize: "0.6rem", color: "var(--foreground)", opacity: 0.5 }}>
-                        Accuracy
-                      </Typography>
-                    </Box>
-                    <Box sx={{ textAlign: "center" }}>
-                      <Typography sx={{ fontSize: "1.3rem", fontWeight: 700, color: "#FFD700" }}>
-                        {game.best}
-                      </Typography>
-                      <Typography sx={{ fontSize: "0.6rem", color: "var(--foreground)", opacity: 0.5 }}>
-                        Best
+                      <Typography sx={{ fontSize: "1.4rem", fontWeight: 700, color: "#FFD700" }}>
+                        {stats.best}
                       </Typography>
                     </Box>
                   </Box>
-                </Paper>
-              ))}
-            </Box>
+                );
+              })}
+            </Paper>
+
+            {/* Summary Bar */}
+            <Paper
+              elevation={0}
+              sx={{
+                mt: 1,
+                p: 1.5,
+                backgroundColor: "rgba(77, 208, 225, 0.1)",
+                border: "1px solid var(--accent)",
+                borderRadius: 2,
+              }}
+            >
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: "100px 1fr 1fr 1fr",
+                  gap: 1,
+                  alignItems: "center",
+                }}
+              >
+                <Typography sx={{ fontSize: "0.75rem", fontWeight: 700, color: "var(--accent)" }}>
+                  TOTAL
+                </Typography>
+                <Typography sx={{ fontSize: "1.2rem", fontWeight: 700, textAlign: "center" }}>
+                  {totalSessions}
+                </Typography>
+                <Typography sx={{ fontSize: "1rem", fontWeight: 700, textAlign: "center" }}>
+                  {totalCorrect}/{totalPlayed}
+                </Typography>
+                <Typography sx={{ fontSize: "1.2rem", fontWeight: 700, textAlign: "center", color: "#FFD700" }}>
+                  {bestScore}
+                </Typography>
+              </Box>
+            </Paper>
           </>
         )}
       </Box>
