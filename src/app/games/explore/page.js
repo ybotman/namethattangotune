@@ -34,7 +34,7 @@ const TOOLS_PASSWORD = "!El4Gotan";
 
 // App version
 const APP_VERSION = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA || "dev";
-const PKG_VERSION = "2.8.2";
+const PKG_VERSION = "2.8.3";
 
 // Reports and Tools
 const reports = [
