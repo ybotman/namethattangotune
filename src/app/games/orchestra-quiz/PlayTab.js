@@ -581,15 +581,40 @@ export default function PlayTab({ songs, config, onCancel }) {
         />
       </Box>
 
-      {/* Score Display with color-coded bar - always rendered to prevent layout shift */}
-      <Box sx={{ mx: "auto", mb: 1, maxWidth: "min(100%, 400px)", minHeight: 28 }}>
+      {/* Score Display with timer and color-coded bar */}
+      <Box sx={{ mx: "auto", mb: 1, maxWidth: "min(100%, 400px)", minHeight: 50 }}>
         {isPlaying ? (
           <>
-            {/* Score text */}
-            <Box sx={{ display: "flex", justifyContent: "space-between", mb: 0.5 }}>
-              <Typography variant="caption" sx={{ color: "var(--foreground)", opacity: 0.7 }}>
-                Points
-              </Typography>
+            {/* Timer + Score row */}
+            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 0.5 }}>
+              {/* Countdown Timer */}
+              <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontWeight: "bold",
+                    fontFamily: "monospace",
+                    color: (timeLimit - timeElapsed) <= 5 ? "#f44336" :
+                           (timeLimit - timeElapsed) <= 10 ? "#FF9800" : "#4CAF50",
+                    minWidth: 45,
+                  }}
+                >
+                  {Math.max(0, Math.ceil(timeLimit - timeElapsed))}s
+                </Typography>
+                {isLockedOut && (
+                  <Typography
+                    sx={{
+                      fontSize: "0.7rem",
+                      color: "#f44336",
+                      fontWeight: "bold",
+                      animation: "pulse 0.5s ease-in-out",
+                    }}
+                  >
+                    WAIT
+                  </Typography>
+                )}
+              </Box>
+              {/* Points */}
               <Typography
                 variant="caption"
                 sx={{
@@ -598,49 +623,61 @@ export default function PlayTab({ songs, config, onCancel }) {
                          roundScore / maxScore > 0.3 ? "#FF9800" : "#f44336"
                 }}
               >
-                {Math.floor(roundScore)} / {Math.floor(maxScore)}
+                {Math.floor(roundScore)} / {Math.floor(maxScore)} pts
               </Typography>
             </Box>
-            {/* Color-coded progress bar - green to yellow to red */}
+            {/* Time progress bar */}
             <LinearProgress
               variant="determinate"
-              value={(roundScore / maxScore) * 100}
+              value={100 - timePercent}
               sx={{
-                height: 6,
-                borderRadius: 3,
+                height: 8,
+                borderRadius: 4,
                 backgroundColor: "var(--border-color)",
                 "& .MuiLinearProgress-bar": {
-                  backgroundColor: roundScore / maxScore > 0.6 ? "#4CAF50" :
-                                   roundScore / maxScore > 0.3 ? "#FF9800" : "#f44336",
-                  borderRadius: 3,
+                  backgroundColor: (timeLimit - timeElapsed) <= 5 ? "#f44336" :
+                                   (timeLimit - timeElapsed) <= 10 ? "#FF9800" : "#4CAF50",
+                  borderRadius: 4,
+                  transition: "transform 0.1s linear",
                 }
               }}
             />
+            {/* Session score */}
+            <Box sx={{ display: "flex", justifyContent: "center", mt: 0.5 }}>
+              <Typography variant="caption" sx={{ color: "var(--foreground)", opacity: 0.6 }}>
+                Session: {Math.floor(sessionScore)} pts
+              </Typography>
+            </Box>
           </>
         ) : (
           <>
-            {/* Placeholder when not playing - maintains layout */}
-            <Box sx={{ display: "flex", justifyContent: "space-between", mb: 0.5 }}>
-              <Typography variant="caption" sx={{ color: "var(--foreground)", opacity: 0.4 }}>
-                Points
+            {/* Placeholder when not playing */}
+            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 0.5 }}>
+              <Typography variant="h5" sx={{ fontWeight: "bold", fontFamily: "monospace", opacity: 0.4, minWidth: 45 }}>
+                {timeLimit}s
               </Typography>
               <Typography variant="caption" sx={{ color: "var(--foreground)", opacity: 0.4 }}>
-                0 / {Math.floor(maxScore)}
+                0 / {Math.floor(maxScore)} pts
               </Typography>
             </Box>
             <LinearProgress
               variant="determinate"
-              value={0}
+              value={100}
               sx={{
-                height: 6,
-                borderRadius: 3,
+                height: 8,
+                borderRadius: 4,
                 backgroundColor: "var(--border-color)",
                 "& .MuiLinearProgress-bar": {
-                  backgroundColor: "var(--border-color)",
-                  borderRadius: 3,
+                  backgroundColor: "rgba(76, 175, 80, 0.3)",
+                  borderRadius: 4,
                 }
               }}
             />
+            <Box sx={{ display: "flex", justifyContent: "center", mt: 0.5 }}>
+              <Typography variant="caption" sx={{ color: "var(--foreground)", opacity: 0.4 }}>
+                Session: {Math.floor(sessionScore)} pts
+              </Typography>
+            </Box>
           </>
         )}
       </Box>

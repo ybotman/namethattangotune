@@ -99,8 +99,12 @@ export default function useArtistQuizScoring({
 
     if (isCorrect) {
       stopAllIntervals();
-      // Apply difficulty multiplier to the round score
-      const multipliedScore = applyScoreMultiplier(Math.max(roundScore, 0), config);
+      // Apply difficulty + familiarity multiplier to the round score
+      const configWithFamiliarity = {
+        ...config,
+        songFamiliarity: currentSong.Familiarity || currentSong.familiarity || 50,
+      };
+      const multipliedScore = applyScoreMultiplier(Math.max(roundScore, 0), configWithFamiliarity);
       setSessionScore((old) => old + multipliedScore);
       setRoundStats((old) => [
         ...old,
